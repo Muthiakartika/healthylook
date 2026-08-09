@@ -1,0 +1,367 @@
+@import "tailwindcss";
+
+/*
+ * DESIGN TOKENS — the single source of truth for color/typography.
+ *
+ * Tailwind v4 is "CSS-first": instead of a tailwind.config.js file, we
+ * declare tokens inside an `@theme` block and Tailwind auto-generates
+ * matching utility classes for every one of them. Declaring `--color-primary`
+ * here means `bg-primary`, `text-primary`, `border-primary`, etc. all become
+ * available everywhere in the app automatically — no extra config, no import.
+ *
+ * Palette rationale: these hex values were measured directly from Healthy
+ * Look Aesthetic's live site (computed styles, not guesswork) — a warm
+ * gold/bronze family for headings and CTAs, a pale lime-yellow secondary
+ * band, and a white base.
+ *
+ * ── REDESIGN NOTE ──────────────────────────────────────────────────────
+ * The redesign brief is explicit: keep the brand, redesign the experience.
+ * Every brand hex below is UNCHANGED from the original build. What changed
+ * is how they're *used* — see the "derived tonal steps" group. Those are
+ * not new brand colors: each one is the same hue as an existing token,
+ * lightened or darkened, and exists only to give large page areas a
+ * background hierarchy (calm wash → paper → deep contrast band). The
+ * saturated lime is now reserved for small accents, because at full-bleed
+ * it reads loud rather than premium.
+ */
+@theme {
+  /* ---- Brand colors: unchanged, measured from the live site ---- */
+  --color-primary: #9b7741; /* warm gold — headings, CTA text, outline buttons */
+  --color-primary-hover: #7e6235; /* darker gold for hover states */
+  --color-secondary: #d4e174; /* saturated lime — small accents, active states */
+  --color-secondary-hover: #c3d65a; /* darker lime for hover states */
+  --color-accent: #d8c06d; /* lighter gold — secondary CTA fill, small highlights */
+  --color-background: #ffffff; /* page background */
+  --color-section: #f2ffbc; /* pale lime band, used to alternate section rhythm */
+  --color-surface: #fffdf7; /* card background — a hair off-white so cards lift slightly off the page */
+  --color-border: #e8e2d0; /* neutral warm border for cards/dividers */
+  --color-text: #404040; /* body text — matches the live site's measured color exactly */
+  --color-text-secondary: #6b6560; /* secondary/supporting text */
+  --color-muted: #9a948a; /* captions, labels, timestamps */
+  --color-ink-soft: #2a2a2a; /* near-black, used only for hover-darkening dark-filled buttons */
+  --color-link: #9b7741;
+  --color-link-hover: #7e6235;
+  --color-success: #4e7b58; /* contact form success state */
+  --color-error: #b54b3c; /* contact form error state */
+
+  /* ---- Derived tonal steps (NOT new brand colors) ----
+     Each is an existing brand hue shifted in lightness, so large areas of
+     the page can differ in tone without introducing a second palette.
+     Used for backgrounds and hairlines only — never for type or CTAs. */
+  --color-paper: #fdfbf6; /* --color-surface, pushed a touch warmer/duller: the default "calm" section base */
+  --color-wash: #f8f6ee; /* one step deeper than paper — alternating band */
+  --color-section-soft: #fafce9; /* --color-section at ~15% strength: the lime band, quieted for full-bleed use */
+  --color-ink: #2a221a; /* --color-primary driven very dark: the one dramatic contrast band */
+  --color-ink-2: #3a3025; /* one step up from ink — cards/inset panels inside dark sections */
+  --color-hairline: #ece6d8; /* --color-border, softened for editorial rules */
+  --color-gold-soft: #c9b083; /* --color-primary lightened — hairlines and dividers on dark bands */
+}
+
+/*
+ * Fonts are loaded once in src/app/layout.tsx via next/font/google and
+ * exposed there as CSS variables (--font-poppins, --font-tangerine) on the
+ * <html> element. This SECOND `@theme inline` block is what turns those
+ * variables into Tailwind font utilities: `font-sans` (body/UI copy) and
+ * `font-script` (the elegant display face). It has to be a separate
+ * `inline`-flagged block — Tailwind needs `inline` here so it reads the
+ * variable at runtime (from whatever next/font injects) instead of trying to
+ * bake in a literal value at build time, when the variable doesn't exist yet.
+ *
+ * REDESIGN NOTE: both font families are unchanged. What changed is the
+ * *role* each one plays — see the type scale below.
+ */
+@theme inline {
+  --font-sans: var(--font-poppins);
+  --font-script: var(--font-tangerine);
+}
+
+/*
+ * ── TYPE SYSTEM ───────────────────────────────────────────────────────
+ *
+ * Two voices, one brand:
+ *
+ *   Tangerine (font-script) — the EMOTIONAL voice. Luxury, warmth, the
+ *   spa. Previously used at ordinary heading sizes, where a delicate
+ *   script just reads "decorative". It only becomes *impactful* when it's
+ *   genuinely large, so the display sizes below are deliberately much
+ *   bigger than a normal type scale would suggest. Tangerine also has a
+ *   very small x-height for its em size, so a 9rem Tangerine headline has
+ *   roughly the visual mass of a 4rem sans headline — the numbers look
+ *   extreme on paper and read as elegant on screen.
+ *
+ *   Poppins (font-sans) — the CLINICAL voice. Clarity, medical
+ *   credibility, information. Treatment names, doctor credentials,
+ *   prices, and all body copy stay in Poppins so nothing a patient needs
+ *   to *read carefully* is set in a script face.
+ *
+ * The pairing is what carries the brief's "premium aesthetic clinic +
+ * medical credibility" split, without adding a third font.
+ */
+:root {
+  /* Display — Tangerine only. Hero and full-bleed statement moments. */
+  --fs-display: clamp(4rem, 2rem + 10vw, 10rem);
+  --fs-display-sm: clamp(3.25rem, 1.75rem + 7vw, 7rem);
+
+  /* Headings */
+  --fs-h1: clamp(2.75rem, 1.6rem + 5vw, 6rem); /* Tangerine, page titles */
+  --fs-h2: clamp(2.25rem, 1.4rem + 4vw, 4.5rem); /* Tangerine, section statements */
+  --fs-h3: clamp(1.5rem, 1.15rem + 1.6vw, 2.25rem); /* Poppins, treatment/card titles */
+  --fs-h4: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+  --fs-h5: 1.125rem;
+  --fs-h6: 1rem;
+
+  /* Body */
+  --fs-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem); /* intro paragraphs */
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-micro: 0.75rem;
+
+  /* Editorial number, used by the 01/02/03 sections */
+  --fs-numeral: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+
+  /* Line heights — generous, because whitespace is doing the premium work */
+  --lh-display: 0.92;
+  --lh-heading: 1.08;
+  --lh-tight: 1.25;
+  --lh-body: 1.75;
+
+  /* Tracking. Poppins micro-labels get very wide tracking (the small-caps
+     "eyebrow" that runs above nearly every section); Tangerine gets none. */
+  --ls-eyebrow: 0.28em;
+  --ls-wide: 0.12em;
+
+  /* ── SPACING & RHYTHM ──
+     One fluid section rhythm for the whole site. `--space-section` is the
+     default; `--space-section-lg` is for the few full-bleed cinematic
+     sections that need more air around them. */
+  --space-section: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --space-section-lg: clamp(6rem, 4rem + 8vw, 12rem);
+  --gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+
+  /* Measure — cap paragraph width so long clinical copy stays readable */
+  --measure: 68ch;
+  --measure-narrow: 52ch;
+
+  /* ── MOTION ──
+     One easing curve site-wide. Expo-out is the "settles into place"
+     curve — it moves decisively then slows, which reads as considered
+     rather than bouncy. Durations are long-ish on purpose: fast motion
+     reads as an app, slow motion reads as editorial. */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 200ms;
+  --dur: 500ms;
+  --dur-slow: 900ms;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  /* Kill the horizontal-overflow class of bug at the source, rather than
+     patching each full-bleed section individually. */
+  overflow-x: hidden;
+}
+
+/*
+ * Base heading sizes. Headings still default to the scale so a bare <h2>
+ * in prose looks right, but most section headings on this site go through
+ * the <SectionHeading> / <Display> components, which set their own size.
+ */
+@layer base {
+  h1 {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-heading);
+  }
+  h2 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-heading);
+  }
+  h3 {
+    font-size: var(--fs-h3);
+    line-height: var(--lh-tight);
+  }
+  h4 {
+    font-size: var(--fs-h4);
+    line-height: var(--lh-tight);
+  }
+  h5 {
+    font-size: var(--fs-h5);
+  }
+  h6 {
+    font-size: var(--fs-h6);
+  }
+
+  /* Tangerine is a script: it needs no extra tracking, and negative
+     tracking would collide the letterforms. Poppins headings get a hair
+     of negative tracking, which is what stops large sans type looking
+     loose and templatey. */
+  .font-script {
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  /* A visible, on-brand focus ring everywhere — the brief asks for
+     accessible focus states, and leaving this to each component is how
+     sites end up with half of them missing. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-secondary);
+    color: var(--color-primary-hover);
+  }
+}
+
+/* ── LAYOUT UTILITIES ─────────────────────────────────────────────── */
+
+/* Shared vertical rhythm for every section on every page. */
+@utility py-section {
+  padding-block: var(--space-section);
+}
+
+@utility py-section-lg {
+  padding-block: var(--space-section-lg);
+}
+
+/*
+ * Full-bleed escape hatch: lets a section inside a normal centered
+ * container break out to the full viewport width without needing to be
+ * hoisted out of the layout tree. Used by the cinematic image bands.
+ */
+@utility full-bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Constrain prose to a comfortable measure. */
+@utility measure {
+  max-width: var(--measure);
+}
+
+@utility measure-narrow {
+  max-width: var(--measure-narrow);
+}
+
+/* ── TYPE UTILITIES ───────────────────────────────────────────────── */
+
+@utility text-display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+}
+
+@utility text-display-sm {
+  font-size: var(--fs-display-sm);
+  line-height: var(--lh-display);
+}
+
+@utility text-numeral {
+  font-size: var(--fs-numeral);
+  line-height: 1;
+}
+
+@utility text-lead {
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+}
+
+/*
+ * The small gold label that runs above almost every section heading.
+ * Defined once here because it appears dozens of times and the wide
+ * tracking + tiny size combination is easy to get subtly wrong by hand.
+ */
+@utility eyebrow {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  line-height: 1;
+}
+
+/* ── MOTION ───────────────────────────────────────────────────────── */
+
+/*
+ * Scroll reveal. The <Reveal> component (components/ui/Reveal.tsx) adds
+ * `data-reveal` on mount and flips it to `data-reveal="in"` when the
+ * element enters the viewport. Keeping the animation itself in CSS — and
+ * the observer in JS — means no animation library, and the "before"
+ * state is a plain style rather than an inline style React has to own.
+ *
+ * The element starts visible-but-shifted rather than fully transparent in
+ * the no-JS case: [data-reveal] only hides content once JS has confirmed
+ * it can un-hide it (see Reveal.tsx), so content is never permanently
+ * invisible if the observer never runs.
+ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition:
+    opacity var(--dur-slow) var(--ease),
+    transform var(--dur-slow) var(--ease);
+  will-change: opacity, transform;
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Image reveal: the photo scales down into place behind a fixed frame,
+   which reads as a camera settling rather than a UI element sliding. */
+[data-reveal-image] > * {
+  transform: scale(1.08);
+  transition: transform 1.4s var(--ease);
+}
+
+[data-reveal-image="in"] > * {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Users who ask for less motion get the end state immediately, not a
+     slower version of the same movement. */
+  [data-reveal],
+  [data-reveal="in"],
+  [data-reveal-image] > *,
+  [data-reveal-image="in"] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header is 5rem tall — offset in-page anchor jumps so a target
+     section doesn't land underneath it. */
+  scroll-padding-top: 6rem;
+}
+
+/* Continuous marquee for the partner-brand strip. Duplicated content in
+   the markup + a -50% translate is what makes the loop seamless. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 46s linear infinite;
+}

@@ -1,0 +1,91 @@
+import type { ReactNode } from "react";
+import Reveal from "./Reveal";
+
+type Tone = "light" | "dark";
+
+type SectionHeadingProps = {
+  eyebrow?: string;
+  /** Set in Tangerine. The emotional half of the heading. */
+  title: ReactNode;
+  /** Optional Poppins line under the script title, for clinical clarity. */
+  subtitle?: ReactNode;
+  description?: ReactNode;
+  align?: "center" | "left";
+  /** `dark` recolors the whole block for use on the ink contrast bands. */
+  tone?: Tone;
+  as?: "h1" | "h2" | "h3";
+  className?: string;
+};
+
+/*
+ * The section opener used across the whole site.
+ *
+ * REDESIGN NOTE: the original was eyebrow + script heading + paragraph, all
+ * in one size, always in gold. Three things changed:
+ *
+ *  - The heading is now genuinely display-scale (`--fs-h2`), because a
+ *    delicate script only reads as luxury when it's large.
+ *  - There's an optional Poppins `subtitle` under it. That's the "medical
+ *    credibility" half of the type pairing — the script says how the
+ *    clinic feels, the sans says what the section actually is.
+ *  - A `dark` tone, so the same component works on the ink bands instead of
+ *    those sections having to hand-roll their own heading.
+ *
+ * The eyebrow uses a thin gold rule as a lead-in rather than sitting on its
+ * own, which is what ties the section openers together visually down the
+ * length of the page.
+ */
+export default function SectionHeading({
+  eyebrow,
+  title,
+  subtitle,
+  description,
+  align = "center",
+  tone = "light",
+  as: Tag = "h2",
+  className = "",
+}: SectionHeadingProps) {
+  const isCenter = align === "center";
+  const alignment = isCenter
+    ? "items-center text-center mx-auto"
+    : "items-start text-left";
+
+  const titleColor = tone === "dark" ? "text-white" : "text-primary";
+  const subtitleColor = tone === "dark" ? "text-white/70" : "text-text";
+  const bodyColor = tone === "dark" ? "text-white/60" : "text-text-secondary";
+  const ruleColor = tone === "dark" ? "bg-gold-soft/50" : "bg-primary/40";
+  const eyebrowColor = tone === "dark" ? "text-gold-soft" : "text-primary";
+
+  return (
+    <Reveal className={`flex max-w-3xl flex-col ${alignment} ${className}`}>
+      {eyebrow && (
+        <span className={`mb-6 flex items-center gap-3 eyebrow ${eyebrowColor}`}>
+          <span className={`h-px w-8 ${ruleColor}`} aria-hidden="true" />
+          {eyebrow}
+        </span>
+      )}
+
+      <Tag
+        className={`font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] ${titleColor}`}
+      >
+        {title}
+      </Tag>
+
+      {subtitle && (
+        <p
+          className={`mt-4 font-sans text-[length:var(--fs-h4)] leading-[var(--lh-tight)] ${subtitleColor}`}
+        >
+          {subtitle}
+        </p>
+      )}
+
+      {description && (
+        <p
+          className={`mt-6 measure font-sans text-lead ${bodyColor} ${isCenter ? "mx-auto" : ""}`}
+        >
+          {description}
+        </p>
+      )}
+    </Reveal>
+  );
+}

@@ -1,0 +1,163 @@
+import type { Metadata } from "next";
+import { Poppins, Tangerine } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/header/Header";
+import Footer from "@/components/Footer";
+import StickyCTA from "@/components/ui/StickyCTA";
+import {
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  SITE_TAGLINE,
+  EMAIL,
+  PHONE_E164,
+  MAPS_HREF,
+  SOCIAL_LINKS,
+} from "@/lib/constants";
+// next/font/google downloads and self-hosts the font at build time (no
+// runtime request to Google Fonts, and no layout-shift flash of a fallback
+// font). Each font is exposed as a CSS variable on <html> rather than a
+// className directly on text, so that globals.css's `@theme inline` block
+// can re-map it into a Tailwind utility (`font-sans`, `font-script`) that
+// any component can use.
+//
+// `display: "swap"` matters more in the redesign than it did before: the
+// hero headline is now enormous Tangerine, so a blocked font would leave
+// the strongest element on the page invisible during load.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+});
+
+// Tangerine stands in for the live site's paid custom script font (which
+// can't be relicensed for this project). Only weights 400/700 exist for it
+// on Google Fonts.
+const tangerine = Tangerine({
+  variable: "--font-tangerine",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  // The `%s` template means each page sets only its own title and gets the
+  // brand suffix for free — matching the live site's title pattern, which
+  // is an SEO-critical element the brief says to preserve.
+  title: {
+    default: `${SITE_NAME} | ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  metadataBase: new URL("https://healthylook-aesthetic.com"),
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `${SITE_NAME} | ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
+  },
+  robots: { index: true, follow: true },
+};
+
+/**
+ * Schema.org structured data for the clinic.
+ *
+ * The brief lists schema markup among the SEO-critical elements a redesign
+ * must not damage. This is a `MedicalBusiness` node rather than a generic
+ * `LocalBusiness` — it's the type that lets Google surface opening hours,
+ * location, and the medical nature of the practice, and every value in it
+ * is the clinic's own published business information. No claims, ratings,
+ * or review counts are asserted here: fabricating an `aggregateRating` is
+ * both a policy violation and exactly the invented-statistic the brief
+ * rules out.
+ */
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  name: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  url: "https://healthylook-aesthetic.com",
+  email: EMAIL,
+  telephone: PHONE_E164,
+  hasMap: MAPS_HREF,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Jl. Raya Silungan, Lodtunduh",
+    addressLocality: "Ubud",
+    addressRegion: "Bali",
+    addressCountry: "ID",
+  },
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
+    opens: "10:00",
+    closes: "18:00",
+  },
+  sameAs: SOCIAL_LINKS.map((social) => social.href),
+};
+
+// The root layout renders once for every route. Putting <Header>, <Footer>
+// and the mobile <StickyCTA> here — instead of importing them into each
+// page — means every new page under src/app/ gets the same global chrome
+// automatically; no page file needs to remember to include them.
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${poppins.variable} ${tangerine.variable} antialiased`}
+    >
+      <body className="flex min-h-screen flex-col bg-background text-text">
+        <script
+          type="application/ld+json"
+          // Next.js requires JSON-LD to be injected this way; the content is
+          // a literal object defined above, never user input, so there's no
+          // injection surface here.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+
+        {/* Skip link — first thing in the tab order, visually hidden until
+            focused. Required for keyboard users given how many nav links
+            sit between the top of the page and the content. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[3px] focus:bg-primary focus:px-5 focus:py-3 focus:font-sans focus:text-sm focus:text-white"
+        >
+          Skip to content
+        </a>
+
+        <Header />
+
+        {/* flex-1 pushes the footer to the bottom of the viewport even when
+            a page's content is shorter than the screen. No top padding
+            here: the header is fixed and every page opens with a
+            full-bleed hero that intentionally runs underneath it. Pages
+            without a hero add their own top spacing. */}
+        {/* tabIndex={-1} is what actually makes the skip link work: without
+            it, following "#main" scrolls the page but leaves focus in the
+            header, so the next Tab drops the user right back into the nav
+            they just skipped. It's not keyboard-reachable itself — -1 only
+            makes it programmatically focusable. */}
+        <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+          {children}
+        </main>
+
+        <Footer />
+        <StickyCTA />
+      </body>
+    </html>
+  );
+}
