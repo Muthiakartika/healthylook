@@ -16,12 +16,16 @@ import {
   CLINIC_SAFETY_PROTOCOLS,
 } from "@/data/clinic";
 import { BRAND_INTRO, BRAND_PHILOSOPHY } from "@/lib/constants";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/our-doctor")!;
 
 export const metadata: Metadata = {
-  title: "Our Doctors",
-  description:
-    "Meet the doctors behind Healthy Look Aesthetic, a fully licensed, doctor-led aesthetic clinic in Ubud, Bali, where every injectable is administered by a licensed physician.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/our-doctor" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

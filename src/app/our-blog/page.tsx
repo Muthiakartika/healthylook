@@ -8,12 +8,16 @@ import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { blogPosts } from "@/data/blog";
 import { treatments, TREATMENT_CATEGORIES } from "@/data/treatments";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/our-blog")!;
 
 export const metadata: Metadata = {
-  title: "Our Blog",
-  description:
-    "Guides and explainers from the doctors at Healthy Look Aesthetic, Ubud: treatments, results, and what to expect.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/our-blog" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

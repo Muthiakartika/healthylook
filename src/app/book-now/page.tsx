@@ -15,12 +15,16 @@ import {
   whatsappHref,
 } from "@/lib/constants";
 import { CLINIC_SAFETY_PROTOCOLS } from "@/data/clinic";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/book-now")!;
 
 export const metadata: Metadata = {
-  title: "Book Now",
-  description:
-    "Book an appointment at Healthy Look Aesthetic, Ubud. Tell us your preferred date and treatment, or message us directly on WhatsApp.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/book-now" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

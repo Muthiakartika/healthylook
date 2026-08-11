@@ -7,6 +7,33 @@ import type { NextConfig } from "next";
  * depend on the old site staying up, and would put load on their host.
  */
 const nextConfig: NextConfig = {
+  /**
+   * Lets `next build` run on this drive.
+   *
+   * Webpack's resolver calls fs.readlink on every file it touches to decide
+   * whether it is a symlink, and expects EINVAL back for a regular file.
+   * The volume this project lives on (D:, which Windows reports as
+   * `FileSystemType: Unknown` rather than NTFS) returns EISDIR instead —
+   * for every regular file, `package.json` included. The resolver has no
+   * branch for that errno, so it aborts, and the build died with
+   *
+   *   Error: EISDIR: illegal operation on a directory, readlink '…/icon.svg'
+   *
+   * on whichever file it happened to reach first. The filename in the error
+   * is meaningless: move that file and the same error simply names the next
+   * one, including files inside node_modules/next itself. `npm run dev`
+   * was unaffected, so this only ever surfaced at build time.
+   *
+   * Turning symlink resolution off skips the readlink call entirely. That is
+   * safe here because nothing in this project is a symlink — no pnpm store,
+   * no linked packages, no workspaces. If that ever changes, or if the repo
+   * moves to a normal NTFS volume, this line can go.
+   */
+  webpack(config) {
+    config.resolve.symlinks = false;
+    return config;
+  },
+
   images: {
     // AVIF first, WebP second. The source files are mostly large JPEGs
     // (one is 4000×4000) and every one of them is re-encoded and resized

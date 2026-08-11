@@ -12,16 +12,16 @@ import ClinicExperience from "@/components/home/ClinicExperience";
 import Faq from "@/components/home/Faq";
 import BlogTeaser from "@/components/home/BlogTeaser";
 import BookingSection from "@/components/home/BookingSection";
-import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/constants";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/")!;
 
 export const metadata: Metadata = {
-  // Homepage overrides the title template so it reads as the brand rather
-  // than "Home | Healthy Look Aesthetic".
-  title: {
-    absolute: `${SITE_NAME} | ${SITE_TAGLINE}`,
-  },
-  description: SITE_DESCRIPTION,
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

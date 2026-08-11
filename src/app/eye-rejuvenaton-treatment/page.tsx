@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TreatmentDetail from "@/components/treatment/TreatmentDetail";
 import { getTreatmentBySlug } from "@/data/treatments";
+import { TREATMENT_SEO } from "@/data/seo";
 
 /**
  * /eye-rejuvenaton-treatment — the one treatment page that does not live
@@ -23,11 +24,14 @@ import { getTreatmentBySlug } from "@/data/treatments";
  */
 const SLUG = "eye-rejuvenation";
 
+// Text lives in src/data/seo.ts, keyed by the treatment slug — edit it there.
+const seo = TREATMENT_SEO[SLUG];
+
 export const metadata: Metadata = {
-  title: "Eye Rejuvenation Treatment in Ubud, Bali",
-  description:
-    "Personalized treatments for the eye area, from dark circles and tired-looking eyes to fine lines and under-eye hollow.",
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/eye-rejuvenaton-treatment" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 export default function EyeRejuvenationPage() {

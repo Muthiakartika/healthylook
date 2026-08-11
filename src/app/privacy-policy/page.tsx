@@ -3,12 +3,16 @@ import PageHero from "@/components/shared/PageHero";
 import LegalDocument from "@/components/shared/LegalDocument";
 import BookingSection from "@/components/home/BookingSection";
 import { privacyPolicy } from "@/data/legal";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/privacy-policy")!;
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "How Healthy Look Aesthetic collects, uses, and protects your personal and treatment information.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/privacy-policy" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

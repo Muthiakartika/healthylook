@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TreatmentDetail from "@/components/treatment/TreatmentDetail";
 import { treatments, getTreatmentBySlug } from "@/data/treatments";
+import { getTreatmentSeo } from "@/data/seo";
 
 /**
  * /ubud-bali/[...slug] — treatment detail
@@ -45,10 +46,13 @@ export async function generateMetadata({
   const treatment = getTreatmentBySlug(slug.join("/"));
   if (!treatment || treatment.path) return {};
 
+  // Title/description text lives in src/data/seo.ts — edit it there.
+  const seo = getTreatmentSeo(treatment.slug, treatment);
   return {
-    title: `${treatment.name} in Ubud, Bali`,
-    description: treatment.shortDescription,
+    title: { absolute: seo.title },
+    description: seo.description,
     alternates: { canonical: `/ubud-bali/${treatment.slug}` },
+    openGraph: { title: seo.title, description: seo.description },
   };
 }
 

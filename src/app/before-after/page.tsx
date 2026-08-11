@@ -10,12 +10,16 @@ import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { resultGroups, totalResults } from "@/data/results";
 import { whatsappHref } from "@/lib/constants";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/before-after")!;
 
 export const metadata: Metadata = {
-  title: "Before & After",
-  description:
-    "Before and after photographs from treatments at Healthy Look Aesthetic, Ubud. Individual results vary; every outcome shown belongs to one specific patient.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/before-after" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

@@ -17,12 +17,16 @@ import {
   GIFT_CARD_TERMS,
 } from "@/data/offers";
 import { whatsappHref } from "@/lib/constants";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/gift-card")!;
 
 export const metadata: Metadata = {
-  title: "Gift Card",
-  description:
-    "Healthy Look Aesthetic eGift Cards from IDR 1,500,000, redeemable against any treatment on our menu and valid for 24 months.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/gift-card" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

@@ -13,12 +13,16 @@ import {
   PRICING_NOTE,
   PRICING_PAYMENT_NOTE,
 } from "@/data/pricing";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/pricing")!;
 
 export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "The full treatment price list for Healthy Look Aesthetic, Ubud: every treatment, brand, and variant, in Indonesian Rupiah. All prices nett and inclusive of tax.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/pricing" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

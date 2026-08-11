@@ -9,12 +9,16 @@ import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import { TREATMENT_CATEGORIES, treatments, treatmentHref } from "@/data/treatments";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/ubud-bali")!;
 
 export const metadata: Metadata = {
-  title: "Treatments in Ubud, Bali",
-  description:
-    "Facial enhancement, skin treatments, body treatments, and hair & booster therapies at Healthy Look Aesthetic, Ubud: Botox, dermal filler, HIFU, Sculptra, Sylfirm X, Profhilo and more.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/ubud-bali" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

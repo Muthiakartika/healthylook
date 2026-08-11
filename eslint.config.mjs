@@ -22,6 +22,15 @@ const compat = new FlatCompat({
 const eslintConfig = defineConfig([
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+
+  // The build helpers in scripts/ are genuinely CommonJS: one of them is
+  // preloaded with `node --require` before any bundler or ESM loader is in
+  // play, so it cannot use `import`. The TypeScript rule banning require()
+  // is right for src/ and wrong here.
+  {
+    files: ["scripts/**/*.cjs"],
+    rules: { "@typescript-eslint/no-require-imports": "off" },
+  },
 ]);
 
 export default eslintConfig;

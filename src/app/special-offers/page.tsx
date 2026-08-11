@@ -9,12 +9,16 @@ import BookingSection from "@/components/home/BookingSection";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { specialOffers } from "@/data/offers";
 import { whatsappHref } from "@/lib/constants";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/special-offers")!;
 
 export const metadata: Metadata = {
-  title: "Special Offers",
-  description:
-    "Current offers at Healthy Look Aesthetic, Ubud: Botox unit discounts, complimentary transfer service, and airline staff rates.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/special-offers" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**

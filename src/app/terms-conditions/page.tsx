@@ -3,12 +3,16 @@ import PageHero from "@/components/shared/PageHero";
 import LegalDocument from "@/components/shared/LegalDocument";
 import BookingSection from "@/components/home/BookingSection";
 import { termsConditions } from "@/data/legal";
+import { getPageSeo } from "@/data/seo";
+
+const seo = getPageSeo("/terms-conditions")!;
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions",
-  description:
-    "Booking, cancellation, consent, payment, and liability terms for treatments at Healthy Look Aesthetic, Ubud.",
+  // Text lives in src/data/seo.ts — edit it there, not here.
+  title: { absolute: seo.title },
+  description: seo.description,
   alternates: { canonical: "/terms-conditions" },
+  openGraph: { title: seo.title, description: seo.description },
 };
 
 /**
