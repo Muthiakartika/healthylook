@@ -24,7 +24,7 @@ export default function TermsConditionsPage() {
         title={termsConditions.title}
         scriptTitle={false}
         crumbs={[{ label: "Home", href: "/" }, { label: "Terms & Conditions" }]}
-        description="The terms that apply when you book and receive treatment with us — including cancellations, consent, and payments."
+        description="The terms that apply when you book and receive treatment with us, including cancellations, consent, and payments."
         image="/images/clinic/clinic-08.jpg"
         imageAlt="Healthy Look Aesthetic clinic, Ubud"
       />

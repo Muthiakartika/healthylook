@@ -64,7 +64,7 @@ export default function Results() {
             </Reveal>
 
             <Reveal delay={180}>
-              <p className="mt-8 measure border-l-2 border-primary/30 py-1 pl-6 font-sans text-[0.8125rem] leading-relaxed text-text-secondary">
+              <p className="mt-8 measure border-l-2 border-primary/30 py-1 pl-6 font-sans text-label leading-relaxed text-text-secondary">
                 Individual results vary. A photograph shows the outcome for one
                 specific patient and is not a prediction or guarantee of the result
                 anyone else will achieve. Outcomes depend on your anatomy, your skin,

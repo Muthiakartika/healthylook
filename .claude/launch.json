@@ -5,7 +5,7 @@
       "name": "hla-website",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3010,
+      "port": 3006,
       "autoPort": true
     }
   ]

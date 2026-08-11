@@ -8,12 +8,16 @@ import PriceTable from "@/components/shared/PriceTable";
 import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { TREATMENT_CATEGORIES, treatments, treatmentHref } from "@/data/treatments";
-import { extraPricingSections, PRICING_NOTE } from "@/data/pricing";
+import {
+  extraPricingSections,
+  PRICING_NOTE,
+  PRICING_PAYMENT_NOTE,
+} from "@/data/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "The full treatment price list for Healthy Look Aesthetic, Ubud — every treatment, brand, and variant, in Indonesian Rupiah. All prices nett and inclusive of tax.",
+    "The full treatment price list for Healthy Look Aesthetic, Ubud: every treatment, brand, and variant, in Indonesian Rupiah. All prices nett and inclusive of tax.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -42,7 +46,7 @@ export default function PricingPage() {
         eyebrow="Pricing"
         title="What treatments cost"
         crumbs={[{ label: "Home", href: "/" }, { label: "Pricing" }]}
-        description="Our complete price list. What you pay depends on the treatment plan a doctor recommends after assessing you in person — and you'll be told the full cost before anything begins."
+        description="Our complete price list. What you pay depends on the treatment plan a doctor recommends after assessing you in person. You'll be told the full cost before anything begins."
         image="/images/clinic/clinic-07.jpg"
         imageAlt="Consultation at Healthy Look Aesthetic, Ubud"
       />
@@ -55,19 +59,23 @@ export default function PricingPage() {
           header it stays the way back out. `top-20/24` matches the
           header's own height so the two never overlap. */}
       <section className="sticky top-20 z-30 border-b border-hairline bg-paper/95 backdrop-blur lg:top-24">
-        <Container className="flex flex-wrap gap-x-8 gap-y-3 py-4">
+        {/* Vertical gap moved into the links' padding — same fix as the
+            treatments index. This bar is sticky and is the only navigation
+            on a very long price list, so it is the last place to leave 17px
+            tap targets on a phone. */}
+        <Container className="flex flex-wrap gap-x-8 py-2.5">
           {TREATMENT_CATEGORIES.map((category) => (
             <a
               key={category.id}
               href={`#price-${category.id}`}
-              className="font-sans text-[0.75rem] uppercase tracking-[0.14em] text-text-secondary transition-colors hover:text-primary"
+              className="py-1.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
             >
               {category.label}
             </a>
           ))}
           <a
             href="#price-more"
-            className="font-sans text-[0.75rem] uppercase tracking-[0.14em] text-text-secondary transition-colors hover:text-primary"
+            className="py-1.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
           >
             More Treatments
           </a>
@@ -101,7 +109,7 @@ export default function PricingPage() {
                   <Reveal key={treatment.slug}>
                     <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
                       <div className="lg:col-span-4">
-                        <h3 className="font-sans text-[length:var(--fs-h3)] leading-tight text-ink">
+                        <h3 className="font-sans text-h3 leading-tight text-ink">
                           <Link
                             href={treatmentHref(treatment)}
                             className="group inline-flex items-start gap-2 transition-colors hover:text-primary"
@@ -110,7 +118,7 @@ export default function PricingPage() {
                             <ArrowUpRightIcon className="mt-2 h-4 w-4 shrink-0 text-primary opacity-0 transition-opacity group-hover:opacity-100" />
                           </Link>
                         </h3>
-                        <p className="mt-4 measure-narrow font-sans text-[0.875rem] leading-relaxed text-text-secondary">
+                        <p className="mt-4 measure-narrow font-sans text-sm leading-relaxed text-text-secondary">
                           {treatment.shortDescription}
                         </p>
                       </div>
@@ -144,7 +152,7 @@ export default function PricingPage() {
           <div className="mt-14 grid gap-14 sm:grid-cols-2 lg:grid-cols-3">
             {extraPricingSections.map((section, index) => (
               <Reveal key={section.id} delay={index * 80}>
-                <h3 className="font-sans text-[length:var(--fs-h4)] leading-tight text-ink">
+                <h3 className="font-sans text-h4 leading-tight text-ink">
                   {section.title}
                 </h3>
                 <div className="mt-6">
@@ -159,9 +167,14 @@ export default function PricingPage() {
               wrapper for one line of 13px text was both wasted height and
               a third consecutive white block. */}
           <Reveal>
-            <p className="mt-16 measure border-t border-hairline pt-8 font-sans text-[0.8125rem] leading-relaxed text-muted">
-              {PRICING_NOTE}
-            </p>
+            <div className="mt-16 measure border-t border-hairline pt-8">
+              <p className="font-sans text-label leading-relaxed text-muted">
+                {PRICING_NOTE}
+              </p>
+              <p className="mt-2 font-sans text-label leading-relaxed text-muted">
+                {PRICING_PAYMENT_NOTE}
+              </p>
+            </div>
           </Reveal>
         </Container>
       </section>

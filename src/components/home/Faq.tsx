@@ -38,25 +38,25 @@ export default function Faq() {
   }));
 
   return (
-    <section className="bg-wash py-section">
+    <section className="bg-paper py-section">
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-4">
             <Reveal>
-              <span className="eyebrow flex items-center gap-3 text-primary">
+              <span className="eyebrow flex items-center gap-3 text-primary-strong">
                 <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                 Questions
               </span>
             </Reveal>
 
             <Reveal delay={90}>
-              <h2 className="mt-8 font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+              <h2 className="mt-8 font-script text-h2 leading-heading text-primary">
                 Asked &amp; answered
               </h2>
             </Reveal>
 
             <Reveal delay={150}>
-              <p className="mt-6 measure-narrow font-sans text-[0.9375rem] leading-[var(--lh-body)] text-text-secondary">
+              <p className="mt-6 measure-narrow font-sans text-copy leading-body text-text-secondary">
                 The questions we hear most often about {botox.name}, our
                 most-asked-about treatment.
               </p>

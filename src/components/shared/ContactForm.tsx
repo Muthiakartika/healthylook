@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import { WhatsAppIcon, ArrowRightIcon } from "@/components/ui/icons";
-import { whatsappHref } from "@/lib/constants";
-import { TREATMENT_CATEGORIES, treatments } from "@/data/treatments";
+import {
+  whatsappHref,
+  BOOKING_TIME_SLOTS,
+  BOOKING_TREATMENT_OPTIONS,
+} from "@/lib/constants";
 
 /**
  * The enquiry form.
@@ -60,8 +63,12 @@ export default function ContactForm({
     setSent(true);
   }
 
+  // `text-body` (16px), not `text-copy` (15px). Below 16px, iOS Safari zooms
+  // the page in when a field takes focus and does not zoom back out — so on
+  // an iPhone every input in this form left the visitor scrolled sideways on
+  // a magnified page, mid-enquiry. One pixel of type size is the entire fix.
   const fieldClass =
-    "w-full border-b border-hairline bg-transparent py-3.5 font-sans text-[0.9375rem] text-ink " +
+    "w-full border-b border-hairline bg-transparent py-3.5 font-sans text-body text-ink " +
     "placeholder:text-muted focus:border-primary focus:outline-none focus-visible:outline-none " +
     "transition-colors duration-300";
   const labelClass = "eyebrow block text-muted";
@@ -117,8 +124,9 @@ export default function ContactForm({
           <label htmlFor="treatment" className={labelClass}>
             Please choose your treatment
           </label>
-          {/* Grouped by the same four categories as the nav — a flat list
-              of 27 options is unusable on a phone. */}
+          {/* The clinic's own booking-form list, not the treatment
+              catalogue — see BOOKING_TREATMENT_OPTIONS for why the two
+              differ and why this one wins. */}
           <select
             id="treatment"
             name="treatment"
@@ -126,16 +134,10 @@ export default function ContactForm({
             className={`mt-3 ${fieldClass}`}
           >
             <option value="">Not sure yet</option>
-            {TREATMENT_CATEGORIES.map((category) => (
-              <optgroup key={category.id} label={category.label}>
-                {treatments
-                  .filter((t) => t.category === category.id)
-                  .map((t) => (
-                    <option key={t.slug} value={t.name}>
-                      {t.name}
-                    </option>
-                  ))}
-              </optgroup>
+            {BOOKING_TREATMENT_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
         </div>
@@ -158,19 +160,22 @@ export default function ContactForm({
               <label htmlFor="time" className={labelClass}>
                 Preferred time
               </label>
-              {/* Constrained to opening hours rather than a free time
-                  input — the clinic opens 10.00–18.00 every day, and a
-                  form that accepts 03:00 just creates a message someone
-                  has to correct by hand. */}
-              <input
+              {/* The clinic's fifteen published slots, not a bounded time
+                  input. A `type="time"` field still accepts 17:47 and still
+                  offers 18:00, neither of which the clinic books. */}
+              <select
                 id="time"
                 name="time"
-                type="time"
-                min="10:00"
-                max="18:00"
-                step={1800}
+                defaultValue=""
                 className={`mt-3 ${fieldClass}`}
-              />
+              >
+                <option value="">Select a time</option>
+                {BOOKING_TIME_SLOTS.map((slot) => (
+                  <option key={slot} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
             </div>
           </>
         )}
@@ -192,7 +197,7 @@ export default function ContactForm({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
-          className="group inline-flex items-center justify-center gap-2.5 rounded-[3px] bg-primary px-8 py-4 font-sans text-[0.75rem] font-medium uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-primary-hover"
+          className="group inline-flex items-center justify-center gap-2.5 rounded-brand bg-primary-strong px-8 py-4 font-sans text-caption font-medium uppercase tracking-caps-wide text-white transition-colors duration-300 hover:bg-primary-hover"
         >
           <WhatsAppIcon className="h-4 w-4" />
           Send via WhatsApp
@@ -202,7 +207,7 @@ export default function ContactForm({
         {/* Told up front, not after the fact — a button that unexpectedly
             opens another app is a small betrayal of trust, and this is a
             page about trust. */}
-        <p className="font-sans text-[0.75rem] leading-relaxed text-muted">
+        <p className="font-sans text-caption leading-relaxed text-muted">
           Opens WhatsApp with your details filled in.
         </p>
       </div>
@@ -211,8 +216,8 @@ export default function ContactForm({
           which otherwise get no signal that anything happened. */}
       <p role="status" aria-live="polite" className="min-h-[1.25rem]">
         {sent && (
-          <span className="font-sans text-[0.875rem] text-success">
-            Your message is ready in WhatsApp — press send there and we&rsquo;ll reply
+          <span className="font-sans text-sm text-success">
+            Your message is ready in WhatsApp. Press send there and we&rsquo;ll reply
             during opening hours.
           </span>
         )}

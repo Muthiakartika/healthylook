@@ -37,12 +37,14 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         "Are you already seeing the formation of wrinkles whenever you laugh? And prominent forehead lines when you raise your eyebrow or frown? Botox treatment might be suitable for you.",
       ],
     },
-    {
-      title: "What is A Botox",
-      points: [
-        "Botox is a purified neurotoxin derived from the Clostridium botulinum bacterium. During a Botox injection, the product is carefully administered into targeted muscles to temporarily reduce muscle activity, helping smooth dynamic wrinkles. It is also used to slim the face (V-shape), treat bruxism and excessive sweating, and contour specific areas of the body.",
-      ],
-    },
+    // "What is A Botox" used to sit here with the clinic's definition
+    // paragraph. That exact paragraph is now this treatment's `intro` in
+    // treatments.ts, which the detail page renders higher up as the lead —
+    // so keeping it here printed it twice on the page. Same de-duplication
+    // applied to lip-filler, botox/korean, facial and
+    // slimming-body-contouring: where a section's opening paragraph is
+    // already the treatment's `intro`, `intro` wins and the section keeps
+    // only what comes after it.
     {
       title: "INJECTABLES",
       points: [
@@ -402,6 +404,629 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         {
           paragraphs: [
             "Why Should I chooseAutologous Micrograft Hair Restoration in Bali?",
+          ],
+        },
+      ],
+    },
+  ],
+
+  // ─────────────────────────────────────────────────────────────────────
+  // The remaining 15. An audit found these treatments rendering with no
+  // long-form copy at all — the detail pages showed a price table, a FAQ
+  // block and nothing explaining the treatment, while the live site had
+  // several hundred words for each. Same extraction rules as above:
+  // verbatim, in the live page's own order, with two deliberate cuts.
+  //
+  // 1. FAQ sections are NOT copied here. 13 of these 15 already have their
+  //    questions in treatmentFaqs.ts, and duplicating them would put the
+  //    same answer on the page twice and give it two places to drift.
+  // 2. Prices are NOT copied into headings. The live IV Drip page prints
+  //    "Immune Booster IDR 1.100 K" as a sub-heading; the figure is kept
+  //    only in that treatment's priceGroups, so the price list stays the
+  //    single source of truth. The booster names are unchanged.
+  // ─────────────────────────────────────────────────────────────────────
+
+  "collagen-stimulator": [
+    {
+      title: "Collagen Stimulator in Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Want to rejuvenate your face without looking overdone? Interested in long-term skin rejuvenation rather than a quick fix? Designed to stimulate your body's natural collagen, collagen stimulator are injected into the deep dermal layer to support the skin's structural framework, help to improve firmness, elasticity, and overall skin quality. Unlike dermal fillers, which primarily fill the volume loss, collagen stimulators work gradually by encouraging your skin to rebuild its own collagen.",
+            "Skin aging is an inevitable part of life, and from around the age of 25, collagen production begins to decline by approximately 1% each year. As collagen levels decrease, the skin becomes thinner, less elastic, and more prone to fine lines, wrinkles, and sagging. Factors such as sun exposure, stress, smoking, and poor sleep can further accelerate this process. By stimulating collagen production and supporting tissue remodelling, collagen stimulators help restore skin firmness, improve elasticity and texture, and soften wrinkles. In addition, they create a supportive foundation within the skin, making future rejuvenation treatments more effective and often reducing the amount of dermal filler required.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Available Collagen Stimulators at Healthy Look Aesthetic",
+      blocks: [
+        {
+          heading: "PLLA – Sculptra",
+          paragraphs: [
+            "Sculptra will gradually work to tighthen the face and improves skin firmness. The PLLA microparticles activate fibroblasts, encouraging new collagen formation that strengthens the skin's underlying structure. As the particles are gradually absorbed, the newly produced collagen remains, providing natural-looking rejuvenation that can last up to two years.",
+            "Common treatment areas include the cheeks, temples, and mid-face",
+          ],
+        },
+        {
+          heading: "CaHA – Collagen Stimulating Dermal Filler",
+          paragraphs: [
+            "CaHA (calcium hydroxyapatite) is a naturally occurring mineral found in the body. The gel provides immediate volume, while CaHA microspheres stimulate collagen production, creating long-term structural support. This dual action makes CaHA effective for lifting and contouring. As the CaHA particles are gradually absorbed, the newly formed collagen remains, helping maintain long-lasting results (12-18 months).",
+            "Common treatment areas include the cheeks, nasolabial folds, marionette lines, jawline, neck, and hands.",
+          ],
+        },
+        {
+          heading: "PDLLA – Juvelook Classic",
+          paragraphs: [
+            "A hybrid skin booster that combines PDLLA (Poly-D,L-Lactic Acid) with non-crosslinked hyaluronic acid to stimulate collagen production and improve skin hydration. It does not add volume or provide lifting, think of it as a collagen-stimulating skin booster. It helps improve skin texture, fine lines, pore appearance, and overall radiance,",
+            "Common treatment areas include the face, neck, and delicate areas such as the under-eye region.",
+          ],
+        },
+        {
+          heading: "PCL – Gouri",
+          paragraphs: [
+            "Gouri is a collagen-stimulating injectable that uses liquid Polycaprolactone (PCL) to provide mild lifting and tightening effect. It is particularly suitable for individuals with fuller faces who want to improve skin laxity and facial contours without adding extra volume. It lasts around 6-9 months",
+            "Common treatment areas include the face and jawline.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "What's the Best Collagen Stimulator in Bali?",
+      blocks: [
+        {
+          paragraphs: [
+            "We believe that every face and skin type is unique. Each collagen stimulator works differently and targets specific aging concerns. The most suitable treatment depends on your facial anatomy, skin condition, aesthetic goals, and desired outcome.",
+            "For example:",
+            "Sculptra® (PLLA) is ideal for restoring age-related volume loss while improving facial structure and contour over time.",
+            "CaHA is an excellent option for patients seeking both immediate lifting and volume and long-term collagen stimulation.",
+            "Juvelook Classic (PDLLA) is best suited for improving skin quality, fine lines, enlarged pores, and under-eye concerns without adding volume.",
+            "Gouri (PCL) is particularly suitable for patients with facial sagging who prefer skin tightening and rejuvenation without additional fullness.",
+            "To determine the most appropriate treatment for your concerns, book a personalised consultation with one of our certified aesthetic doctors.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "sculptra": [
+    {
+      title: "Sculptra in Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Are you looking for a natural enhancement that helps you look fresher without it being obvious you've had a treatment? Sculptra in Bali is an advanced regenerative option available at a healthy look aesthetic clinic, designed to improve skin quality from within while maintaining a naturally refined appearance.",
+            "Sculptra is made from poly-L-lactic acid (PLLA) that stimulates the skin's natural collagen and elastin production. Unlike traditional fillers that add immediate volume, Sculptra works gradually to restore the skin's structure for subtle, natural-looking, and long-lasting rejuvenation. From the 20s onward, collagen production gradually declines, elastin becomes less resilient, and adipocytes (fat cells) not only decrease in number but also change in quality. This leads to reduced structural support. Sculptra addresses these changes by encouraging the skin to restore its own foundation naturally.",
+          ],
+        },
+      ],
+      points: [
+        "Enhances skin elasticity and firmness",
+        "Reduces skin laxity",
+        "Smooths fine lines and wrinkles",
+        "Provides subtle lifting and structural support",
+        "Restores natural facial volume",
+      ],
+    },
+    {
+      title: "Why Choose Sculptra in Bali?",
+      blocks: [
+        {
+          paragraphs: [
+            "Sculptra is chosen for its ability to deliver natural, progressive rejuvenation. It stimulates collagen and elastin while supporting skin structure and adipose tissue for improved firmness and quality. With its patented PLLA-SCA formulation, Sculptra works across all layers of the skin for consistent results. Backed by over 25 years of clinical use since 1999, FDA approval, and availability in more than 60 countries, it is a globally trusted regenerative treatment. Results typically begin to appear after around 4 weeks and continue to improve over time. Most patients require 2–3 sessions, with results lasting up to 2 years or more.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "How Sculptra in Bali Works?",
+      blocks: [
+        {
+          paragraphs: [
+            "PLLA is biocompatible and biodegradable, meaning it is naturally broken down by the body over time. It has been safely used in medical applications for decades and carries a low risk of allergic reactions. Its gradual mechanism reduces the risk of overfilled.",
+            "Unlike traditional fillers that provide immediate volume, Sculptra works gradually by stimulating your body's own collagen and elastin production. As a collagen biostimulator, it encourages the body's natural regenerative processes to gradually restore what aging has diminished",
+            "Once injected into the deeper layers of the skin, PLLA microspheres activate fibroblasts — the cells responsible for collagen production. Over time, this collagen-stimulating process reinforces the skin's structural foundation while gradually restoring natural-looking facial volume from within.",
+            "Visible improvements begin around 4–6 weeks and continue to develop over several months. Because the results come from your own collagen production, the outcome appears natural, subtle, and aligned with a healthy skin.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "lip-filler": [
+    {
+      // Opening paragraph omitted — it is this treatment's `intro`.
+      title: "Premium Lip Fillers in Ubud Bali",
+      blocks: [
+        {
+          heading: "Expert Care by Certified Aesthetic Doctors",
+          paragraphs: [
+            "At Healthy Look Aesthetic Center in Ubud, your safety & satisfaction are our top priorities. That's why our lip filler treatments are performed by certified aesthetic doctors who have undergone rigorous training by industry leaders like Allergan and Galderma. The success of lip filler treatment depends not only on the product used but also on the experience and injection technique of the injector. With their expertise and attention to detail, you can trust that you're in capable hands throughout your treatment journey.",
+          ],
+        },
+        {
+          heading: "Personalized Consultation",
+          paragraphs: [
+            "We understand that every individual is unique, and so are their aesthetic goals. That's why we offer personalized consultations where you can discuss your desired lip. Whether you're looking for a subtle, natural-looking enhancement or a more dramatic change like a Russian lip, we tailor our approach to suit your preferences. Our doctor will also analyze your unique facial features and advise the appropriate lip volume accordingly.",
+          ],
+        },
+        {
+          heading: "Lip Booster Treatment",
+          paragraphs: [
+            "At Healthy Look Aesthetic Center in Ubud, we offer a range of lip treatments to address various concerns and goals. In addition to lip augmentation, we also provide lip booster treatments for hydration and rejuvenation without adding extra volume. Hyaluronic acid-based fillers are commonly used in these treatments as they help retain moisture and improve lip texture while maintaining a natural appearance. Whatever your needs may be, our team will work with you to create a customized treatment plan that meets your expectations.",
+          ],
+        },
+        {
+          heading: "Free Touch-Up Sessions",
+          paragraphs: [
+            "We understand that achieving the perfect lip volume can be a journey. To ensure your satisfaction, we offer free touch-up sessions if you still have remaining filler. This commitment to excellence means that you can feel confident in your decision to enhance your lips with us.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "botox/korean": [
+    {
+      // Opening paragraph omitted — it is this treatment's `intro`.
+      title: "Legal Korean Botox Provider in Bali",
+      blocks: [
+        {
+          heading: "American vs Korean Botox",
+          paragraphs: [
+            "The main difference is in price, Korean Botox is cheaper than the american botox. Both American and Korean Botox products utilize the same active substance (type A). In the terms of result, clinical trials have shown no significant difference in effectiveness between American and Korean Botox.",
+          ],
+        },
+        {
+          heading: "Is It Safe to Get Korean Botox?",
+          paragraphs: [
+            "Yes, it is safe to get Korean Botox in Bali when you choose a reputable provider like Healthy Look Aesthetic. We source our Nabota from official distributors who adhere to strict quality control standards. The product is carefully maintained within a cold-chain system to preserve its stability and effectiveness, ensuring consistent, high-quality treatment results.",
+          ],
+        },
+        {
+          heading: "Verifying Authentic Korean Botox?",
+          paragraphs: [
+            "To verify that your provider is using genuine Korean Botox, ask about the brand they use. Legal Korean botulinum toxin brands include Nabota and Letybo. Authentic products should feature Indonesian labeling and an official registration number from the Indonesian health authority, helping distinguish genuine products from illegal or unregulated alternatives.",
+          ],
+        },
+        {
+          heading: "How much is Korean Botox?",
+          paragraphs: [
+            "The cost of Korean Botox varies depending on the brand and whether it is sourced through official distribution channels. Legally approved products undergo strict quality control, helping ensure both safety and consistent treatment outcomes.",
+            "At Healthy Look Aesthetic, we use only genuine, legally approved products, including Botox® by Allergan (USA) and Nabota, a premium Korean botulinum toxin. Nabota is the first Korean botulinum toxin to receive U.S. FDA approval, reflecting its high manufacturing standards and established safety profile.",
+            "Compared with Botox® by Allergan, the effects of Korean botulinum toxin products such as Nabota may have a slightly shorter duration for some individuals, although longevity varies depending on factors such as the treatment area, dosage, and individual metabolism. We offer Nabota at competitive pricing, allowing you to enjoy high-quality Korean botulinum toxin treatments without compromising on safety. Our experienced medical team will recommend the most suitable product based on your aesthetic goals, treatment plan, and desired duration of results.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Why Should I choose Healthy Look Aesthetic?",
+      blocks: [
+        {
+          heading: "Handled by Certified Doctor",
+          paragraphs: [
+            "The Botox is injected by certified doctor with years of experience",
+          ],
+        },
+        {
+          heading: "Free Touch Up*",
+          paragraphs: [
+            "We provide free touch-up within 1 month if you agree with the dose recommended by our doctor",
+          ],
+        },
+        {
+          heading: "Affordable Price",
+          paragraphs: [
+            "Discount is available for purchasing more than 30 units",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "facial": [
+    // The "Best Facial Experience in Ubud" opener is this treatment's
+    // `intro`, so the page leads with it and it is not repeated here.
+    {
+      title: "Choosing Facial Treatments in Ubud",
+      blocks: [
+        {
+          heading: "Trusted Skincare Brands from Around the World",
+          paragraphs: [
+            "Healthy Look Aesthetic Center Ubud uses trusted skincare brands such as Dermalogica, Tegoder, and Casmara. These brands are widely used in aesthetic care and selected for their consistent quality and proven performance. Combined within our medi-facial treatments, they help address various skin concerns, from acne and dull skin to dryness and signs of aging.",
+          ],
+        },
+        {
+          heading: "Signature Facial Massage",
+          paragraphs: [
+            "Every facial at Healthy Look Aesthetic Center Ubud includes our signature massage, with our skilled therapists guiding the session to enhance both comfort and results. They use gentle techniques to release tension and help you fully relax throughout the treatment, while supporting the effectiveness of the facial care. This combination of care and attention ensures a calming experience that nourishes your skin and leaves you feeling refreshed.",
+          ],
+        },
+        {
+          heading: "Wide Range of Facial Treatments",
+          paragraphs: [
+            "A wide selection of facial treatments is available to suit different skin needs. Options range from refreshing and maintenance facials to targeted treatments for acne-prone, aging, or tired-looking skin, allowing clients to choose based on their skin condition and goals.",
+          ],
+        },
+        {
+          heading: "Free Consultation",
+          paragraphs: [
+            "Free consultations are offered before each treatment to help clients better understand their skin condition and the options available. During the consultation, our experienced therapist assess your skin and provide personalized recommendations based on your individual needs. This guidance allows you to make informed choices and feel confident about the facial treatment that best suits your skin.",
+          ],
+        },
+        {
+          heading: "Advanced Non-Invasive Technology",
+          paragraphs: [
+            "Facials at Healthy Look Aesthetic Center Ubud provide more than a simple treat for your skin. Our skilled therapists use non-invasive technologies such as HIFU, IPL, PDT, Radiofrequency, and the Hydra Glow Facial Machine to address specific skin concerns from the first session. Whether it's acne, dullness, dryness, or loss of firmness, each treatment is adjusted to meet your skin's needs. The combination of careful technique and advanced technology helps your skin look healthier and feel refreshed, while ensuring a comfortable and relaxing experience throughout the session.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "skin-booster": [
+    {
+      title: "Skin Booster in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Have you wondered why your skin looks dull even though you already do your skincare routine religiously? Do you always have problems with dehydrated skin? Have you started noticing the fine wrinkles? Skin booster in Ubud Bali is an ideal solution to boost your skin hydration and give a youthful look by delivering a microinjection of hyaluronic acid into your skin. Hyaluronic acid is naturally found in our skin, however, as same as collagen, its amount and quality decrease as we age. Nowadays, many skincare products also contain hyaluronic acid, unfortunately, the absorption rate is very minimal. Moreover, the effect is very short as it will be degraded by our body's enzyme, called hyaluronidase.",
+            "With skin boosters, we are able to inject exactly in the target area to improve the appearance of aging such as dull skin, dry skin, and fine wrinkles. Skin booster also comes with advanced technology that makes it last longer to replenish natural hydration levels. The hyaluronic acid injection will promote new collagen & elastin formation to provide improvement in elasticity and plumpness.",
+            "We provide premium world class skin boosters in Bali such as profhilo, juvederm, restylane vital, fillmed nctf 135 HA, teosyal, cell booster, neauvia, and more",
+          ],
+        },
+      ],
+      points: [
+        "Long-lasting moisturizer to combat dry & dehydrated skin",
+        "Improves the appearance of thin skin and fine lines",
+        "Enhance the skin's natural glow",
+      ],
+    },
+    {
+      title: "Healthy Look's Painless Skin Booster in Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Less pain, less bruising, just beautiful results..",
+            "Experience the next generation of skin rejuvenation with Dermashine Pro, our advanced skin booster technology from South Korea — designed to deliver results with comfort and care. Unlike traditional methods, Dermashine Pro uses auto-sensing technology to deliver precise, evenly distributed injections of hyaluronic acid directly into the dermis. This improves skin hydration, stimulates collagen production, and promotes a natural, healthy glow — all with minimal discomfort.",
+          ],
+        },
+        {
+          heading: "Painless Application",
+          paragraphs: [
+            "Featuring ultra-fine 32G–34G microneedles and a multi-needle cartridge that reduces injection pain significantly.",
+          ],
+        },
+        {
+          heading: "Advanced Vacuum Technology",
+          paragraphs: [
+            "The built-in vacuum stabilizes the skin and ensures perfect contact, minimizing bruising and reducing product leakage.",
+          ],
+        },
+        {
+          heading: "Safe & Effective Delivery",
+          paragraphs: [
+            "Ensures the booster is delivered to the correct layer of the skin, maximizing efficacy and results.",
+          ],
+        },
+        {
+          heading: "Fast Recovery",
+          paragraphs: [
+            "Expect quicker healing times with less swelling and minimal risk of bruising. Now you can enjoy a Healthy Look Painless Skin Booster — upgraded to the latest technology at no additional cost.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "salmon-dna": [
+    {
+      title: "Salmon DNA Treatment in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "While you can't press the rewind button on your skin, you can achieve a more youthful look with a bio-stimulating procedure using salmon DNA. Salmon DNA Treatment helps repair damaged skin, reduce visible signs of aging, decrease inflammation, and improve overall skin quality. It contains a Polynucleotide (PN) substance extracted from salmon DNA that is highly biocompatible with human tissue, helping stimulate cell regeneration, collagen production, and the skin's natural regenerative capability.",
+            "As one of the most popular regenerative aesthetic treatments in Korea, salmon DNA injections are commonly used to improve skin texture, elasticity, hydration, and overall skin health. You may wonder if the benefits are similar to HA-based skin boosters. Instead of simply providing hydration, salmon DNA treatments work more like providing biological building blocks that support cellular repair and long-term skin rejuvenation. This treatment focuses on improving skin quality from within rather than adding volume or altering facial contours.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "exosome": [
+    {
+      title: "Unlock the Power of Stem Cell Exosome in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Unlock the Fountain of Youth with Exosome in Ubud at Healthy Look Aesthetic Center in Ubud, where 60 years of stem cell research has culminated in the Exosome therapy. Unveil the secrets of cellular rejuvenation and experience the unparalleled benefits of our advanced skincare technology. Delve into the science of exosomes, nano-sized endoplasmic reticulum secreted by cells for inter-cell signal delivery. Serving as the \"avatar\" of the cell, stem cell exosomes play a pivotal role in the Paracrine effect, offering unparalleled regenerative abilities for lasting results in skin rejuvenation. The exosome is extracted from human Adipocyte Conditioned Media Extract with the regenerative properties of rose stem cell exosome.",
+            "Exosome is not just an ordinary skin booster; it's a powerhouse of 1,008 growth factors and proteins. Among them, 200 have proven efficacy in skin rejuvenation, offering a comprehensive approach to address various skin concerns and promote a radiant, youthful complexion. Beside exosome, ExoSCRT is also packed with essential components for skin health, including 5 growth factors, 6 peptides, 19 amino acids, 4 coenzymes, vitamins, minerals, and glutathione. This comprehensive blend nurtures your skin from within, addressing a spectrum of concerns for a holistic rejuvenation experience.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "chemical-peel": [
+    {
+      title: "Chemical Peels in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Life's stresses can take a toll on your skin, leaving it lackluster and fatigued. Elevate your skincare routine and unlock a fresher, healthier glow with chemical peels at Healthy Look Aesthetic Center Ubud. Our high-end chemical peels is designed to invigorate your skin's natural renewal process. As we age, this turnover slows, resulting in uneven texture and tone. Chemical peels gently exfoliate the outer layers of skin, diminishing imperfections and unveiling a smoother, more youthful complexion. At our Aesthetic center in Ubud, we boast a diverse array of world-class peels, each targeting specific concerns with precision. We also provide unique novel peels that don't cause photosensitivity, with minimum to no downtime, making them ideal for your holiday in Bali",
+            "Our certified doctors offer personalized consultations to tailor a treatment plan to your unique needs. Our chemical peels address a myriad of skin conditions, not limited to the face but also extending to the neck, décolleté, legs, armpits, arms, and buttocks.",
+          ],
+        },
+      ],
+      points: [
+        "Acne & blemishes",
+        "Sun damage",
+        "Superficial acne scar",
+        "Superficial pigmentation (freckles, lentigo)",
+        "Melasma",
+        "Fine lines and aging",
+      ],
+    },
+  ],
+
+  "muscle-sculpting": [
+    {
+      title: "Body Sculpting in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Do you face difficulties in building muscle? Have you just lost weight but your body has become loose & saggy? Do you want to tighten your body without any downtime? Body Sculpting treatment might be suitable for you. Body Sculpting or also known as Muscle Sculpting, is a minimally invasive or non-surgical treatment used to improve the appearance of particular body parts by shaping and toning them. CM Slim is a next-generation HI-EMT (High-Intensity Electromagnetic Muscle Training) medical device targeted to increase body muscle development and decrease localized fat deposits in the abdomen, buttocks, thighs, and biceps, without discomfort or downtime. It is a revolutionary technology that is used worldwide to stimulate the body muscle, providing the most intensive continuous contractions for ideal muscle growth. CMSLIM is a painless and safe treatment that can produce up to 30,000 squats or crunches in 30 minutes without downtime.",
+            "While the similar technology only has one function, CM Slim is a cutting-edge treatment that has a dual function, builds an average of 18% body muscle mass, and reduces an average of 21% fat. These two processes make CM Slim become the favorite treatment around the world for achieving a slimmer, more toned body, as well as increasing strength. CM slim offers a unique dual paddle application featuring a 7 Tesla, the highest in the market. HI-EMT delivers high-intensity focused electromagnetic energy to be able to bypass skin, and fat to target muscle groups. Besides increasing muscle tone and endurance, the contractions also trigger the release of free fatty acids which break down localized fat deposits via cell apoptosis.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "pelvic-floor-strengthening": [
+    {
+      title: "Pelvic Floor Strengthening in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "HIPEX (High-Intensity Pelvic Exercise) is beneficial in increasing and strengthening pelvic floor muscles. The pelvic floor has an important role to support the bladder and bowel function, as well as the vagina and penis. Strong pelvic floor muscles can help with urinary incontinence, increase sexual sensation, enhance more enjoyable orgasms, and reduce the symptoms of erectile dysfunction. Women or men with bladder control problems can experience physical and mental discomfort that leads to poor quality of life. They are strongly related to urological infection, skin irritation, anxiety, and even depression.",
+            "The electromagnetic frequencies of the HIPEX maintain a contracted state and utilize 100% of the pelvic muscle ability, 100% of the time, which significantly increases the physiological workload required for muscle strength and growth. A session of 30-minute treatment is the equivalent of 30,000 pelvic floor contractions. During the treatment, you still remain fully clothed and just sit on the chair.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "The Benefit of HIPEX in Bali",
+      points: [
+        "Non Invasive",
+        "No Surgery",
+        "No Downtime",
+        "For both men & women regardless of your age",
+        "Remain Fully Clothed",
+      ],
+    },
+  ],
+
+  "ipl-hair-removal": [
+    {
+      title: "Hair Removal in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Have you been struggling with unwanted body hair? Do you know that regular shaving and plucking can cause irritation and hyperpigmentation? Are you tired of painful waxing and experiencing ingrown hair afterward? With IPL hair removal in Ubud, you don't have to worry about any red bumps & and ingrown hair being left behind. Thanks to the latest generation of IPL that can provide a more effective and gentler hair removal method while rejuvenating the skin at the same time. Intense Pulsed Light (IPL) uses filtered non-coherent light to selectively destroy hair roots in a process called Selective Photothermolysis.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "What areas can be treated by IPL Hair Removal in Ubud?",
+      blocks: [
+        {
+          paragraphs: [
+            "IPL hair removal can help to reduce the unwanted hair anywhere in your body as you wish",
+          ],
+        },
+      ],
+      points: [
+        "Facial hair",
+        "Underarm hair",
+        "Leg hair",
+        "Arm hair",
+        "Chest",
+        "Back hair",
+        "Buttock/Buttock cleft hair",
+        "Bikini line hair",
+        "Brazilian",
+      ],
+    },
+  ],
+
+  "slimming-body-contouring": [
+    // The "Holistic Slimming & Body Contouring in Ubud" opener is this
+    // treatment's `intro`, so it leads the page and is not repeated here.
+    {
+      title: "Holistic Slimming Approach in Ubud",
+      blocks: [
+        {
+          heading: "Personalized Nutrition Approach with Nutrigenomic",
+          paragraphs: [
+            "Begin your journey to a healthier, and slimmer you with our Personalized Nutrition Approach grounded in Nutrigenomic science. Unveil the unique relationship between your genetics and nutrition, allowing us to craft an individualized plan tailored to your body's needs. Enjoy personalised guidance from a Certified Anti-Aging Doctor to ensure not just weight loss, but a holistic improvement in well-being.",
+          ],
+        },
+        {
+          heading: "Muscle Sculpting by CM Slim",
+          paragraphs: [
+            "Our CE Certified CM Slim machine introduces a revolutionary approach to body sculpting. Utilizing High-Intensity Electromagnetic Muscle Trainer technology, CM Slim allows you to burn fat and build muscle simultaneously. For those seeking body contouring in Ubud, this advanced non-invasive modalitiy provides a safe and effective solution without any downtime. What's even better, the procedure is painless without any needle involved.",
+          ],
+        },
+        {
+          heading: "Premium Fat Dissolving Injections",
+          paragraphs: [
+            "Experience targeted fat reduction with our premium Fat Dissolving Injections. Setting a new standard in painless injections, we offer antioxidant-infused products for a more comfortable experience compared to general market options. When searching for effective solutions for stubborn fat, Healthy Look Aesthetic Center in Ubud is your go-to destination in Ubud.",
+          ],
+        },
+        {
+          heading: "Slimming Infusion for Metabolic Boost",
+          paragraphs: [
+            "Nourish your body from within with our Slimming Infusion, a potent blend of multivitamins and antioxidants. Designed to boost metabolism and support muscle growth, this infusion is a key component of our holistic approach to slimming in Ubud",
+          ],
+        },
+        {
+          heading: "Lymphatic Drainage Massage",
+          paragraphs: [
+            "Eliminate the excess water in your body and promote a balanced system with our Signature Lymphatic Drainage Massage. This relaxing and rhythmic massage aims to stimulate the lymphatic vessels, promoting the efficient removal of toxins, excess fluid, and waste from the body. By facilitating lymphatic flow, this treatment helps reduce swelling, supports immune function, and promotes an overall sense of well-being. When searching for lymphatic drainage in Ubud, our aesthetic center offers expert care for vitality.",
+          ],
+        },
+        {
+          heading: "Radiofrequency for Skin Tightening?",
+          paragraphs: [
+            "Conclude your slimming journey with Radiofrequency technology, tightening loose skin for a rejuvenated appearance. For those in Ubud searching for effective solutions for loose skin, our Radiofrequency treatments provide a non-invasive and painless option.",
+            "As you search for slimming and body contouring in Ubud, Healthy Look Aesthetic Center in Ubud invites you to experience the pinnacle of evidence-based wellness. Discover a holistic approach that combines advanced modalities with personalized care, unlocking a revitalized, sculpted, and radiant version of yourself.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  // Keyed by slug like every other entry, even though this treatment's page
+  // is served from /eye-rejuvenaton-treatment rather than /ubud-bali/. The
+  // URL is a routing concern; the lookup key stays the slug.
+  //
+  // The opening paragraph is this treatment's `intro`, so it is not repeated
+  // here. The live page numbers its four concerns "1." to "4."; the numbers
+  // are dropped because the section renders them as headings in order and a
+  // hard-coded "3." would be wrong the moment one is added or reordered.
+  "eye-rejuvenation": [
+    {
+      title: "Dark Circles & Fine Lines",
+      blocks: [
+        {
+          paragraphs: [
+            "Struggling with fine lines and dark circles around your eyes? At Healthy Look Aesthetic, we offer a range of personalized treatments tailored to address your specific concerns. Understanding the Causes of Dark circles can be diverse ranging from various factors, including pigmentation, increased vascularity, volume loss, anatomy, laxity, or overactive muscles, along with medical conditions like eczema, hay fever, or allergies.",
+            "Our approach begins with a thorough assessment to determine the underlying cause before employing personalized treatments, such as:",
+          ],
+        },
+        {
+          heading: "Personalized Mesotherapy",
+          paragraphs: [
+            "Our mesotherapy treatments are specially formulated with a blend of hyaluronic acid, vitamins, antioxidants, and peptides to hydrate, nourish, and revitalize your skin from within.",
+          ],
+        },
+        {
+          heading: "Salmon DNA Injection",
+          paragraphs: [
+            "Targeted specifically for the under-eye area, our salmon DNA injections utilize premium brands containing polynucleotide, a more purified form compared to PDRN like Rejuran I, ensuring superior results in enhancing firmness and elasticity.",
+          ],
+        },
+        {
+          heading: "Chemical Peels",
+          paragraphs: [
+            "Rejuvenate your eye area with our chemical peels, which effectively remove dead skin cells, promote cell turnover, and improve skin texture and tone for a brighter, more youthful appearance.",
+          ],
+        },
+        {
+          heading: "Sylfirm X",
+          paragraphs: [
+            "This advanced FDA Approved RF Microneedling will stimulate collagen production and trigger your body's natural healing process with microneedling. The additional heat and energy delivered by RF-powered microneedles will also help to tighten the skin",
+            "Do eye creams help with dark circles? While eye creams can be beneficial, their effectiveness varies depending on the individual and can be integrated into anti-aging prevention routines or targeted rejuvenation approaches.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Dynamic Wrinkles",
+      blocks: [
+        {
+          paragraphs: [
+            "When it comes to addressing dynamic wrinkles, like crow's feet around the eyes, Botox emerges as the go-to solution. Botox works by relaxing facial muscles, effectively reducing muscle contractions by temporarily blocking nerve impulses. Our highly-targeted injections yield natural-looking results, specifically targeting wrinkles around the eyes. Quick and efficient, these injections take less than 5 minutes to administer and typically offer results lasting between 3 to 6 months. The primary function of Botox is to prevent dynamic wrinkles from progressing into static wrinkles, ensuring a smoother and more youthful appearance. At Healthy Look Aesthetic, we utilize premium Botox products from trusted brands like Allergan, as well as Korean Botox Botulax, providing an affordable alternative without compromising on quality.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Droopy Eyelid",
+      blocks: [
+        {
+          paragraphs: [
+            "Looking to combat droopy eyelids? Look no further than HIFU treatment at our aesthetic center in Ubud. This non-invasive cosmetic procedure utilizes ultrasound waves to lift and tighten the skin around the eyes, targeting sagging skin and restoring firmness. HIFU treatment works by delivering focused ultrasound energy to the deeper layers of the skin, stimulating collagen production and enhancing skin tightness. This results in a reduction of sagging skin around the eye area, providing a natural brow lift effect and overall rejuvenating appearance.",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Under Eye Hollow",
+      blocks: [
+        {
+          paragraphs: [
+            "As we age, there is a natural decrease in collagen and fat in the eyelid skin, leading to hollowing and the appearance of shadows, and tear troughs. To combat this, we offer under-eye filler treatments in Ubud using premium products like Juvederm and Teosyal. These fillers, made from hyaluronic acid, are injected to replace lost volume and smooth lines and wrinkles, providing immediate results that can last up to 9-12 months.",
+            "Wondering how much filler is needed for under-eye treatment? The volume required is typically very small, ranging from 0.3 to 0.5 ml per eye. We emphasize a \"less-is-more\" approach to filler to ensure a natural and youthful look. Generally, one ml of filler is sufficient to restore lost volume in the under-eye. In some cases, cheek fillers may also be recommended to support the under-eye area depending on individual anatomy and age-related volume loss.",
+            "With all modalities, it might be confusing to choose the best treatment for you. Hence, we offer a complimentary consultation session with our Certified Aesthetic & Anti-Aging Doctor at Healthy Look Aesthetic in Ubud. During this session, our doctor will carefully analyze your concerns and recommend the most suitable treatment tailored to your needs. Ready to discover the best eye rejuvenation solution for you? Book your consultation session today and take the first step towards achieving your aesthetic goals with Healthy Look Aesthetic in Ubud",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "hair-mesotherapy": [
+    {
+      title: "Hair Mesotherapy in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Mesotherapy aims to provide essential nutrients like vitamins and antioxidants to improve blood flow for hair growth in both men & women. It helps to treat the early stage of alopecia and hair thinning problems. The serum used is a personalized cocktail according to the type of alopecia, age, and severity of the condition. Mesotherapy utilizes the multi-needle method or manual injection using a tiny needle to allow 90% penetration of active ingredients into the follicle rather than topical products.",
+          ],
+        },
+      ],
+    },
+  ],
+
+  "iv-drip": [
+    {
+      title: "IV Drip in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Boost Your Wellness with IV Drip Therapy in Ubud. Looking to recharge your energy levels, enhance skin glow, or recover swiftly from Bali belly? Dive into the IV drip therapy at Healthy Look Aesthetic in Ubud. Our IV drip treatments in Ubud are designed to help restore hydration, improve vitamin absorption, and support overall wellness by delivering essential vitamins, minerals, and antioxidants directly into your bloodstream for optimal results.",
+            "IV drip (intravenous therapy) is widely used in Bali for dehydration, fatigue, jet lag, hangover recovery, and Bali belly. Compared to oral supplements, IV drip in Bali offers faster absorption because nutrients are delivered directly into the bloodstream, allowing the body to respond more efficiently. Administered by our skilled registered nurses in a secure setting, our IV drip therapy boasts an impressive absorption rate of 99%, surpassing oral intake by miles (typically only 20-30%). This means your body gets the vital nutrients it craves quickly and effectively, leaving you refreshed and revitalized.",
+            "Your journey with us commences with a personalized consultation to evaluate your medical history, suitability for IV drip therapy, and blood pressure check. Upon approval, a small cannula is delicately inserted into your vein to begin the IV drip infusion process. Treatment durations typically range from 30 to 60 minutes, depending on the selected IV drip formula and individual needs. After your session, we recommend maintaining hydration levels by consuming plenty of water. Trust Healthy Look Aesthetic for top-tier IV therapy in Ubud, where wellness and vitality are just a drip away.",
+          ],
+        },
+      ],
+    },
+    {
+      // Prices deliberately dropped from these headings — see the note at the
+      // top of this block. The live page prints them here; this file keeps
+      // them only in the treatment's priceGroups.
+      title: "IV Booster in Ubud Bali",
+      blocks: [
+        {
+          heading: "Immune Booster",
+          paragraphs: [
+            "Elevate your well-being with an immune booster IV drip, rich in potent doses of vitamin C, B complex, and a blend of essential vitamins A, D, and E. This powerful infusion delivers a surge of nutrients, reducing infection risk & minimizing the disease's severity.",
+          ],
+        },
+        {
+          heading: "Jet Lag Recovery",
+          paragraphs: [
+            "Experience rapid recovery with our IV drip, featuring rehydration solution, high doses of vitamin C, B complex, along with essential vitamins. Restore your body's balance, and replenish energy levels, ensuring you feel refreshed to kickstart your holiday",
+          ],
+        },
+        {
+          heading: "Ultimate Glow",
+          paragraphs: [
+            "Uncover the Ultimate Glow IV Drip, boasting potent doses of vitamin C, glutathione, and alpha-lipoic acid. Globally recognized for its efficacy in promoting healthy skin through powerful antioxidants, this infusion rejuvenates skin radiance and enhances elasticity",
+          ],
+        },
+        {
+          heading: "Anti Aging",
+          paragraphs: [
+            "Introducing our Anti-Aging blend, fortified with vitamin C, B complex, A, D, E, multi minerals, and premium glutathione. This powerhouse infusion combats oxidative stress, a primary cause of premature aging, to restore youthful vitality.",
+          ],
+        },
+        {
+          heading: "Myer's Cocktail",
+          paragraphs: [
+            "Experience the comprehensive blend of vitamin C, vitamin B complex, multivitamins, alongside with minerals, this infusion supports antioxidant activity, improves the skin issues to boosting general wellness",
           ],
         },
       ],

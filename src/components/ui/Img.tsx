@@ -41,7 +41,7 @@ export default function Img({
   alt,
   aspect = "portrait",
   className = "",
-  rounded = "rounded-[2px]",
+  rounded = "rounded-edge",
   position = "object-center",
   sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px",
   priority = false,

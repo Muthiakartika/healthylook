@@ -55,7 +55,7 @@ export default function MobileDrawer({
         aria-modal="true"
         aria-label="Mobile navigation"
         inert={!open}
-        className={`absolute right-0 top-0 flex h-full w-[88%] max-w-md flex-col overflow-y-auto bg-paper transition-transform duration-500 ease-[var(--ease)] ${
+        className={`absolute right-0 top-0 flex h-full w-[88%] max-w-md flex-col overflow-y-auto bg-paper transition-transform duration-500 ease-brand ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -73,7 +73,12 @@ export default function MobileDrawer({
 
         <nav aria-label="Mobile" className="flex-1 px-6">
           {NAV_ITEMS.map((item) => (
-            <MobileNavItem key={item.label} item={item} onNavigate={onClose} />
+            <MobileNavItem
+              key={item.label}
+              item={item}
+              drawerOpen={open}
+              onNavigate={onClose}
+            />
           ))}
         </nav>
 
@@ -82,33 +87,37 @@ export default function MobileDrawer({
             {BOOKING_LABEL}
           </Button>
 
-          <ul className="mt-6 flex flex-col gap-3.5 font-sans text-[0.8125rem] text-text-secondary">
+          {/* Padding rather than gap, same reason as the treatment links in
+              MobileNavItem: these were 20px-tall rows with 14px of dead space
+              between them. Each row is a 40px tap target now and the list
+              looks the same. */}
+          <ul className="mt-4 flex flex-col font-sans text-label text-text-secondary">
             <li>
               <a
                 href={whatsappHref("Hello Healthy Look Aesthetic, I'd like to ask about a treatment.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 hover:text-primary"
+                className="flex items-center gap-3 py-2.5 hover:text-primary"
               >
                 <WhatsAppIcon className="h-4 w-4 shrink-0 text-primary" />
                 WhatsApp us
               </a>
             </li>
             <li>
-              <a href={`tel:${PHONE_E164}`} className="flex items-center gap-3 hover:text-primary">
+              <a href={`tel:${PHONE_E164}`} className="flex items-center gap-3 py-2.5 hover:text-primary">
                 <PhoneIcon className="h-4 w-4 shrink-0 text-primary" />
                 {PHONE_DISPLAY}
               </a>
             </li>
             <li>
-              <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 hover:text-primary">
+              <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 py-2.5 hover:text-primary">
                 <MailIcon className="h-4 w-4 shrink-0 text-primary" />
                 {EMAIL}
               </a>
             </li>
           </ul>
 
-          <p className="mt-5 font-sans text-[0.75rem] text-muted">{OPENING_HOURS}</p>
+          <p className="mt-5 font-sans text-caption text-muted">{OPENING_HOURS}</p>
         </div>
       </div>
     </div>

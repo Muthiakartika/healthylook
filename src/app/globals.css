@@ -1,153 +1,293 @@
 @import "tailwindcss";
 
 /*
- * DESIGN TOKENS — the single source of truth for color/typography.
+ * ═══════════════════════════════════════════════════════════════════════
+ * DESIGN TOKENS — the single source of truth for the whole site.
+ * ═══════════════════════════════════════════════════════════════════════
  *
- * Tailwind v4 is "CSS-first": instead of a tailwind.config.js file, we
- * declare tokens inside an `@theme` block and Tailwind auto-generates
- * matching utility classes for every one of them. Declaring `--color-primary`
- * here means `bg-primary`, `text-primary`, `border-primary`, etc. all become
- * available everywhere in the app automatically — no extra config, no import.
+ * Tailwind v4 is "CSS-first": instead of a tailwind.config.js file, tokens
+ * are declared inside `@theme` and Tailwind generates a matching utility
+ * for every one of them. Declaring `--color-primary` makes `bg-primary`,
+ * `text-primary`, `border-primary` available everywhere; `--text-label`
+ * makes `text-label`; `--tracking-caps` makes `tracking-caps`, and so on.
  *
- * Palette rationale: these hex values were measured directly from Healthy
- * Look Aesthetic's live site (computed styles, not guesswork) — a warm
- * gold/bronze family for headings and CTAs, a pale lime-yellow secondary
- * band, and a white base.
+ * That is why this file is long and the components are short: every size,
+ * colour, tracking step, radius, shadow, easing curve and container width
+ * the site uses is named ONCE here. A component should never contain a raw
+ * value like `text-[0.8125rem]` or `rounded-[3px]` — if a value is needed
+ * twice, it belongs in this file with a name that says what it is for.
  *
- * ── REDESIGN NOTE ──────────────────────────────────────────────────────
- * The redesign brief is explicit: keep the brand, redesign the experience.
- * Every brand hex below is UNCHANGED from the original build. What changed
- * is how they're *used* — see the "derived tonal steps" group. Those are
- * not new brand colors: each one is the same hue as an existing token,
- * lightened or darkened, and exists only to give large page areas a
- * background hierarchy (calm wash → paper → deep contrast band). The
- * saturated lime is now reserved for small accents, because at full-bleed
- * it reads loud rather than premium.
+ * ── WHERE THE COLOURS COME FROM ───────────────────────────────────────
+ * Every hex marked "live" below was measured from the running site at
+ * https://healthylook-aesthetic.com (computed styles on real elements, not
+ * guesswork or eyedropping a screenshot). Colours marked "derived" are not
+ * new brand colours: each is one of the live hues shifted in lightness so
+ * large page areas can differ in tone without introducing a second palette.
+ *
+ * Values the live site gets from WordPress/Contact-Form-7 defaults rather
+ * than from the brand (#dadada, #f0f0f0, #00a0d2, #0074db, #808080) are
+ * deliberately NOT copied — they are plugin chrome, not identity.
+ *
+ * A few live colours are recorded here without being used yet
+ * (--color-primary-light, --color-primary-deep, --color-secondary-soft).
+ * That is on purpose: this block is the brand's record, and Tailwind only
+ * emits a custom property for a token something actually references, so an
+ * unused one costs nothing in the shipped CSS.
  */
 @theme {
-  /* ---- Brand colors: unchanged, measured from the live site ---- */
-  --color-primary: #9b7741; /* warm gold — headings, CTA text, outline buttons */
-  --color-primary-hover: #7e6235; /* darker gold for hover states */
-  --color-secondary: #d4e174; /* saturated lime — small accents, active states */
-  --color-secondary-hover: #c3d65a; /* darker lime for hover states */
-  --color-accent: #d8c06d; /* lighter gold — secondary CTA fill, small highlights */
-  --color-background: #ffffff; /* page background */
-  --color-section: #f2ffbc; /* pale lime band, used to alternate section rhythm */
-  --color-surface: #fffdf7; /* card background — a hair off-white so cards lift slightly off the page */
-  --color-border: #e8e2d0; /* neutral warm border for cards/dividers */
-  --color-text: #404040; /* body text — matches the live site's measured color exactly */
-  --color-text-secondary: #6b6560; /* secondary/supporting text */
-  --color-muted: #9a948a; /* captions, labels, timestamps */
-  --color-ink-soft: #2a2a2a; /* near-black, used only for hover-darkening dark-filled buttons */
-  --color-link: #9b7741;
-  --color-link-hover: #7e6235;
-  --color-success: #4e7b58; /* contact form success state */
-  --color-error: #b54b3c; /* contact form error state */
+  /* ── Brand · gold ────────────────────────────────────────────────────
+     The live site runs a three-step gold. The steps are not interchangeable:
+     they differ in contrast, and contrast is what decides where each one is
+     allowed to be used. Measured against the backgrounds this site actually
+     has, not against an idealised white — small text needs 4.5:1, large
+     text (24px+, or 18.66px+ bold) needs 3:1:
 
-  /* ---- Derived tonal steps (NOT new brand colors) ----
-     Each is an existing brand hue shifted in lightness, so large areas of
-     the page can differ in tone without introducing a second palette.
-     Used for backgrounds and hairlines only — never for type or CTAs. */
-  --color-paper: #fdfbf6; /* --color-surface, pushed a touch warmer/duller: the default "calm" section base */
-  --color-wash: #f8f6ee; /* one step deeper than paper — alternating band */
-  --color-section-soft: #fafce9; /* --color-section at ~15% strength: the lime band, quieted for full-bleed use */
-  --color-ink: #2a221a; /* --color-primary driven very dark: the one dramatic contrast band */
-  --color-ink-2: #3a3025; /* one step up from ink — cards/inset panels inside dark sections */
-  --color-hairline: #ece6d8; /* --color-border, softened for editorial rules */
-  --color-gold-soft: #c9b083; /* --color-primary lightened — hairlines and dividers on dark bands */
+                       white  paper  wash   lime   blush
+       -primary-light   3.0✗   2.9✗   2.7✗   2.9✗   2.0✗
+       -primary         4.1✗   4.0✗   3.7✗   3.9✗   2.7✗
+       -primary-deep    4.5✓   4.3✗   4.0✗   4.2✗   3.2✗
+       -primary-strong  5.7✓   5.5✓   5.1✓   5.4✓   4.0✗
+
+     -primary-deep is the live site's own body gold and it clears the bar on
+     pure white — but only just, and this site's default surface is `paper`,
+     not white, which is enough to fail it. So -primary-strong is the gold
+     for small type anywhere, and -primary is reserved for display type,
+     fills, icons and rules, where 3:1 is the bar and it clears it.
+
+     Blush is the exception, and not a near miss: no gold in the brand
+     clears 4.5:1 on it. Blush is a surface for ink type, with gold allowed
+     only at display sizes.
+
+     The live site itself sets its mega-menu links in #d8c06d on white —
+     1.8:1. We keep that colour's hue and never its role. */
+  --color-primary: #9b7741; /* live — display type, fills, icons, rules */
+  --color-primary-deep: #93713d; /* live — the site's body gold; safe on pure white */
+  --color-primary-light: #af913e; /* live — display type only */
+  --color-primary-strong: #7e6235; /* derived — all small text, and filled buttons */
+  --color-primary-hover: #6a5230; /* derived — one step past -strong, for its hover */
+  --color-accent: #d8c06d; /* live — pale gold: decoration, and text ON dark only */
+
+  /* ── Brand · lime ───────────────────────────────────────────────────
+     The live site's second family, used for the "Book Now" button and to
+     wash whole sections. Saturated at #d4e174, it reads loud at
+     full-bleed, so the two paler steps carry the large areas. */
+  --color-secondary: #d4e174; /* live — button fills, active states, accents */
+  --color-secondary-soft: #e8fcc7; /* live — quiet lime fill (live: form submit) */
+  --color-section: #f2ffbc; /* live — the pale lime section band */
+
+  /* ── Brand · blush ──────────────────────────────────────────────────
+     Recovered from the live site, where it backs a whole section and sets
+     the hero's supporting line. It is the warm counterweight that stops a
+     gold + lime palette reading as one single yellow. */
+  --color-blush: #eed4b8; /* live — statement surface, warm band */
+  --color-blush-soft: #f6eadc; /* derived — blush at half strength */
+
+  /* ── Ink & surfaces ─────────────────────────────────────────────────
+     #2b2c27 is the live site's near-black — a deep olive rather than a
+     neutral one, which is what lets a dark band sit under the lime
+     without the two fighting. */
+  --color-ink: #2b2c27; /* live — the dark contrast band */
+  /* derived — --color-ink pulled ~25% toward --color-primary. The hero scrim
+     used to be plain --color-ink, which is a neutral deep olive: laid over a
+     warm photograph it greys the image out and the whole first screen reads
+     as monochrome. This is the same darkness with the brand's gold in it, so
+     the overlay warms the photo instead of draining it. Overlay only — it is
+     not a surface colour and nothing should set type directly on it. */
+  --color-ink-warm: #453a29;
+  --color-background: #ffffff; /* live — page base */
+  --color-paper: #fdfaf6; /* derived — the default "calm" section base */
+  --color-wash: #f7f2ea; /* derived — one step deeper, alternating band */
+
+  /* ── Type & lines ───────────────────────────────────────────────────
+     Every value here clears 4.5:1 on its intended background. --color-muted
+     used to be #9a948a, which measured 2.9:1 on white — captions set in it
+     were failing AA. */
+  --color-text: #404040; /* live — body copy */
+  --color-text-secondary: #6b6560; /* 5.7:1 on white, 5.1:1 on wash */
+  --color-muted: #726d64; /* 5.1:1 on white, 4.6:1 on wash — captions, labels */
+  --color-hairline: #ece6d8; /* the one rule colour: cards, dividers, tables */
+  --color-gold-soft: #c9b083; /* --color-primary lightened — rules on dark bands */
+
+  /* ── Semantic ─────────────────────────────────────────────────────
+     Inline links don't get their own token: a link in body copy is small
+     text, so it takes --color-primary-strong like every other small gold
+     thing on the site. A separate --color-link would only be a second name
+     for the same value, and the two would drift. */
+  --color-success: #4e7b58; /* 4.8:1 on white — contact form success state */
+  --color-error: #b54b3c; /* 4.6:1 on white — contact form error state */
+
+  /*
+   * ── TYPE SCALE ────────────────────────────────────────────────────
+   *
+   * Two voices, one brand:
+   *
+   *   RetroSignature (font-script) — the EMOTIONAL voice. Luxury, warmth,
+   *   the spa. This is the brand's real script face, self-hosted from the
+   *   clinic's own webfont; Google's Tangerine stood in for it until the
+   *   licensed file was carried over.
+   *
+   *   A script only becomes impactful when it is genuinely large, so the
+   *   display sizes are deliberately far bigger than a normal scale
+   *   suggests. Measured at 100px, RetroSignature inks 76px tall against
+   *   Poppins' 75px but sets less than half the width (230px vs 439px for
+   *   the same word) — so these sizes read as elegant rather than enormous,
+   *   and long titles wrap far less than they did in Tangerine, which was
+   *   nearly twice as wide.
+   *
+   *   Poppins (font-sans) — the CLINICAL voice. Treatment names, doctor
+   *   credentials, prices and all body copy stay in Poppins so nothing a
+   *   patient must read carefully is set in a script face.
+   *
+   * Each step carries its own line-height, so `text-h2` sets both and a
+   * component never has to remember the pairing. Sizes below `--text-lead`
+   * are fixed rather than fluid on purpose: fluid *body* text changes
+   * measure as the viewport moves, which is how line lengths drift out of
+   * the readable band on tablets.
+   */
+  --text-display: clamp(4rem, 2rem + 10vw, 10rem);
+  --text-display--line-height: 0.92;
+  --text-display-sm: clamp(3.25rem, 1.75rem + 7vw, 7rem);
+  --text-display-sm--line-height: 0.92;
+
+  --text-h1: clamp(2.75rem, 1.6rem + 5vw, 6rem); /* script, page titles */
+  --text-h1--line-height: 1.08;
+  --text-h2: clamp(2.25rem, 1.4rem + 4vw, 4.5rem); /* script, section statements */
+  --text-h2--line-height: 1.08;
+  --text-h3: clamp(1.5rem, 1.15rem + 1.6vw, 2.25rem); /* Poppins, card titles */
+  --text-h3--line-height: 1.25;
+  --text-h4: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+  --text-h4--line-height: 1.25;
+  --text-h5: 1.125rem;
+  --text-h5--line-height: 1.35;
+  --text-h6: 1rem;
+  --text-h6--line-height: 1.4;
+
+  /* A Poppins mid-step for the few places that need a headline smaller
+     than h2 but heavier than h3 — pull-quotes and script flourishes. */
+  --text-statement: clamp(2rem, 1.4rem + 2vw, 2.5rem);
+  --text-statement--line-height: 1.1;
+
+  /* The editorial number used by the 01/02/03 sequences. */
+  --text-numeral: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+  --text-numeral--line-height: 1;
+
+  /* Body ladder. `copy` is the workhorse — it is what most paragraphs and
+     card text on this site are actually set in. */
+  --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem); /* intro paragraphs */
+  --text-lead--line-height: 1.65;
+  --text-copy-lg: 1.0625rem; /* 17px — mobile nav rows, emphasised copy */
+  --text-copy-lg--line-height: 1.6;
+  --text-body: 1rem; /* 16px — long-form prose */
+  --text-body--line-height: 1.75;
+  --text-copy: 0.9375rem; /* 15px — default component copy */
+  --text-copy--line-height: 1.7;
+  --text-label: 0.8125rem; /* 13px — nav, meta, dense UI */
+  --text-label--line-height: 1.5;
+  --text-caption: 0.75rem; /* 12px — captions and eyebrows */
+  --text-caption--line-height: 1.45;
+  --text-micro: 0.6875rem; /* 11px — notes under links, small buttons */
+  --text-micro--line-height: 1.45;
+  --text-nano: 0.625rem; /* 10px — legal, the smallest thing allowed */
+  --text-nano--line-height: 1.4;
+
+  /*
+   * ── TRACKING ──
+   * Poppins set in caps needs tracking or it reads as a cramped acronym.
+   * These five steps are every letter-spacing value the site uses; the
+   * eyebrow step is the widest because it runs at 11–12px, where letters
+   * need the most air to stay legible.
+   */
+  --tracking-label: 0.12em;
+  --tracking-caps: 0.14em;
+  --tracking-caps-wide: 0.16em;
+  --tracking-caps-xl: 0.2em;
+  --tracking-eyebrow: 0.28em;
+
+  /*
+   * ── LINE HEIGHT ──
+   * Named so a component can pair any size with any rhythm when it needs
+   * to override the size's default — `leading-body` on a heading, say.
+   */
+  --leading-display: 0.92;
+  --leading-heading: 1.08;
+  --leading-body: 1.75;
+  /* The script face sits high in its em box, so script headlines need a tighter
+     rhythm than the sans scale to stop the lines drifting apart. The loose
+     step is for multi-line pull quotes, where 0.95 would collide the
+     ascenders and descenders of a script face. */
+  --leading-script: 0.95;
+  --leading-script-loose: 1.12;
+
+  /*
+   * ── SPACING & RHYTHM ──
+   * Named spacing keys work across the whole spacing namespace, so
+   * `py-section`, `mt-section`, `gap-section` and `px-gutter` all resolve
+   * from these three values. One fluid rhythm for the entire site.
+   */
+  --spacing-section: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --spacing-section-lg: clamp(6rem, 4rem + 8vw, 12rem);
+  --spacing-gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+
+  /*
+   * ── WIDTHS ──
+   * Container namespace, so these drive `max-w-page`, `max-w-wide`,
+   * `max-w-narrow`, `max-w-measure`. The two measure values cap paragraph
+   * width: long clinical copy stops being readable past ~70 characters.
+   */
+  --container-page: 1360px;
+  --container-wide: 1620px;
+  --container-narrow: 860px;
+  --container-measure: 68ch;
+  --container-measure-narrow: 52ch;
+  /* One testimonial card in the scrolling review rows. Sized so a clamped
+     quote runs about six lines of `--text-copy` — short enough that a card
+     is readable as it passes, wide enough not to shred the sentences. */
+  --container-quote-card: 21rem;
+
+  /*
+   * ── RADIUS ──
+   * The near-square corner is measured from the live site and is a real
+   * piece of the brand's character: it is what makes controls read as
+   * precise and clinical rather than as soft consumer pills.
+   */
+  --radius-brand: 3px; /* buttons and inputs */
+  --radius-edge: 2px; /* panels, focus rings, image frames */
+
+  /* ── DEPTH ──
+     One shadow, tinted with the brand ink rather than neutral black, and
+     offset downward with a wide soft blur so it reads as a lit surface
+     rather than a glow. */
+  --shadow-panel: 0 18px 50px -28px rgb(43 44 39 / 0.35); /* --color-ink at 35% */
+
+  /*
+   * ── MOTION ──
+   * One easing curve site-wide. Expo-out moves decisively then settles,
+   * which reads as considered rather than bouncy. Durations are long-ish
+   * on purpose: fast motion reads as an app, slow motion reads editorial.
+   */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /*
  * Fonts are loaded once in src/app/layout.tsx via next/font/google and
- * exposed there as CSS variables (--font-poppins, --font-tangerine) on the
- * <html> element. This SECOND `@theme inline` block is what turns those
- * variables into Tailwind font utilities: `font-sans` (body/UI copy) and
- * `font-script` (the elegant display face). It has to be a separate
- * `inline`-flagged block — Tailwind needs `inline` here so it reads the
- * variable at runtime (from whatever next/font injects) instead of trying to
- * bake in a literal value at build time, when the variable doesn't exist yet.
- *
- * REDESIGN NOTE: both font families are unchanged. What changed is the
- * *role* each one plays — see the type scale below.
+ * exposed there as CSS variables on <html>. This second `@theme inline`
+ * block turns those variables into Tailwind font utilities: `font-sans`
+ * and `font-script`. It has to be a separate `inline`-flagged block —
+ * Tailwind needs `inline` so it reads the variable at runtime (from
+ * whatever next/font injects) instead of baking in a literal value at
+ * build time, when the variable does not yet exist.
  */
 @theme inline {
   --font-sans: var(--font-poppins);
-  --font-script: var(--font-tangerine);
+  --font-script: var(--font-retro-signature);
 }
 
 /*
- * ── TYPE SYSTEM ───────────────────────────────────────────────────────
- *
- * Two voices, one brand:
- *
- *   Tangerine (font-script) — the EMOTIONAL voice. Luxury, warmth, the
- *   spa. Previously used at ordinary heading sizes, where a delicate
- *   script just reads "decorative". It only becomes *impactful* when it's
- *   genuinely large, so the display sizes below are deliberately much
- *   bigger than a normal type scale would suggest. Tangerine also has a
- *   very small x-height for its em size, so a 9rem Tangerine headline has
- *   roughly the visual mass of a 4rem sans headline — the numbers look
- *   extreme on paper and read as elegant on screen.
- *
- *   Poppins (font-sans) — the CLINICAL voice. Clarity, medical
- *   credibility, information. Treatment names, doctor credentials,
- *   prices, and all body copy stay in Poppins so nothing a patient needs
- *   to *read carefully* is set in a script face.
- *
- * The pairing is what carries the brief's "premium aesthetic clinic +
- * medical credibility" split, without adding a third font.
+ * Durations live outside `@theme` because Tailwind v4 has no duration
+ * namespace — there is no `--duration-*` that would generate `duration-*`
+ * utilities. They are still global, and reached with `duration-(--dur)`.
  */
 :root {
-  /* Display — Tangerine only. Hero and full-bleed statement moments. */
-  --fs-display: clamp(4rem, 2rem + 10vw, 10rem);
-  --fs-display-sm: clamp(3.25rem, 1.75rem + 7vw, 7rem);
-
-  /* Headings */
-  --fs-h1: clamp(2.75rem, 1.6rem + 5vw, 6rem); /* Tangerine, page titles */
-  --fs-h2: clamp(2.25rem, 1.4rem + 4vw, 4.5rem); /* Tangerine, section statements */
-  --fs-h3: clamp(1.5rem, 1.15rem + 1.6vw, 2.25rem); /* Poppins, treatment/card titles */
-  --fs-h4: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
-  --fs-h5: 1.125rem;
-  --fs-h6: 1rem;
-
-  /* Body */
-  --fs-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem); /* intro paragraphs */
-  --fs-body: 1rem;
-  --fs-small: 0.875rem;
-  --fs-micro: 0.75rem;
-
-  /* Editorial number, used by the 01/02/03 sections */
-  --fs-numeral: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
-
-  /* Line heights — generous, because whitespace is doing the premium work */
-  --lh-display: 0.92;
-  --lh-heading: 1.08;
-  --lh-tight: 1.25;
-  --lh-body: 1.75;
-
-  /* Tracking. Poppins micro-labels get very wide tracking (the small-caps
-     "eyebrow" that runs above nearly every section); Tangerine gets none. */
-  --ls-eyebrow: 0.28em;
-  --ls-wide: 0.12em;
-
-  /* ── SPACING & RHYTHM ──
-     One fluid section rhythm for the whole site. `--space-section` is the
-     default; `--space-section-lg` is for the few full-bleed cinematic
-     sections that need more air around them. */
-  --space-section: clamp(4.5rem, 3rem + 6vw, 9rem);
-  --space-section-lg: clamp(6rem, 4rem + 8vw, 12rem);
-  --gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
-
-  /* Measure — cap paragraph width so long clinical copy stays readable */
-  --measure: 68ch;
-  --measure-narrow: 52ch;
-
-  /* ── MOTION ──
-     One easing curve site-wide. Expo-out is the "settles into place"
-     curve — it moves decisively then slows, which reads as considered
-     rather than bouncy. Durations are long-ish on purpose: fast motion
-     reads as an app, slow motion reads as editorial. */
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 200ms;
   --dur: 500ms;
   --dur-slow: 900ms;
@@ -157,8 +297,8 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   /* Kill the horizontal-overflow class of bug at the source, rather than
      patching each full-bleed section individually. */
   overflow-x: hidden;
@@ -171,44 +311,41 @@ body {
  */
 @layer base {
   h1 {
-    font-size: var(--fs-h1);
-    line-height: var(--lh-heading);
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
   }
   h2 {
-    font-size: var(--fs-h2);
-    line-height: var(--lh-heading);
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
   }
   h3 {
-    font-size: var(--fs-h3);
-    line-height: var(--lh-tight);
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
   }
   h4 {
-    font-size: var(--fs-h4);
-    line-height: var(--lh-tight);
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
   }
   h5 {
-    font-size: var(--fs-h5);
+    font-size: var(--text-h5);
   }
   h6 {
-    font-size: var(--fs-h6);
+    font-size: var(--text-h6);
   }
 
-  /* Tangerine is a script: it needs no extra tracking, and negative
-     tracking would collide the letterforms. Poppins headings get a hair
-     of negative tracking, which is what stops large sans type looking
-     loose and templatey. */
+  /* A signature script needs no extra tracking, and negative tracking
+     would collide the letterforms. */
   .font-script {
     letter-spacing: 0;
     font-weight: 400;
   }
 
-  /* A visible, on-brand focus ring everywhere — the brief asks for
-     accessible focus states, and leaving this to each component is how
-     sites end up with half of them missing. */
+  /* A visible, on-brand focus ring everywhere. Leaving this to each
+     component is how sites end up with half of them missing. */
   :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: var(--radius-edge);
   }
 
   ::selection {
@@ -219,67 +356,38 @@ body {
 
 /* ── LAYOUT UTILITIES ─────────────────────────────────────────────── */
 
-/* Shared vertical rhythm for every section on every page. */
-@utility py-section {
-  padding-block: var(--space-section);
-}
-
-@utility py-section-lg {
-  padding-block: var(--space-section-lg);
-}
-
 /*
- * Full-bleed escape hatch: lets a section inside a normal centered
- * container break out to the full viewport width without needing to be
- * hoisted out of the layout tree. Used by the cinematic image bands.
+ * Full-bleed escape hatch: lets a section inside a centered container
+ * break out to the full viewport width without being hoisted out of the
+ * layout tree. Used by the cinematic image bands.
  */
 @utility full-bleed {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
 
-/* Constrain prose to a comfortable measure. */
+/* Constrain prose to a comfortable measure. Kept as utilities as well as
+   container widths so `measure` reads as intent where `max-w-measure`
+   would read as arithmetic. */
 @utility measure {
-  max-width: var(--measure);
+  max-width: var(--container-measure);
 }
 
 @utility measure-narrow {
-  max-width: var(--measure-narrow);
-}
-
-/* ── TYPE UTILITIES ───────────────────────────────────────────────── */
-
-@utility text-display {
-  font-size: var(--fs-display);
-  line-height: var(--lh-display);
-}
-
-@utility text-display-sm {
-  font-size: var(--fs-display-sm);
-  line-height: var(--lh-display);
-}
-
-@utility text-numeral {
-  font-size: var(--fs-numeral);
-  line-height: 1;
-}
-
-@utility text-lead {
-  font-size: var(--fs-lead);
-  line-height: 1.65;
+  max-width: var(--container-measure-narrow);
 }
 
 /*
  * The small gold label that runs above almost every section heading.
- * Defined once here because it appears dozens of times and the wide
- * tracking + tiny size combination is easy to get subtly wrong by hand.
+ * Defined once because it appears dozens of times and the wide tracking
+ * plus tiny size combination is easy to get subtly wrong by hand.
  */
 @utility eyebrow {
   font-family: var(--font-poppins), sans-serif;
-  font-size: var(--fs-micro);
+  font-size: var(--text-caption);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: var(--ls-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
   line-height: 1;
 }
 
@@ -288,9 +396,9 @@ body {
 /*
  * Scroll reveal. The <Reveal> component (components/ui/Reveal.tsx) adds
  * `data-reveal` on mount and flips it to `data-reveal="in"` when the
- * element enters the viewport. Keeping the animation itself in CSS — and
- * the observer in JS — means no animation library, and the "before"
- * state is a plain style rather than an inline style React has to own.
+ * element enters the viewport. Keeping the animation in CSS — and the
+ * observer in JS — means no animation library, and the "before" state is
+ * a plain style rather than an inline style React has to own.
  *
  * The element starts visible-but-shifted rather than fully transparent in
  * the no-JS case: [data-reveal] only hides content once JS has confirmed
@@ -301,8 +409,8 @@ body {
   opacity: 0;
   transform: translateY(1.75rem);
   transition:
-    opacity var(--dur-slow) var(--ease),
-    transform var(--dur-slow) var(--ease);
+    opacity var(--dur-slow) var(--ease-brand),
+    transform var(--dur-slow) var(--ease-brand);
   will-change: opacity, transform;
 }
 
@@ -315,7 +423,7 @@ body {
    which reads as a camera settling rather than a UI element sliding. */
 [data-reveal-image] > * {
   transform: scale(1.08);
-  transition: transform 1.4s var(--ease);
+  transition: transform 1.4s var(--ease-brand);
 }
 
 [data-reveal-image="in"] > * {
@@ -352,7 +460,7 @@ html {
 }
 
 /* Continuous marquee for the partner-brand strip. Duplicated content in
-   the markup + a -50% translate is what makes the loop seamless. */
+   the markup plus a -50% translate is what makes the loop seamless. */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -364,4 +472,42 @@ html {
 
 @utility animate-marquee {
   animation: marquee 46s linear infinite;
+}
+
+/*
+ * The testimonial wall runs two rows of the same keyframe in opposite
+ * directions. The tempos are deliberately not multiples of each other: two
+ * rows at the same speed read as one solid block sliding sideways, which is
+ * the thing a two-row marquee exists to avoid. Both are slow — these are
+ * sentences to be read, not logos to be recognised.
+ */
+@utility animate-marquee-quotes {
+  animation: marquee 68s linear infinite;
+}
+
+@utility animate-marquee-quotes-reverse {
+  animation: marquee 86s linear infinite reverse;
+}
+
+/*
+ * Fades a horizontally scrolling track out at both edges so cards arrive
+ * and leave rather than being guillotined by the viewport. The partner
+ * strip inlines this same gradient; it is named here because the review
+ * rows need it twice more.
+ */
+@utility marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 7%,
+    black 93%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 7%,
+    black 93%,
+    transparent
+  );
 }

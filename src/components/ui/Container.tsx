@@ -13,9 +13,9 @@ type Width = "default" | "wide" | "narrow";
 // the shared `--gutter` token so it scales with the section rhythm instead
 // of stepping at breakpoints.
 const widths: Record<Width, string> = {
-  default: "max-w-[1360px]",
-  wide: "max-w-[1620px]",
-  narrow: "max-w-[860px]",
+  default: "max-w-page",
+  wide: "max-w-wide",
+  narrow: "max-w-narrow",
 };
 
 export default function Container({
@@ -31,7 +31,7 @@ export default function Container({
 }) {
   return (
     <Tag
-      className={`mx-auto w-full ${widths[width]} px-[var(--gutter)] ${className}`}
+      className={`mx-auto w-full ${widths[width]} px-gutter ${className}`}
     >
       {children}
     </Tag>

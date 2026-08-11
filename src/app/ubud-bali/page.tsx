@@ -13,7 +13,7 @@ import { TREATMENT_CATEGORIES, treatments, treatmentHref } from "@/data/treatmen
 export const metadata: Metadata = {
   title: "Treatments in Ubud, Bali",
   description:
-    "Facial enhancement, skin treatments, body treatments, and hair & booster therapies at Healthy Look Aesthetic, Ubud — Botox, dermal filler, HIFU, Sculptra, Sylfirm X, Profhilo and more.",
+    "Facial enhancement, skin treatments, body treatments, and hair & booster therapies at Healthy Look Aesthetic, Ubud: Botox, dermal filler, HIFU, Sculptra, Sylfirm X, Profhilo and more.",
   alternates: { canonical: "/ubud-bali" },
 };
 
@@ -36,7 +36,7 @@ export default function TreatmentsPage() {
         eyebrow="Treatments"
         title="Everything we offer, and what each one is for"
         crumbs={[{ label: "Home", href: "/" }, { label: "Treatments" }]}
-        description="Non-invasive facial enhancement, skin rejuvenation, body contouring, and hair restoration — each planned and performed by a licensed doctor."
+        description="Non-invasive facial enhancement, skin rejuvenation, body contouring, and hair restoration, each planned and performed by a licensed doctor."
         image="/images/clinic/clinic-09.jpg"
         imageAlt="Treatment room at Healthy Look Aesthetic, Ubud"
       />
@@ -45,12 +45,16 @@ export default function TreatmentsPage() {
           landing at the top of a long page with no way to skip is the
           usual failure of an index page this size. */}
       <section className="border-b border-hairline bg-paper">
-        <Container className="flex flex-wrap gap-x-8 gap-y-3 py-6">
+        {/* The vertical gap moved into the links' padding: they were 17px-tall
+            tap targets with 12px of dead space between the wrapped rows on a
+            phone, which is the smallest thing anyone is asked to hit on this
+            page. Same rhythm, 29px targets. */}
+        <Container className="flex flex-wrap gap-x-8 py-4">
           {TREATMENT_CATEGORIES.map((category) => (
             <a
               key={category.id}
               href={`#${category.id}`}
-              className="font-sans text-[0.75rem] uppercase tracking-[0.14em] text-text-secondary transition-colors hover:text-primary"
+              className="py-1.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
             >
               {category.label}
               <span className="ml-2 text-muted/70">
@@ -81,13 +85,13 @@ export default function TreatmentsPage() {
                 <div className={`lg:col-span-4 ${alt ? "lg:order-2" : ""}`}>
                   <div className="lg:sticky lg:top-32">
                     <Reveal>
-                      <span className="eyebrow flex items-center gap-3 text-primary">
+                      <span className="eyebrow flex items-center gap-3 text-primary-strong">
                         <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                         {String(categoryIndex + 1).padStart(2, "0")}
                       </span>
                     </Reveal>
                     <Reveal delay={80}>
-                      <h2 className="mt-7 font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+                      <h2 className="mt-7 font-script text-h2 leading-heading text-primary">
                         {category.label}
                       </h2>
                     </Reveal>
@@ -113,21 +117,44 @@ export default function TreatmentsPage() {
                             href={treatmentHref(treatment)}
                             className="group flex gap-6 py-7 sm:gap-10"
                           >
-                            <span className="pt-1.5 font-sans text-[0.75rem] tabular-nums tracking-widest text-muted">
+                            <span className="pt-1.5 font-sans text-caption tabular-nums tracking-widest text-muted">
                               {String(index + 1).padStart(2, "0")}
                             </span>
                             <div className="flex-1">
-                              <h3 className="flex flex-wrap items-center gap-x-3 font-sans text-[length:var(--fs-h3)] leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
+                              <h3 className="flex flex-wrap items-center gap-x-3 font-sans text-h3 leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
                                 {treatment.name}
                                 <ArrowUpRightIcon className="h-4 w-4 shrink-0 -translate-x-2 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                               </h3>
-                              <p className="mt-3 measure font-sans text-[0.9375rem] leading-relaxed text-text-secondary">
+                              <p className="mt-3 measure font-sans text-copy leading-relaxed text-text-secondary">
                                 {treatment.shortDescription}
                               </p>
-                              {treatment.startingPrice != null && (
-                                <p className="mt-4 font-sans text-[0.75rem] uppercase tracking-[0.12em] text-muted">
-                                  From {formatIDR(treatment.startingPrice)}
-                                  {treatment.priceUnit ? ` ${treatment.priceUnit}` : ""}
+                              {/* Price AND treatment time, because that is
+                                  the pair the live site puts on every card of
+                                  its own treatments index. The rebuild was
+                                  showing price alone. */}
+                              {(treatment.startingPrice != null ||
+                                treatment.treatmentTime) && (
+                                <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-sans text-caption uppercase tracking-label text-muted">
+                                  {treatment.startingPrice != null && (
+                                    <span>
+                                      From {formatIDR(treatment.startingPrice)}
+                                      {treatment.priceUnit
+                                        ? ` ${treatment.priceUnit}`
+                                        : ""}
+                                    </span>
+                                  )}
+                                  {treatment.startingPrice != null &&
+                                    treatment.treatmentTime && (
+                                      <span
+                                        aria-hidden="true"
+                                        className="text-primary/40"
+                                      >
+                                        ·
+                                      </span>
+                                    )}
+                                  {treatment.treatmentTime && (
+                                    <span>{treatment.treatmentTime}</span>
+                                  )}
                                 </p>
                               )}
                             </div>

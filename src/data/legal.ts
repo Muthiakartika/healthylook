@@ -142,8 +142,30 @@ export const privacyPolicy: LegalDocument = {
   ],
 };
 
+/*
+ * ⚠ REWRITTEN BACK TO THE CLINIC'S OWN WORDING.
+ *
+ * A clause-by-clause diff against the live page found every one of these
+ * compressed into note-form — 16 of the live document's clauses replaced by
+ * 15 shorter paraphrases. "You can book treatments through our website, via
+ * WhatsApp, or email" had become "Bookings available through website,
+ * WhatsApp, or email"; the ~400-word late-arrival paragraph had become a
+ * half-sentence; "We take every precaution to ensure safe treatments, but all
+ * aesthetic procedures carry some risk" had lost the precaution clause
+ * entirely, leaving only the disclaimer.
+ *
+ * That directly contradicts this file's own header rule, and it matters more
+ * here than anywhere else on the site: these are the terms the clinic is held
+ * to if a patient disputes a cancellation fee or a refund. A tightened
+ * paraphrase of a contract is a different contract.
+ *
+ * The Privacy Policy above was checked the same way and matched the live
+ * document exactly, clause for clause — it needed no changes.
+ */
 export const termsConditions: LegalDocument = {
   title: "Terms & Conditions",
+  intro:
+    "At Healthy Look Aesthetic, we want every guest to feel comfortable, informed, and confident in choosing our services. These Terms & Conditions are here to explain how we work, so there are no surprises — only clarity and care.",
   sections: [
     {
       id: "booking-appointments",
@@ -152,15 +174,19 @@ export const termsConditions: LegalDocument = {
         {
           kind: "list",
           items: [
-            { text: "Bookings available through website, WhatsApp, or email." },
-            { text: "Appointments required due to high demand." },
-            { text: "Cancellations must be made at least 24 hours in advance." },
-            { text: "No shows will not be allowed to book future appointments." },
-            { text: "Maximum 2 rescheduling allowed; deposit required beyond that." },
+            { text: "You can book treatments through our website, via WhatsApp, or email." },
+            { text: "As we operated on high demand, appointments are required." },
+            { text: "If you need to cancel, please let us know at least 24 hours in advance." },
+            { text: "No shows will not be allowed to book future appointments" },
             {
-              text: "Arrive on time for scheduled appointments — being 10 minutes late does not mean you'll wait 10 minutes.",
+              text: "A maximum of 2 rescheduling is allowed. Beyond that, a deposit is required to secure the new appointment.",
             },
+            { text: "Please arrive on time for your scheduled appointment." },
           ],
+        },
+        {
+          kind: "paragraph",
+          text: "If you arrive late, we will do our best to accommodate you by fitting you in between other appointments. However, you may need to wait, as our doctor or nurse will handle to the next patients who arrive on time according to their scheduled slots. Please note: being 10 minutes late does not mean you'll wait 10 minutes. Depending on the next patient's treatment duration, sometimes, the waiting time could be longer.",
         },
       ],
     },
@@ -171,11 +197,19 @@ export const termsConditions: LegalDocument = {
         {
           kind: "list",
           items: [
-            { text: "All treatments are elective and require informed consent." },
-            { text: "Results vary individually; expectations explained beforehand." },
-            { text: "Disclose medical history, allergies, and medications." },
-            { text: "Clients with chronic disease should consult primary physician first." },
-            { text: "Clinic reserves right to refuse unsafe treatments." },
+            { text: "All treatments are elective and require your informed consent." },
+            {
+              text: "Results vary from person to person — we'll always explain what to expect.",
+            },
+            {
+              text: "For your safety, please share any relevant medical history, allergies, or medications with us.",
+            },
+            {
+              text: "If the client has chronic disease, we strongly suggest to consult first with your primary physician before having any aesthetic treatment",
+            },
+            {
+              text: "Healthy Look Aesthetic reserves the right to refuse treatment if deemed unsafe.",
+            },
           ],
         },
       ],
@@ -187,7 +221,9 @@ export const termsConditions: LegalDocument = {
         {
           kind: "list",
           items: [
-            { text: "Accepted: cash (IDR only), credit cards, bank transfers." },
+            {
+              text: "We accept cash (IDR only), credit cards, and bank transfers to Indonesia's bank account",
+            },
             { text: "Completed treatments are non-refundable." },
             {
               text: "Prepaid packages are non-transferable and non-refundable, unless required by law.",
@@ -201,8 +237,16 @@ export const termsConditions: LegalDocument = {
       title: "Your Privacy",
       blocks: [
         {
-          kind: "paragraph",
-          text: "Personal information used for bookings, treatments, and communication only. See Privacy Policy for details.",
+          kind: "list",
+          items: [
+            {
+              text: "We respect your privacy and handle your personal information with care.",
+            },
+            {
+              text: "Details you share with us are used only for bookings, treatments, and communication.",
+            },
+            { text: "For more information, please see our full Privacy Policy." },
+          ],
         },
       ],
     },
@@ -211,8 +255,15 @@ export const termsConditions: LegalDocument = {
       title: "Liability",
       blocks: [
         {
-          kind: "paragraph",
-          text: "All aesthetic procedures carry risk. Clinic not responsible for complications from undisclosed conditions or failure to follow aftercare.",
+          kind: "list",
+          items: [
+            {
+              text: "We take every precaution to ensure safe treatments, but all aesthetic procedures carry some risk",
+            },
+            {
+              text: "Healthy Look Aesthetic is not responsible for complications arising from undisclosed medical conditions or failure to follow aftercare instructions.",
+            },
+          ],
         },
       ],
     },
@@ -222,7 +273,7 @@ export const termsConditions: LegalDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Terms follow Indonesian law; disputes handled in Denpasar, Bali courts.",
+          text: "These Terms & Conditions follow Indonesian law. Any disputes will be handled in the courts of Denpasar, Bali.",
         },
       ],
     },
@@ -232,7 +283,7 @@ export const termsConditions: LegalDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Terms may be updated; changes posted on website.",
+          text: "We may update these Terms & Conditions from time to time. Any changes will be posted on our website so you're always informed.",
         },
       ],
     },

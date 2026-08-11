@@ -25,9 +25,12 @@ export default function PriceTable({
   const dark = tone === "dark";
   const rule = dark ? "border-white/12" : "border-hairline";
   const labelColor = dark ? "text-white/85" : "text-ink";
-  const priceColor = dark ? "text-gold-soft" : "text-primary";
+  // Prices and group titles both run small (14px and 12px), so on light
+  // surfaces they take the deepest gold — -primary is only 3.7:1 on `wash`,
+  // which is where this table most often sits.
+  const priceColor = dark ? "text-gold-soft" : "text-primary-strong";
   const noteColor = dark ? "text-white/45" : "text-text-secondary";
-  const titleColor = dark ? "text-gold-soft" : "text-primary";
+  const titleColor = dark ? "text-gold-soft" : "text-primary-strong";
 
   return (
     <div className="flex flex-col gap-10">
@@ -41,19 +44,19 @@ export default function PriceTable({
                 key={row.label}
                 className={`flex items-baseline justify-between gap-6 border-b ${rule} py-3.5`}
               >
-                <dt className={`font-sans text-[0.9375rem] leading-snug ${labelColor}`}>
+                <dt className={`font-sans text-copy leading-snug ${labelColor}`}>
                   {row.label}
                 </dt>
                 <dd
-                  className={`shrink-0 text-right font-sans text-[0.875rem] tabular-nums ${priceColor}`}
+                  className={`shrink-0 text-right font-sans text-sm tabular-nums ${priceColor}`}
                 >
                   {row.price === null ? (
-                    <span className={`text-[0.8125rem] ${noteColor}`}>By Consultation</span>
+                    <span className={`text-label ${noteColor}`}>By Consultation</span>
                   ) : (
                     <>
                       {formatIDR(row.price)}
                       {row.unit && (
-                        <span className={`ml-0.5 text-[0.75rem] ${noteColor}`}>
+                        <span className={`ml-0.5 text-caption ${noteColor}`}>
                           {row.unit}
                         </span>
                       )}
@@ -65,7 +68,7 @@ export default function PriceTable({
           </dl>
 
           {group.note && (
-            <p className={`mt-4 font-sans text-[0.8125rem] leading-relaxed ${noteColor}`}>
+            <p className={`mt-4 font-sans text-label leading-relaxed ${noteColor}`}>
               {group.note}
             </p>
           )}

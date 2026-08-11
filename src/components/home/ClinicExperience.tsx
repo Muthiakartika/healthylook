@@ -34,7 +34,12 @@ const STRIP = [
 
 export default function ClinicExperience() {
   return (
-    <section className="bg-background py-section">
+    // Blush, not white. This is the "what is it actually like to go there"
+    // section, and blush is the colour the live site reaches for in exactly
+    // that context — it sits behind the clinic's address block there. The
+    // rebuild had dropped the colour entirely, which left the whole page in
+    // gold and lime with nothing warm to balance them.
+    <section className="bg-blush-soft py-section">
       {/* Cinematic band */}
       <Reveal variant="image" className="full-bleed">
         <div className="grid grid-cols-1 gap-1 sm:grid-cols-3">
@@ -63,13 +68,13 @@ export default function ClinicExperience() {
         <div className="mt-16 grid gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
             <Reveal>
-              <span className="eyebrow flex items-center gap-3 text-primary">
+              <span className="eyebrow flex items-center gap-3 text-primary-strong">
                 <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                 The Clinic
               </span>
             </Reveal>
             <Reveal delay={90}>
-              <h2 className="mt-8 font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+              <h2 className="mt-8 font-script text-h2 leading-heading text-primary">
                 Set inside a five-star resort in Ubud
               </h2>
             </Reveal>
@@ -88,26 +93,32 @@ export default function ClinicExperience() {
             <Reveal delay={140}>
               <p className="measure font-sans text-lead text-text">
                 Tucked inside a resort just outside central Ubud, the clinic pairs
-                clinical precision with a genuinely calm setting — an unhurried hour
+                clinical precision with a genuinely calm setting, an unhurried hour
                 away from the noise of a typical clinic day.
               </p>
             </Reveal>
 
+            {/* Where and when, on the brand's full-strength blush — the one
+                place on the page it runs at full saturation, and the same
+                job it does on the live site. Type here is ink rather than
+                the usual secondary grey: no gold and no grey in the palette
+                clears 4.5:1 against blush, so this panel takes the dark end
+                of the ramp instead. */}
             <Reveal delay={200}>
-              <ul className="mt-10 flex flex-col gap-4 border-t border-hairline pt-8">
-                <li className="flex items-start gap-3.5 font-sans text-[0.9375rem] text-text-secondary">
-                  <MapPinIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
+              <ul className="mt-10 flex flex-col gap-4 bg-blush p-7">
+                <li className="flex items-start gap-3.5 font-sans text-copy text-ink">
+                  <MapPinIcon className="mt-1 h-4 w-4 shrink-0 text-primary-strong" />
                   <a
                     href={MAPS_HREF}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition-colors hover:text-primary"
+                    className="underline decoration-ink/25 underline-offset-4 transition-colors hover:decoration-ink"
                   >
                     {ADDRESS}
                   </a>
                 </li>
-                <li className="flex items-start gap-3.5 font-sans text-[0.9375rem] text-text-secondary">
-                  <ClockIcon className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                <li className="flex items-start gap-3.5 font-sans text-copy text-ink">
+                  <ClockIcon className="mt-1 h-4 w-4 shrink-0 text-primary-strong" />
                   {OPENING_HOURS}
                 </li>
               </ul>

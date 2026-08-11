@@ -53,7 +53,7 @@ export default function StickyCTA() {
       // tab order or screen-reader flow when it isn't actually shown.
       aria-hidden={!visible}
       inert={!visible}
-      className={`fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-hairline bg-paper/95 p-3 backdrop-blur-md transition-transform duration-500 ease-[var(--ease)] lg:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-hairline bg-paper/95 p-3 backdrop-blur-md transition-transform duration-500 ease-brand lg:hidden ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
@@ -64,14 +64,14 @@ export default function StickyCTA() {
         )}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex flex-1 items-center justify-center gap-2 rounded-[3px] border border-primary/40 py-3.5 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-primary"
+        className="flex flex-1 items-center justify-center gap-2 rounded-brand border border-primary/40 py-3.5 font-sans text-micro font-semibold uppercase tracking-caps-wide text-primary-strong"
       >
         <WhatsAppIcon className="h-4 w-4" />
         WhatsApp
       </a>
       <Link
         href={BOOKING_HREF}
-        className="flex flex-1 items-center justify-center gap-2 rounded-[3px] bg-primary py-3.5 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-white"
+        className="flex flex-1 items-center justify-center gap-2 rounded-brand bg-primary-strong py-3.5 font-sans text-micro font-semibold uppercase tracking-caps-wide text-white"
       >
         {BOOKING_LABEL}
         <ArrowRightIcon className="h-3.5 w-3.5" />

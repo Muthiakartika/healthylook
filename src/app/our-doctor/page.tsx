@@ -20,7 +20,7 @@ import { BRAND_INTRO, BRAND_PHILOSOPHY } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Our Doctors",
   description:
-    "Meet the doctors behind Healthy Look Aesthetic — a fully licensed, doctor-led aesthetic clinic in Ubud, Bali, where every injectable is administered by a licensed physician.",
+    "Meet the doctors behind Healthy Look Aesthetic, a fully licensed, doctor-led aesthetic clinic in Ubud, Bali, where every injectable is administered by a licensed physician.",
   alternates: { canonical: "/our-doctor" },
 };
 
@@ -42,12 +42,14 @@ export default function OurDoctorPage() {
     <>
       <PageHero
         eyebrow="About Us"
-        title="Science, aesthetics, and wellness — in one place"
+        title="Science, aesthetics, and wellness in one place"
         crumbs={[{ label: "Home", href: "/" }, { label: "Our Doctors" }]}
         description={BRAND_INTRO}
-        image="/images/doctors/doctor-team.jpg"
-        imageAlt="The doctors of Healthy Look Aesthetic"
-        imagePosition="object-top"
+        // Not a portrait: both doctors' portraits run in full a few hundred
+        // pixels below, and repeating one up here read as a bug.
+        image="/images/clinic/treatment-hifu.jpg"
+        imageAlt="A doctor performing a HIFU treatment at Healthy Look Aesthetic"
+        imagePosition="object-center"
       />
 
       {/* Licence + philosophy */}
@@ -56,13 +58,13 @@ export default function OurDoctorPage() {
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
             <div className="lg:col-span-5">
               <Reveal>
-                <span className="eyebrow flex items-center gap-3 text-primary">
+                <span className="eyebrow flex items-center gap-3 text-primary-strong">
                   <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                   Our Philosophy
                 </span>
               </Reveal>
               <Reveal delay={100}>
-                <h2 className="mt-8 font-script text-[length:var(--fs-h1)] leading-[0.95] text-primary">
+                <h2 className="mt-8 font-script text-h1 leading-script text-primary">
                   {BRAND_PHILOSOPHY.map((line) => (
                     <span key={line} className="block">
                       {line}
@@ -71,7 +73,7 @@ export default function OurDoctorPage() {
                 </h2>
               </Reveal>
               <Reveal delay={160}>
-                <p className="mt-8 inline-block border border-primary/25 px-4 py-2.5 font-sans text-[0.75rem] tracking-wide text-primary">
+                <p className="mt-8 inline-block border border-primary/25 px-4 py-2.5 font-sans text-caption tracking-wide text-primary-strong">
                   {CLINIC_LICENCE_NUMBER}
                 </p>
               </Reveal>
@@ -84,7 +86,7 @@ export default function OurDoctorPage() {
                 </p>
               </Reveal>
               <Reveal delay={210}>
-                <p className="mt-7 measure font-sans text-[length:var(--fs-body)] leading-[var(--lh-body)] text-text-secondary">
+                <p className="mt-7 measure font-sans text-body leading-body text-text-secondary">
                   {CLINIC_PHILOSOPHY}
                 </p>
               </Reveal>
@@ -139,15 +141,15 @@ export default function OurDoctorPage() {
               <Reveal key={value.title} delay={index * 70}>
                 <div className="border-t border-white/15 pt-7">
                   <span
-                    className="font-script text-[2.5rem] leading-none text-gold-soft/70"
+                    className="font-script text-statement leading-none text-gold-soft/70"
                     aria-hidden="true"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-4 font-sans text-[length:var(--fs-h4)] leading-tight text-white">
+                  <h3 className="mt-4 font-sans text-h4 leading-tight text-white">
                     {value.title}
                   </h3>
-                  <p className="mt-3.5 font-sans text-[0.9375rem] leading-[var(--lh-body)] text-white/55">
+                  <p className="mt-3.5 font-sans text-copy leading-body text-white/55">
                     {value.description}
                   </p>
                 </div>

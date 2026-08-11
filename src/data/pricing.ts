@@ -62,6 +62,15 @@ export const extraPricingSections: PricingSection[] = [
   },
 ];
 
-/** Verbatim footnote from the bottom of the live price list. */
+/**
+ * Verbatim footnotes from the bottom of the live price list.
+ *
+ * This was one condensed sentence that paraphrased the live wording and lost
+ * the accepted payment methods entirely — a genuinely useful detail for
+ * someone travelling to Bali deciding whether to bring cash.
+ */
 export const PRICING_NOTE =
-  "All prices are nett and inclusive of tax. No service fee charged. Prices subject to change without prior notice.";
+  "Prices are subject to change without prior notice. All prices are nett and inclusive of all fees and surcharges.";
+
+export const PRICING_PAYMENT_NOTE =
+  "We accept payments in cash (IDR) and by card (VISA, MasterCard, Union Pay, JCB, and AMEX).";

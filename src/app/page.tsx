@@ -10,6 +10,7 @@ import Results from "@/components/home/Results";
 import Testimonials from "@/components/home/Testimonials";
 import ClinicExperience from "@/components/home/ClinicExperience";
 import Faq from "@/components/home/Faq";
+import BlogTeaser from "@/components/home/BlogTeaser";
 import BookingSection from "@/components/home/BookingSection";
 import { SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from "@/lib/constants";
 
@@ -64,6 +65,7 @@ export default function HomePage() {
       <Testimonials />
       <ClinicExperience />
       <Faq />
+      <BlogTeaser />
       <BookingSection />
     </>
   );

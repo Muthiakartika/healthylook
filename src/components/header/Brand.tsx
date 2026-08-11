@@ -23,7 +23,7 @@ export default function Brand({ tone = "light" }: { tone?: "light" | "dark" }) {
   return (
     <Link
       href="/"
-      aria-label={`${SITE_NAME} — home`}
+      aria-label={`${SITE_NAME}, home`}
       className="flex shrink-0 items-center"
     >
       <Image

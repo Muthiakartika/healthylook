@@ -56,11 +56,11 @@ export default function BookNowPage() {
       <section className="bg-ink py-section-lg text-white">
         <Container>
           <Reveal className="mx-auto max-w-4xl text-center">
-            <p className="font-script text-[length:var(--fs-h1)] leading-[1.05] text-white">
-              &ldquo;A safe place where you can hear &lsquo;no&rsquo; — that&rsquo;s our
+            <p className="font-script text-h1 leading-script text-white">
+              &ldquo;A safe place where you can hear &lsquo;no&rsquo;. That&rsquo;s our
               promise.&rdquo;
             </p>
-            <p className="mt-10 font-sans text-[length:var(--fs-h4)] font-light text-white/60">
+            <p className="mt-10 font-sans text-h4 font-light text-white/60">
               The best beauty treatments should be undetectable
             </p>
           </Reveal>
@@ -73,7 +73,7 @@ export default function BookNowPage() {
           <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
             <div className="lg:col-span-7">
               <Reveal>
-                <span className="eyebrow flex items-center gap-3 text-primary">
+                <span className="eyebrow flex items-center gap-3 text-primary-strong">
                   <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                   Request an appointment
                 </span>
@@ -88,7 +88,7 @@ export default function BookNowPage() {
 
             <div className="lg:col-span-5">
               <Reveal delay={120}>
-                <h2 className="font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+                <h2 className="font-script text-h2 leading-heading text-primary">
                   Or just message us
                 </h2>
               </Reveal>
@@ -102,7 +102,7 @@ export default function BookNowPage() {
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-4 font-sans text-[1.0625rem] text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <WhatsAppIcon className="h-5 w-5 shrink-0 text-primary" />
                       WhatsApp us
@@ -111,7 +111,7 @@ export default function BookNowPage() {
                   <li>
                     <a
                       href={`tel:${PHONE_E164}`}
-                      className="flex items-center gap-4 font-sans text-[1.0625rem] text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <PhoneIcon className="h-5 w-5 shrink-0 text-primary" />
                       {PHONE_DISPLAY}
@@ -120,7 +120,7 @@ export default function BookNowPage() {
                   <li>
                     <a
                       href={`mailto:${EMAIL}`}
-                      className="flex items-center gap-4 break-all font-sans text-[1.0625rem] text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 break-all font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <MailIcon className="h-5 w-5 shrink-0 text-primary" />
                       {EMAIL}
@@ -130,7 +130,7 @@ export default function BookNowPage() {
               </Reveal>
 
               <Reveal delay={220}>
-                <ul className="mt-9 flex flex-col gap-4 font-sans text-[0.875rem] text-text-secondary">
+                <ul className="mt-9 flex flex-col gap-4 font-sans text-sm text-text-secondary">
                   <li className="flex items-start gap-4">
                     <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     <a
@@ -163,9 +163,15 @@ export default function BookNowPage() {
                   {CLINIC_SAFETY_PROTOCOLS.map((p) => (
                     <li
                       key={p.title}
-                      className="font-sans text-[0.8125rem] leading-relaxed text-text-secondary"
+                      className="font-sans text-label leading-relaxed text-text-secondary"
                     >
-                      <span className="text-primary">·</span> {p.title}
+                      {/* A bullet glyph, not content: the <li> already tells
+                          a screen reader this is a list item, so announcing
+                          "middle dot" before every entry is pure noise. */}
+                      <span aria-hidden="true" className="text-primary-strong">
+                        ·
+                      </span>{" "}
+                      {p.title}
                     </li>
                   ))}
                 </ul>

@@ -66,6 +66,80 @@ export const treatmentFaqs: Record<string, TreatmentFaq[]> = {
         "Botox is generally of of the safest cosmetic procedures. However, you still should research and choose reputable practitioners to avoid unwanted complications. Verify that the practitioners are licensed and registered as Doctors as only doctors are allowed to inject the botox legally in Bali. Botox treatments in our aesthetic clinic are performed by Certified Aesthetic & Anti Aging Doctors with years of experience and trained directly by Allergan, the manufacturer of Botox company.",
     },
   ],
+  "botox/korean": [
+    {
+      question: "What is Korean Botox?",
+      answer:
+        "Korean Botox is a botulinum toxin treatment manufactured in South Korea that helps relax targeted facial muscles to reduce the appearance of dynamic wrinkles. It is commonly used to smooth forehead lines, frown lines, crow's feet, and for jawline slimming.",
+    },
+    {
+      question: "Is Korean Botox Good?",
+      answer:
+        "Yes, Korean Botox is a popular option because it is effective, safe when administered by trained professionals, and widely used in aesthetic clinics across Asia. Many Korean Botox brands meet strict manufacturing standards and deliver reliable results comparable to other botulinum toxin products.",
+    },
+    {
+      question: "Is Korean Botox Better Than American?",
+      answer:
+        "It depends on your treatment goals, budget, and your practitioner's recommendation. American brands have a longer history of global use, while Korean brands are known for offering excellent value and are widely trusted throughout Asia. During your consultation, your practitioner can recommend the most suitable option based on your individual needs.",
+    },
+    {
+      question: "How soon will I see results from Korean Botox?",
+      answer:
+        "Most people begin to notice improvements within 3 to 5 days, with full results usually visible after 10 to 14 days. The exact timeline may vary depending on the individual and the treatment area.",
+    },
+    {
+      question: "What is the difference between Korean Botox and other Botox brands?",
+      answer:
+        "Korean Botox contains botulinum toxin type A, similar to other well-known brands. The main differences are the manufacturer, formulation, pricing, and regulatory approvals. Your practitioner can recommend the most suitable brand based on your treatment goals and medical history.",
+    },
+    {
+      question: "Why is Korean Botox So Cheap?",
+      answer:
+        "Korean Botox is often more affordable because of lower manufacturing costs, competitive pricing within South Korea's aesthetic industry, and reduced distribution expenses in many Asian markets. A lower price does not necessarily mean lower quality. Reputable Korean Botox products are manufactured under strict quality control standards.",
+    },
+    {
+      question: "Where to Get Korean Botox in Bali?",
+      answer:
+        "If you're looking for Korean Botox in Bali, choose a reputable aesthetic clinic with experienced medical practitioners and genuine botulinum toxin products. At Healthy Look Aesthetic, we provide personalized Botox treatments tailored to your facial anatomy and aesthetic goals. During your consultation, our team will assess your concerns, recommend the most suitable treatment plan, and ensure your procedure is performed safely to achieve natural-looking results.",
+    },
+  ],
+  "lip-filler": [
+    {
+      question: "What can you expect from having Lip Filler in Ubud Bali?",
+      answer:
+        "After a lip filler treatment at Healthy Look Aesthetic in Ubud, you can expect plumper, more defined lips with improved shape, symmetry, and reduced fine lines around the lips. Most fillers used are hyaluronic acid-based, which naturally integrates with the skin to create soft, natural-looking results that enhance your facial harmony rather than drastically changing your appearance.",
+    },
+    {
+      question: "How much filler is needed?",
+      answer:
+        "In most cases, only 1ml (1 syringe) of filler is required to achieve optimal results. For first-time patients, starting with a conservative amount such as 0.5–1ml is often recommended to ensure a natural enhancement. Because the lips are a sensitive area prone to swelling, we generally do not recommend more than 1ml in a single session.",
+    },
+    {
+      question: "How long does Lip Filler in Ubud last?",
+      answer:
+        "Lip fillers typically last between 6 to 12 months, depending on factors such as the type of filler used, injection technique, lifestyle, and individual metabolism. Since hyaluronic acid fillers are temporary and customizable, maintenance treatments may be recommended to maintain your desired results.",
+    },
+    {
+      question: "Is Lip Filler in Ubud painful?",
+      answer:
+        "Most patients experience minimal discomfort during the procedure thanks to the application of numbing cream before treatment. The procedure itself usually takes around 15–30 minutes, making it a quick treatment with minimal downtime. Our experienced doctors prioritize comfort throughout the entire process.",
+    },
+    {
+      question: "What's Lip Filler's before and after?",
+      answer:
+        "Before your lip filler appointment, we recommend avoiding alcohol, blood-thinning medication (please consult your specialist), and certain supplements including Omega 3 (fish oil capsules, flaxseed oil, chia, and hemp seeds), Vitamin E, and Ginkgo biloba. After the treatment, it's essential to follow our post-care instructions: avoid anything that can cause heat (saunas, steam rooms, hot showers, hot tubs, hot yoga) for the first 24 hours; avoid any laser treatment on the treated area for 1 month; please do not drink alcohol to avoid bruising for 24 hours; avoid drinking hot water, using any kind of straws, and kissing for at least 24 hours after getting injected; avoid intense exercise for the first 24 hours to reduce swelling and bruising.",
+    },
+    {
+      question: "Is Lip Filler in Ubud safe?",
+      answer:
+        "Lip filler treatment is generally safe when performed by qualified and experienced aesthetic doctors using approved hyaluronic acid-based filler products. At Healthy Look Aesthetic Center, we prioritize safety through proper consultation, facial assessment, and advanced injection techniques. Choosing an experienced injector is one of the most important factors in achieving natural-looking results and minimizing risks such as swelling or asymmetry.",
+    },
+    {
+      question: "How long does the procedure take?",
+      answer:
+        "The lip filler procedure typically takes around one hour, including the application of numbing cream and treatment time. After the procedure, mild swelling, redness, or tenderness may occur but usually subsides within a few days.",
+    },
+  ],
   "dermal-filler": [
     {
       question: "How Dermal filler can help with aging?",

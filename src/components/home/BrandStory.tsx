@@ -2,7 +2,7 @@ import Container from "@/components/ui/Container";
 import Img from "@/components/ui/Img";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
-import { BRAND_INTRO, BRAND_PHILOSOPHY } from "@/lib/constants";
+import { BRAND_STORY, BRAND_PHILOSOPHY } from "@/lib/constants";
 import { CLINIC_PHILOSOPHY, CLINIC_LICENCE_STATEMENT } from "@/data/clinic";
 
 /**
@@ -57,14 +57,14 @@ export default function BrandStory() {
           {/* Text column */}
           <div className="lg:col-span-7">
             <Reveal>
-              <span className="eyebrow flex items-center gap-3 text-primary">
+              <span className="eyebrow flex items-center gap-3 text-primary-strong">
                 <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                 Our Philosophy
               </span>
             </Reveal>
 
             <Reveal delay={100}>
-              <h2 className="mt-8 font-script text-[length:var(--fs-h1)] leading-[0.95] text-primary">
+              <h2 className="mt-8 font-script text-h1 leading-script text-primary">
                 {BRAND_PHILOSOPHY.map((line) => (
                   <span key={line} className="block">
                     {line}
@@ -73,18 +73,30 @@ export default function BrandStory() {
               </h2>
             </Reveal>
 
-            <Reveal delay={180}>
-              <p className="mt-10 measure font-sans text-lead text-text">{BRAND_INTRO}</p>
-            </Reveal>
+            {/* The lead paragraph carries the products and platforms by
+                name; the rest continue at body size. */}
+            {BRAND_STORY.map((paragraph, index) => (
+              <Reveal key={paragraph.slice(0, 32)} delay={180 + index * 40}>
+                <p
+                  className={
+                    index === 0
+                      ? "mt-10 measure font-sans text-lead text-text"
+                      : "mt-6 measure font-sans text-body leading-body text-text-secondary"
+                  }
+                >
+                  {paragraph}
+                </p>
+              </Reveal>
+            ))}
 
             <Reveal delay={230}>
-              <p className="mt-6 measure font-sans text-[length:var(--fs-body)] leading-[var(--lh-body)] text-text-secondary">
+              <p className="mt-6 measure font-sans text-body leading-body text-text-secondary">
                 {CLINIC_PHILOSOPHY}
               </p>
             </Reveal>
 
             <Reveal delay={280}>
-              <p className="mt-10 measure border-l-2 border-primary/30 py-1 pl-6 font-sans text-[0.875rem] leading-relaxed text-text-secondary">
+              <p className="mt-10 measure border-l-2 border-primary/30 py-1 pl-6 font-sans text-sm leading-relaxed text-text-secondary">
                 {CLINIC_LICENCE_STATEMENT}
               </p>
             </Reveal>

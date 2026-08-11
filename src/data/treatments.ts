@@ -73,13 +73,48 @@ export type PriceGroup = {
 export type Treatment = {
   /** Real path segment under /ubud-bali/ on the live site. */
   slug: string;
+  /**
+   * Full live URL path, for the one treatment whose page is NOT under
+   * /ubud-bali/. Eye Rejuvenation sits at the site root as
+   * `/eye-rejuvenaton-treatment/` — misspelling and all — and that is the
+   * URL the live site's own canonical tag points at, so it is the URL the
+   * rebuild has to keep. Set this and `treatmentHref` uses it verbatim;
+   * leave it off and the treatment resolves to /ubud-bali/<slug> as normal.
+   */
+  path?: string;
   name: string;
   category: TreatmentCategoryId;
   /** Verbatim from the live site's treatments page. */
   shortDescription: string;
+  /**
+   * How long the appointment takes, verbatim from the "Treatment Time" line
+   * the live site prints on every card of its /ubud-bali/ index — including
+   * its own phrasing ("45 Minutes/area", "Varied based on area").
+   *
+   * Undefined for the five treatments whose pages exist on the live site but
+   * are missing from that index (collagen-stimulator, lip-filler,
+   * botox/korean, facial, slimming-body-contouring). The clinic publishes no
+   * time for those, so the rebuild states none rather than estimating one.
+   */
+  treatmentTime?: string;
   /** Real photo where the live site has one for this treatment. */
   image?: string;
-  /** Lowest real price across this treatment's price groups, in IDR. */
+  /**
+   * The headline "From" price, in IDR — taken from the live site's own
+   * /ubud-bali/ index card for this treatment, because that card is the
+   * same surface this field feeds (index cards, hero, related-treatment
+   * strips).
+   *
+   * ⚠ This is NOT always the cheapest row in `priceGroups`. The live site
+   * disagrees with itself on seven treatments — its HIFU card says "From
+   * IDR 1.900 K" while its own HIFU table starts at 1.250.000; its PRP Hair
+   * card says 2.400 K while the Hair Regeneration table starts at 2.500.000
+   * (also ipl, chemical-peel, facial/medi, fat-cellulite, hair-mesotherapy).
+   * The rebuild used to derive this from the table minimum, which is why
+   * those seven read differently from the live site. They now match the
+   * live cards. Where a card price sits BELOW everything in the table, that
+   * is the clinic's published figure to correct, not a bug in this file.
+   */
   startingPrice?: number;
   priceUnit?: string;
   priceGroups?: PriceGroup[];
@@ -93,6 +128,7 @@ export const treatments: Treatment[] = [
   {
     slug: "botox",
     name: "Botox",
+    treatmentTime: "15 Minutes",
     category: "facial-enhancement",
     shortDescription:
       "A quick and effective treatment to smooth the dynamic wrinkles, slim the face, treat bruxism, and contour the specific area of the body.",
@@ -110,24 +146,36 @@ export const treatments: Treatment[] = [
         note: "15% off min 40 units or 10% off min 30 units",
       },
     ],
+    // Was 80 words of copy written for the rebuild ("one of the most
+    // researched treatments in aesthetic medicine…") that appears nowhere on
+    // the live site. This is the clinic's own "What is A Botox" paragraph.
     intro:
-      "Botox is one of the most researched treatments in aesthetic medicine, and for good reason: it's fast, predictable, and reversible in the sense that its effect naturally fades over a few months. By gently relaxing the muscles responsible for expression lines, it softens frown lines, forehead creases, and crow's feet while leaving the rest of your expression untouched. Beyond wrinkle-smoothing, the same injection technique can slim the jaw, soften a gummy smile, and even calm excessive sweating.",
+      "Botox is a purified neurotoxin derived from the Clostridium botulinum bacterium. During a Botox injection, the product is carefully administered into targeted muscles to temporarily reduce muscle activity, helping smooth dynamic wrinkles. It is also used to slim the face (V-shape), treat bruxism and excessive sweating, and contour specific areas of the body.",
+    // All 13 entries, in the live site's order and its own wording. The
+    // rebuild had 10, renamed ("Jaw slimming (V-line)" for "Botox Jaw
+    // Reduction (V shaped face)") and with shoulder and calf slimming
+    // collapsed into one line, dropping "More Define Jawline" and
+    // "Cobblestoned chin" entirely.
     popularAreas: [
-      "Frown lines",
-      "Forehead lines",
-      "Crow's feet",
-      "Jaw slimming (V-line)",
-      "Gummy smile",
-      "Bunny lines",
-      "Lip flip",
+      "Botox Frown lines",
+      "Botox Forehead wrinkles",
+      "Botox Crow's feet",
+      "Botox Jaw Reduction (V shaped face)",
+      "Botox Gummy Smile",
+      "Botox Bunny Lines",
+      "Botox for Lip Flip",
+      "Botox for More Define Jawline",
+      "Botox Shoulder Slimming",
+      "Botox Hyperhidrosis (excessive sweating)",
+      "Botox Calf Slimming",
       "Eyebrow lift",
-      "Shoulder & calf slimming",
-      "Excessive sweating (hyperhidrosis)",
+      "Cobblestoned chin",
     ],
   },
   {
     slug: "dermal-filler",
     name: "Dermal Filler",
+    treatmentTime: "60-90 Minutes",
     category: "facial-enhancement",
     shortDescription:
       "A minimally invasive treatment to replace the volume loss due to aging or enhance your appearance. With instantly visible results, derma filler is a popular choice that will help you look and feel your best.",
@@ -159,15 +207,32 @@ export const treatments: Treatment[] = [
         ],
       },
     ],
+    // "Popular areas treated with dermal filler in Ubud Bali" — the live
+    // page carries this list and the rebuild had dropped it. Botox and
+    // Dermal Filler are the only two treatments the live site gives an
+    // explicit areas list to; the rest describe their areas in prose, which
+    // is why no other entry has this field.
+    popularAreas: [
+      "Cheek",
+      "Lip",
+      "Tear trough, or undereye area",
+      "Temples",
+      "Nasolabial folds, or laugh lines",
+      "Marionette lines",
+      "Chin",
+      "Jawline",
+      "Hand",
+    ],
   },
   {
     slug: "hifu",
     name: "HIFU",
+    treatmentTime: "30-45 Minutes",
     category: "facial-enhancement",
     shortDescription:
       "A non-surgical face lifting and neck tightening using HIFU waves that target different layers below the skin to stimulate collagen, remove excess fats, and contract the SMAS layer.",
     image: "/images/treatments/linear-z.jpg",
-    startingPrice: 1250000,
+    startingPrice: 1900000,
     priceGroups: [
       {
         title: "Non-Invasive — Linear HIFU",
@@ -211,6 +276,7 @@ export const treatments: Treatment[] = [
   {
     slug: "sculptra",
     name: "Sculptra",
+    treatmentTime: "90-120 Minutes",
     category: "facial-enhancement",
     shortDescription:
       "Stimulate natural collagen production with advanced Sculptra treatments in Bali. Achieve firmer, smoother, youthful-looking skin with long-lasting result",
@@ -226,11 +292,108 @@ export const treatments: Treatment[] = [
       },
     ],
   },
+  // ── Eye Rejuvenation was missing from the rebuild entirely, even though
+  //    the live site has a full page for it, lists it in the footer's
+  //    "Popular Treatments", and carries its price rows under "EYE
+  //    TREATMENT" (which this repo already had, in pricing.ts, orphaned
+  //    from any page). Its live URL is the site root, not /ubud-bali/, so
+  //    it carries an explicit `path` — see the field's note on why the
+  //    misspelling is kept.
+  {
+    slug: "eye-rejuvenation",
+    path: "/eye-rejuvenaton-treatment",
+    name: "Eye Rejuvenation",
+    treatmentTime: "60 Minutes",
+    category: "facial-enhancement",
+    shortDescription:
+      "Personalized treatments for the eye area, from dark circles and tired-looking eyes to fine lines and under-eye hollow.",
+    startingPrice: 1900000,
+    priceGroups: [
+      {
+        title: "Eye Treatment",
+        rows: [
+          { label: "Vitaran Polynucleotide (1 ml)", price: 2900000 },
+          { label: "Under Eye's Collagen Stimulator", price: 2900000 },
+          { label: "Rejuran I Polynucleotide (1 ml)", price: 3500000 },
+          { label: "Under Eye Filler with Teosyal Redensity II", price: 4200000 },
+          { label: "Plinest Fast (2 ml)", price: 4900000 },
+        ],
+      },
+    ],
+    intro:
+      "The eyes are often regarded as the focal point of the face, being described as the window to the soul and the most expressive feature. However, they are also susceptible to showing the earliest signs of aging. At Healthy Look Aesthetic in Ubud Bali, we recognize the significance of rejuvenating the eye area, offering personalized treatments tailored to address a range of concerns, from dark circles and tired-looking eyes to fine lines and under-eye hollow.",
+  },
+  // ── Lip Filler and Korean Botox are live pages that the live site's own
+  //    mega-menu happens to omit, even though its footer lists both under
+  //    "Popular Treatments". They are restored here in full: the URLs are
+  //    the live ones, so nothing about existing links or rankings changes,
+  //    and a visitor looking for lip filler now finds it in the nav instead
+  //    of only in the footer.
+  {
+    slug: "lip-filler",
+    name: "Lip Filler",
+    category: "facial-enhancement",
+    shortDescription:
+      "Enhance your lips with premium lip fillers in Ubud, Bali. Achieve fuller, natural-looking lips with expert, safe treatments.",
+    intro:
+      "Luscious lips are a symbol of beauty and confidence, and at Healthy Look Aesthetic in Ubud, Bali, we specialize in enhancing your natural beauty with premium lip filler treatments. Using premium hyaluronic acid fillers such as Restylane Kysse, Juvederm Ultra Plus, Juvederm Volbella, Juvederm Volift, as well as premium Korean fillers, we offer safe and effective solutions for enhancing lip volume, shape, definition, and symmetry while maintaining natural-looking results.",
+    popularAreas: [
+      "Lip volume",
+      "Lip shape and definition",
+      "Lip symmetry",
+      "Russian lip",
+      "Lip hydration (lip booster)",
+      "Fine lines around the lips",
+    ],
+  },
+  {
+    slug: "botox/korean",
+    name: "Korean Botox",
+    category: "facial-enhancement",
+    shortDescription:
+      "Trusted Korean Botox provider in Bali, offering safe and professional treatments with certified experts. Achieve natural, youthful results.",
+    intro:
+      "Korean Botox offers a range of benefits comparable to its American counterparts. It smooths dynamic wrinkles, contours the face, relieves teeth grinding, and reduces hyperhidrosis with more affordable price. Among the available Korean botulinum toxin brands, Nabota and Letybo are the legally approved options in Indonesia.",
+    startingPrice: 60000,
+    priceUnit: "per unit",
+    priceGroups: [
+      {
+        title: "Korean botulinum toxin",
+        rows: [{ label: "Nabota (Korea)", price: 60000, unit: "/unit" }],
+        note: "Discount is available for purchasing more than 30 units",
+      },
+    ],
+    popularAreas: [
+      "Forehead lines",
+      "Frown lines",
+      "Crow's feet",
+      "Jawline slimming",
+      "Teeth grinding (bruxism)",
+      "Excessive sweating (hyperhidrosis)",
+    ],
+  },
 
   // ──────────────── SKIN TREATMENTS ────────────────
   {
+    slug: "facial",
+    name: "Facial",
+    category: "skin-treatments",
+    shortDescription:
+      "Experience the best facial in Ubud with expert acne treatment and anti-aging facials for healthy, glowing skin.",
+    intro:
+      "Situated in the heart of Ubud, Bali, Healthy Look Aesthetic offers professional facial treatments for various skin concerns, including acne, dull skin, signs of aging, dryness, and loss of firmness. Beyond just pampering, our facial services focus on personalized methods to support healthier-looking skin. We use well-known skincare brands such as Dermalogica, Tegoder, and Casmara, combined with modern aesthetic technology and handled by trained therapist who follow clear treatment standards. Each facial session also includes signature massage techniques to enhance comfort and relaxation.",
+    popularAreas: [
+      "Acne-prone skin",
+      "Dull skin",
+      "Signs of aging",
+      "Dryness",
+      "Loss of firmness",
+    ],
+  },
+  {
     slug: "microneedling/rf",
     name: "Sylfirm X - RF Microneedling",
+    treatmentTime: "60-90 Minutes",
     category: "skin-treatments",
     shortDescription:
       "This procedure targets skin rejuvenation, vascular issues, pigmentation, sagging skin, and scars.",
@@ -256,6 +419,7 @@ export const treatments: Treatment[] = [
   {
     slug: "skin-booster",
     name: "Skin Booster",
+    treatmentTime: "60 Minutes",
     category: "skin-treatments",
     shortDescription:
       "An ideal solution to boost your skin hydration and give a youthful look by delivering a microinjection of hyaluronic acid that is naturally found in our skin.",
@@ -283,6 +447,7 @@ export const treatments: Treatment[] = [
   {
     slug: "profhilo",
     name: "Profhilo",
+    treatmentTime: "60 Minutes",
     category: "skin-treatments",
     shortDescription:
       "A revolutionary treatment that contains the highest concentrations of hyaluronic acid on the market to deliver intense hydration and stimulates collagen and elastin production for a youthful appearance.",
@@ -304,6 +469,7 @@ export const treatments: Treatment[] = [
   {
     slug: "prp",
     name: "PRP Vampire Facial",
+    treatmentTime: "90 Minutes",
     category: "skin-treatments",
     shortDescription:
       "A natural treatment that utilizes your own body's healing abilities to stimulate collagen production. PRP secrete at least 7 different growth factors which is beneficial for tissue healing & repair.",
@@ -327,6 +493,7 @@ export const treatments: Treatment[] = [
   {
     slug: "juvelook",
     name: "Juvelook Collagen Stimulator",
+    treatmentTime: "75 Minutes",
     category: "skin-treatments",
     shortDescription: "It targets acne scars, enlarged pores, wrinkles, & dullness",
     image: "/images/treatments/juvelook.jpg",
@@ -344,6 +511,7 @@ export const treatments: Treatment[] = [
   {
     slug: "salmon-dna",
     name: "Salmon DNA",
+    treatmentTime: "60 Minutes",
     category: "skin-treatments",
     shortDescription:
       "Salmon DNA contains a Polynucleotide substance extracted from salmon DNA that is compatible with our human cells to repair damaged skin, reverse the signs of aging, and decrease inflammation",
@@ -375,6 +543,7 @@ export const treatments: Treatment[] = [
   {
     slug: "exosome",
     name: "Exosome - Stem Cell Derivative",
+    treatmentTime: "75 Minutes",
     category: "skin-treatments",
     shortDescription:
       "A new generation of skin boosters using the world's first pure, stem cell-derived exosome for skin rejuvenation, pore reducer, and anti-inflammation.",
@@ -387,6 +556,7 @@ export const treatments: Treatment[] = [
   {
     slug: "microneedling",
     name: "Microneedling - Dermapen 4",
+    treatmentTime: "75 Minutes",
     category: "skin-treatments",
     shortDescription:
       "The most advanced micro-needling device that allows more effective channels to deliver up to 80% more active ingredients deeper into the skin.",
@@ -409,11 +579,12 @@ export const treatments: Treatment[] = [
   {
     slug: "facial/medi",
     name: "Medi Facial",
+    treatmentTime: "45-120 Minutes",
     category: "skin-treatments",
     shortDescription:
       "Our medi facial is a combination of advanced technology, and high-quality products with a pampering experience to leave you feeling refreshed and revitalized with healthier skin.",
     image: "/images/clinic/clinic-07.jpg",
-    startingPrice: 390000,
+    startingPrice: 490000,
     priceGroups: [
       {
         title: "By Dermalogica",
@@ -458,11 +629,12 @@ export const treatments: Treatment[] = [
   {
     slug: "chemical-peel",
     name: "Chemical Peeling",
+    treatmentTime: "30 Minutes",
     category: "skin-treatments",
     shortDescription:
       "An old but goldie treatment to various reduce skin imperfections. At Healthy Look Aesthetic, we have an impressive selection of world-class peels, each working in a different way to combat various skin conditions",
     image: "/images/clinic/clinic-08.jpg",
-    startingPrice: 390000,
+    startingPrice: 650000,
     priceGroups: [
       {
         title: "Chemical Peeling (Face Peeling)",
@@ -496,10 +668,14 @@ export const treatments: Treatment[] = [
   {
     slug: "ipl",
     name: "IPL (Intense Pulsed Light)",
+    treatmentTime: "30 Minutes",
     category: "skin-treatments",
     shortDescription:
       "A non-invasive treatment that uses broad wavelength light to break down the unwanted blood vessels and/or pigment, reduce acne and inflammation. IPL treatment is quick and has no downtime",
-    startingPrice: 290000,
+    // Was falling back to the category photo while a real IPL photograph sat
+    // unused in the repo — nothing referenced it at all.
+    image: "/images/clinic/treatment-ipl.jpg",
+    startingPrice: 790000,
     priceGroups: [
       {
         title: "Non-Invasive — IPL Photo-Glow",
@@ -533,11 +709,12 @@ export const treatments: Treatment[] = [
   {
     slug: "fat-cellulite",
     name: "Lysiwave - Fat & Cellulite Treatment",
+    treatmentTime: "30-60 Minutes",
     category: "body-treatments",
     shortDescription:
       "An advanced non-invasive body contouring treatment to reduce cellulite and stubborn fat while improving skin firmness.",
     image: "/images/treatments/lysiwave.jpg",
-    startingPrice: 1900000,
+    startingPrice: 2900000,
     priceGroups: [
       {
         title: "Lysiwave — Fat & Cellulite Reduction",
@@ -558,12 +735,17 @@ export const treatments: Treatment[] = [
   {
     slug: "hifu/body",
     name: "Body HIFU",
+    treatmentTime: "30-90 Minutes",
     category: "body-treatments",
     shortDescription:
       "This treatment targets stubborn fat, tightens skin, and stimulates collagen production for a toned, sculpted appearance.",
-    // Deliberately no `image`: the only candidate was the Body Treatments
-    // *category* photo, and claiming it as this treatment's own put the
-    // same picture in the page hero and in a related card at once.
+    // The real HIFU photograph, which the repo already had. The note that
+    // used to sit here said the only candidate was the Body Treatments
+    // category photo — that was true of the category images, but this file
+    // is a genuine HIFU treatment photo living in /images/clinic/. It is
+    // also the /our-doctor hero; different page, so no image repeats itself
+    // within one view, which was the actual constraint.
+    image: "/images/clinic/treatment-hifu.jpg",
     startingPrice: 1900000,
     priceGroups: [
       {
@@ -586,6 +768,7 @@ export const treatments: Treatment[] = [
   {
     slug: "muscle-sculpting",
     name: "Muscle Sculpting by CM Slim",
+    treatmentTime: "45 Minutes/area",
     category: "body-treatments",
     shortDescription:
       "CM Slim is a worldwide technology for non-invasive body contouring using a focused electromagnetic. It is a painless and safe treatment that can produce up to 30,000 squats or crunches in 30 minutes without any downtime.",
@@ -614,6 +797,7 @@ export const treatments: Treatment[] = [
   {
     slug: "pelvic-floor-strengthening",
     name: "Pelvic Floor Strengthening",
+    treatmentTime: "45 Minutes",
     category: "body-treatments",
     shortDescription:
       "Strong pelvic floor muscles can help with urinary incontinence, increase sexual sensation, and reduce the symptoms of erectile dysfunction.",
@@ -634,6 +818,7 @@ export const treatments: Treatment[] = [
   {
     slug: "ipl-hair-removal",
     name: "IPL Hair Removal",
+    treatmentTime: "Varied based on area",
     category: "body-treatments",
     shortDescription:
       "Tired of painful waxing and ingrown hairs? IPL hair removal offers a gentler, more effective way to reduce hair growth while helping keep your skin smooth and rejuvenated.",
@@ -687,6 +872,7 @@ export const treatments: Treatment[] = [
   {
     slug: "fat-dissolving-injections",
     name: "Fat Dissolving Injections",
+    treatmentTime: "30 Minutes",
     category: "body-treatments",
     shortDescription:
       "Fat-dissolving injection is a non-surgical option to reduce unwanted fat deposits on your face & body like the double chin, abdomen, and thighs",
@@ -706,6 +892,7 @@ export const treatments: Treatment[] = [
   {
     slug: "carboxy-therapy",
     name: "Carboxy Therapy",
+    treatmentTime: "45 Minutes",
     category: "body-treatments",
     shortDescription:
       "It stimulates collagen and elastin, enhancing texture, reducing cellulite, fading stretch marks, and promoting even skin tone.",
@@ -725,11 +912,29 @@ export const treatments: Treatment[] = [
       },
     ],
   },
+  {
+    slug: "slimming-body-contouring",
+    name: "Slimming & Body Contouring",
+    category: "body-treatments",
+    shortDescription:
+      "Achieve your ideal shape with slimming and body contouring treatments in Ubud, Bali. Safe, effective, affordable and with proven results.",
+    intro:
+      "Embark on a journey to wellness and aesthetic excellence in the heart of Ubud, Bali, where beauty is redefined through a holistic approach to slimming and body contouring. As one of the leading aesthetic centers in the region, we take pride in offering evidence-based solutions for those seeking to lose weight or sculpt their bodies effectively. Whether you're looking for a healthy weight loss journey or effective body sculpting grounded in evidence-based medicine, Healthy Look Aesthetic is committed to delivering sustainable results with our comprehensive modalities.",
+    popularAreas: [
+      "Personalized nutrition (Nutrigenomic)",
+      "Muscle Sculpting by CM Slim",
+      "Fat Dissolving Injections",
+      "Slimming Infusion",
+      "Lymphatic Drainage Massage",
+      "Radiofrequency skin tightening",
+    ],
+  },
 
   // ──────────────── HAIR & BOOSTER ────────────────
   {
     slug: "autologues-micrograft-hair-restoration",
     name: "Autologues Micrograft Hair Restoration",
+    treatmentTime: "90 Minutes",
     category: "hair-booster",
     shortDescription:
       "Regrow your hair naturally in Bali with Autologous Micrograft Therapy — a one-time, non-surgical treatment using your own stem cells for thicker hair, no scarring, and fast recovery.",
@@ -742,10 +947,11 @@ export const treatments: Treatment[] = [
   {
     slug: "prp/hair",
     name: "PRP Hair",
+    treatmentTime: "90 Minutes",
     category: "hair-booster",
     shortDescription:
       "A natural treatment that utilizes your own body's healing abilities to stimulate hair growth.",
-    startingPrice: 2500000,
+    startingPrice: 2400000,
     priceGroups: [
       {
         title: "Hair Regeneration",
@@ -764,10 +970,11 @@ export const treatments: Treatment[] = [
   {
     slug: "hair-mesotherapy",
     name: "Hair Mesotherapy",
+    treatmentTime: "75 Minutes",
     category: "hair-booster",
     shortDescription:
       "It provides essential nutrients like vitamins and antioxidants to improve blood flow for hair growth in both men & women.",
-    startingPrice: 2500000,
+    startingPrice: 1900000,
     priceGroups: [
       {
         rows: [
@@ -780,6 +987,7 @@ export const treatments: Treatment[] = [
   {
     slug: "iv-drip",
     name: "IV Drip",
+    treatmentTime: "45 Minutes",
     category: "hair-booster",
     shortDescription:
       "It is beneficial to boost your energy, improve your skin radiance, or speed up the bali belly's recovery.",
@@ -808,7 +1016,41 @@ export function getTreatmentsByCategory(category: TreatmentCategoryId): Treatmen
   return treatments.filter((treatment) => treatment.category === category);
 }
 
-/** Live-site path for a treatment. Treatments live under /ubud-bali/. */
+/**
+ * Live-site path for a treatment. Almost all live under /ubud-bali/; the one
+ * that doesn't carries an explicit `path` — see the field's note.
+ */
 export function treatmentHref(treatment: Treatment): string {
-  return `/ubud-bali/${treatment.slug}`;
+  return treatment.path ?? `/ubud-bali/${treatment.slug}`;
 }
+
+/**
+ * The "Popular Treatments" list the live site runs in its own footer, in its
+ * order and with its own labels — which are not always the treatment's name
+ * ("Facials", "Dermal Fillers", "Body Contouring"). Two entries point at
+ * standalone articles rather than treatment pages; that is how the live site
+ * has them.
+ *
+ * The live site spells one of these "Fat Disovling Injections". That is a
+ * typo, not a name, so it is corrected here.
+ */
+export const POPULAR_TREATMENT_LINKS: { label: string; href: string }[] = [
+  { label: "Profhilo", href: "/ubud-bali/profhilo" },
+  { label: "Botox", href: "/ubud-bali/botox" },
+  { label: "Korean Botox", href: "/ubud-bali/botox/korean" },
+  { label: "Lip Filler", href: "/ubud-bali/lip-filler" },
+  { label: "Dermal Fillers", href: "/ubud-bali/dermal-filler" },
+  { label: "Facials", href: "/ubud-bali/facial" },
+  { label: "Medi Facials", href: "/ubud-bali/facial/medi" },
+  { label: "Salmon DNA Treatment", href: "/ubud-bali/salmon-dna" },
+  { label: "PRP Hair Treatment", href: "/ubud-bali/prp/hair" },
+  { label: "IV Drip Infusions", href: "/ubud-bali/iv-drip" },
+  { label: "Microneedling", href: "/ubud-bali/microneedling" },
+  { label: "RF Microneedling", href: "/ubud-bali/microneedling/rf" },
+  { label: "Non Surgical Facelift", href: "/non-surgical-face-lift" },
+  { label: "Fat Dissolving Injections", href: "/ubud-bali/fat-dissolving-injections" },
+  { label: "IPL Hair Removal", href: "/ubud-bali/ipl-hair-removal" },
+  { label: "Carboxy Therapy", href: "/ubud-bali/carboxy-therapy" },
+  { label: "Body Contouring", href: "/ubud-bali/slimming-body-contouring" },
+  { label: "Eye Rejuvenation", href: "/eye-rejuvenaton-treatment" },
+];

@@ -41,19 +41,19 @@ export default function WhyUs() {
             </Reveal>
 
             <Reveal delay={100}>
-              <h2 className="mt-8 font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-white">
+              <h2 className="mt-8 font-script text-h2 leading-heading text-white">
                 Your safety is our highest priority
               </h2>
             </Reveal>
 
             <Reveal delay={160}>
-              <p className="mt-7 measure font-sans text-[0.9375rem] leading-[var(--lh-body)] text-white/55">
+              <p className="mt-7 measure font-sans text-copy leading-body text-white/55">
                 {CLINIC_SAFETY_STATEMENT}
               </p>
             </Reveal>
 
             <Reveal delay={220}>
-              <p className="mt-8 inline-block border border-white/15 px-4 py-2.5 font-sans text-[0.75rem] tracking-wide text-gold-soft">
+              <p className="mt-8 inline-block border border-white/15 px-4 py-2.5 font-sans text-caption tracking-wide text-gold-soft">
                 {CLINIC_LICENCE_NUMBER}
               </p>
             </Reveal>
@@ -82,10 +82,10 @@ export default function WhyUs() {
                       </span>
 
                       <div className="flex-1">
-                        <h3 className="font-sans text-[length:var(--fs-h4)] leading-tight text-white">
+                        <h3 className="font-sans text-h4 leading-tight text-white">
                           {point.title}
                         </h3>
-                        <p className="mt-3 measure font-sans text-[0.9375rem] leading-[var(--lh-body)] text-white/55">
+                        <p className="mt-3 measure font-sans text-copy leading-body text-white/55">
                           {point.description}
                         </p>
                       </div>

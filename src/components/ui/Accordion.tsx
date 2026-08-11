@@ -51,7 +51,7 @@ function AccordionRow({
           onClick={onToggle}
           aria-expanded={isOpen}
           aria-controls={`panel-${item.id}`}
-          className={`flex w-full items-start justify-between gap-8 py-7 text-left font-sans text-[length:var(--fs-h4)] leading-snug transition-colors duration-300 ${
+          className={`flex w-full items-start justify-between gap-8 py-7 text-left font-sans text-h4 leading-snug transition-colors duration-300 ${
             dark ? "text-white hover:text-secondary" : "text-ink hover:text-primary"
           }`}
         >
@@ -68,7 +68,7 @@ function AccordionRow({
       <div id={`panel-${item.id}`} {...wrapperProps}>
         <div {...innerProps}>
           <div
-            className={`measure pb-8 pr-8 font-sans text-[length:var(--fs-body)] leading-[var(--lh-body)] ${
+            className={`measure pb-8 pr-8 font-sans text-body leading-body ${
               dark ? "text-white/65" : "text-text-secondary"
             }`}
           >

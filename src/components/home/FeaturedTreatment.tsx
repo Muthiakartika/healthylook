@@ -34,7 +34,7 @@ export default function FeaturedTreatment() {
     <section className="bg-wash py-section">
       <Container>
         <Reveal>
-          <span className="eyebrow flex items-center gap-3 text-primary">
+          <span className="eyebrow flex items-center gap-3 text-primary-strong">
             <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
             Featured Treatment
           </span>
@@ -64,14 +64,14 @@ export default function FeaturedTreatment() {
           {/* Copy */}
           <div className="lg:col-span-7">
             <Reveal delay={80}>
-              <h2 className="font-script text-[length:var(--fs-h1)] leading-[var(--lh-heading)] text-primary">
+              <h2 className="font-script text-h1 leading-heading text-primary">
                 {treatment.name}
               </h2>
             </Reveal>
 
             {treatment.startingPrice != null && (
               <Reveal delay={120}>
-                <p className="mt-5 font-sans text-[0.75rem] uppercase tracking-[0.14em] text-muted">
+                <p className="mt-5 font-sans text-caption uppercase tracking-caps text-muted">
                   From {formatIDR(treatment.startingPrice)}{" "}
                   {treatment.priceUnit ?? ""}
                 </p>
@@ -86,7 +86,7 @@ export default function FeaturedTreatment() {
 
             {treatment.intro && (
               <Reveal delay={200}>
-                <p className="mt-6 measure font-sans text-[length:var(--fs-body)] leading-[var(--lh-body)] text-text-secondary">
+                <p className="mt-6 measure font-sans text-body leading-body text-text-secondary">
                   {treatment.intro}
                 </p>
               </Reveal>
@@ -95,14 +95,14 @@ export default function FeaturedTreatment() {
             {treatment.popularAreas && (
               <Reveal delay={250}>
                 <div className="mt-12">
-                  <h3 className="eyebrow text-primary">Commonly treated areas</h3>
+                  <h3 className="eyebrow text-primary-strong">Commonly treated areas</h3>
                   {/* Two columns: ten items in one column is a long scroll
                       for a list whose whole purpose is to be scanned. */}
                   <ul className="mt-6 grid gap-x-10 gap-y-3.5 sm:grid-cols-2">
                     {treatment.popularAreas.map((area) => (
                       <li
                         key={area}
-                        className="flex items-start gap-3 font-sans text-[0.9375rem] text-text"
+                        className="flex items-start gap-3 font-sans text-copy text-text"
                       >
                         <CheckIcon className="mt-1 h-3.5 w-3.5 shrink-0 text-primary" />
                         {area}

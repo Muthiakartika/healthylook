@@ -13,7 +13,7 @@ import { whatsappHref } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Special Offers",
   description:
-    "Current offers at Healthy Look Aesthetic, Ubud — Botox unit discounts, complimentary transfer service, and airline staff rates.",
+    "Current offers at Healthy Look Aesthetic, Ubud: Botox unit discounts, complimentary transfer service, and airline staff rates.",
   alternates: { canonical: "/special-offers" },
 };
 
@@ -56,7 +56,7 @@ export default function SpecialOffersPage() {
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="mt-4 font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+                    <h2 className="mt-4 font-script text-h2 leading-heading text-primary">
                       {offer.name}
                     </h2>
                   </div>
@@ -72,15 +72,42 @@ export default function SpecialOffersPage() {
                       {offer.points.map((point) => (
                         <li
                           key={point}
-                          className="border-b border-hairline py-4 font-sans text-[1.0625rem] leading-snug text-ink"
+                          className="border-b border-hairline py-4 font-sans text-copy-lg leading-snug text-ink"
                         >
                           {point}
                         </li>
                       ))}
                     </ul>
 
+                    {/* Published rate tables — the transfer offer's minimum
+                        spend and surcharge by area. These are prices, so they
+                        get the same tabular, right-aligned treatment as the
+                        price list rather than being flattened into prose. */}
+                    {offer.tables?.map((table) => (
+                      <div key={table.title} className="mt-10">
+                        <h3 className="measure font-sans text-copy leading-body text-text-secondary">
+                          {table.title}
+                        </h3>
+                        <dl className="mt-5 border-t border-hairline">
+                          {table.rows.map((row) => (
+                            <div
+                              key={`${table.title}-${row.label}`}
+                              className="flex items-baseline justify-between gap-6 border-b border-hairline py-3.5"
+                            >
+                              <dt className="font-sans text-copy text-ink">
+                                {row.label}
+                              </dt>
+                              <dd className="shrink-0 font-sans text-copy tabular-nums text-primary-strong">
+                                {row.value}
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </div>
+                    ))}
+
                     {offer.note && (
-                      <p className="mt-5 font-sans text-[0.8125rem] leading-relaxed text-muted">
+                      <p className="mt-5 font-sans text-label leading-relaxed text-muted">
                         {offer.note}
                       </p>
                     )}

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
-import { TREATMENT_CATEGORIES, treatments } from "@/data/treatments";
+import { POPULAR_TREATMENT_LINKS } from "@/data/treatments";
+import { blogPosts, FOOTER_BLOG_SLUGS } from "@/data/blog";
 import {
   SITE_NAME,
   EMAIL,
@@ -21,8 +22,6 @@ const socialIcons = {
   whatsapp: WhatsAppIcon,
 };
 
-// Every one of these now resolves to a real page — as of this pass the
-// site has no internal link that 404s.
 const COMPANY_LINKS = [
   { label: "About / Our Doctors", href: "/our-doctor" },
   { label: "Before & After", href: "/before-after" },
@@ -35,69 +34,102 @@ const COMPANY_LINKS = [
   { label: "Terms & Conditions", href: "/terms-conditions" },
 ];
 
+// The eight posts the live site promotes in its own footer, resolved from
+// the blog index so the labels can't drift out of sync with the articles.
+const footerBlogPosts = FOOTER_BLOG_SLUGS.map((href) =>
+  blogPosts.find((post) => post.href === href),
+).filter((post): post is NonNullable<typeof post> => Boolean(post));
+
+// `inline-block py-0.5` keeps each row a real touch target without opening the
+// list up: 13px text is a ~19px box, and the padding sits inside the target so
+// the visual rhythm stays tight.
+// `py-1`, not `py-0.5`. At 13px type the half-step gave a 23.5px-tall row,
+// and these rows sit flush against each other with no gap — so they were
+// just under WCAG 2.5.8's 24px minimum with none of the spacing that would
+// otherwise excuse it. Half a pixel, but it is the whole footer on a phone.
+const linkClass =
+  "inline-block py-1 text-white/70 transition-colors duration-300 hover:text-white";
+
+const headingClass = "eyebrow text-gold-soft";
+const listClass = "mt-4 flex flex-col font-sans text-label";
+
 /**
- * ── COMPACTED ──────────────────────────────────────────────────────────
- * The previous footer was close to a full screen tall. Four things were
- * making it that way, and all four are fixed here:
+ * ── COLOUR: BACK TO THE DARK BAND ──────────────────────────────────────
  *
- *  1. It listed all 12 treatments AND a second list of 12 unlinked names.
- *     Now it lists the four *categories* and links each to its section on
- *     the treatments page — 4 rows instead of 24, and it scales when the
- *     catalogue grows to 27 treatments rather than collapsing under it.
- *  2. It had its own oversized CTA strip duplicating the page's own final
- *     CTA. Removed — every page already ends with the booking section.
- *  3. Padding was section-scale (`py-16` + `py-14` + `py-7`). Now one
- *     tighter band.
- *  4. Type and row gaps were body-scale. Footer text is reference
- *     material, so it's set smaller and tighter, which is also what makes
- *     it read as a footer rather than as another section.
+ * This went dark → blush (matching the live site) → wash → dark again. The
+ * round trip is worth recording so nobody repeats it: the live site's footer
+ * really is blush #eed4b8, but at footer scale that value reads as a flat
+ * slab of brown rather than as the warm accent it is on a small panel. Two
+ * lighter variations were tried and rejected for the same reason. Dark is
+ * what the client wants here, and it is also what makes the page end —
+ * a light footer under a light booking band just trails off.
  *
- * Nothing was removed from the *content*: every company link, both legal
- * links, the full address, phone, email, hours, all three socials, the
- * Maps link, and the licence number are all still here. Treatments are one
- * click away by category instead of being enumerated.
+ * Blush is still a real brand colour and still used, at the scale where it
+ * works: the clinic section's surface, its address panel, and the inner-page
+ * hero.
+ *
+ * ── SIZE: FOUR BALANCED COLUMNS ────────────────────────────────────────
+ *
+ * The footer was 733px tall with a large dead area under "Popular
+ * Treatments". That was a balance problem, not a content problem: three
+ * tracks meant Company and Our Blog were stacked in one narrow column that
+ * ran twice as tall as its neighbours, and the grid is only as short as its
+ * tallest cell.
+ *
+ * Four tracks make every column roughly nine rows, so nothing runs long and
+ * no space is left over. Content is untouched — all 41 links are still here.
  */
 export default function Footer() {
   return (
-    <footer className="bg-ink text-white/65">
-      <Container className="grid gap-x-10 gap-y-9 py-11 lg:grid-cols-12">
+    <footer className="bg-ink text-white/70">
+      <Container className="grid gap-x-10 gap-y-10 py-10 lg:grid-cols-[12fr_15fr_9fr_11fr]">
         {/* Brand + contact */}
-        <div className="lg:col-span-5">
+        <div>
           <Image
             src="/images/brand/logo.png"
             alt={SITE_NAME}
             width={300}
             height={116}
-            // The logo is dark artwork on a transparent background, so it
-            // needs inverting to sit on the ink band. `brightness-0
-            // invert` is the reliable way to force any single-colour mark
-            // to pure white without a second asset.
-            className="h-10 w-auto brightness-0 invert"
+            // Dark artwork on transparent: inverting is the reliable way to
+            // force a single-colour mark to white without a second asset.
+            className="h-8 w-auto brightness-0 invert"
           />
 
-          <ul className="mt-5 flex flex-col gap-1.5 font-sans text-[0.8125rem] leading-relaxed">
+          <p className="mt-4 font-sans text-label font-semibold text-white">
+            at Ubud Nyuh Bali Resort
+          </p>
+
+          <ul className="mt-2 flex flex-col font-sans text-label leading-relaxed">
             <li>
               <a
                 href={MAPS_HREF}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-white"
+                className="inline-block py-0.5 text-white/70 transition-colors hover:text-white"
               >
                 {ADDRESS}
               </a>
             </li>
-            <li className="flex flex-wrap gap-x-4 gap-y-1">
-              <a href={`tel:${PHONE_E164}`} className="transition-colors hover:text-white">
-                {PHONE_DISPLAY}
-              </a>
-              <a href={`mailto:${EMAIL}`} className="transition-colors hover:text-white">
+            <li>
+              <a
+                href={`mailto:${EMAIL}`}
+                className="inline-block py-0.5 text-white/70 transition-colors hover:text-white"
+              >
                 {EMAIL}
               </a>
             </li>
-            <li className="text-white/45">{OPENING_HOURS}</li>
+            <li>
+              <a
+                href={`tel:${PHONE_E164}`}
+                className="inline-block py-0.5 text-white/70 transition-colors hover:text-white"
+              >
+                {PHONE_DISPLAY}
+              </a>
+            </li>
+            <li className="pt-1 font-medium text-white">{OPENING_HOURS}</li>
           </ul>
 
-          <div className="mt-5 flex items-center gap-2.5">
+          <div className="mt-4 flex items-center gap-2">
             {SOCIAL_LINKS.map((social) => {
               const Icon = socialIcons[social.icon];
               return (
@@ -107,75 +139,62 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="rounded-full border border-white/15 p-2 text-white/60 transition-colors duration-300 hover:border-gold-soft hover:text-gold-soft"
+                  className="rounded-full border border-white/20 p-2 text-white/70 transition-colors duration-300 hover:border-gold-soft hover:text-gold-soft"
                 >
-                  <Icon className="h-3.5 w-3.5" />
+                  <Icon className="h-4 w-4" />
                 </a>
               );
             })}
           </div>
         </div>
 
-        {/* The two link columns share a row even on the narrowest screens.
-            Stacked, they were what pushed the mobile footer past a full
-            viewport height; side by side they cost one column of width
-            each and roughly half the vertical space. */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-9 lg:col-span-7 lg:grid-cols-[1fr_1.4fr]">
-        {/* Treatments, by category rather than one row per treatment */}
+        {/* Popular Treatments — the clinic's own list, in its own order.
+            Two sub-columns so eighteen rows read as nine. */}
         <div>
-          <h2 className="eyebrow text-gold-soft">Treatments</h2>
-          <ul className="mt-4 flex flex-col gap-1.5 font-sans text-[0.8125rem]">
-            {TREATMENT_CATEGORIES.map((category) => (
-              <li key={category.id}>
-                <Link
-                  href={`/ubud-bali#${category.id}`}
-                  className="transition-colors hover:text-white"
-                >
-                  {category.label}
-                </Link>
-                <span className="ml-2 text-[0.6875rem] text-white/30">
-                  {treatments.filter((t) => t.category === category.id).length}
-                </span>
-              </li>
-            ))}
-            <li className="pt-1">
-              <Link
-                href="/ubud-bali"
-                className="text-white/45 transition-colors hover:text-white"
-              >
-                View all {treatments.length} treatments →
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Company */}
-        <div>
-          <h2 className="eyebrow text-gold-soft">Company</h2>
-          {/* One column inside a half-width cell on phones, two once
-              there's room — eight links in four rows rather than eight. */}
-          <ul className="mt-4 grid gap-x-6 gap-y-1.5 font-sans text-[0.8125rem] sm:grid-cols-2">
-            {COMPANY_LINKS.map((link) => (
+          <h2 className={headingClass}>Popular Treatments</h2>
+          <ul className={`${listClass} grid grid-cols-2 gap-x-6`}>
+            {POPULAR_TREATMENT_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="transition-colors hover:text-white">
+                <Link href={link.href} className={linkClass}>
                   {link.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
+
+        <div>
+          <h2 className={headingClass}>Company</h2>
+          <ul className={listClass}>
+            {COMPANY_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className={linkClass}>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 className={headingClass}>Our Blog</h2>
+          <ul className={listClass}>
+            {footerBlogPosts.map((post) => (
+              <li key={post.href}>
+                <Link href={post.href} className={linkClass}>
+                  {post.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
 
-      {/* One tight legal line. Both statements are still here — they're
-          just set on a single wrapping row at 11px instead of two stacked
-          blocks, which was costing ~125px of the mobile footer for four
-          lines of text. */}
-      <Container className="flex flex-col gap-1.5 border-t border-white/10 py-4 lg:flex-row lg:items-center lg:justify-between">
-        <p className="font-sans text-[0.6875rem] leading-relaxed text-white/40">
+      <Container className="flex flex-col gap-1 border-t border-white/10 py-3.5 lg:flex-row lg:items-center lg:justify-between">
+        <p className="font-sans text-micro leading-relaxed text-white/60">
           © {new Date().getFullYear()} {SITE_NAME} · {CLINIC_LICENCE_NUMBER}
         </p>
-        <p className="font-sans text-[0.6875rem] leading-relaxed text-white/30">
+        <p className="font-sans text-micro leading-relaxed text-white/60">
           Individual results vary. Information here is general, not medical advice.
         </p>
       </Container>

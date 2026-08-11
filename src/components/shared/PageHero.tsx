@@ -9,6 +9,24 @@ export type Crumb = { label: string; href?: string };
 /**
  * The shared hero for every inner page.
  *
+ * ── WHY THIS PANEL IS BLUSH, NOT INK ──────────────────────────────────
+ *
+ * It was a dark ink panel. The live site has no dark page hero at all — its
+ * inner pages reuse the same full-bleed photo band as the homepage — so the
+ * dark slab was a rebuild invention, and repeating the homepage's one dark
+ * moment on every single inner page spent that contrast until it stopped
+ * reading as emphasis.
+ *
+ * Blush (#eed4b8) is the live site's own warm colour and this is the scale
+ * it works at: a panel beside a photograph, not a full-width band. Type on
+ * it is ink and gold-strong — see the contrast table in globals.css for why
+ * the lighter golds are not options here.
+ *
+ * Because the panel is now light, the header cannot stay transparent-with-
+ * white-type over it. These routes were removed from HERO_ROUTES in
+ * Header.tsx, so the header renders solid and this section carries top
+ * padding to clear it.
+ *
  * ── WHY THIS IS A SPLIT, NOT A FULL-BLEED BACKGROUND ──────────────────
  *
  * It used to be one full-width photograph with the type laid over it. That
@@ -58,7 +76,7 @@ export default function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative isolate bg-ink">
+    <section className="relative isolate bg-blush pt-20 lg:pt-24">
       <div className="grid lg:min-h-[72svh] lg:grid-cols-12">
         {/* ── Image ──
             Order-first on mobile so the page opens on a picture; second on
@@ -80,31 +98,32 @@ export default function PageHero({
             fill
             sizes="(max-width: 1024px) 100vw, 42vw"
             quality={85}
+            // This is the largest-contentful-paint element on all twelve
+            // pages that use PageHero, and it was lazy — so every inner page
+            // waited for the observer before it even started fetching its
+            // biggest image. The homepage <Hero> already had this; the note
+            // in Img.tsx about "only the homepage hero" predates inner pages
+            // having a hero image of their own.
+            priority
             className={`object-cover ${imagePosition}`}
           />
-          {/* Scrim under the fixed header only — the header's white logo
-              and nav run across the full page width, so they'd otherwise
-              sit on bare photograph here. The rest of the image is left
-              completely unveiled. */}
+          {/* No scrim any more: the header is solid on these routes, so
+              nothing of it sits on bare photograph. */}
+          {/* A hairline seam between photo and panel, so the two halves read
+              as a deliberate join rather than as a gap. */}
           <div
-            className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-ink/75 to-transparent lg:h-40"
-            aria-hidden="true"
-          />
-          {/* A hairline seam between photo and ink panel, so the two halves
-              read as a deliberate join rather than as a gap. */}
-          <div
-            className="absolute inset-y-0 left-0 hidden w-px bg-white/10 lg:block"
+            className="absolute inset-y-0 left-0 hidden w-px bg-ink/10 lg:block"
             aria-hidden="true"
           />
         </div>
 
         {/* ── Text ── */}
         <div className="order-2 flex flex-col justify-end lg:order-1 lg:col-span-7">
-          <Container className="!max-w-none py-14 lg:py-20 lg:pl-[max(var(--gutter),calc((100vw-1360px)/2+var(--gutter)))] lg:pr-16">
+          <Container className="!max-w-none py-14 lg:py-20 lg:pl-[max(var(--spacing-gutter),calc((100vw-var(--container-page))/2+var(--spacing-gutter)))] lg:pr-16">
             {crumbs.length > 0 && (
               <Reveal>
                 <nav aria-label="Breadcrumb">
-                  <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-sans text-[0.6875rem] uppercase tracking-[0.16em] text-white/50">
+                  <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-sans text-micro uppercase tracking-caps-wide text-text">
                     {crumbs.map((crumb, index) => {
                       const isLast = index === crumbs.length - 1;
                       return (
@@ -112,20 +131,25 @@ export default function PageHero({
                           {crumb.href && !isLast ? (
                             <Link
                               href={crumb.href}
-                              className="transition-colors hover:text-white"
+                              // 11px type gave a 16px-tall tap target on the
+                              // one link that appears on every inner page.
+                              // py-1 landed at 23.95px — just under the bar,
+                              // so it takes py-1.5. The negative margin keeps
+                              // the row's visual height unchanged.
+                              className="-my-1.5 py-1.5 transition-colors hover:text-ink"
                             >
                               {crumb.label}
                             </Link>
                           ) : (
                             <span
                               aria-current={isLast ? "page" : undefined}
-                              className="text-white/80"
+                              className="font-semibold text-ink"
                             >
                               {crumb.label}
                             </span>
                           )}
                           {!isLast && (
-                            <span aria-hidden="true" className="text-white/25">
+                            <span aria-hidden="true" className="text-ink/30">
                               /
                             </span>
                           )}
@@ -139,8 +163,8 @@ export default function PageHero({
 
             {eyebrow && (
               <Reveal delay={80}>
-                <span className="eyebrow mt-7 flex items-center gap-3 text-gold-soft">
-                  <span className="h-px w-8 bg-gold-soft/50" aria-hidden="true" />
+                <span className="eyebrow mt-7 flex items-center gap-3 text-ink">
+                  <span className="h-px w-8 bg-primary-strong/50" aria-hidden="true" />
                   {eyebrow}
                 </span>
               </Reveal>
@@ -148,10 +172,10 @@ export default function PageHero({
 
             <Reveal delay={140}>
               <h1
-                className={`mt-6 max-w-2xl text-white ${
+                className={`mt-6 max-w-2xl text-primary-strong ${
                   scriptTitle
                     ? "font-script text-display-sm"
-                    : "font-sans text-[length:var(--fs-h1)] font-light leading-[var(--lh-heading)]"
+                    : "font-sans text-h1 font-light leading-heading"
                 }`}
               >
                 {title}
@@ -160,7 +184,7 @@ export default function PageHero({
 
             {description && (
               <Reveal delay={200}>
-                <p className="mt-7 max-w-xl font-sans text-lead text-white/70">
+                <p className="mt-7 max-w-xl font-sans text-lead text-text">
                   {description}
                 </p>
               </Reveal>

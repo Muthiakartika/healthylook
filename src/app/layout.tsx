@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Poppins, Tangerine } from "next/font/google";
+import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
@@ -21,8 +22,8 @@ import {
 // any component can use.
 //
 // `display: "swap"` matters more in the redesign than it did before: the
-// hero headline is now enormous Tangerine, so a blocked font would leave
-// the strongest element on the page invisible during load.
+// hero headline is enormous script, so a blocked font would leave the
+// strongest element on the page invisible during load.
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -30,13 +31,20 @@ const poppins = Poppins({
   display: "swap",
 });
 
-// Tangerine stands in for the live site's paid custom script font (which
-// can't be relicensed for this project). Only weights 400/700 exist for it
-// on Google Fonts.
-const tangerine = Tangerine({
-  variable: "--font-tangerine",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+// The brand's real script face, self-hosted from the clinic's own webfont
+// (src/fonts/RetroSignature.woff2, taken from their live site). This used to
+// be Google's Tangerine, chosen as a stand-in on the assumption the licensed
+// face could not be carried over — the client asked for the real one.
+//
+// `next/font/local` is the right tool rather than a hand-written @font-face:
+// it fingerprints and self-hosts the file, emits the preload, and exposes the
+// family as a CSS variable exactly like next/font/google, so `--font-script`
+// in globals.css keeps working unchanged.
+const retroSignature = localFont({
+  src: "../fonts/RetroSignature.woff2",
+  variable: "--font-retro-signature",
+  weight: "400",
+  style: "normal",
   display: "swap",
 });
 
@@ -118,7 +126,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${tangerine.variable} antialiased`}
+      className={`${poppins.variable} ${retroSignature.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col bg-background text-text">
         <script
@@ -134,7 +142,7 @@ export default function RootLayout({
             sit between the top of the page and the content. */}
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[3px] focus:bg-primary focus:px-5 focus:py-3 focus:font-sans focus:text-sm focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-brand focus:bg-primary-strong focus:px-5 focus:py-3 focus:font-sans focus:text-sm focus:text-white"
         >
           Skip to content
         </a>

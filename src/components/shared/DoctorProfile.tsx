@@ -52,14 +52,14 @@ export default function DoctorProfile({
 
       <div className={imageFirst ? "lg:order-2" : "lg:order-1"}>
         <Reveal delay={80}>
-          <span className="eyebrow text-primary">{doctor.title}</span>
+          <span className="eyebrow text-primary-strong">{doctor.title}</span>
         </Reveal>
 
         <Reveal delay={130}>
           {/* The name stays in Poppins, not the script face. A medical
               credential set in a decorative script reads as marketing;
               set in the clinical voice it reads as a qualification. */}
-          <h3 className="mt-5 font-sans text-[length:var(--fs-h3)] font-medium leading-tight text-ink">
+          <h3 className="mt-5 font-sans text-h3 font-medium leading-tight text-ink">
             {doctor.name}
           </h3>
         </Reveal>
@@ -67,7 +67,7 @@ export default function DoctorProfile({
         <div className="mt-7 flex flex-col gap-4">
           {doctor.bio.map((paragraph, paragraphIndex) => (
             <Reveal key={paragraph} delay={180 + paragraphIndex * 50}>
-              <p className="measure font-sans text-[length:var(--fs-body)] leading-[var(--lh-body)] text-text-secondary">
+              <p className="measure font-sans text-body leading-body text-text-secondary">
                 {paragraph}
               </p>
             </Reveal>

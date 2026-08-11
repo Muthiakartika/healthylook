@@ -52,7 +52,7 @@ export default function Treatments() {
   const previewLabel = hoveredTreatment?.name ?? activeCategory?.label ?? "";
 
   return (
-    <section id="treatments" className="bg-background py-section">
+    <section id="treatments" className="bg-paper py-section">
       <Container>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
@@ -90,14 +90,17 @@ export default function Treatments() {
                     setActive(category.id);
                     setHovered(null);
                   }}
-                  className={`relative -mb-px flex items-baseline gap-2 border-b-2 pb-4 font-sans text-[0.8125rem] uppercase tracking-[0.14em] transition-colors duration-300 ${
+                  className={`relative -mb-px flex items-baseline gap-2 border-b-2 pb-4 font-sans text-label uppercase tracking-caps transition-colors duration-300 ${
                     isActive
-                      ? "border-primary text-primary"
+                      ? "border-primary text-primary-strong"
                       : "border-transparent text-muted hover:text-text"
                   }`}
                 >
                   {category.label}
-                  <span className="font-sans text-[0.625rem] tabular-nums text-muted/70">
+                  {/* The count is information, not decoration — it must be
+                      readable, so it takes the full muted value rather than
+                      a faded one. */}
+                  <span className="font-sans text-nano tabular-nums text-muted">
                     {count}
                   </span>
                 </button>
@@ -122,22 +125,22 @@ export default function Treatments() {
                     onFocus={() => setHovered(treatment.slug)}
                     className="group flex gap-6 py-7 sm:gap-10"
                   >
-                    <span className="pt-1.5 font-sans text-[0.75rem] tabular-nums tracking-widest text-muted">
+                    <span className="pt-1.5 font-sans text-caption tabular-nums tracking-widest text-muted">
                       {String(index + 1).padStart(2, "0")}
                     </span>
 
                     <div className="flex-1">
-                      <h3 className="flex flex-wrap items-center gap-x-3 font-sans text-[length:var(--fs-h3)] leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
+                      <h3 className="flex flex-wrap items-center gap-x-3 font-sans text-h3 leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
                         {treatment.name}
                         <ArrowUpRightIcon className="h-4 w-4 shrink-0 -translate-x-2 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                       </h3>
 
-                      <p className="mt-3 measure font-sans text-[0.9375rem] leading-relaxed text-text-secondary">
+                      <p className="mt-3 measure font-sans text-copy leading-relaxed text-text-secondary">
                         {treatment.shortDescription}
                       </p>
 
                       {treatment.startingPrice != null && (
-                        <p className="mt-4 font-sans text-[0.75rem] uppercase tracking-[0.12em] text-muted">
+                        <p className="mt-4 font-sans text-caption uppercase tracking-label text-muted">
                           From {formatIDR(treatment.startingPrice)}
                           {treatment.priceUnit ? ` ${treatment.priceUnit}` : ""}
                         </p>
@@ -158,7 +161,7 @@ export default function Treatments() {
                 aspect="portrait"
                 sizes="(max-width: 1024px) 0px, 40vw"
               />
-              <p className="mt-5 font-sans text-[0.75rem] uppercase tracking-[0.14em] text-muted">
+              <p className="mt-5 font-sans text-caption uppercase tracking-caps text-muted">
                 {previewLabel}
               </p>
             </div>

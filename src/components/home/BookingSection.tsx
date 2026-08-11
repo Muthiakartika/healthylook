@@ -34,19 +34,19 @@ import {
  */
 export default function BookingSection() {
   return (
-    <section id="book" className="scroll-mt-24 bg-section-soft py-section">
+    <section id="book" className="scroll-mt-24 bg-section py-section">
       <Container>
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
             <Reveal>
-              <span className="eyebrow flex items-center gap-3 text-primary">
+              <span className="eyebrow flex items-center gap-3 text-primary-strong">
                 <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                 Book an appointment
               </span>
             </Reveal>
 
             <Reveal delay={90}>
-              <h2 className="mt-8 font-script text-[length:var(--fs-h1)] leading-[0.95] text-primary">
+              <h2 className="mt-8 font-script text-h1 leading-script text-primary">
                 Come and see us in Ubud
               </h2>
             </Reveal>
@@ -67,7 +67,7 @@ export default function BookingSection() {
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-4 font-sans text-[1.0625rem] text-ink transition-colors hover:text-primary"
+                    className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <WhatsAppIcon className="h-5 w-5 shrink-0 text-primary" />
                     Message us on WhatsApp
@@ -76,7 +76,7 @@ export default function BookingSection() {
                 <li>
                   <a
                     href={`tel:${PHONE_E164}`}
-                    className="flex items-center gap-4 font-sans text-[1.0625rem] text-ink transition-colors hover:text-primary"
+                    className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <PhoneIcon className="h-5 w-5 shrink-0 text-primary" />
                     {PHONE_DISPLAY}
@@ -85,7 +85,7 @@ export default function BookingSection() {
                 <li>
                   <a
                     href={`mailto:${EMAIL}`}
-                    className="flex items-center gap-4 break-all font-sans text-[1.0625rem] text-ink transition-colors hover:text-primary"
+                    className="flex items-center gap-4 break-all font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <MailIcon className="h-5 w-5 shrink-0 text-primary" />
                     {EMAIL}
@@ -95,7 +95,7 @@ export default function BookingSection() {
             </Reveal>
 
             <Reveal delay={270}>
-              <ul className="mt-10 flex flex-col gap-4 font-sans text-[0.875rem] text-text-secondary">
+              <ul className="mt-10 flex flex-col gap-4 font-sans text-sm text-text-secondary">
                 <li className="flex items-start gap-4">
                   <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <a
@@ -117,12 +117,12 @@ export default function BookingSection() {
 
           <div className="lg:col-span-7">
             <Reveal delay={140}>
-              <div className="rounded-[2px] border border-primary/15 bg-background p-8 sm:p-12">
-                <h3 className="font-sans text-[length:var(--fs-h4)] text-ink">
+              <div className="rounded-edge border border-primary/15 bg-background p-8 sm:p-12">
+                <h3 className="font-sans text-h4 text-ink">
                   Send us a message
                 </h3>
-                <p className="mt-2 font-sans text-[0.875rem] text-text-secondary">
-                  We reply during opening hours, every day 10.00 – 18.00.
+                <p className="mt-2 font-sans text-sm text-text-secondary">
+                  We reply during opening hours, every day 10.00 - 18.00.
                 </p>
 
                 <div className="mt-10">

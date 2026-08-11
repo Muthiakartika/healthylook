@@ -13,6 +13,7 @@ import {
   GIFT_CARD_INTRO,
   GIFT_CARD_BODY,
   GIFT_CARD_VALUES,
+  GIFT_CARD_DESIGNS,
   GIFT_CARD_TERMS,
 } from "@/data/offers";
 import { whatsappHref } from "@/lib/constants";
@@ -20,7 +21,7 @@ import { whatsappHref } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Gift Card",
   description:
-    "Healthy Look Aesthetic eGift Cards — from IDR 1,500,000, redeemable against any treatment on our menu and valid for 24 months.",
+    "Healthy Look Aesthetic eGift Cards from IDR 1,500,000, redeemable against any treatment on our menu and valid for 24 months.",
   alternates: { canonical: "/gift-card" },
 };
 
@@ -62,7 +63,7 @@ export default function GiftCardPage() {
                     className={`measure font-sans ${
                       index === 0
                         ? "text-lead text-text"
-                        : "mt-6 text-[length:var(--fs-body)] leading-[var(--lh-body)] text-text-secondary"
+                        : "mt-6 text-body leading-body text-text-secondary"
                     }`}
                   >
                     {paragraph}
@@ -86,14 +87,14 @@ export default function GiftCardPage() {
       <section className="bg-wash py-section">
         <Container>
           <Reveal>
-            <span className="eyebrow flex items-center gap-3 text-primary">
+            <span className="eyebrow flex items-center gap-3 text-primary-strong">
               <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
               Choose an amount
             </span>
           </Reveal>
 
           <Reveal delay={90}>
-            <h2 className="mt-8 max-w-2xl font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+            <h2 className="mt-8 max-w-2xl font-script text-h2 leading-heading text-primary">
               Any value, redeemable against any treatment
             </h2>
           </Reveal>
@@ -111,9 +112,9 @@ export default function GiftCardPage() {
                     href={whatsappHref(message)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between gap-4 border border-primary/20 bg-background px-8 py-7 transition-colors duration-300 hover:border-primary hover:bg-primary hover:text-white"
+                    className="group flex items-center justify-between gap-4 border border-primary/20 bg-background px-8 py-7 transition-colors duration-300 hover:border-primary-strong hover:bg-primary-strong hover:text-white"
                   >
-                    <span className="font-sans text-[length:var(--fs-h4)] tabular-nums text-ink transition-colors group-hover:text-white">
+                    <span className="font-sans text-h4 tabular-nums text-ink transition-colors group-hover:text-white">
                       {label}
                     </span>
                     <WhatsAppIcon className="h-4 w-4 shrink-0 text-primary transition-colors group-hover:text-white" />
@@ -123,10 +124,33 @@ export default function GiftCardPage() {
             })}
           </div>
 
+          {/* The six occasions the live form offers. Without them a buyer
+              could choose a value but not what the card is for. */}
+          <Reveal delay={110}>
+            <h3 className="mt-16 eyebrow text-primary-strong">Card design</h3>
+          </Reveal>
+          <div className="mt-7 flex flex-wrap gap-3">
+            {GIFT_CARD_DESIGNS.map((design, index) => (
+              <Reveal key={design} delay={index * 50}>
+                <a
+                  href={whatsappHref(
+                    `Hello Healthy Look Aesthetic, I'd like to buy a gift card with the "${design}" design.`,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 rounded-brand border border-hairline bg-background px-5 py-3 font-sans text-label text-ink transition-colors duration-300 hover:border-primary-strong hover:bg-primary-strong hover:text-white"
+                >
+                  {design}
+                </a>
+              </Reveal>
+            ))}
+          </div>
+
           <Reveal delay={120}>
-            <p className="mt-8 measure font-sans text-[0.8125rem] leading-relaxed text-muted">
-              Gift cards are arranged directly with the clinic over WhatsApp — pick an
-              amount above and we&rsquo;ll confirm payment and delivery with you.
+            <p className="mt-8 measure font-sans text-label leading-relaxed text-muted">
+              Gift cards are arranged directly with the clinic over WhatsApp. Pick an
+              amount or a design above and we&rsquo;ll confirm payment and delivery
+              with you.
             </p>
           </Reveal>
         </Container>
@@ -138,13 +162,13 @@ export default function GiftCardPage() {
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
             <div className="lg:col-span-4">
               <Reveal>
-                <span className="eyebrow flex items-center gap-3 text-primary">
+                <span className="eyebrow flex items-center gap-3 text-primary-strong">
                   <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
                   Good to know
                 </span>
               </Reveal>
               <Reveal delay={90}>
-                <h2 className="mt-8 font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] text-primary">
+                <h2 className="mt-8 font-script text-h2 leading-heading text-primary">
                   How it works
                 </h2>
               </Reveal>
@@ -156,10 +180,10 @@ export default function GiftCardPage() {
                   <li key={term} className="border-b border-hairline">
                     <Reveal delay={index * 60}>
                       <div className="flex gap-6 py-6 sm:gap-10">
-                        <span className="pt-1 font-sans text-[0.75rem] tabular-nums tracking-widest text-muted">
+                        <span className="pt-1 font-sans text-caption tabular-nums tracking-widest text-muted">
                           {String(index + 1).padStart(2, "0")}
                         </span>
-                        <p className="measure font-sans text-[0.9375rem] leading-[var(--lh-body)] text-text-secondary">
+                        <p className="measure font-sans text-copy leading-body text-text-secondary">
                           {term}
                         </p>
                       </div>

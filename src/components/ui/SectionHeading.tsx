@@ -5,7 +5,7 @@ type Tone = "light" | "dark";
 
 type SectionHeadingProps = {
   eyebrow?: string;
-  /** Set in Tangerine. The emotional half of the heading. */
+  /** Set in the script face. The emotional half of the heading. */
   title: ReactNode;
   /** Optional Poppins line under the script title, for clinical clarity. */
   subtitle?: ReactNode;
@@ -54,7 +54,11 @@ export default function SectionHeading({
   const subtitleColor = tone === "dark" ? "text-white/70" : "text-text";
   const bodyColor = tone === "dark" ? "text-white/60" : "text-text-secondary";
   const ruleColor = tone === "dark" ? "bg-gold-soft/50" : "bg-primary/40";
-  const eyebrowColor = tone === "dark" ? "text-gold-soft" : "text-primary";
+  // The eyebrow runs at 12px, so it takes the deepest gold: -primary is
+  // 4.1:1 on white and less on `paper`, which is under the 4.5:1 bar for
+  // small text. The script title above is display-scale, where -primary
+  // clears the 3:1 bar comfortably — hence two different golds in one block.
+  const eyebrowColor = tone === "dark" ? "text-gold-soft" : "text-primary-strong";
 
   return (
     <Reveal className={`flex max-w-3xl flex-col ${alignment} ${className}`}>
@@ -66,14 +70,14 @@ export default function SectionHeading({
       )}
 
       <Tag
-        className={`font-script text-[length:var(--fs-h2)] leading-[var(--lh-heading)] ${titleColor}`}
+        className={`font-script text-h2 leading-heading ${titleColor}`}
       >
         {title}
       </Tag>
 
       {subtitle && (
         <p
-          className={`mt-4 font-sans text-[length:var(--fs-h4)] leading-[var(--lh-tight)] ${subtitleColor}`}
+          className={`mt-4 font-sans text-h4 leading-tight ${subtitleColor}`}
         >
           {subtitle}
         </p>

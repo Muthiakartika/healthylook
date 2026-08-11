@@ -49,7 +49,7 @@ export function useCollapse(isOpen: boolean): {
       style: {
         display: "grid",
         gridTemplateRows: isOpen ? "1fr" : "0fr",
-        transition: "grid-template-rows var(--dur) var(--ease)",
+        transition: "grid-template-rows var(--dur) var(--ease-brand)",
       },
     },
     innerProps: {

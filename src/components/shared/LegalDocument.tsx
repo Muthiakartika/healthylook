@@ -29,16 +29,16 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
           <aside className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
               <Reveal>
-                <h2 className="eyebrow text-primary">Contents</h2>
+                <h2 className="eyebrow text-primary-strong">Contents</h2>
                 <ol className="mt-6 flex flex-col gap-3 border-t border-hairline pt-6">
                   {doc.sections.map((section, index) => (
                     <li key={section.id} className="flex gap-4">
-                      <span className="font-sans text-[0.75rem] tabular-nums text-muted">
+                      <span className="font-sans text-caption tabular-nums text-muted">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <a
                         href={`#${section.id}`}
-                        className="font-sans text-[0.9375rem] leading-snug text-text-secondary transition-colors hover:text-primary"
+                        className="font-sans text-copy leading-snug text-text-secondary transition-colors hover:text-primary"
                       >
                         {section.title}
                       </a>
@@ -64,9 +64,9 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
                     id={section.id}
                     className="scroll-mt-32 border-t border-hairline py-10 first:border-t-0 first:pt-0"
                   >
-                    <h2 className="flex gap-5 font-sans text-[length:var(--fs-h4)] leading-tight text-ink">
+                    <h2 className="flex gap-5 font-sans text-h4 leading-tight text-ink">
                       <span
-                        className="font-sans text-[0.8125rem] tabular-nums text-primary"
+                        className="font-sans text-label tabular-nums text-primary-strong"
                         aria-hidden="true"
                       >
                         {String(index + 1).padStart(2, "0")}
@@ -79,7 +79,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
                         block.kind === "paragraph" ? (
                           <p
                             key={blockIndex}
-                            className="measure font-sans text-[0.9375rem] leading-[var(--lh-body)] text-text-secondary"
+                            className="measure font-sans text-copy leading-body text-text-secondary"
                           >
                             {block.text}
                           </p>
@@ -88,7 +88,7 @@ export default function LegalDocument({ doc }: { doc: LegalDoc }) {
                             {block.items.map((item) => (
                               <li
                                 key={item.text}
-                                className="measure flex gap-3 font-sans text-[0.9375rem] leading-[var(--lh-body)] text-text-secondary"
+                                className="measure flex gap-3 font-sans text-copy leading-body text-text-secondary"
                               >
                                 <span
                                   className="mt-2.5 h-px w-3 shrink-0 bg-primary/40"
