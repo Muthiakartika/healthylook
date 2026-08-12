@@ -40,16 +40,37 @@ export default function Treatments() {
   const visible = treatments.filter((treatment) => treatment.category === active);
   const activeCategory = TREATMENT_CATEGORIES.find((c) => c.id === active);
 
-  // Preview falls back through: hovered treatment's photo → first
-  // treatment in the category → the category's own photo. Not every
-  // treatment on the live site has an image, so this never renders empty.
+  /*
+   * The preview shows a treatment's photo ONLY when that treatment has one
+   * of its own. Otherwise it falls back to the category, and the caption
+   * falls back with it.
+   *
+   * The middle step used to be `visible.find((t) => t.image)?.image` — the
+   * first treatment in the category that happened to have a photo. That
+   * caused two separate bugs:
+   *
+   *  1. Hovering a treatment with no image of its own (Korean Botox, Lip
+   *     Filler, Eye Rejuvenation…) showed Botox's photo captioned with the
+   *     hovered treatment's name. A clinic page presenting one treatment's
+   *     photograph under another treatment's heading is a factual claim,
+   *     not a layout detail.
+   *  2. At rest it resolved to Botox's photo — the same image the Featured
+   *     Treatment section below shows, because that section is hard-coded to
+   *     Botox. Two identical photographs a screen apart.
+   *
+   * Defaulting to the category image fixes both: the category photos are
+   * used nowhere else on this page, and "no specific treatment is hovered"
+   * is exactly what a category image means.
+   */
   const hoveredTreatment = visible.find((t) => t.slug === hovered);
+  const showingOwnPhoto = Boolean(hoveredTreatment?.image);
   const previewSrc =
     hoveredTreatment?.image ??
-    visible.find((t) => t.image)?.image ??
     activeCategory?.image ??
     "/images/clinic/clinic-04.jpg";
-  const previewLabel = hoveredTreatment?.name ?? activeCategory?.label ?? "";
+  const previewLabel = showingOwnPhoto
+    ? (hoveredTreatment?.name ?? "")
+    : (activeCategory?.label ?? "");
 
   return (
     <section id="treatments" className="bg-paper py-section">

@@ -121,7 +121,9 @@ export default function BeforeAfterPage() {
               {group.treatmentSlug && (
                 <Link
                   href={`/ubud-bali/${group.treatmentSlug}`}
-                  className="group/link inline-flex shrink-0 items-center gap-2 border-b border-primary/35 pb-1 font-sans text-caption font-semibold uppercase tracking-caps-wide text-primary-strong transition-colors duration-300 hover:border-primary-strong"
+                  // `pt-2` for the tap target — see DoctorCredit for why the
+                  // height goes above the text rather than below.
+                  className="group/link inline-flex shrink-0 items-center gap-2 border-b border-primary/35 pt-2 pb-1 font-sans text-caption font-semibold uppercase tracking-caps-wide text-primary-strong transition-colors duration-300 hover:border-primary-strong"
                 >
                   About this treatment
                   <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform duration-300 ease-brand group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />

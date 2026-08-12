@@ -97,8 +97,16 @@ const variants: Record<Variant, string> = {
   // Not a button at all visually — an editorial text link with a rule
   // under it. Used inside cards and lists where a filled button would
   // add too much weight.
+  //
+  // The padding is asymmetric on purpose. At `!py-1` this variant measured
+  // 22.4px tall — under WCAG 2.5.8's 24px minimum. The obvious fix, bumping
+  // to `!py-1.5`, would also push the bottom border 2px further from the
+  // text, and that border IS the design: it is the rule that makes this read
+  // as an editorial link rather than a button. Adding the height above the
+  // text instead reaches 26.4px while leaving the underline exactly where
+  // it was.
   quiet:
-    "!px-0 !py-1 border-b border-primary/35 text-primary-strong rounded-none hover:border-primary-strong",
+    "!px-0 !pt-2 !pb-1 border-b border-primary/35 text-primary-strong rounded-none hover:border-primary-strong",
 };
 
 export default function Button({

@@ -98,11 +98,16 @@ export default function BookingSection() {
               <ul className="mt-10 flex flex-col gap-4 font-sans text-sm text-text-secondary">
                 <li className="flex items-start gap-4">
                   <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  {/* `-my-1 py-1` grows the tap target from 20px to 28px
+                      without changing the layout: the padding box gets
+                      taller, the negative margin gives the extra height
+                      back, so the address stays aligned with the pin icon
+                      beside it. */}
                   <a
                     href={MAPS_HREF}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition-colors hover:text-primary"
+                    className="-my-1 py-1 transition-colors hover:text-primary"
                   >
                     {ADDRESS}
                   </a>

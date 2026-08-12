@@ -253,6 +253,7 @@ export const treatments: Treatment[] = [
     slug: "collagen-stimulator",
     name: "Collagen Stimulator",
     category: "facial-enhancement",
+    image: "/images/treatments/collagen-stimulator.jpg",
     shortDescription:
       "Stimulate your skin's own collagen production for a gradual, natural lift that keeps improving over the weeks following treatment.",
     // No `image`: the only Sculptra asset in the client's library is a
@@ -278,6 +279,7 @@ export const treatments: Treatment[] = [
     name: "Sculptra",
     treatmentTime: "90-120 Minutes",
     category: "facial-enhancement",
+    image: "/images/treatments/sculptra-treatment.jpg",
     shortDescription:
       "Stimulate natural collagen production with advanced Sculptra treatments in Bali. Achieve firmer, smoother, youthful-looking skin with long-lasting result",
     // See the Collagen Stimulator note above — the Sculptra asset is a
@@ -305,6 +307,7 @@ export const treatments: Treatment[] = [
     name: "Eye Rejuvenation",
     treatmentTime: "60 Minutes",
     category: "facial-enhancement",
+    image: "/images/treatments/eye-rejuvenation.jpg",
     shortDescription:
       "Personalized treatments for the eye area, from dark circles and tired-looking eyes to fine lines and under-eye hollow.",
     startingPrice: 1900000,
@@ -333,6 +336,7 @@ export const treatments: Treatment[] = [
     slug: "lip-filler",
     name: "Lip Filler",
     category: "facial-enhancement",
+    image: "/images/treatments/lip-filler.jpg",
     shortDescription:
       "Enhance your lips with premium lip fillers in Ubud, Bali. Achieve fuller, natural-looking lips with expert, safe treatments.",
     intro:
@@ -350,6 +354,7 @@ export const treatments: Treatment[] = [
     slug: "botox/korean",
     name: "Korean Botox",
     category: "facial-enhancement",
+    image: "/images/treatments/korean-botox.jpg",
     shortDescription:
       "Trusted Korean Botox provider in Bali, offering safe and professional treatments with certified experts. Achieve natural, youthful results.",
     intro:
@@ -378,6 +383,7 @@ export const treatments: Treatment[] = [
     slug: "facial",
     name: "Facial",
     category: "skin-treatments",
+    image: "/images/treatments/facial.jpg",
     shortDescription:
       "Experience the best facial in Ubud with expert acne treatment and anti-aging facials for healthy, glowing skin.",
     intro:
@@ -513,6 +519,7 @@ export const treatments: Treatment[] = [
     name: "Salmon DNA",
     treatmentTime: "60 Minutes",
     category: "skin-treatments",
+    image: "/images/treatments/salmon-dna.jpg",
     shortDescription:
       "Salmon DNA contains a Polynucleotide substance extracted from salmon DNA that is compatible with our human cells to repair damaged skin, reverse the signs of aging, and decrease inflammation",
     // plinest.png is a 250×250 product logo, not treatment photography —
@@ -558,6 +565,7 @@ export const treatments: Treatment[] = [
     name: "Microneedling - Dermapen 4",
     treatmentTime: "75 Minutes",
     category: "skin-treatments",
+    image: "/images/treatments/microneedling.jpg",
     shortDescription:
       "The most advanced micro-needling device that allows more effective channels to deliver up to 80% more active ingredients deeper into the skin.",
     startingPrice: 1900000,
@@ -770,6 +778,7 @@ export const treatments: Treatment[] = [
     name: "Muscle Sculpting by CM Slim",
     treatmentTime: "45 Minutes/area",
     category: "body-treatments",
+    image: "/images/treatments/muscle-sculpting.jpg",
     shortDescription:
       "CM Slim is a worldwide technology for non-invasive body contouring using a focused electromagnetic. It is a painless and safe treatment that can produce up to 30,000 squats or crunches in 30 minutes without any downtime.",
     startingPrice: 1900000,
@@ -799,6 +808,7 @@ export const treatments: Treatment[] = [
     name: "Pelvic Floor Strengthening",
     treatmentTime: "45 Minutes",
     category: "body-treatments",
+    image: "/images/treatments/pelvic-floor.jpg",
     shortDescription:
       "Strong pelvic floor muscles can help with urinary incontinence, increase sexual sensation, and reduce the symptoms of erectile dysfunction.",
     startingPrice: 1250000,
@@ -820,6 +830,7 @@ export const treatments: Treatment[] = [
     name: "IPL Hair Removal",
     treatmentTime: "Varied based on area",
     category: "body-treatments",
+    image: "/images/treatments/ipl-hair-removal.jpg",
     shortDescription:
       "Tired of painful waxing and ingrown hairs? IPL hair removal offers a gentler, more effective way to reduce hair growth while helping keep your skin smooth and rejuvenated.",
     startingPrice: 290000,
@@ -874,6 +885,7 @@ export const treatments: Treatment[] = [
     name: "Fat Dissolving Injections",
     treatmentTime: "30 Minutes",
     category: "body-treatments",
+    image: "/images/treatments/fat-dissolving.jpg",
     shortDescription:
       "Fat-dissolving injection is a non-surgical option to reduce unwanted fat deposits on your face & body like the double chin, abdomen, and thighs",
     startingPrice: 990000,
@@ -894,6 +906,7 @@ export const treatments: Treatment[] = [
     name: "Carboxy Therapy",
     treatmentTime: "45 Minutes",
     category: "body-treatments",
+    image: "/images/treatments/carboxy-therapy.jpg",
     shortDescription:
       "It stimulates collagen and elastin, enhancing texture, reducing cellulite, fading stretch marks, and promoting even skin tone.",
     startingPrice: 390000,
@@ -916,6 +929,7 @@ export const treatments: Treatment[] = [
     slug: "slimming-body-contouring",
     name: "Slimming & Body Contouring",
     category: "body-treatments",
+    image: "/images/treatments/slimming-body-contouring.jpg",
     shortDescription:
       "Achieve your ideal shape with slimming and body contouring treatments in Ubud, Bali. Safe, effective, affordable and with proven results.",
     intro:
@@ -949,6 +963,7 @@ export const treatments: Treatment[] = [
     name: "PRP Hair",
     treatmentTime: "90 Minutes",
     category: "hair-booster",
+    image: "/images/treatments/prp-hair.jpg",
     shortDescription:
       "A natural treatment that utilizes your own body's healing abilities to stimulate hair growth.",
     startingPrice: 2400000,
@@ -972,6 +987,7 @@ export const treatments: Treatment[] = [
     name: "Hair Mesotherapy",
     treatmentTime: "75 Minutes",
     category: "hair-booster",
+    image: "/images/treatments/hair-mesotherapy.jpg",
     shortDescription:
       "It provides essential nutrients like vitamins and antioxidants to improve blood flow for hair growth in both men & women.",
     startingPrice: 1900000,
@@ -989,6 +1005,7 @@ export const treatments: Treatment[] = [
     name: "IV Drip",
     treatmentTime: "45 Minutes",
     category: "hair-booster",
+    image: "/images/treatments/iv-drip.jpg",
     shortDescription:
       "It is beneficial to boost your energy, improve your skin radiance, or speed up the bali belly's recovery.",
     startingPrice: 1100000,

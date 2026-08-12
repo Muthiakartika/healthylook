@@ -137,11 +137,14 @@ export default function BookNowPage() {
                 <ul className="mt-9 flex flex-col gap-4 font-sans text-sm text-text-secondary">
                   <li className="flex items-start gap-4">
                     <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    {/* Same `-my-1 py-1` as BookingSection: 28px tap target,
+                        layout unchanged so the address stays level with the
+                        pin icon. */}
                     <a
                       href={MAPS_HREF}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="transition-colors hover:text-primary"
+                      className="-my-1 py-1 transition-colors hover:text-primary"
                     >
                       {ADDRESS}
                     </a>
