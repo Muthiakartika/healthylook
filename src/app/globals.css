@@ -86,7 +86,26 @@
      #2b2c27 is the live site's near-black — a deep olive rather than a
      neutral one, which is what lets a dark band sit under the lime
      without the two fighting. */
-  --color-ink: #2b2c27; /* live — the dark contrast band */
+  --color-ink: #2b2c27; /* live — dark TYPE only (see --color-ink-brown) */
+  /* derived — the dark BAND surface, and the client's own revision note:
+     "please change the gray background to the brown background".
+     --color-ink is a deep olive (hue 75°, near-neutral) and at full-bleed it
+     reads as charcoal grey — the one large surface on the site that did not
+     belong to the brand palette the client lists (#93713d, #af913e, #d4e174,
+     #e8fcc7, #f2ffbc — all five already tokenised below/above).
+
+     So this is --color-primary-deep (#93713d) held at its own hue and
+     saturation (36°, 41%) and dropped to 16% lightness. It is the SAME brown
+     as the brand gold, just deep enough to set white type on — which is why
+     the dark bands now read as "the brand, darker" rather than "grey".
+
+     Contrast is effectively unchanged, so nothing that passed before fails
+     now — measured against this surface:
+       white          13.5:1  (was 14.1:1 on --color-ink)
+       white/55        5.2:1   body copy on the dark bands
+       --gold-soft     6.5:1   eyebrows and rules
+     Type keeps --color-ink: dark text wants the neutral, not the brown. */
+  --color-ink-brown: #3a2c18;
   /* derived — --color-ink pulled ~25% toward --color-primary. The hero scrim
      used to be plain --color-ink, which is a neutral deep olive: laid over a
      warm photograph it greys the image out and the whole first screen reads

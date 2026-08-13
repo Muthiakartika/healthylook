@@ -29,7 +29,7 @@ export const metadata: Metadata = {
  * inventing /treatments and orphaning every existing inbound link.
  *
  * One editorial block per category, each with its own image and numbered
- * index. All 27 treatments appear exactly once, and each category's
+ * index. Every treatment in the catalogue appears exactly once, and each category's
  * heading is an anchor target (`#facial-enhancement` etc.) so the footer
  * and the nav can link straight to a section.
  */
@@ -45,7 +45,7 @@ export default function TreatmentsPage() {
         imageAlt="Treatment room at Healthy Look Aesthetic, Ubud"
       />
 
-      {/* Category quick-jump. With 27 treatments across four categories,
+      {/* Category quick-jump. With 30+ treatments across four categories,
           landing at the top of a long page with no way to skip is the
           usual failure of an index page this size. */}
       <section className="border-b border-hairline bg-paper">

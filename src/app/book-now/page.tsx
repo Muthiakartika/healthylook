@@ -4,7 +4,15 @@ import PageHero from "@/components/shared/PageHero";
 import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/shared/ContactForm";
 import Img from "@/components/ui/Img";
-import { WhatsAppIcon, PhoneIcon, MailIcon, MapPinIcon, ClockIcon } from "@/components/ui/icons";
+import Button from "@/components/ui/Button";
+import {
+  WhatsAppIcon,
+  PhoneIcon,
+  MailIcon,
+  MapPinIcon,
+  ClockIcon,
+  CheckIcon,
+} from "@/components/ui/icons";
 import {
   EMAIL,
   PHONE_DISPLAY,
@@ -51,13 +59,24 @@ export default function BookNowPage() {
         title="Start Your Journey to Confidence at Healthy Look Aesthetic"
         scriptTitle={false}
         crumbs={[{ label: "Home", href: "/" }, { label: "Book Now" }]}
-        description="Tell us what you're considering and when suits you. A doctor will confirm what's realistic before anything is booked in."
+        // ── CLIENT REVISION (Book Now 1) ─────────────────────────────
+        // This read "A doctor will confirm what's realistic before
+        // anything is booked in", and the clinic asked for it changed
+        // because they do not offer a video consultation before arrival.
+        // Read literally, that sentence promised one: a doctor assessing
+        // your case in the gap between enquiring and being booked in.
+        //
+        // The honest-opinion positioning is the clinic's own and worth
+        // keeping, so only the timing moves — the doctor conversation
+        // happens in person, at the appointment, which is when it actually
+        // happens. Nobody arrives expecting a call that was never offered.
+        description="Tell us what you're considering and when suits you, and we'll confirm your appointment by email or WhatsApp. Your doctor talks through what's realistic with you in person, before anything begins."
         image="/images/clinic/clinic-01.jpg"
         imageAlt="Healthy Look Aesthetic clinic, Ubud"
       />
 
       {/* The clinic's own promise */}
-      <section className="bg-ink py-section-lg text-white">
+      <section className="bg-ink-brown py-section-lg text-white">
         <Container>
           <Reveal className="mx-auto max-w-4xl text-center">
             <p className="font-script text-h1 leading-script text-white">
@@ -156,32 +175,66 @@ export default function BookNowPage() {
                 </ul>
               </Reveal>
 
-              <Reveal delay={270} variant="image" className="mt-10">
+              {/*
+                ── THE SAFETY BLOCK, AND WHAT WAS WRONG WITH IT ──────────
+                Seven protocol titles used to render here as a bare list of
+                middot-prefixed phrases, with no heading, sitting below the
+                photograph at the very foot of the column. Three problems,
+                and they compounded into "why is this here":
+
+                 1. No label. A reader met seven unexplained fragments —
+                    "Premium brands", "Strict cold-chain management" — with
+                    nothing saying these were safety standards.
+                 2. A `·` before each item. It is not a bullet the reader
+                    recognises and it is not a mark that means anything; it
+                    just made each line start with noise.
+                 3. It came after the photo, so the column ran
+                    contact → address → picture → orphaned list. The list
+                    read as something left over rather than as content.
+
+                Now it is a labelled block with the site's own check mark —
+                which says "we do this" where a middot said nothing — and
+                it sits with the practical details it belongs beside. The
+                photo moved below it, so the column closes on the picture
+                instead of on a fragment.
+
+                Titles only, as before: the full descriptions run on
+                /our-doctor and the link goes there. In a sidebar next to a
+                booking form, seven paragraphs would compete with the form.
+              */}
+              <Reveal delay={270}>
+                <div className="mt-10 border-t border-hairline pt-8">
+                  <h3 className="eyebrow text-primary-strong">
+                    Every treatment here
+                  </h3>
+
+                  <ul className="mt-6 flex flex-col gap-3.5">
+                    {CLINIC_SAFETY_PROTOCOLS.map((p) => (
+                      <li
+                        key={p.title}
+                        className="flex items-start gap-3 font-sans text-label leading-relaxed text-text-secondary"
+                      >
+                        <CheckIcon className="mt-1 h-3.5 w-3.5 shrink-0 text-primary" />
+                        {p.title}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-7">
+                    <Button href="/our-doctor" variant="quiet" size="sm" withArrow>
+                      Read the full protocols
+                    </Button>
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={320} variant="image" className="mt-10">
                 <Img
                   src="/images/clinic/clinic-05.jpg"
                   alt="Healthy Look Aesthetic clinic, Ubud"
                   aspect="landscape"
                   sizes="(max-width: 1024px) 100vw, 40vw"
                 />
-              </Reveal>
-
-              <Reveal delay={320}>
-                <ul className="mt-10 flex flex-col gap-3 border-t border-hairline pt-8">
-                  {CLINIC_SAFETY_PROTOCOLS.map((p) => (
-                    <li
-                      key={p.title}
-                      className="font-sans text-label leading-relaxed text-text-secondary"
-                    >
-                      {/* A bullet glyph, not content: the <li> already tells
-                          a screen reader this is a list item, so announcing
-                          "middle dot" before every entry is pure noise. */}
-                      <span aria-hidden="true" className="text-primary-strong">
-                        ·
-                      </span>{" "}
-                      {p.title}
-                    </li>
-                  ))}
-                </ul>
               </Reveal>
             </div>
           </div>

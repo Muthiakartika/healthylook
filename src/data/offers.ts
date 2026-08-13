@@ -16,15 +16,56 @@ export type OfferTable = {
 export type Offer = {
   id: string;
   name: string;
+  /**
+   * Small print that sits directly under the heading rather than at the
+   * foot of the block — the transfer offer's "*) T & C Applied", which on
+   * the live site is attached to the asterisk in its own title.
+   */
+  headingNote?: string;
   intro?: string;
-  points: string[];
+  /**
+   * Optional, because the live Botox offer has no bullets at all: its two
+   * discount tiers are stated in the intro sentence and nowhere else. The
+   * rebuild had added them as a list underneath, which read as extra terms
+   * and was actually the same sentence twice.
+   */
+  points?: string[];
   /**
    * Published rate tables. The transfer offer has two of them — the minimum
    * spend that earns a free transfer, and the charge if that minimum isn't
    * met — twelve figures in all, one per area the clinic serves.
    */
   tables?: OfferTable[];
+  /** The asterisked condition. Sits after the points, before `outro`. */
   note?: string;
+  /**
+   * The closing paragraph, after the condition.
+   *
+   * Split out from `note` because the live page runs these in a specific
+   * order — bullets, then the asterisk in italics, then the closing line —
+   * and the rebuild had merged them into one muted footnote with the two
+   * halves the wrong way round. "Simply present your airline ID" is an
+   * instruction, not small print; burying it under the exclusion clause
+   * hid the one thing a reader has to actually do.
+   */
+  outro?: string;
+  /**
+   * ── CLIENT REVISION (Special Offer 1): "please add some pictures" ────
+   * The page was three blocks of pure type, which read as terms and
+   * conditions rather than as offers worth taking.
+   *
+   * Each photo is chosen to show the thing the offer is about, not to
+   * decorate: the Botox promotion gets the Botox treatment photo, the
+   * transfer offer gets the resort the transfer arrives at, the airline
+   * discount gets muscle sculpting — the treatment its own top line
+   * discounts most. All three come from the clinic's existing library and
+   * none is used elsewhere on this page.
+   *
+   * ⚠ If the clinic has campaign artwork for these offers, these are the
+   * three fields to swap. Nothing else needs to change.
+   */
+  image?: string;
+  imageAlt?: string;
 };
 
 export const specialOffers: Offer[] = [
@@ -33,12 +74,19 @@ export const specialOffers: Offer[] = [
     name: "Botox Promotion",
     intro:
       "Revitalize your look and smooth away wrinkles with our exclusive Botox promotion – embrace a more youthful you. Enjoy 15% off for effective wrinkle treatments for a minimum of 40 units or 10% off for purchasing a minimum of 30 units.",
-    points: ["15% off for minimum 40 units", "10% off for minimum 30 units"],
-    note: "The slot is limited, contact us for an appointment",
+    // No `points`. The live page states both tiers in the intro sentence
+    // and lists nothing underneath — see the field's note.
+    note: "The slot is limited, contact us for an appointment.",
+    image: "/images/offers/botox-promotion.jpg",
+    imageAlt:
+      "A doctor administering a Botox injection to a patient at Healthy Look Aesthetic, Ubud",
   },
   {
     id: "complimentary-transfer",
     name: "Enjoy the Complimentary Transfer*",
+    // Attached to the asterisk in the heading, as on the live page, rather
+    // than left to be found at the bottom of the block.
+    headingNote: "*) T & C Applied",
     intro:
       "Experience the ultimate convenience with free transfers from and to your home. Elevate your journey to beauty in Ubud as we remove the hassle of transportation. Book your appointment now to enjoy the luxury of a seamless transfer, ensuring your focus remains solely on the transformative experience that awaits you at Healthy Look Aesthetic Center in Ubud. Elevate your aesthetic journey with the added ease of complimentary transfers – because your beauty deserves a stress-free arrival!",
     points: [
@@ -78,7 +126,9 @@ export const specialOffers: Offer[] = [
         ],
       },
     ],
-    note: "*) T & C Applied",
+    image: "/images/offers/complimentary-transfer.jpg",
+    imageAlt:
+      "A Healthy Look Aesthetic driver welcoming a guest arriving by car in Ubud",
   },
   {
     id: "airline-staff-discount",
@@ -90,7 +140,13 @@ export const specialOffers: Offer[] = [
       "10% for non injectable treatments & Medi Facial",
       "5% for injectable treatments",
     ],
-    note: "Simply present your airline ID and treat yourself to a personalized experience that reflects the care and attention you deserve. *This offer may not be combined with any other promotions",
+    // The live page's order: bullets, then the exclusion in italics, then
+    // the instruction. These were merged and reversed in the rebuild.
+    note: "*This offer may not be combined with any other promotions",
+    outro:
+      "Simply present your airline ID and treat yourself to a personalized experience that reflects the care and attention you deserve.",
+    image: "/images/offers/airline-staff.jpg",
+    imageAlt: "Airline crew being welcomed at a check-in counter",
   },
 ];
 

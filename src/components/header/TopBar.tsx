@@ -26,6 +26,23 @@ import {
  * Desktop only. On a phone this would either wrap to two lines or truncate
  * the address to nonsense, and the same details are one tap away in the
  * mobile drawer and the StickyCTA.
+ *
+ * ── WHITE, WITH DARK TYPE ─────────────────────────────────────────────
+ * The client asked for this strip on white while the nav row below it
+ * stays transparent on the photograph. That split is what gives the
+ * over-hero header a top edge without putting a box around the logo.
+ *
+ * Every colour here therefore had to invert, and the values are measured
+ * against pure white rather than picked to look right:
+ *
+ *   --color-accent (#d8c06d)   1.8:1  ✗  the old icon gold, unusable here
+ *   --color-primary (#9b7741)  4.1:1  ✓  icons only — a graphic, 3:1 bar
+ *   --color-text-secondary     5.7:1  ✓  the address and phone
+ *   --color-muted              5.1:1  ✓  the social marks
+ *
+ * The pale gold that carried the icons on the dark version is the one
+ * colour that could not come across. It is a decoration colour for dark
+ * surfaces; on white it is barely a tint.
  */
 const socialIcons = {
   instagram: InstagramIcon,
@@ -35,7 +52,7 @@ const socialIcons = {
 
 export default function TopBar() {
   return (
-    <div className="hidden border-b border-white/10 lg:block">
+    <div className="hidden bg-background lg:block">
       <Container className="flex h-11 items-center justify-between gap-8">
         <div className="flex items-center gap-1">
           {SOCIAL_LINKS.map((social) => {
@@ -47,7 +64,7 @@ export default function TopBar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="rounded-edge p-1.5 text-white/60 transition-colors duration-300 hover:text-accent"
+                className="rounded-edge p-1.5 text-muted transition-colors duration-300 hover:text-primary-strong"
               >
                 <Icon className="h-3.5 w-3.5" />
               </a>
@@ -60,16 +77,16 @@ export default function TopBar() {
             href={MAPS_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 font-sans text-caption text-white/60 transition-colors duration-300 hover:text-white"
+            className="group flex items-center gap-2 font-sans text-caption text-text-secondary transition-colors duration-300 hover:text-ink"
           >
-            <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-accent" />
+            <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
             {ADDRESS}
           </a>
           <a
             href={`tel:${PHONE_E164}`}
-            className="flex items-center gap-2 font-sans text-caption text-white/60 transition-colors duration-300 hover:text-white"
+            className="flex items-center gap-2 font-sans text-caption text-text-secondary transition-colors duration-300 hover:text-ink"
           >
-            <PhoneIcon className="h-3.5 w-3.5 shrink-0 text-accent" />
+            <PhoneIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
             {PHONE_DISPLAY}
           </a>
         </div>

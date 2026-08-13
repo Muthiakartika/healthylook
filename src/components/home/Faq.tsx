@@ -2,40 +2,43 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import Accordion from "@/components/ui/Accordion";
 import Button from "@/components/ui/Button";
-import { getTreatmentBySlug, treatmentHref } from "@/data/treatments";
-import { getFaqs } from "@/data/treatmentFaqs";
+import { clinicFaqs } from "@/data/clinicFaqs";
+import { BOOKING_HREF } from "@/lib/constants";
 
 /**
  * SECTION 12 — FAQ
  *
- * The only FAQ content that exists is Botox's, so that's what runs here —
- * labelled as such, with a link to the full treatment page. Two things
- * this deliberately avoids:
+ * ── CLIENT REVISION 12 ────────────────────────────────────────────────
+ * "I think FAQ botox in homepage is not necessary, how do you think?"
  *
- *  - Inventing general clinic FAQs to fill a homepage-sized section. "What
- *    should I expect at my first visit" is exactly the kind of plausible
- *    question whose answer would have to be made up.
- *  - Dropping the FAQ because its content is treatment-specific. These
- *    answer real hesitations — is it safe, does it hurt, how long does it
- *    last — at the point in the page where someone is deciding to book.
+ * Agreed on the Botox part, and the section stays — repointed at the
+ * clinic instead of at one treatment. This used to render six of Botox's
+ * nine real questions. They answer "should I have Botox", which is a
+ * question for a reader who has already picked both the clinic and the
+ * treatment; a homepage is read by someone who has picked neither.
+ *
+ * The six questions here are the ones that actually block a booking: who
+ * holds the needle, what if I don't know what I need, are the products
+ * real, are you licensed, will you understand me, and where are you. Every
+ * one of Botox's nine is untouched and still renders on /ubud-bali/botox,
+ * along with the other 175 treatment FAQs.
+ *
+ * See src/data/clinicFaqs.ts for the sourcing rule these answers follow —
+ * the live site has no general FAQ, so each answer is assembled from
+ * material the clinic has already published, and nothing was invented to
+ * fill the section out.
  *
  * The accordion keeps every answer in the DOM while collapsed, so nothing
  * here is hidden from search engines or from in-page find.
  */
-const botox = getTreatmentBySlug("botox");
-
 export default function Faq() {
-  // The homepage shows the first six of Botox's nine real questions —
-  // enough to answer the common hesitations without turning the homepage
-  // into the treatment page. The full set is on the Botox page itself.
-  const faqs = getFaqs("botox").slice(0, 6);
-  if (!botox || faqs.length === 0) return null;
-
-  const items = faqs.map((faq, index) => ({
+  const items = clinicFaqs.map((faq, index) => ({
     id: `faq-${index}`,
     question: faq.question,
     answer: faq.answer,
   }));
+
+  if (items.length === 0) return null;
 
   return (
     <section className="bg-paper py-section">
@@ -57,15 +60,16 @@ export default function Faq() {
 
             <Reveal delay={150}>
               <p className="mt-6 measure-narrow font-sans text-copy leading-body text-text-secondary">
-                The questions we hear most often about {botox.name}, our
-                most-asked-about treatment.
+                The things people ask us before they book. Questions about a
+                specific treatment are answered in full on that treatment&rsquo;s
+                own page.
               </p>
             </Reveal>
 
             <Reveal delay={210}>
               <div className="mt-8">
-                <Button href={treatmentHref(botox)} variant="quiet" size="sm" withArrow>
-                  Full {botox.name} guide
+                <Button href={BOOKING_HREF} variant="quiet" size="sm" withArrow>
+                  Ask us something else
                 </Button>
               </div>
             </Reveal>

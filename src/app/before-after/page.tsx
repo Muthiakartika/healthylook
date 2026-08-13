@@ -7,9 +7,9 @@ import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import Testimonials from "@/components/home/Testimonials";
 import BookingSection from "@/components/home/BookingSection";
-import { ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
-import { resultGroups, totalResults } from "@/data/results";
-import { whatsappHref } from "@/lib/constants";
+import { ArrowUpRightIcon, InstagramIcon } from "@/components/ui/icons";
+import { resultGroups } from "@/data/results";
+import { INSTAGRAM_HREF, BOOKING_HREF } from "@/lib/constants";
 import { getPageSeo } from "@/data/seo";
 
 const seo = getPageSeo("/before-after")!;
@@ -154,6 +154,35 @@ export default function BeforeAfterPage() {
         </section>
       ))}
 
+      {/*
+        ── CLIENT REVISION (Before & After 2) ────────────────────────────
+        "Please remove it as it can violates the law."
+        …quoting the paragraph that used to sit here:
+        "These 56 photographs are the ones our patients have agreed to
+        publish. We hold more for most treatments and can show you relevant
+        cases at consultation, or send them over on WhatsApp before you
+        book." — followed by their suggestion, "May be invite the visitors
+        to visit our instagram for the most updated before-after".
+
+        The problem was the second half of that sentence, and it is a real
+        one. It advertised that the clinic holds patient photographs BEYOND
+        the ones consented for publication, and offered to send them to a
+        stranger over WhatsApp before they had even booked. Whatever the
+        intent, as written it is the clinic publicly offering to distribute
+        patient medical images to prospective customers — and in Indonesia,
+        advertising by health facilities is regulated well before you reach
+        the patient-privacy question.
+
+        Two things replace it, both of which the clinic can stand behind:
+        Instagram, which is theirs and where they publish results they have
+        cleared; and the consultation, where a doctor discusses what is
+        realistic with a patient in person. Neither of those is the site
+        offering to send photographs to anyone who asks.
+
+        ⚠ This removes a claim, not a photograph. The 56 published results
+        above are untouched — the client's own note 1 says they are sending
+        MORE, so the gallery is not what they asked to remove.
+      */}
       <section className="bg-background py-section">
         <Container>
           <Reveal className="mx-auto max-w-2xl text-center">
@@ -161,20 +190,17 @@ export default function BeforeAfterPage() {
               Looking for a treatment not shown here
             </h2>
             <p className="mx-auto mt-6 measure-narrow font-sans text-copy leading-body text-text-secondary">
-              These {totalResults} photographs are the ones our patients have agreed to
-              publish. We hold more for most treatments and can show you relevant cases
-              at consultation, or send them over on WhatsApp before you book.
+              We share new results on Instagram as our patients agree to publish
+              them. For what is realistically achievable in your own case, a doctor
+              will talk it through with you at consultation.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Button
-                href={whatsappHref(
-                  "Hello Healthy Look Aesthetic, could I see before and after results for a treatment?",
-                )}
-                variant="primary"
-                external
-              >
-                <WhatsAppIcon className="h-4 w-4" />
-                Ask to see more results
+              <Button href={INSTAGRAM_HREF} variant="primary" external>
+                <InstagramIcon className="h-4 w-4" />
+                See our latest on Instagram
+              </Button>
+              <Button href={BOOKING_HREF} variant="outline">
+                Book a consultation
               </Button>
             </div>
           </Reveal>

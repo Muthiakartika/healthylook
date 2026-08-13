@@ -89,6 +89,51 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "profhilo": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // Profhilo had the thinnest coverage of any treatment relative to what
+    // the clinic actually publishes: one four-point section here against
+    // ten paragraphs live, including the whole "why it is different from a
+    // filler" argument that the treatment's entire pitch rests on.
+    {
+      title: "Certified & Trusted Profhilo Provider in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Unlike traditional dermal fillers, Profhilo acts as a bio-remodeling agent, spreading beneath the skin's surface to stimulate the production of collagen and elastin. This results in improved skin quality, hydration, and an overall lifted and rejuvenated look. Profhilo doesn't just mask the signs of aging; it actively works to restore your skin's vitality.",
+            "Our experienced team of Healthy Look Aesthetic in Ubud is dedicated to helping you achieve a fresh and youthful complexion amid Bali's natural beauty",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Why Profhilo in Ubud Bali",
+      blocks: [
+        {
+          heading: "1. Precisely Placed",
+          paragraphs: [
+            "Unlike the traditional skin boosters that are injected in all over the face, profhilo is only placed in 5 Bio Aesthetic Points per side to maximize the spread and to ensure the patient’s comfort",
+          ],
+        },
+        {
+          heading: "2. Quick and Comfortable",
+          paragraphs: [
+            "The Profhilo treatment is quick and virtually painless, with minimal downtime. You can return to your daily activities immediately after the session.",
+          ],
+        },
+        {
+          // The live page's own numbering — it prints "3.Natural and
+          // Gradual Results" without ever showing a 1 or a 2, because its
+          // first two headings are images. Numbered through here so the
+          // sequence makes sense as text.
+          heading: "3. Natural and Gradual Results",
+          paragraphs: [
+            "Profhilo delivers natural-looking results, gradually enhancing your skin's texture and appearance. Say goodbye to fine lines, wrinkles, and dullness.",
+            "The hyaluronic acid in Profhilo attracts and retains moisture, ensuring optimal hydration deep within the skin. This helps improve skin elasticity and firmness.",
+            "Profhilo can be used on various areas, including the face, neck, décolletage, and hands. It's a versatile solution for comprehensive skin rejuvenation. The treatment is suitable for men and women as well as offering skin benefits for patients of all ages",
+          ],
+        },
+      ],
+    },
     {
       title: "Your Profhilo Journey in Ubud Bali",
       points: [
@@ -133,6 +178,32 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "carboxy-therapy": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The benefits, split face and body as the clinic splits them, plus
+    // the closing paragraph. The page previously carried only the "why
+    // choose us" block and never said what the treatment does.
+    {
+      title: "Benefits of Carboxy Therapy in Ubud Bali",
+      blocks: [
+        {
+          heading: "For the Face",
+          paragraphs: [
+            "Enhances skin hydration. Diminishes the appearance of pores. Brightens the complexion. Boosts skin firmness and elasticity.",
+          ],
+        },
+        {
+          heading: "For the Body",
+          paragraphs: [
+            "Enhances blood circulation. Aids in cellulite reduction. Improves skin elasticity. Minimizes the appearance of stretch marks. Tightens the skin.",
+          ],
+        },
+        {
+          paragraphs: [
+            "Experience the rejuvenating effects of increased oxygen levels, promoting tissue and cell regeneration for a refreshed appearance on the face, neck, hands, and body. Enjoy immediate, pain-free results and unveil a radiant, youthful complexion at our aesthetic center in Ubud.",
+          ],
+        },
+      ],
+    },
     {
       title: "Why Should I choose Carboxy Therapy in Ubud?",
       points: [
@@ -141,6 +212,22 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "prp/hair": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The clinic's strongest technical differentiator, and it was missing
+    // from both PRP pages: the two-step purification, the named depletion
+    // figures, and the dual delivery method. This is the paragraph that
+    // separates their PRP from the cheaper PRP down the road, so leaving
+    // it out cost more than any other omission in this file.
+    {
+      title: "Is PRP in Bali the same in every clinic?",
+      blocks: [
+        {
+          paragraphs: [
+            "No, Even though your own blood is used to obtain the plasma, there are major differences in the processing to purify the platelets. We take pride as one of a few aesthetic centers in Bali that use two steps purification process to achieve a higher platelet concentration. We also offer premium cell therapy utilizing the best kits available that can provide depletion of ~96,7% pro-inflammatory granulocytes, and ~99,7% of erythrocytes, leaving a full plasma recovery with no loss of plasma growth factor. In terms of PRP delivery, we use two methods to target all scalp layers, the dermapen to target the superficial, and the injection to approach the deeper layer. With these techniques, we can achieve a better outcome for our patients.",
+          ],
+        },
+      ],
+    },
     {
       title: "What Areas Can Be Treated With PRP?",
       points: [
@@ -230,6 +317,40 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "juvelook": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The mechanism section: what PDLLA is, and the three stages of how it
+    // works over time. Without it the page claimed a result and never
+    // explained it, on a treatment the clinic markets as being an early
+    // adopter of.
+    {
+      title: "How Does Juvelook Treatment in Bali Work?",
+      blocks: [
+        {
+          paragraphs: [
+            "Collagen is vital for youthful, elastic skin, but natural production declines as early as our 20s. Juvelook PDLLA treatment offers a dual-action solution by providing immediate hydration through hyaluronic acid, which plumps and revitalizes the skin. Simultaneously, PDLLA promotes collagen production over time, improving skin texture, elasticity, and firmness. Juvelook contains Poly D,L-Lactic Acid (PDLLA), a medical-grade polymer derived from natural sources like corn and potatoes. Its organic nature ensures it is safe for the human body, while its round, tiny structure facilitates complete breakdown under physiological conditions. This biodegradable ingredient delivers a combination of safety and effectiveness, making it a trusted choice for long-term skin rejuvenation.",
+          ],
+        },
+        {
+          heading: "Physical Support (Immediately)",
+          paragraphs: [
+            "The Hyaluronic Acid injected into the skin immediately fills wrinkles and fine lines, leaving visibly hydrated and smooth skin. Simultaneously, the PDLLA microparticles act as stabilisers to lock the hydrating HA in place, ensuring concentrated benefits to the targeted areas.",
+          ],
+        },
+        {
+          heading: "Collagen Stimulation",
+          paragraphs: [
+            "While the Hyaluronic Acid starts to hydrolise, the PDLLA microparticles begin to boost the production of fibroblast and active long-term collagen production, resulting in visible improvement of skin elasticity and volume.",
+          ],
+        },
+        {
+          heading: "Stabilised Result",
+          paragraphs: [
+            "After prolonged production of collagen, your skin begins to stabilise and the final results can now be seen. Juvelook’s gradual biodegradability restores skin volume, leaving you with renewed and naturally beautiful skin.",
+            "Juvelook is ideal for individuals with acne scars, enlarged pores, wrinkles, dull skin, or sagging skin. Whether you are looking to address specific concerns or simply enhance your skin’s overall appearance, Juvelook is a versatile and effective option. It is also effective for improving the texture, and elasticity of the neck, addressing creepy skin and horizontal neck lines.",
+          ],
+        },
+      ],
+    },
     {
       title: "Healthy Look Painless Juvelook Experience in Bali",
       blocks: [
@@ -323,6 +444,22 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         },
       ],
     },
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The clinic's strongest technical differentiator, and it was missing
+    // from both PRP pages: the two-step purification, the named depletion
+    // figures, and the dual delivery method. This is the paragraph that
+    // separates their PRP from the cheaper PRP down the road, so leaving
+    // it out cost more than any other omission in this file.
+    {
+      title: "Is PRP in Bali the same in every clinic?",
+      blocks: [
+        {
+          paragraphs: [
+            "No, Even though your own blood is used to obtain the plasma, there are major differences in the processing to purify the platelets. We take pride as one of a few aesthetic centers in Bali that use two steps purification process to achieve a higher platelet concentration. We also offer premium cell therapy utilizing the best kits available that can provide depletion of ~96,7% pro-inflammatory granulocytes, and ~99,7% of erythrocytes, leaving a full plasma recovery with no loss of plasma growth factor. In terms of PRP delivery, we use two methods to target all skin layers, the dermapen to target the superficial, and the injection to approach the deeper layer. With these techniques, we can achieve a better outcome for our patients.",
+          ],
+        },
+      ],
+    },
     {
       title: "What Areas Can Be Treated With PRP?",
       blocks: [
@@ -372,6 +509,21 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         },
       ],
     },
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The comparison against radiofrequency, lasers and fat freezing —
+    // the section that answers "why this and not the cheaper thing I saw
+    // advertised", which is the question this treatment competes on.
+    {
+      title: "HIFU Body vs Other Non-Invasive Treatments",
+      blocks: [
+        {
+          paragraphs: [
+            "Other non-invasive fat reduction treatments, like radiofrequency and lasers, use heat energy to target fat but often limit energy levels to protect the skin's surface. In contrast, Linear Z HIFU delivers energy beneath the skin, precisely targeting the fat layer without affecting the surface.",
+            "While radiofrequency requires 4-6 weekly sessions for optimal results, Linear Z HIFU shows visible improvement after one session, with maximum improvement after 2-3 sessions, making it more convenient and efficient. Unlike fat freezing, which uses cold to break down fat, Linear Z HIFU uses heat and also stimulates collagen production. This reduces fat while tightening and firming the skin, offering more comprehensive results",
+          ],
+        },
+      ],
+    },
     {
       title: "Why should i choose HIFU Body in Bali?",
       blocks: [
@@ -385,6 +537,31 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "fat-dissolving-injections": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The nine treatable areas. The page described what the injection does
+    // and never said where it can go, which is the first thing a reader
+    // checks against their own body.
+    {
+      title: "What area can be treated by Fat Dissolving Injection in Ubud Bali?",
+      blocks: [
+        {
+          paragraphs: [
+            "It can be injected into the fat deposit anywhere in both the face & body",
+          ],
+        },
+      ],
+      points: [
+        "Lower third of the face",
+        "Double chin",
+        "Armpit",
+        "Arm",
+        "Bra bulge",
+        "Love handle",
+        "Abdomen",
+        "Under Butt",
+        "Inner Thigh",
+      ],
+    },
     {
       title: "Why Should I Fat Dissolving Injection in Ubud?",
       blocks: [
@@ -398,6 +575,60 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "autologues-micrograft-hair-restoration": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // A word-for-word diff against healthylook-aesthetic.com found this
+    // treatment missing its entire "how it works" explanation — eight
+    // paragraphs describing the five stages of the procedure, plus the
+    // suitability list. It is the most technical treatment the clinic
+    // offers and it was the most thinly documented here.
+    {
+      title: "How Autologous Micrograft Transfer Works?",
+      blocks: [
+        {
+          heading: "1. Harvesting",
+          paragraphs: [
+            "A small punch biopsy is used to harvest healthy hair cells from the scalp, typically from behind the ear. This area is ideal because the cells are younger, more active, and protected from sun exposure. These factors enrich the Mesenchymal stem cell and dermal fibroblast that’s critical for effective regeneration. The extraction is performed under local anesthesia to ensure patient comfort.",
+          ],
+        },
+        {
+          heading: "2. Microlyzer Blade Technology Processing",
+          paragraphs: [
+            "The harvested tissue undergoes precise processing using the Dermomine Microlyzer system. The specially designed Microlyzer blades finely break down the tissue at a microscopic level without damaging the cells. This preserves cell integrity and creates a suspension rich in viable stem cells and growth factors necessary for stimulating hair regrowth. Initially, the tissue passes through a 600 μm blade to prepare the suspension",
+          ],
+        },
+        {
+          heading: "3. Enrichment with PRP",
+          paragraphs: [
+            "To enhance the regenerative effects, the processed graft suspension will be mixed with Platelet-Rich Plasma (PRP) to add additional growth factors to stimulate healing and hair follicle activation.",
+          ],
+        },
+        {
+          heading: "4. Filtration",
+          paragraphs: [
+            "Before injection, the micrograft suspension is filtered through a 150 μm Microlyzer filter, which removes unwanted fibrotic tissue and hair follicle debris. This filtration step ensures the final graft material is clean, potent, and safe, optimizing the treatment’s effectiveness and minimizing any risks during injection.",
+          ],
+        },
+        {
+          heading: "5. Injection",
+          paragraphs: [
+            "The purified micrograft suspension is then injected into the target areas of hair thinning on the scalp. These regenerative cells help repair and rejuvenate hair follicles, restore healthy scalp tissue, and promote the return of thicker, denser hair growth.",
+          ],
+        },
+      ],
+    },
+    {
+      // The live page runs the stage headings as "2. …", "3. …" with the
+      // first left unnumbered. Numbered consistently here — the sequence is
+      // the content, and a list that starts at 2 reads as a missing step.
+      title: "Who Is Suitable for Autologous Micrograft in Bali?",
+      blocks: [{ paragraphs: ["This treatment is suitable for individuals with:"] }],
+      points: [
+        "Mild to moderate hair thinning",
+        "Hair miniaturization & disrupted hair cycles",
+        "Androgenetic alopecia (male/female pattern hair loss)",
+        "Stages 6 to 8 is not recommended",
+      ],
+    },
     {
       title: "Be Empowered to Feel Truly Confident",
       blocks: [
@@ -627,6 +858,17 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   "facial": [
     // The "Best Facial Experience in Ubud" opener is this treatment's
     // `intro`, so the page leads with it and it is not repeated here.
+    // Restored from the live page's closing paragraph.
+    {
+      title: "Book a Facial in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "Book a facial at Healthy Look Aesthetic Ubud to experience personalized care for your skin. Our skilled therapists combine advanced technologies with trusted skincare products to address your specific needs. Each session is conducted with attention to comfort and technique, leaving your skin refreshed, healthier, and naturally radiant. Schedule your facial today and enjoy a treatment that supports both your skin and overall comfort.",
+          ],
+        },
+      ],
+    },
     {
       title: "Choosing Facial Treatments in Ubud",
       blocks: [
@@ -720,6 +962,41 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
 
   "salmon-dna": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The premium-products paragraph, the benefits list, and the whole
+    // "Painless Salmon DNA" section — including the closing line that the
+    // upgrade costs nothing extra, which is a commercial commitment and
+    // not a nice-to-have.
+    {
+      title: "Benefits of Salmon DNA Treatment in Ubud Bali",
+      blocks: [
+        {
+          paragraphs: [
+            "While there are many cheaper alternatives to salmon DNA injections in Bali, we stick to premium products including Rejuran & Nucleofill (Salmon DNA) and Plinest (Trout DNA), all made from the bio-stimulating substance called polynucleotide. Polynucleotide (PN) is considered a more concentrated and purified form compared to traditional PDRN, helping support tissue repair, collagen stimulation, and skin regeneration for improved treatment outcomes.",
+          ],
+        },
+      ],
+      points: [
+        "Improve the dark circle",
+        "Repairs damaged skin",
+        "Restore the skin elasticity",
+        "Reduce the appearance of fine lines & wrinkles",
+        "Tighten and firm the skin",
+      ],
+    },
+    {
+      title: "Healthy Look's Painless Salmon DNA in Bali",
+      blocks: [
+        {
+          heading: "Less pain, Minimal bruising, Just results . . .",
+          paragraphs: [
+            "Salmon DNA is known as an excellent biorevitalization agent, but it’s often associated with pain during treatment. We bring you the latest innovation that combines Rejuran HB — containing polynucleotide, hyaluronic acid, and lidocaine — with the advanced injector Dermashine Pro from South Korea, to minimize discomfort throughout the procedure.",
+            "The device delivers polynucleotides into the skin safely and comfortably, thanks to its auto-sensing technology, which ensures precise and uniform injection. It accurately deposits the solution into the dermis, improving hydration and stimulating collagen for enhanced skin rejuvenation. The next-level injector, equipped with negative pressure, creates full contact between the needles and the skin surface — reducing leakage and bruising often seen with conventional injector guns. Its vacuum system stabilizes the skin, improving precision and comfort. Using ultra-fine 32G–34G needles and a multi-needle cartridge, this device allows for gentler, faster, and more effective treatments with significantly reduced pain.",
+            "And the best part? We don’t charge extra for our Healthy Look Painless Salmon DNA upgrade.",
+          ],
+        },
+      ],
+    },
     {
       title: "Salmon DNA Treatment in Ubud Bali",
       blocks: [
@@ -897,6 +1174,39 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   // are dropped because the section renders them as headings in order and a
   // hard-coded "3." would be wrong the moment one is added or reordered.
   "eye-rejuvenation": [
+    // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
+    // The four modalities the clinic actually offers for the eye area,
+    // each with its own explanation. The page listed the concerns it
+    // treats but never what it treats them WITH.
+    {
+      title: "Our Eye Rejuvenation Treatments in Ubud Bali",
+      blocks: [
+        {
+          heading: "Personalized Mesotherapy",
+          paragraphs: [
+            "Our mesotherapy treatments are specially formulated with a blend of hyaluronic acid, vitamins, antioxidants, and peptides to hydrate, nourish, and revitalize your skin from within.",
+          ],
+        },
+        {
+          heading: "Salmon DNA Injection",
+          paragraphs: [
+            "Targeted specifically for the under-eye area, our salmon DNA injections utilize premium brands containing polynucleotide, a more purified form compared to PDRN like Rejuran I, ensuring superior results in enhancing firmness and elasticity.",
+          ],
+        },
+        {
+          heading: "Chemical Peels",
+          paragraphs: [
+            "Rejuvenate your eye area with our chemical peels, which effectively remove dead skin cells, promote cell turnover, and improve skin texture and tone for a brighter, more youthful appearance.",
+          ],
+        },
+        {
+          heading: "Sylfirm X",
+          paragraphs: [
+            "This advanced FDA Approved RF Microneedling will stimulate collagen production and trigger your body's natural healing process with microneedling. The additional heat and energy delivered by RF-powered microneedles will also help to tighten the skin",
+          ],
+        },
+      ],
+    },
     {
       title: "Dark Circles & Fine Lines",
       blocks: [

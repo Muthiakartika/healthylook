@@ -4,7 +4,7 @@ import Img from "@/components/ui/Img";
  * The thumbnail for a treatment card.
  *
  * ── Why this exists ──
- * The clinic has 27 treatments and roughly 13 usable photographs. Any
+ * The clinic has 30+ treatments and roughly 13 usable photographs. Any
  * "fall back to the category image" scheme therefore ends up printing the
  * same photo three or four times on a single page — which is what was
  * happening: the Facial Enhancement shot appeared in the sidebar and again

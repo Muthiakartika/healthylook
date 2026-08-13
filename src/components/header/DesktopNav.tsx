@@ -148,7 +148,26 @@ export default function DesktopNav({ tone = "light" }: { tone?: "light" | "dark"
   };
 
   return (
-    <nav aria-label="Main" className="hidden items-center gap-9 lg:flex">
+    /*
+     * `self-stretch` on the nav and on every item, so each nav item's box
+     * is the full height of the header row rather than just the height of
+     * its own text.
+     *
+     * ── WHY THAT MATTERS ──────────────────────────────────────────────
+     * The panels are `absolute top-full`. For the wide Treatments menu
+     * that resolves against the <header> — the item is `static` — so it
+     * lands flush under the bar. Every other panel resolves against its
+     * own item, and a text-height item ends roughly 35px above the bottom
+     * of a 96px row: the More panel opened from the middle of the header
+     * instead of from its edge, which is the odd gap.
+     *
+     * Stretching the item makes `top-full` mean the same thing for both:
+     * the bottom of the header. No offsets to keep in sync with the row
+     * height, and it fixes a second thing for free — the whole row is now
+     * the hover target, so the diagonal sweep from a trigger down into its
+     * panel no longer crosses dead space (see HOVER_CLOSE_DELAY above).
+     */
+    <nav aria-label="Main" className="hidden items-center gap-9 self-stretch lg:flex">
       {NAV_ITEMS.map((item, index) => {
         const open = openLabel === item.label;
         const panelId = `${panelIdPrefix}-nav-${index}`;
@@ -183,7 +202,9 @@ export default function DesktopNav({ tone = "light" }: { tone?: "light" | "dark"
           // item stays `relative` so its panel hangs directly beneath it.
           <div
             key={item.label}
-            className={item.wide ? "group static" : "group relative"}
+            className={`group flex items-center self-stretch ${
+              item.wide ? "static" : "relative"
+            }`}
             onPointerEnter={item.columns ? openOnHover(item.label) : undefined}
             onPointerLeave={item.columns ? closeOnHoverOut : undefined}
             onBlur={item.columns ? closeOnFocusOut : undefined}

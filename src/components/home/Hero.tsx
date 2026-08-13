@@ -22,6 +22,17 @@ import {
  *   why trust it    → the trust strip along the bottom
  *   what to do      → one primary CTA, one secondary
  *
+ * ── ON THE TRUST STRIP ────────────────────────────────────────────────
+ * It was briefly removed, to clear the foot of the hero for a set of
+ * <Highlights> cards that overlapped it. Those cards are a flat service
+ * strip now and no longer reach up here, and the client asked for the band
+ * back, so it is back exactly as it was.
+ *
+ * It overlaps <Highlights> in substance — "Doctor-performed injectables"
+ * against "Doctor-Led & Internationally Trained" — and that is fine at
+ * this distance: one is three words on a photograph, the other is a
+ * labelled block on a surface one scroll later. Reinforcement, not repeat.
+ *
  * The headline is split across two type voices — the script face for the
  * emotional half, Poppins for the clinical qualifier. The sentence itself
  * is unchanged; only its typographic emphasis is new.
@@ -51,7 +62,7 @@ const TRUST_POINTS = [
 
 export default function Hero() {
   return (
-    <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink">
+    <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink-brown">
       <div className="absolute inset-0 -z-10">
         <Image
           src="/images/clinic/hero-banner.webp"
@@ -111,8 +122,11 @@ export default function Hero() {
         />
       </div>
 
-      {/* Top padding clears the fixed header, which over the hero is now a
-          utility strip plus a floating nav plate rather than a bare bar. */}
+      {/* Top padding clears the fixed header, which over the hero is a
+          utility strip plus the nav row — no plate behind either, just the
+          header's own scrim gradient. See Header.tsx. */}
+      {/* Top padding clears the fixed header, which over this hero is a
+          white utility strip plus a transparent nav row. See Header.tsx. */}
       <Container className="pb-14 pt-40 lg:pb-20 lg:pt-56">
         <div className="max-w-4xl">
           <Reveal>
@@ -176,6 +190,7 @@ export default function Hero() {
               </Button>
             </div>
           </Reveal>
+
         </div>
       </Container>
 
@@ -190,7 +205,7 @@ export default function Hero() {
                 >
                   {/* Gold, not the lime it was. Lime is a real brand colour
                       and it owns the section bands further down the page, but
-                      in a hero that is now warm end to end it was the one
+                      in a hero that is warm end to end it was the one
                       yellow-green note in an otherwise amber screen. */}
                   <StarIcon className="h-3 w-3 shrink-0 text-accent" />
                   {point}

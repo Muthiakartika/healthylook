@@ -38,6 +38,21 @@ import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
  * a second copy of ~450 lines of JSX that would drift from this one the
  * first time either page was edited.
  */
+/**
+ * What an At-a-glance row says when the clinic has not published that fact.
+ *
+ * The client's instruction was "a dash, or 'varies, you can ask the doctor
+ * directly'". A dash was the wrong half of that choice: on a spec box a
+ * bare "—" reads as "not applicable", which is a different claim from "we
+ * have not published this", and on anaesthesia or downtime that difference
+ * matters. This says the true thing and gives the reader somewhere to go.
+ *
+ * It is not a promise about the answer either — "varies" is accurate for
+ * exactly the fields that are blank, because downtime and result timing
+ * genuinely depend on the plan the doctor agrees with you.
+ */
+const GLANCE_UNPUBLISHED = "Varies — ask your doctor";
+
 export default function TreatmentDetail({ treatment }: { treatment: Treatment }) {
   const category = TREATMENT_CATEGORIES.find((c) => c.id === treatment.category);
   // The clinic's real FAQ for this treatment — 184 questions across 25
@@ -49,6 +64,21 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
   const related = treatments
     .filter((t) => t.category === treatment.category && t.slug !== treatment.slug)
     .slice(0, 3);
+
+  // Treatment time plus the four the client asked for, in their order.
+  // Declared as a list so the At-a-glance markup stays one loop rather than
+  // five near-identical blocks — and so adding a sixth is a one-line change.
+  //
+  // Treatment time joins them because it has the same problem: the live
+  // site publishes no time for five treatments, and a row that silently
+  // vanishes is indistinguishable from a fact that does not apply.
+  const GLANCE_ROWS = [
+    { label: "Treatment time", value: treatment.treatmentTime },
+    { label: "Anaesthesia", value: treatment.anaesthesia },
+    { label: "Downtime", value: treatment.downtime },
+    { label: "Initial result", value: treatment.initialResult },
+    { label: "Full result", value: treatment.fullResult },
+  ];
 
   const heroImage =
     treatment.image ?? category?.image ?? "/images/clinic/clinic-09.jpg";
@@ -293,21 +323,42 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
                           </dd>
                         </div>
                       )}
-                      {/* The live site prints a "Treatment Time" on every
-                          card of its treatments index. It's the second thing
-                          people ask after price — especially the holiday
-                          visitors this clinic serves, who are fitting the
-                          appointment into a trip. */}
-                      {treatment.treatmentTime && (
-                        <div className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5">
-                          <dt className="font-sans text-copy text-ink">
-                            Treatment time
-                          </dt>
-                          <dd className="font-sans text-sm text-text-secondary">
-                            {treatment.treatmentTime}
+                      {/* ── CLIENT REVISION (Treatments 2) ──────────────
+                          Treatment time, then anaesthesia, downtime and the
+                          two result timelines in the client's own order —
+                          the things someone fitting an appointment into a
+                          holiday came to this box for.
+
+                          ── WHY EVERY ROW RENDERS, EVEN EMPTY ONES ──────
+                          These used to be dropped when the clinic had not
+                          published a value, which meant the box was a
+                          different shape on every treatment: five rows on
+                          Sylfirm X, two on IV Drip. A reader could not tell
+                          whether a fact was missing or simply did not apply,
+                          and comparing two treatments meant comparing two
+                          different tables.
+
+                          So the row always appears, and an unpublished value
+                          says so in the clinic's own terms rather than
+                          showing a blank or a guess. It is set in `muted`
+                          against the answered rows' `text-secondary`, so
+                          the two are distinguishable at a glance without
+                          reading — you can see which facts are published. */}
+                      {GLANCE_ROWS.map(({ label, value }) => (
+                        <div
+                          key={label}
+                          className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5"
+                        >
+                          <dt className="font-sans text-copy text-ink">{label}</dt>
+                          <dd
+                            className={`text-right font-sans text-sm ${
+                              value ? "text-text-secondary" : "text-muted"
+                            }`}
+                          >
+                            {value ?? GLANCE_UNPUBLISHED}
                           </dd>
                         </div>
-                      )}
+                      ))}
                       <div className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5">
                         <dt className="font-sans text-copy text-ink">Category</dt>
                         <dd className="font-sans text-sm text-text-secondary">
@@ -337,7 +388,7 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
 
       {/* Clinic safety commitments — the clinic's own published protocols,
           shown on every treatment page because they apply to every one. */}
-      <section className="bg-ink py-section text-white">
+      <section className="bg-ink-brown py-section text-white">
         <Container>
           <SectionHeading tone="dark" eyebrow="Why here" title="How we treat you" />
           <div className="mt-16 grid gap-x-16 gap-y-11 sm:grid-cols-2 lg:grid-cols-3">

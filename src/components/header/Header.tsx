@@ -12,27 +12,46 @@ import MobileDrawer from "./MobileDrawer";
 import TopBar from "./TopBar";
 
 /**
- * REDESIGN NOTE — the header now has two states.
+ * THE HEADER — two states, and a split first one.
  *
- * Over the hero it's transparent with white type, so the hero photograph
- * runs edge-to-edge and full-height behind it instead of starting below a
- * white bar. That single change is most of what separates a "premium
- * clinic" first impression from a template one — the brief's strongest
- * requirement is that the hero be the strongest section on the page, and a
- * hero that starts 80px down the screen never is.
+ * ── HOW IT GOT HERE ───────────────────────────────────────────────────
+ * Four rounds of client feedback:
  *
- * Once the user scrolls past the hero it solidifies into the paper
- * background with a hairline rule, because transparent-white type over
- * arbitrary page content is illegible and is the usual way this pattern
- * breaks.
+ *  1. It was a floating panel over the hero — the nav on a translucent
+ *     plate. The client asked for "no shape as the background for the logo
+ *     in the header", so the plate went.
+ *  2. That left the nav as white type dropped loose on a photograph, which
+ *     the client read as "sedikit aneh". A taller scrim gradient and a
+ *     baseline hairline were the fix.
+ *  3. They then sent a solid-dark-bar reference, so the whole header
+ *     became one opaque brown bar on every page.
+ *  4. And then the shape they actually wanted: the utility strip WHITE,
+ *     the logo-and-menu row TRANSPARENT, and the old light header back
+ *     when you scroll.
  *
- * Which pages get the transparent treatment is decided here rather than by
- * a prop, because <Header> is rendered once from the root layout and a
- * layout can't read anything about the page below it. `usePathname` is the
- * standard way around that. The fallback is deliberately the *solid*
- * header: any route not listed — a 404, or a page added later — gets the
- * always-legible version rather than white-on-white.
+ * So the header is split at the top of the page. A white strip carries the
+ * address and phone, and the nav row below it sits directly on the
+ * photograph in white type. The white strip is what makes that work — it
+ * gives the header a top edge and a defined structure, which is precisely
+ * what step 2 was missing when the nav was floating on its own.
+ *
+ * Past the hero it becomes the light paper bar again: white-on-photo type
+ * over arbitrary page content is illegible, and that is the usual way this
+ * pattern breaks.
+ *
+ * ── LEGIBILITY OF THE TRANSPARENT ROW ─────────────────────────────────
+ * No scrim under the nav, deliberately — the client asked for transparent
+ * and it measures fine without one. The hero photograph already carries a
+ * left-to-right `ink-warm/80 → /28` wash for the headline, and white type
+ * on the composited result sits at 7.6:1 at its worst point across 375 to
+ * 1920, against a 4.5:1 bar. Adding a gradient here would buy nothing and
+ * cost the transparency that was asked for.
+ *
+ * ── WHY THE STRIP GOES WHITE AND NOT PAPER ────────────────────────────
+ * See TopBar.tsx: its type has to flip from white to dark for this, and
+ * pure white is the surface those colours were measured against.
  */
+
 // Routes whose hero is dark enough for the header to sit over it in white.
 //
 // This used to list every page, because every page opened on the dark ink
@@ -42,21 +61,56 @@ import TopBar from "./TopBar";
 //
 // Listed explicitly rather than defaulting to `true` so anything unlisted —
 // a 404, an inner page, or a page added later — gets the always-legible
-// solid header rather than white-on-light.
+// light header rather than white-on-light.
 const HERO_ROUTES = [/^\/$/];
+
+/**
+ * How far the page must scroll before the header stops being transparent.
+ *
+ * ── THE BUG THIS FIXES ────────────────────────────────────────────────
+ * This was `window.innerHeight * 0.8` — "solidify once you are past the
+ * hero" — and it produced a genuinely broken screen. The hero's headline
+ * is 160px of white script, and the hero is bottom-aligned, so that
+ * headline reaches the top of the viewport at roughly 400–600px of scroll.
+ * The header did not solidify until ~720px. In the gap between the two,
+ * white script ran straight through a white logo and white nav links with
+ * nothing between them. Both are white; neither was readable.
+ *
+ * The threshold was solving for "when has the reader left the hero", which
+ * is a question nobody asked. The question that matters is "when does hero
+ * content start passing behind the header", and the answer to that is
+ * "immediately", because the hero starts under it.
+ *
+ * ── WHY A SMALL FIXED VALUE AND NOT GEOMETRY ──────────────────────────
+ * Measuring the headline's real position and switching exactly when it
+ * arrives would keep the transparency a few hundred pixels longer, and it
+ * would depend on the hero's internal layout, the viewport height, the
+ * font loading, and how the script face wraps at each width. Every one of
+ * those is a way for the collision to come back on a screen size nobody
+ * tested. A constant this small cannot be wrong.
+ *
+ * 48px, not 0: a trackpad has inertia and a phone has bounce, so switching
+ * on any movement at all makes the header flicker when someone nudges the
+ * page and it settles back. 48px is past that and still far below the
+ * point where anything can reach the header.
+ *
+ * The transparent state is not lost — it is what the visitor sees when
+ * they land, which is the whole reason it exists. It just stops being what
+ * they see while the page is moving.
+ */
+const SOLIDIFY_AFTER_PX = 48;
 
 export default function Header() {
   const pathname = usePathname();
   const overHero = HERO_ROUTES.some((pattern) => pattern.test(pathname));
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  // Seeded from the route, not `false`. `usePathname` resolves during SSR, so
-  // a page that will never show the transparent header renders solid on its
-  // very first paint. Starting at `false` meant every inner page painted the
-  // over-hero treatment once and then corrected itself in an effect — which
-  // was a barely-visible blip when that treatment was "transparent", and is
-  // an obvious flash now that it is a 45px utility strip plus a dark plate,
-  // with a white logo that vanishes against a blush PageHero while it lasts.
+  // Seeded from the route, not `false`. `usePathname` resolves during SSR,
+  // so a page that will never show the over-hero treatment renders solid on
+  // its very first paint. Starting at `false` meant every inner page painted
+  // the transparent treatment once and then corrected itself in an effect —
+  // an obvious flash, with a white logo vanishing against a blush PageHero
+  // for as long as it lasted.
   const [scrolled, setScrolled] = useState(!overHero);
 
   useEffect(() => {
@@ -84,158 +138,133 @@ export default function Header() {
       setScrolled(true);
       return;
     }
-    // 80vh, not a fixed pixel value: the hero is viewport-height, so the
-    // handover point has to follow the viewport rather than assume a
-    // desktop-sized screen.
-    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.8);
+    const onScroll = () => setScrolled(window.scrollY > SOLIDIFY_AFTER_PX);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [overHero]);
 
-  // The drawer being open also forces the solid treatment — otherwise the
+  // The drawer being open also forces the light treatment — otherwise the
   // white logo sits on the white drawer backdrop and disappears.
   const solid = scrolled || mobileOpen;
 
   return (
     /*
-     * Two shapes, not just two colour schemes.
+     * ── WHY <MobileDrawer> IS A SIBLING, NOT A CHILD ──────────────────
+     * A `backdrop-filter` is a containing block for `position: fixed`
+     * descendants as well as absolute ones. The header used to carry
+     * `backdrop-blur-md` in its scrolled state and the drawer used to
+     * render inside it — so the moment the drawer opened, the header
+     * gained the filter and the drawer's "full viewport" box collapsed to
+     * the header's own 80px. On a phone that showed as the menu's title
+     * row and close button floating over the hero with no navigation
+     * under it: the menu appeared to open and be empty.
      *
-     * Solid (scrolled, and every inner page) is the full-width bar it has
-     * always been. Over the hero it is now a floating panel instead: a
-     * utility strip, then the nav inset inside the container on a
-     * translucent warm-dark plate. That is what stops a transparent header
-     * from reading as "no header" — the nav needs its own surface to sit on
-     * before it reads as a designed element rather than text dropped on a
-     * photo.
+     * The blur is gone now along with the two-state background, but the
+     * drawer stays a sibling, which is where a modal overlay belongs
+     * anyway. Same z-50, later in the DOM, so it still paints above.
      *
-     * The plate keeps `rounded-brand` (3px). A pill would be the obvious
-     * move here and it is the wrong one: the near-square corner is measured
-     * from the live site and it runs through every button, input and card
-     * on this site. One rounded exception would read as a component
-     * borrowed from somewhere else.
-     *
-     * ── WHY THE PLATE HAS NO backdrop-blur ────────────────────────────
-     * It did, and it broke the mega-menu. `backdrop-filter` makes an element
-     * a containing block for absolutely-positioned descendants even at
-     * `position: static` — so the Treatments panel, which is `absolute` and
-     * relies on the `static` wrapper in DesktopNav dropping its positioning
-     * context all the way to this fixed <header>, resolved against the plate
-     * instead. The panel came out 1170px wide and inset on the homepage but
-     * 1265px and full-bleed on every inner page, because the plate only
-     * exists in the over-hero branch: the menu visibly changed width the
-     * moment you scrolled past the hero.
-     *
-     * The translucent fill and the hairline border carry the glass read on
-     * their own over a photograph. If the blur is ever wanted back, it has
-     * to go somewhere that is not an ancestor of the panel — putting it on
-     * this element will silently re-break the same thing.
-     *
-     * ── AND WHY <MobileDrawer> IS OUTSIDE THE <header> ────────────────
-     * Same trap, worse symptom. The <header> keeps `backdrop-blur-md` in its
-     * solid state, and a `backdrop-filter` is a containing block for
-     * `position: fixed` descendants as well as absolute ones. The drawer is
-     * `fixed inset-0` and used to render inside the header — so the moment it
-     * opened, `solid` flipped true, the header gained the filter, and the
-     * drawer's "full viewport" box collapsed to the header's own 80px. On a
-     * phone that showed as the menu's title row and close button floating
-     * over the hero with no navigation under it: the menu appeared to open
-     * and be empty.
-     *
-     * It is a sibling of the header now, which is where a modal overlay
-     * belongs anyway. Same z-50, later in the DOM, so it still paints above.
+     * The same trap is why nothing on this <header> may take
+     * `backdrop-filter`, `filter` or `transform`: the Treatments mega-menu
+     * is `absolute` and relies on the `static` wrapper in DesktopNav
+     * dropping its positioning context all the way up to this element. Put
+     * a filter here and the panel resolves against the wrong box and
+     * changes width between pages.
      */
     <>
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-brand ${
-        solid
-          ? "border-b border-hairline bg-paper/92 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
-      }`}
-    >
-      {/* Collapses to nothing on scroll, so the solid state stays the
-          compact bar it was rather than growing a second row. */}
-      <div
-        className={`overflow-hidden transition-[max-height,opacity] duration-500 ease-brand ${
-          solid ? "max-h-0 opacity-0" : "max-h-16 opacity-100"
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-brand ${
+          solid
+            ? "border-b border-hairline bg-paper/92 backdrop-blur-md"
+            : // Transparent, and no border either: over the hero the white
+              // strip above is the header's edge, so a second rule under
+              // the nav would draw a line across the photograph for no
+              // reason. The border is declared rather than dropped so the
+              // colour transition to the scrolled state stays smooth.
+              "border-b border-transparent bg-transparent"
         }`}
-        aria-hidden={solid}
       >
-        <TopBar />
-      </div>
-
-      <Container className={solid ? "" : "pt-3"}>
+        {/* Collapses to nothing on scroll, so the scrolled state stays the
+            compact bar it was rather than growing a second row. */}
         <div
-          className={`flex h-20 items-center justify-between gap-6 transition-[background-color,border-color,padding] duration-500 ease-brand lg:h-24 ${
-            solid
-              ? ""
-              : "rounded-brand border border-white/15 bg-ink-warm/45 px-6 lg:px-8"
+          className={`overflow-hidden transition-[max-height,opacity] duration-500 ease-brand ${
+            solid ? "max-h-0 opacity-0" : "max-h-16 opacity-100"
           }`}
+          aria-hidden={solid}
         >
-          <Brand tone={solid ? "light" : "dark"} />
-
-          <DesktopNav tone={solid ? "light" : "dark"} />
-
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* WhatsApp gets its own always-visible affordance next to the
-                CTA: it's the clinic's real booking channel, and on mobile a
-                tap-to-chat icon converts far better than routing everyone
-                through a form. */}
-            <a
-              href={whatsappHref(
-                "Hello Healthy Look Aesthetic, I'd like to ask about a treatment.",
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat with us on WhatsApp"
-              className={`hidden rounded-full p-2.5 transition-colors duration-300 sm:inline-flex ${
-                solid
-                  ? "text-primary hover:bg-primary/10"
-                  : "text-white hover:bg-white/15"
-              }`}
-            >
-              <WhatsAppIcon className="h-5 w-5" />
-            </a>
-
-            {/* `max-sm:hidden`, not `hidden sm:inline-flex`. <Button> carries
-                `inline-flex` in its own base classes, and a plain `hidden`
-                loses to it — same specificity, and `.inline-flex` is emitted
-                later in the stylesheet — so this CTA was showing on phones
-                alongside the hamburger, which is exactly the crowding the
-                StickyCTA exists to avoid. A media-query variant always wins
-                against an unconditional utility, so this one actually hides.
-
-                Over the hero this is the bright gold fill, not the ghost
-                outline it used to be. A transparent-bordered button on a
-                photograph is the single biggest reason the old hero read as
-                colourless — the one element on the screen whose whole job is
-                to be clicked had no colour at all. */}
-            <Button
-              href={BOOKING_HREF}
-              variant={solid ? "primary" : "accent"}
-              size="sm"
-              className="max-sm:hidden"
-            >
-              {BOOKING_LABEL}
-            </Button>
-
-            <button
-              type="button"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open navigation menu"
-              aria-expanded={mobileOpen}
-              className={`-mr-2 p-2 transition-colors duration-300 lg:hidden ${
-                solid ? "text-ink" : "text-white"
-              }`}
-            >
-              <MenuIcon className="h-6 w-6" />
-            </button>
-          </div>
+          <TopBar />
         </div>
-      </Container>
-    </header>
 
-    <MobileDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
+        <Container>
+          {/* No conditional classes on this row: with the plate long gone,
+              both states are the same bar at the same width and the same
+              container padding. Only the type colour changes. */}
+          <div className="flex h-20 items-center justify-between gap-6 lg:h-24">
+            <Brand tone={solid ? "light" : "dark"} />
+
+            <DesktopNav tone={solid ? "light" : "dark"} />
+
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* WhatsApp gets its own always-visible affordance next to the
+                  CTA: it's the clinic's real booking channel, and on mobile a
+                  tap-to-chat icon converts far better than routing everyone
+                  through a form. */}
+              <a
+                href={whatsappHref(
+                  "Hello Healthy Look Aesthetic, I'd like to ask about a treatment.",
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
+                className={`hidden rounded-full p-2.5 transition-colors duration-300 sm:inline-flex ${
+                  solid
+                    ? "text-primary hover:bg-primary/10"
+                    : "text-white hover:bg-white/15"
+                }`}
+              >
+                <WhatsAppIcon className="h-5 w-5" />
+              </a>
+
+              {/* `max-sm:hidden`, not `hidden sm:inline-flex`. <Button> carries
+                  `inline-flex` in its own base classes, and a plain `hidden`
+                  loses to it — same specificity, and `.inline-flex` is emitted
+                  later in the stylesheet — so this CTA was showing on phones
+                  alongside the hamburger, which is exactly the crowding the
+                  StickyCTA exists to avoid. A media-query variant always wins
+                  against an unconditional utility, so this one actually hides.
+
+                  Over the hero this is the bright pale-gold fill, not a
+                  ghost outline. A transparent-bordered button on a
+                  photograph is the single biggest reason the old hero read
+                  as colourless — the one element on screen whose whole job
+                  is to be clicked had no colour at all. Scrolled, it takes
+                  the deep gold that clears 4.5:1 on paper. */}
+              <Button
+                href={BOOKING_HREF}
+                variant={solid ? "primary" : "accent"}
+                size="sm"
+                className="max-sm:hidden"
+              >
+                {BOOKING_LABEL}
+              </Button>
+
+              <button
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                aria-label="Open navigation menu"
+                aria-expanded={mobileOpen}
+                className={`-mr-2 p-2 transition-colors duration-300 lg:hidden ${
+                  solid ? "text-ink" : "text-white"
+                }`}
+              >
+                <MenuIcon className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+        </Container>
+      </header>
+
+      <MobileDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );
 }

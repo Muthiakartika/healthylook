@@ -34,7 +34,12 @@ export default function Results() {
             align="left"
             eyebrow="Results"
             title="Before &amp; After"
-            subtitle="Real patients, treated at our Ubud clinic."
+            // CLIENT REVISION 11, their words: "Before & After, Real
+            // Patient, Real Result. No Filter, No Edit". The last four
+            // words are the ones doing the work — in a category where
+            // retouched results are the norm, saying plainly that these
+            // are not is a stronger claim than any adjective.
+            subtitle="Real patients, real results. No filter, no edit."
             className="lg:max-w-xl"
           />
           <Reveal delay={100} className="shrink-0">

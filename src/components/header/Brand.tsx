@@ -12,9 +12,14 @@ import { SITE_NAME } from "@/lib/constants";
  *
  * ── The colour handling ──
  * The source PNG is dark artwork on transparency, so it disappears against
- * the ink hero. `brightness-0 invert` forces any single-colour mark to
- * pure white without needing a second asset from the client. On the solid
- * header it renders untouched, in its real colours.
+ * the brown header bar. `brightness-0 invert` forces any single-colour
+ * mark to pure white without needing a second asset from the client.
+ *
+ * `tone` is effectively always "dark" now — the header is one solid brown
+ * bar on every page, so there is no longer a light state for the logo to
+ * switch back to. The prop is kept rather than hard-coded because it is
+ * what makes this component reusable on a light surface (a print sheet, a
+ * light footer, an email header) without editing it.
  *
  * `priority` because the logo is in the first viewport on every page, and
  * a logo that pops in late is the most visible possible loading artifact.

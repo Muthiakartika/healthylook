@@ -45,9 +45,14 @@ export default function BookingSection() {
               </span>
             </Reveal>
 
+            {/* Client's About Us note 3. The added clause is what turns a
+                direction into a reason — "come and see us in Ubud" is a map
+                pin, "to start your journey to confidence" is why you would.
+                It runs on the homepage as well as /our-doctor, since this is
+                one shared section and the line is right for both. */}
             <Reveal delay={90}>
               <h2 className="mt-8 font-script text-h1 leading-script text-primary">
-                Come and see us in Ubud
+                Come and see us in Ubud to start your journey to confidence
               </h2>
             </Reveal>
 

@@ -69,6 +69,61 @@ export const extraPricingSections: PricingSection[] = [
  * the accepted payment methods entirely — a genuinely useful detail for
  * someone travelling to Bali deciding whether to bring cash.
  */
+/**
+ * ── CLIENT REVISION (Pricing 1) ───────────────────────────────────────
+ * Their brief, verbatim: "You can change the words, but please don't
+ * remove the ideas of transparency, the price is nett inclusive of tax
+ * without service charge."
+ *
+ * So all three ideas are here and only the phrasing is tightened. The one
+ * substantive edit is the last clause: their draft ended "...because
+ * helping you look and feel your best is our passion", which explains a
+ * pricing policy with a feeling. "It is already in the price" explains it
+ * with the fact, which is what a reader checking a price list wants — and
+ * the passion line already exists on the site, in the brand story, where
+ * it is not standing between someone and a number.
+ *
+ * ── Why this is not in PRICING_NOTE ───────────────────────────────────
+ * PRICING_NOTE is small print at the foot of a 236-row table, and it
+ * already carries "all prices are nett and inclusive of all fees and
+ * surcharges" — the same fact, positioned as a disclaimer. This is the
+ * same fact positioned as a promise, at the top of the page, before the
+ * numbers. On a price list that distinction is the entire point of the
+ * client's note: a reader who has already scrolled past 236 rows does not
+ * need reassuring, and a reader who has just arrived does.
+ *
+ * ── WHY IT IS SPLIT INTO PARTS ────────────────────────────────────────
+ * It shipped first as one 223-character string, centred, and it looked
+ * like what it was: a paragraph floating in a band. Four centred lines
+ * ending on the orphan "price.", no heading, nothing to scan.
+ *
+ * The sentence has two jobs inside it and they want different typography.
+ * "We believe in transparency" is a claim and belongs at display size in
+ * the script face, like every other section statement on this site. The
+ * three commitments after it are facts, and facts want to be counted, not
+ * read — three short lines beat one long clause that buries them.
+ *
+ * The client's three required ideas all survive the split: transparency,
+ * nett and inclusive of tax, and no service charge.
+ */
+export const PRICING_PROMISE = {
+  /** Script display line — the client's own opening clause. */
+  title: "We believe in transparency",
+  /** Their own continuation, now a sentence of its own. */
+  description:
+    "So you can plan your journey to confidence, and know the full cost before anything begins.",
+  /**
+   * The three commitments, one per line. Each is a restatement of the
+   * client's own clause, not a new claim: "All prices are nett and
+   * inclusive of tax. We don't charge a service fee."
+   */
+  points: [
+    { label: "Nett prices", detail: "The figure you see is the figure you pay." },
+    { label: "Tax included", detail: "Already inside every price on this page." },
+    { label: "No service fee", detail: "We don't add one, ever." },
+  ],
+};
+
 export const PRICING_NOTE =
   "Prices are subject to change without prior notice. All prices are nett and inclusive of all fees and surcharges.";
 

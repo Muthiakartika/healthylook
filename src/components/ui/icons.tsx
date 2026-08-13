@@ -131,6 +131,57 @@ export function TagIcon({ className }: IconProps) {
   );
 }
 
+// ---- Added for CLINIC_HIGHLIGHTS (client revision notes 2 and 8) ----
+// One mark per highlight, so the strip reads as six distinct promises
+// rather than six identical ticks. Same stroke convention as everything
+// above: 24-unit box, 1.6 stroke, `currentColor`.
+//
+// ShieldIcon (doctor-led) and SparkleIcon (natural results) already
+// existed and are reused — hence only four new marks here.
+
+/** "Honest Opinion" — a conversation, not a certificate. */
+export function MessageIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M20 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2Z" />
+      <line x1="8" y1="9" x2="16" y2="9" />
+      <line x1="8" y1="13" x2="13" y2="13" />
+    </svg>
+  );
+}
+
+/** "Authentic Devices & Product" — a seal, i.e. verified provenance. */
+export function VerifiedIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <circle cx="12" cy="9" r="6" />
+      <polyline points="9.5 9 11.3 10.8 14.8 7.3" />
+      <path d="M8.4 14.2 7 22l5-2.4 5 2.4-1.4-7.8" />
+    </svg>
+  );
+}
+
+/** "A Calm Setting Within A Five-Star Resort" — the garden, not a star. */
+export function LeafIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M4 20c0-8 5-14 16-15 1 11-5 16-12 16a5 5 0 0 1-4-1Z" />
+      <path d="M9 16c1.5-4 4-6.5 8-8.5" />
+    </svg>
+  );
+}
+
+/** "Evidence Based Aesthetic Medicine" — the lab behind the treatment. */
+export function FlaskIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M10 3v6.2L4.7 18a2 2 0 0 0 1.7 3h11.2a2 2 0 0 0 1.7-3L14 9.2V3" />
+      <line x1="8.5" y1="3" x2="15.5" y2="3" />
+      <line x1="7.2" y1="14.5" x2="16.8" y2="14.5" />
+    </svg>
+  );
+}
+
 // ---- Added in the redesign ----
 // Editorial arrows (used by Button's `withArrow` and by card links), plus
 // the social/messaging marks the live site links to but the original

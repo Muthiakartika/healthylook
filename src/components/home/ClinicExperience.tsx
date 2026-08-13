@@ -90,11 +90,31 @@ export default function ClinicExperience() {
           </div>
 
           <div className="lg:col-span-7">
+            {/* ── CLIENT REVISION 15 ────────────────────────────────────
+                Three edits, all theirs:
+
+                 1. "please remove outside of central Ubud" — gone. It was
+                    positioning the location as a drawback and then
+                    apologising for it; "inside a five-star resort" is the
+                    same fact told as the advantage it actually is.
+                 2. "Add these ideas private, calm, comfortable" — now the
+                    three words the first sentence turns on.
+                 3. Their second sentence, kept close to verbatim: "We
+                    combine the advance of aesthetic medicine with the
+                    tranquility and hospitality of the five star resort."
+                    Only the hyphen in "five-star" is ours. */}
             <Reveal delay={140}>
               <p className="measure font-sans text-lead text-text">
-                Tucked inside a resort just outside central Ubud, the clinic pairs
-                clinical precision with a genuinely calm setting, an unhurried hour
-                away from the noise of a typical clinic day.
+                Tucked inside a five-star resort, the clinic pairs clinical
+                precision with a setting that is private, calm and comfortable —
+                an unhurried hour away from the noise of a typical clinic day.
+              </p>
+            </Reveal>
+
+            <Reveal delay={180}>
+              <p className="mt-6 measure font-sans text-body leading-body text-text-secondary">
+                We combine the advance of aesthetic medicine with the tranquility
+                and hospitality of the five-star resort.
               </p>
             </Reveal>
 

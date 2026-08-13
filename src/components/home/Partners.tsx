@@ -20,10 +20,23 @@ import { partners } from "@/data/partners";
  * element is one of the clearest accessibility failures available, and
  * this one is decorative enough that stopping it costs nothing.
  *
- * Logos are greyscale at rest and colour on hover: seventeen full-colour
- * logos in a row is visual noise that competes with the brand's own
- * palette, which is exactly what the brief's "not overly colourful" rule
- * is about.
+ * ── CLIENT REVISION 3 — THE LOGOS ARE IN COLOUR NOW ───────────────────
+ * "I think it's better to use colored logo for the section 'only the best
+ * worldwide products' rather than black & white logo."
+ *
+ * They were greyscale at rest and colour on hover, on the reasoning that
+ * seventeen full-colour logos in a row is visual noise competing with the
+ * brand's own palette. The client's call overrides that, and it is the
+ * better call on the merits: this strip is the page's manufacturer
+ * evidence, and Allergan red, Restylane blue and Juvéderm's mark are
+ * recognised BY their colour. Desaturating them costs exactly the
+ * recognition the section exists to borrow — and the hover-to-reveal never
+ * fired at all on a touchscreen, so on mobile they were simply grey.
+ *
+ * What holds the noise down instead is scale and motion, not desaturation:
+ * the logos are small, they sit on a quiet band, they are masked to fade at
+ * both edges, and they keep moving. The slight opacity lift on hover is all
+ * that is left of the old treatment.
  */
 export default function Partners() {
   return (
@@ -66,7 +79,7 @@ export default function Partners() {
                     width={250}
                     height={250}
                     sizes="120px"
-                    className="h-16 w-auto object-contain opacity-55 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 lg:h-20"
+                    className="h-16 w-auto object-contain opacity-90 transition-opacity duration-500 hover:opacity-100 lg:h-20"
                   />
                 </li>
               ))}

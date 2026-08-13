@@ -191,7 +191,7 @@ export default function Testimonials({
     <section className="bg-wash py-section">
       <Container>
         <Reveal className="flex justify-center">
-          <span className="inline-flex items-center gap-2.5 rounded-edge bg-ink px-4 py-2.5">
+          <span className="inline-flex items-center gap-2.5 rounded-edge bg-ink-brown px-4 py-2.5">
             <StarIcon className="h-3 w-3 text-accent" />
             <span className="eyebrow text-white/85">
               {platforms.join(" & ")} reviews

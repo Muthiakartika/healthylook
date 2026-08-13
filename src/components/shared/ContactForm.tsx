@@ -1,32 +1,39 @@
 "use client";
 
-import { useState } from "react";
-import { WhatsAppIcon, ArrowRightIcon } from "@/components/ui/icons";
 import {
-  whatsappHref,
-  BOOKING_TIME_SLOTS,
-  BOOKING_TREATMENT_OPTIONS,
-} from "@/lib/constants";
+  useEnquirySubmit,
+  readField,
+  type EnquiryExtra,
+} from "@/lib/useEnquirySubmit";
+import {
+  fieldClass,
+  labelClass,
+  errorFieldClass,
+  errorProps,
+  Honeypot,
+  FieldError,
+  SubmitRow,
+  SentNotice,
+  ErrorNotice,
+} from "./formParts";
+import { BOOKING_TIME_SLOTS, BOOKING_TREATMENT_OPTIONS } from "@/lib/constants";
 
 /**
- * The enquiry form.
+ * The treatment enquiry form — homepage, /book-now, and every page that
+ * ends on <BookingSection>.
  *
- * ⚠ HOW THIS ACTUALLY SUBMITS — the important part.
+ * ── CLIENT REVISION 13: "Booking form better enter to email or WA?" ────
+ * Email, with WhatsApp kept as the fallback.
  *
- * There is no email backend in this build, and the brief forbids inventing
- * a new booking system. The flow the clinic genuinely runs on is WhatsApp
- * — it's the number in their own site header — so submitting composes the
- * enquiry as a WhatsApp message and hands off to it.
+ * Submitting POSTs to /api/enquiry, which sends the enquiry to the
+ * clinic's mailbox (see that route for configuration). It used to compose
+ * a `wa.me` deep link and open it — which worked, but the enquiry only
+ * existed if the visitor then pressed send inside WhatsApp, and the clinic
+ * had no record of the ones who didn't.
  *
- * Deliberately chosen over the two alternatives:
- *   - Posting to nothing and showing a fake "thank you" silently drops
- *     real patient enquiries. That's the worst outcome here, and it's what
- *     an unwired form on a template site usually does.
- *   - `mailto:` opens whatever mail client the device has configured,
- *     which on mobile is frequently none.
- *
- * When a real backend exists, `handleSubmit` is the single function to
- * replace; the fields already match the live site's own form.
+ * Behaviour, spam handling and the three status states live in
+ * useEnquirySubmit and formParts, shared with <GiftCardForm>. This file is
+ * only this form's questions.
  *
  * `withSchedule` adds the preferred date/time fields that the live site's
  * dedicated /book-now page has and its inline footer form doesn't.
@@ -36,45 +43,50 @@ export default function ContactForm({
 }: {
   withSchedule?: boolean;
 }) {
-  const [sent, setSent] = useState(false);
+  const { status, fieldErrors, fallbackHref, formRef, submit } = useEnquirySubmit();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const get = (k: string) => String(data.get(k) ?? "").trim();
+    const get = (key: string) => readField(data, key);
 
-    const lines = [
-      "Hello Healthy Look Aesthetic, I'd like to make an enquiry.",
-      "",
-      `Name: ${get("name")}`,
-      `Email: ${get("email")}`,
-      get("phone") ? `Phone: ${get("phone")}` : null,
-      get("treatment") ? `Treatment of interest: ${get("treatment")}` : null,
-      get("date") ? `Preferred date: ${get("date")}` : null,
-      get("time") ? `Preferred time: ${get("time")}` : null,
-      get("message") ? "" : null,
-      get("message") ? `Message: ${get("message")}` : null,
-    ].filter((line): line is string => line !== null);
+    const extra: EnquiryExtra[] = (
+      [
+        ["Phone / WhatsApp", get("phone")],
+        ["Treatment of interest", get("treatment")],
+        ["Preferred date", get("date")],
+        ["Preferred time", get("time")],
+        ["Message", get("message")],
+      ] as [string, string][]
+    )
+      .filter(([, value]) => value !== "")
+      .map(([label, value]) => ({ label, value }));
 
-    // `window.open` rather than assigning location: it keeps the site open
-    // in the original tab, so a user coming back from WhatsApp hasn't lost
-    // their place.
-    window.open(whatsappHref(lines.join("\n")), "_blank", "noopener,noreferrer");
-    setSent(true);
+    void submit({
+      core: { name: get("name"), email: get("email"), website: get("website") },
+      extra,
+      whatsappLines: [
+        `Name: ${get("name")}`,
+        `Email: ${get("email")}`,
+        ...extra.map((item) => `${item.label}: ${item.value}`),
+      ],
+    });
   }
 
-  // `text-body` (16px), not `text-copy` (15px). Below 16px, iOS Safari zooms
-  // the page in when a field takes focus and does not zoom back out — so on
-  // an iPhone every input in this form left the visitor scrolled sideways on
-  // a magnified page, mid-enquiry. One pixel of type size is the entire fix.
-  const fieldClass =
-    "w-full border-b border-hairline bg-transparent py-3.5 font-sans text-body text-ink " +
-    "placeholder:text-muted focus:border-primary focus:outline-none focus-visible:outline-none " +
-    "transition-colors duration-300";
-  const labelClass = "eyebrow block text-muted";
+  if (status === "sent") {
+    return (
+      <SentNotice>
+        It has been sent to our team and we reply during opening hours, every day
+        10.00 &ndash; 18.00. If you&rsquo;d like an answer sooner, message us on
+        WhatsApp.
+      </SentNotice>
+    );
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+    <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-8">
+      <Honeypot />
+
       <div className="grid gap-8 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
@@ -87,8 +99,10 @@ export default function ContactForm({
             required
             autoComplete="name"
             placeholder="Jane Doe"
-            className={`mt-3 ${fieldClass}`}
+            {...errorProps("name", fieldErrors)}
+            className={`mt-3 ${fieldClass} ${fieldErrors.name ? errorFieldClass : ""}`}
           />
+          <FieldError name="name" fieldErrors={fieldErrors} />
         </div>
 
         <div>
@@ -102,8 +116,10 @@ export default function ContactForm({
             required
             autoComplete="email"
             placeholder="jane@example.com"
-            className={`mt-3 ${fieldClass}`}
+            {...errorProps("email", fieldErrors)}
+            className={`mt-3 ${fieldClass} ${fieldErrors.email ? errorFieldClass : ""}`}
           />
+          <FieldError name="email" fieldErrors={fieldErrors} />
         </div>
 
         <div>
@@ -148,12 +164,7 @@ export default function ContactForm({
               <label htmlFor="date" className={labelClass}>
                 Preferred date
               </label>
-              <input
-                id="date"
-                name="date"
-                type="date"
-                className={`mt-3 ${fieldClass}`}
-              />
+              <input id="date" name="date" type="date" className={`mt-3 ${fieldClass}`} />
             </div>
 
             <div>
@@ -194,34 +205,13 @@ export default function ContactForm({
         />
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <button
-          type="submit"
-          className="group inline-flex items-center justify-center gap-2.5 rounded-brand bg-primary-strong px-8 py-4 font-sans text-caption font-medium uppercase tracking-caps-wide text-white transition-colors duration-300 hover:bg-primary-hover"
-        >
-          <WhatsAppIcon className="h-4 w-4" />
-          Send via WhatsApp
-          <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-        </button>
+      <SubmitRow status={status} fallbackHref={fallbackHref} />
 
-        {/* Told up front, not after the fact — a button that unexpectedly
-            opens another app is a small betrayal of trust, and this is a
-            page about trust. */}
-        <p className="font-sans text-caption leading-relaxed text-muted">
-          Opens WhatsApp with your details filled in.
-        </p>
+      {/* aria-live so failures are announced to screen readers, which
+          otherwise get no signal that the submit did anything. */}
+      <div role="status" aria-live="polite">
+        {status === "error" && <ErrorNotice fallbackHref={fallbackHref} />}
       </div>
-
-      {/* aria-live so the confirmation is announced to screen readers,
-          which otherwise get no signal that anything happened. */}
-      <p role="status" aria-live="polite" className="min-h-[1.25rem]">
-        {sent && (
-          <span className="font-sans text-sm text-success">
-            Your message is ready in WhatsApp. Press send there and we&rsquo;ll reply
-            during opening hours.
-          </span>
-        )}
-      </p>
     </form>
   );
 }

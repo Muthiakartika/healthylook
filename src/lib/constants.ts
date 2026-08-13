@@ -52,10 +52,23 @@ export const EMAIL = "info@healthylook-aesthetic.com";
 export const ADDRESS = "Raya Silungan st Lodtunduh Ubud Bali at Ubud Nyuh Bali Resort";
 export const OPENING_HOURS = "Opens Everyday 10.00 - 18.00";
 
+/**
+ * The clinic's Instagram, named separately from SOCIAL_LINKS below.
+ *
+ * SOCIAL_LINKS is a list to iterate over for the footer and the header
+ * strip; this is a single destination /before-after links to by name,
+ * after the client asked to point visitors there for the newest results
+ * rather than offer to send photographs over WhatsApp. Naming it means
+ * that link cannot silently break if the socials array is ever reordered
+ * or a network is dropped from it — and SOCIAL_LINKS reads from this, so
+ * the handle still lives in exactly one place.
+ */
+export const INSTAGRAM_HREF = "https://www.instagram.com/healthylook_aesthetic";
+
 // Read off the live site's own markup, not guessed — the handles differ
 // between the two networks (underscore vs dot).
 export const SOCIAL_LINKS = [
-  { label: "Instagram", href: "https://www.instagram.com/healthylook_aesthetic", icon: "instagram" as const },
+  { label: "Instagram", href: INSTAGRAM_HREF, icon: "instagram" as const },
   { label: "Facebook", href: "https://www.facebook.com/healthylook.aesthetic", icon: "facebook" as const },
   { label: "WhatsApp", href: `https://wa.me/${WHATSAPP_NUMBER}`, icon: "whatsapp" as const },
 ];

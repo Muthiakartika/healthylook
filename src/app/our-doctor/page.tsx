@@ -46,7 +46,11 @@ export default function OurDoctorPage() {
     <>
       <PageHero
         eyebrow="About Us"
-        title="Science, aesthetics, and wellness in one place"
+        // Client's About Us note 1, their wording and their ampersand. It
+        // reads better than what it replaced ("…in one place"), which
+        // described a location; this describes a meeting of three things,
+        // which is what the clinic's own brand story is actually about.
+        title="Where Science, Aesthetics & Wellness Come Together"
         crumbs={[{ label: "Home", href: "/" }, { label: "Our Doctors" }]}
         description={BRAND_INTRO}
         // Not a portrait: both doctors' portraits run in full a few hundred
@@ -131,7 +135,7 @@ export default function OurDoctorPage() {
       </section>
 
       {/* Safety */}
-      <section className="bg-ink py-section text-white">
+      <section className="bg-ink-brown py-section text-white">
         <Container>
           <SectionHeading
             tone="dark"

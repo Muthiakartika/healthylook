@@ -11,22 +11,36 @@ import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import {
   TREATMENT_CATEGORIES,
-  treatments,
+  getPopularTreatments,
   treatmentHref,
+  TREATMENT_COUNT_LABEL,
   type TreatmentCategoryId,
 } from "@/data/treatments";
 
 /**
  * SECTIONS 04 + 11 — TREATMENTS, ORGANISED BY CATEGORY
  *
- * The four categories are exactly the four on the live site, and every one
- * of its 27 treatments appears under one of them.
+ * The four categories are exactly the four on the live site.
+ *
+ * ── CLIENT REVISION 5 — THIS IS A SHORTLIST, NOT THE CATALOGUE ────────
+ * "For home page, i think just highlight the most popular one."
+ *
+ * So each tab now lists only the treatments the client named for that
+ * category — sixteen across the four — in their order. The full set of 30+
+ * still lives at /ubud-bali, which is what the "Explore Our Treatments"
+ * button goes to (their wording, note 5). See HOME_POPULAR_SLUGS.
+ *
+ * The subtitle deliberately still advertises the full range ("30+
+ * treatments…", note 4) even though this list shows sixteen. That is not a
+ * contradiction — it is the point: the shortlist proves the range is
+ * curated, the count proves it is deep, and the button is how you get from
+ * one to the other.
  *
  * A numbered editorial index rather than a card grid, for three reasons:
  * card grids force every treatment to identical visual weight and identical
  * description length (these run from one line to four); an index reads as a
- * considered menu; and it degrades honestly — eleven treatments in a grid is
- * a wall, eleven in an index is a list you scan.
+ * considered menu; and it degrades honestly — six treatments in a grid is a
+ * sparse wall, six in an index is a list you scan.
  *
  * Hovering a row swaps the image in the sticky column. That column is
  * hidden below `lg` and marked `aria-hidden`, since every fact it shows is
@@ -37,7 +51,7 @@ export default function Treatments() {
   const [active, setActive] = useState<TreatmentCategoryId>("facial-enhancement");
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const visible = treatments.filter((treatment) => treatment.category === active);
+  const visible = getPopularTreatments(active);
   const activeCategory = TREATMENT_CATEGORIES.find((c) => c.id === active);
 
   /*
@@ -80,12 +94,15 @@ export default function Treatments() {
             align="left"
             eyebrow="What We Do"
             title="Treatments"
-            subtitle={`${treatments.length} treatments across facial enhancement, skin, body, and hair.`}
+            subtitle={`${TREATMENT_COUNT_LABEL} treatments across facial enhancement, skin, body, and hair.`}
             className="lg:max-w-xl"
           />
           <Reveal delay={120} className="shrink-0">
+            {/* The client's own label, from revision note 5. "View all
+                treatments" described a directory; "Explore" describes what
+                the page after the click actually is. */}
             <Button href="/ubud-bali" variant="outline" size="sm" withArrow>
-              View all treatments
+              Explore Our Treatments
             </Button>
           </Reveal>
         </div>
@@ -98,7 +115,11 @@ export default function Treatments() {
           >
             {TREATMENT_CATEGORIES.map((category) => {
               const isActive = category.id === active;
-              const count = treatments.filter((t) => t.category === category.id).length;
+              // The count of what this tab will actually SHOW, not the
+              // category's true total. A tab reading "Skin Treatments 13"
+              // that opens onto six rows reads as a bug; the honest total
+              // for the whole catalogue is in the subtitle above.
+              const count = getPopularTreatments(category.id).length;
               return (
                 <button
                   key={category.id}

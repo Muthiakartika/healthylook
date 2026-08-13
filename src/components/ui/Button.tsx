@@ -87,7 +87,7 @@ const variants: Record<Variant, string> = {
    * inside the warm family rather than jumping to a neutral.
    */
   accent: "bg-accent text-ink hover:bg-blush",
-  dark: "bg-ink text-white hover:bg-primary-strong",
+  dark: "bg-ink-brown text-white hover:bg-primary-strong",
   // Sits on the dark contrast bands — inverts to gold rather than to
   // another neutral, so the brand color still leads the interaction.
   light: "bg-white text-ink hover:bg-secondary hover:text-primary-hover",

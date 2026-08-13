@@ -18,6 +18,43 @@ export type Doctor = {
   /** Each entry is one verbatim paragraph from the live site. */
   bio: string[];
   /**
+   * The doctor's entry in the Indonesian Ministry of Health's practitioner
+   * registry (SATUSEHAT SDMK, satusehat.kemkes.go.id).
+   *
+   * ── WHY THIS IS THE STRONGEST THING ON THE PAGE ──────────────────────
+   * Everything else in a doctor's profile is the clinic describing itself.
+   * This is a government database the reader can open in one click and see
+   * the doctor's name, their profession, and their registered practice
+   * locations — one of which is the clinic itself. On a medical-aesthetics
+   * site, where "our doctors are qualified" is what every competitor also
+   * says, a checkable third-party record is a different category of claim.
+   *
+   * ── VERIFIED, NOT TRANSCRIBED ─────────────────────────────────────────
+   * Both URLs were opened and read before being added here, because a
+   * broken or wrong registry link is worse than no link — it is a trust
+   * signal that fails in public, in front of exactly the sceptical reader
+   * it was meant to convince. What each one returns:
+   *
+   *   VY00001341254007 → "Irene Sienatra", Dokter. Practice locations
+   *     include KLINIK PRATAMA HEALTHY LOOK CLINIC (Bali, Kab. Gianyar).
+   *   IK00001476330475 → "JESSIKA NUGRAHENI SOBAEVANA", Dokter. Practice
+   *     locations include KLINIK PRATAMA HEALTHY LOOK CLINIC (Bali).
+   *
+   * ⚠ Note the second one: the registry holds her full legal name, while
+   * the clinic publishes "Dr. Jessika Sobaevana". A visitor following the
+   * link sees a longer name than the one on the page. That is normal and
+   * not an error, but it is the kind of mismatch worth knowing about
+   * before someone reports it as a bug.
+   *
+   * `label` is the registry's own wording, and the client's, rather than
+   * "STR" — the two are related but not interchangeable, and this file
+   * should not assert a legal equivalence it has not checked.
+   */
+  registration: {
+    number: string;
+    url: string;
+  };
+  /**
    * The doctor's own portrait.
    *
    * These pointed at doctor-01.jpg and doctor-02.jpg, which despite living in
@@ -53,6 +90,10 @@ export const doctors: Doctor[] = [
       "Outside of her professional life, Dr. Irene is an avid dog lover who enjoys spending her free time with her adorable pet. As a dedicated skincare enthusiast and beauty expert, she loves sharing her knowledge and expertise with others.",
     ],
     photo: "/images/doctors/dr-irene.webp",
+    registration: {
+      number: "VY00001341254007",
+      url: "https://satusehat.kemkes.go.id/sdmk/nakes/VY00001341254007",
+    },
   },
   {
     id: "dr-jessika-sobaevana",
@@ -65,5 +106,9 @@ export const doctors: Doctor[] = [
       "Beyond her clinical practice, she has a keen interest in psychology, self-development, and holistic wellness. She enjoys exploring topics related to inner growth, mental clarity, and balanced living, and believes that true beauty comes from the harmony between physical appearance and inner well-being.",
     ],
     photo: "/images/doctors/dr-jessika.jpg",
+    registration: {
+      number: "IK00001476330475",
+      url: "https://satusehat.kemkes.go.id/sdmk/nakes/IK00001476330475",
+    },
   },
 ];

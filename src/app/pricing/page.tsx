@@ -12,6 +12,7 @@ import {
   extraPricingSections,
   PRICING_NOTE,
   PRICING_PAYMENT_NOTE,
+  PRICING_PROMISE,
 } from "@/data/pricing";
 import { getPageSeo } from "@/data/seo";
 
@@ -54,6 +55,68 @@ export default function PricingPage() {
         image="/images/clinic/clinic-07.jpg"
         imageAlt="Consultation at Healthy Look Aesthetic, Ubud"
       />
+
+      {/*
+        THE PRICING PROMISE (client revision, Pricing 1).
+
+        Above the jump nav and above every number, because that is the only
+        position where it does any work — see PRICING_PROMISE.
+
+        ── WHY THIS IS THE DARK BAND ─────────────────────────────────────
+        It was blush-soft, and that was the whole problem with the first
+        version. The <PageHero> directly above is blush at #eed4b8 and this
+        band was #f6eadc — three percent apart in lightness, which is not a
+        section change, it is a rendering artefact. The promise read as a
+        piece of the hero that had come loose, and the page opened on two
+        near-identical beige blocks.
+
+        Brown fixes that and earns its place twice over: it is the surface
+        this site already uses for its trust sections, and this page is
+        20,000px of tables that badly needs one fixed point at the top.
+
+        ── AND WHY IT IS NO LONGER ONE PARAGRAPH ─────────────────────────
+        223 characters, centred, at 56 characters a line, produced four
+        ragged lines ending on the orphan "price." — with no heading above
+        it, so there was nothing to look at and nothing to scan. It is a
+        statement plus three facts now: <SectionHeading> for the claim,
+        because that is the component every other section statement on this
+        site goes through, and a three-up row for the commitments, because
+        "nett / tax included / no service fee" is a list a reader checks,
+        not prose a reader reads.
+      */}
+      <section className="bg-ink-brown py-section">
+        <Container>
+          <SectionHeading
+            tone="dark"
+            eyebrow="Our pricing promise"
+            title={PRICING_PROMISE.title}
+            description={PRICING_PROMISE.description}
+          />
+
+          <ul className="mx-auto mt-16 grid max-w-4xl gap-x-12 gap-y-10 sm:grid-cols-3">
+            {PRICING_PROMISE.points.map((point, index) => (
+              <li key={point.label}>
+                <Reveal delay={index * 90}>
+                  {/* A gold hairline above each, the site's own device for
+                      a set of parallel facts — see <Highlights> and the
+                      safety grid on /our-doctor. Unlike that first attempt
+                      at the highlights strip, these three labels are the
+                      same length, so a rule of equal width above each one
+                      lands on content of equal weight. */}
+                  <div className="border-t border-gold-soft/40 pt-6">
+                    <h3 className="font-sans text-h5 font-medium leading-snug text-white">
+                      {point.label}
+                    </h3>
+                    <p className="mt-2.5 font-sans text-copy leading-body text-white/55">
+                      {point.detail}
+                    </p>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
 
       {/* Quick jump.
           Sticky, because this page is ~20,000px tall — the full published

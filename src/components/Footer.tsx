@@ -81,7 +81,7 @@ const listClass = "mt-4 flex flex-col font-sans text-label";
  */
 export default function Footer() {
   return (
-    <footer className="bg-ink text-white/70">
+    <footer className="bg-ink-brown text-white/70">
       <Container className="grid gap-x-10 gap-y-10 py-10 lg:grid-cols-[12fr_15fr_9fr_11fr]">
         {/* Brand + contact */}
         <div>
