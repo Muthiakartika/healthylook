@@ -66,11 +66,15 @@ export default function DoctorCredit({
         <Reveal delay={180} className="mt-14 flex justify-center">
           <Link
             href="/our-doctor"
-            // `pt-2` purely for the tap target: at `pb-1` alone this measured
-            // 22.4px, under WCAG 2.5.8's 24px minimum. The height is added
-            // above the text so the bottom border — the rule that makes this
-            // read as an editorial link — stays exactly where it was.
-            className="group/link inline-flex items-center gap-2 border-b border-primary/35 pt-2 pb-1 font-sans text-caption font-semibold uppercase tracking-caps-wide text-primary-strong transition-colors duration-300 hover:border-primary-strong"
+            // `pt-6` purely for the tap target: at `pb-1` alone this measured
+            // 22.4px, and at `pt-2` it was 30px — over WCAG 2.5.8's 24px floor
+            // but under the 44×44 minimum. All of the height is still added
+            // ABOVE the text so the bottom border — the rule that makes this
+            // read as an editorial link — stays exactly where it was; padding
+            // is invisible, so the link looks untouched and simply answers to
+            // a thumb 14px earlier. Nothing to collide with above it: the
+            // wrapping Reveal already holds it 56px clear (`mt-14`).
+            className="group/link inline-flex items-center gap-2 border-b border-primary/35 pt-6 pb-1 font-sans text-caption font-semibold uppercase tracking-caps-wide text-primary-strong transition-colors duration-300 hover:border-primary-strong"
           >
             Meet the doctors
             <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform duration-300 ease-brand group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />

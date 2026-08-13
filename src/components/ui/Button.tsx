@@ -51,10 +51,21 @@ const base =
   "transition-[background-color,color,border-color,transform] duration-300 ease-brand " +
   "disabled:cursor-not-allowed disabled:opacity-60";
 
+/*
+ * `min-h-11` (44px) on every size, not just the small one.
+ *
+ * Button labels here are 11–13px, so `sm` came out 36–38px tall — fine
+ * against WCAG 2.5.8's 24px floor, short of the 44×44 that Apple's HIG and
+ * WCAG 2.5.5 ask for. `md` and `lg` already cleared 44 on their padding
+ * alone; the floor is declared on all three anyway so that a future type
+ * change can't quietly drop one of them back under the bar. `base` already
+ * carries `inline-flex items-center justify-center`, so the label stays
+ * centred when the minimum is what's setting the height.
+ */
 const sizes: Record<Size, string> = {
-  sm: "px-5 py-2.5 text-micro uppercase tracking-caps-wide",
-  md: "px-7 py-3.5 text-caption uppercase tracking-caps-wide",
-  lg: "px-9 py-4.5 text-label uppercase tracking-caps-wide",
+  sm: "min-h-11 px-5 py-2.5 text-micro uppercase tracking-caps-wide",
+  md: "min-h-11 px-7 py-3.5 text-caption uppercase tracking-caps-wide",
+  lg: "min-h-11 px-9 py-4.5 text-label uppercase tracking-caps-wide",
 };
 
 /*
@@ -99,14 +110,20 @@ const variants: Record<Variant, string> = {
   // add too much weight.
   //
   // The padding is asymmetric on purpose. At `!py-1` this variant measured
-  // 22.4px tall — under WCAG 2.5.8's 24px minimum. The obvious fix, bumping
-  // to `!py-1.5`, would also push the bottom border 2px further from the
-  // text, and that border IS the design: it is the rule that makes this read
-  // as an editorial link rather than a button. Adding the height above the
-  // text instead reaches 26.4px while leaving the underline exactly where
-  // it was.
+  // 22.4px tall, and at `!pt-2` it reached 26.4px — past WCAG 2.5.8's 24px
+  // minimum but well under 44px. Symmetric padding is not an option: it
+  // would push the bottom border away from the text, and that border IS the
+  // design — it's the rule that makes this read as an editorial link rather
+  // than a button. So the whole difference goes above the text. `!pt-6`
+  // (24px) brings the box to ~45px with the underline sitting exactly where
+  // it always did; padding is invisible, so the link looks untouched.
+  //
+  // `!min-h-0` cancels the `min-h-11` the size classes now set. Without it
+  // the floor would win, the box would grow to 44px, and the border would
+  // drop to the bottom of that box — precisely the thing this variant's
+  // asymmetric padding exists to prevent.
   quiet:
-    "!px-0 !pt-2 !pb-1 border-b border-primary/35 text-primary-strong rounded-none hover:border-primary-strong",
+    "!min-h-0 !px-0 !pt-6 !pb-1 border-b border-primary/35 text-primary-strong rounded-none hover:border-primary-strong",
 };
 
 export default function Button({

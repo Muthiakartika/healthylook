@@ -216,7 +216,11 @@ export default function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Chat with us on WhatsApp"
-                className={`hidden rounded-full p-2.5 transition-colors duration-300 sm:inline-flex ${
+                // p-3: the 20px icon at p-2.5 made a 40px circle. 12px takes
+                // the whole round hit area to 44px. This one only appears from
+                // sm up, but that range is still phones in landscape and small
+                // tablets, so it holds to the same touch minimum as the rest.
+                className={`hidden rounded-full p-3 transition-colors duration-300 sm:inline-flex ${
                   solid
                     ? "text-primary hover:bg-primary/10"
                     : "text-white hover:bg-white/15"
@@ -253,7 +257,13 @@ export default function Header() {
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open navigation menu"
                 aria-expanded={mobileOpen}
-                className={`-mr-2 p-2 transition-colors duration-300 lg:hidden ${
+                // p-2.5, not p-2. The 24px icon inside 8px of padding measured
+                // 40×40 — over WCAG 2.5.8's 24px floor, but under the 44×44
+                // that Apple's HIG and WCAG 2.5.5 ask for, and this one button
+                // is the entire navigation on a phone. 10px takes it to 44×44.
+                // -mr-2.5 absorbs the extra padding so the icon stays optically
+                // flush with the container edge exactly as before.
+                className={`-mr-2.5 p-2.5 transition-colors duration-300 lg:hidden ${
                   solid ? "text-ink" : "text-white"
                 }`}
               >

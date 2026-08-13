@@ -53,9 +53,27 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
     {
       title: "Why Should I choose Healthy Look Aesthetic ?",
-      points: [
-        "We provide guarantee after two weeks and before 1 month if you agree with the recommended dose",
-        "Botox Alergan USA starts from IDR 80.750/unit*",
+      blocks: [
+        {
+          // The live page's own body for this one, which the import
+          // dropped along with every heading in this block.
+          heading: "Handled by Certified Doctor",
+          paragraphs: [
+            "Handled by internationally trained doctor with more than 5 years of experience",
+          ],
+        },
+        {
+          heading: "Free Touch Up*",
+          paragraphs: [
+            "We provide guarantee after two weeks and before 1 month if you agree with the recommended dose",
+          ],
+        },
+        {
+          heading: "Affordable Price",
+          paragraphs: [
+            "Botox Alergan USA starts from IDR 80.750/unit*",
+          ],
+        },
       ],
     },
   ],
@@ -63,9 +81,21 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     {
       title: "Why Should I choose Healthy Look Aesthetic ?",
       points: [
-        "Our aesthetic & anti aging doctor will give you honest opinion to enhance your beauty",
-        "In case you need a subtle enhancement, we can inject less than 1 ml, and keep the remaining filler for 2 weeks. We offer a complimentary touch-up for you if required.",
         "We use best worldwide filler products like Juvederm, teosyal, croma saypha with affordable price",
+      ],
+      blocks: [
+        {
+          heading: "Handled by Certified Doctor",
+          paragraphs: [
+            "Our aesthetic & anti aging doctor will give you honest opinion to enhance your beauty",
+          ],
+        },
+        {
+          heading: "Free Touch Up*",
+          paragraphs: [
+            "In case you need a subtle enhancement, we can inject less than 1 ml, and keep the remaining filler for 2 weeks. We offer a complimentary touch-up for you if required.",
+          ],
+        },
       ],
     },
   ],
@@ -81,10 +111,32 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       points: [
         "Safe Treatment without Downtime",
         "Lift your face without surgery, No Needle Involved",
-        "Can persist up 6-12 months. The effect is cumulative",
-        "Achieve a more defined jawline",
-        "Stimulates collagen for a natural lifting effect.",
-        "Reduce unwanted stubborn fat in your double chin, lower third of face, or neck",
+      ],
+      blocks: [
+        {
+          heading: "Long-Lasting Results",
+          paragraphs: [
+            "Can persist up 6-12 months. The effect is cumulative",
+          ],
+        },
+        {
+          heading: "Single Treatment Results",
+          paragraphs: [
+            "Achieve a more defined jawline",
+          ],
+        },
+        {
+          heading: "Tighten & Lift the Face & Neck",
+          paragraphs: [
+            "Stimulates collagen for a natural lifting effect.",
+          ],
+        },
+        {
+          heading: "Reduce Stubborn Fat",
+          paragraphs: [
+            "Reduce unwanted stubborn fat in your double chin, lower third of face, or neck",
+          ],
+        },
       ],
     },
   ],
@@ -140,7 +192,14 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         "Embrace the tranquility of Ubud as you undergo your Profhilo treatment. Healthy Look Aesthetic is designed to provide a serene environment, allowing you to relax while taking a step towards healthier, more beautiful skin.",
         "Begin your Profhilo journey in Ubud Bali with a personalized consultation. Our skilled doctor will assess your skin and discuss your aesthetic goals to create a tailored treatment plan just for you.",
         "The Profhilo treatment involves a series of injections strategically placed to stimulate collagen and elastin production. The process is painless with minimal downtime",
-        "Experience improved skin texture, and intense hydration. Profhilo works from the inside out, addressing fine lines, wrinkles, and sagging skin for a rejuvenated appearance.",
+      ],
+      blocks: [
+        {
+          heading: "Enjoy the Result at Affordbale Price",
+          paragraphs: [
+            "Experience improved skin texture, and intense hydration. Profhilo works from the inside out, addressing fine lines, wrinkles, and sagging skin for a rejuvenated appearance.",
+          ],
+        },
       ],
     },
   ],
@@ -161,7 +220,18 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     {
       title: "Why Should I choose Healthy Look Aesthetic?",
       points: [
-        "Dermalogica, Tegoder, Dermapen World, Skin Matrix, Janssen are some of premium professional brands that we partner with",
+        "Free Personalized Facial Consultations",
+        "Safe & Relaxing Experience",
+        "Clinically Proven Result",
+        "Real Result from the First Session",
+      ],
+      blocks: [
+        {
+          heading: "Best Worldwide Products",
+          paragraphs: [
+            "Dermalogica, Tegoder, Dermapen World, Skin Matrix, Janssen are some of premium professional brands that we partner with",
+          ],
+        },
       ],
     },
   ],
@@ -169,11 +239,24 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     {
       title: "What’s the Benefit of having IPL in Ubud Bali?",
       points: [
-        "Semi Permanent Hair Reduction",
-        "Reducing the Active Acne & decrease sebum production",
         "Freckles, solar keratosis, and lentigines",
         "Treat redness, rosacea, PIE, and telangiectasia",
         "Increase collagen production and improve the skin's elasticity",
+        "Brighten the Skin",
+      ],
+      blocks: [
+        {
+          heading: "Hair Removal",
+          paragraphs: [
+            "Semi Permanent Hair Reduction",
+          ],
+        },
+        {
+          heading: "Acne Control",
+          paragraphs: [
+            "Reducing the Active Acne & decrease sebum production",
+          ],
+        },
       ],
     },
   ],
@@ -207,7 +290,16 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     {
       title: "Why Should I choose Carboxy Therapy in Ubud?",
       points: [
-        "Safe Treatment without Downtime",
+        "Non-Invasive",
+        "Immediate Result",
+      ],
+      blocks: [
+        {
+          heading: "No Downtime",
+          paragraphs: [
+            "Safe Treatment without Downtime",
+          ],
+        },
       ],
     },
   ],
@@ -231,9 +323,16 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     {
       title: "What Areas Can Be Treated With PRP?",
       points: [
-        "An effective treatment to enhance the skin texture, reduce the appearance of enlarged pores, scars, and diminish signs of aging such as fine lines and wrinkles",
         "By inducing the production of collagen & elastin, the skin is rejuvenated for stretch marks, cellulite, and scarring",
         "Stimulate hair follicles, encourage new hair growth, and thicken the existing hair.",
+      ],
+      blocks: [
+        {
+          heading: "Face",
+          paragraphs: [
+            "An effective treatment to enhance the skin texture, reduce the appearance of enlarged pores, scars, and diminish signs of aging such as fine lines and wrinkles",
+          ],
+        },
       ],
     },
   ],
@@ -300,15 +399,39 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // Labels restored from the live page, in its order. The import had
+      // kept two of the six bodies and lost every heading — including on
+      // the one it did keep, where "Noticeable Improvement after a Single
+      // Session" was promoted to the heading when it is actually the body
+      // under "Single Treatment Results".
       title: "Why Should I choose RF Microneedling in Bali?",
+      // The live page runs this benefit twice, once as the short label in
+      // the icon row and once in full further down. The full one is the
+      // useful version — "Complimentary Serum" alone does not say what for.
+      points: ["Complimentary Personalized Serum according to your skin concern"],
       blocks: [
         {
+          heading: "FDA Approved",
           paragraphs: [
             "The World’s First & Only FDA Approved Dual Wave RF Microneedling",
           ],
         },
         {
-          heading: "Noticeable Improvement after a Single Session",
+          heading: "Minimal Downtime",
+          paragraphs: ["Slight redness resolves within 24 hours*"],
+        },
+        {
+          heading: "Less Discomfort",
+          paragraphs: [
+            "Compared to conventional microneedling or fractional laser",
+          ],
+        },
+        {
+          heading: "Single Treatment Results",
+          paragraphs: ["Noticeable Improvement after a Single Session"],
+        },
+        {
+          heading: "Continual Improvement",
           paragraphs: [
             "Result after 1 week with continual improvement over the next 10-12 weeks",
           ],
@@ -407,6 +530,35 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
           paragraphs: [
             "Cellulite develops when fibrous connective tissue pulls the skin downward while fat cells push upward, creating the familiar dimpled or uneven appearance often described as orange peel skin. Lysiwave targets both the fibrotic collagen bands and the underlying fat cells responsible for cellulite formation. This process promotes the disencapsulation of trapped adipocytes, improving tissue flexibility and microcirculation. At the same time, microwaves stimulate lipolysis, blood circulation, and tissue oxygenation, contributing to smoother skin texture and a visible reduction in cellulite.",
           ],
+        },
+      ],
+    },
+    {
+      // Restored from the live page — the whole benefit block was missing.
+      title: "Why Choose Lysiwave for Cellulite and Fat Reduction in Bali?",
+      points: ["Advanced Body Contouring", "Patented Microwave with Pure Oxygen"],
+      blocks: [
+        {
+          heading: "No Downtime",
+          paragraphs: ["Safe Treatment without Downtime"],
+        },
+        {
+          heading: "Non-Invasive",
+          paragraphs: ["No needles, no cuts, no worries"],
+        },
+        {
+          heading: "CE Certified",
+          paragraphs: ["Authentic CE Certified Device"],
+        },
+        {
+          heading: "Comprehensive Treatment",
+          paragraphs: [
+            "Reduce fat, improve cellulite appearance, and tighten the skin",
+          ],
+        },
+        {
+          heading: "Personalized Treatment",
+          paragraphs: ["Tailor each treatment to match your specific goals"],
         },
       ],
     },
@@ -525,13 +677,35 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // Labels restored from the live page, in its order. Only two of the
+      // six survived the import, and both had lost their heading — the
+      // last one had its own body ("Tailor each treatment…") standing in
+      // as the heading, with the next benefit's body underneath it.
       title: "Why should i choose HIFU Body in Bali?",
       blocks: [
         {
-          heading: "Tailor each treatment to match your specific goals",
-          paragraphs: [
-            "Using the latest HIFU technology for optimal results.",
-          ],
+          heading: "No Downtime",
+          paragraphs: ["Safe Treatment without Downtime"],
+        },
+        {
+          heading: "Non-Invasive",
+          paragraphs: ["No needles, no cuts, no worries"],
+        },
+        {
+          heading: "Long-Lasting Results",
+          paragraphs: ["Can persist up 6 months. The effect is cumulative"],
+        },
+        {
+          heading: "Comprehensive Treatment",
+          paragraphs: ["Reduce fat while lifting and tightening the skin"],
+        },
+        {
+          heading: "Personalized Treatment",
+          paragraphs: ["Tailor each treatment to match your specific goals"],
+        },
+        {
+          heading: "Newest Technology",
+          paragraphs: ["Using the latest HIFU technology for optimal results."],
         },
       ],
     },
@@ -563,13 +737,26 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // Labels restored from the live page. Both bodies were here as one
+      // unheaded block; live gives each its own heading, plus a third
+      // benefit the import dropped entirely.
       title: "Why Should I Fat Dissolving Injection in Ubud?",
       blocks: [
         {
+          heading: "Handled by Certified Doctor",
           paragraphs: [
             "The Injection is performed by certified doctor with years of experience",
+          ],
+        },
+        {
+          heading: "Painless",
+          paragraphs: [
             "We use premium products that is much more painless compared to the general product in the market",
           ],
+        },
+        {
+          heading: "Affordable Price",
+          paragraphs: ["Reduce your stubborn fat effectively at affordable cost"],
         },
       ],
     },
@@ -630,12 +817,24 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
-      title: "Be Empowered to Feel Truly Confident",
+      // Restored from the live page. The import had reduced this to the
+      // section's own question with no answer under it; the six benefits
+      // it introduces were all missing.
+      title: "Why Should I choose Autologous Micrograft Hair Restoration in Bali?",
+      points: [
+        "No scarring or stitches",
+        "Single Treatment Results",
+        "Only once per year required",
+        "Minimal Downtime",
+      ],
       blocks: [
         {
-          paragraphs: [
-            "Why Should I chooseAutologous Micrograft Hair Restoration in Bali?",
-          ],
+          heading: "No rejection",
+          paragraphs: ["Uses your own stem cells"],
+        },
+        {
+          heading: "Free Mixing with PRP",
+          paragraphs: ["& Home Hair Growth Kit"],
         },
       ],
     },
@@ -907,6 +1106,14 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
 
   "skin-booster": [
+    // Restored from the live page. Missed by the first content audit
+    // because each item is a single short word — the audit's minimum
+    // block length skipped them, and a list of one-word answers is
+    // exactly the kind of content that vanishes without being noticed.
+    {
+      title: "What areas can be treated by Skin Booster in Ubud Bali?",
+      points: ["Face", "Under Eye", "Lip", "Hands", "Neck & Decolette"],
+    },
     {
       title: "Skin Booster in Ubud Bali",
       blocks: [
@@ -967,6 +1174,19 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     // "Painless Salmon DNA" section — including the closing line that the
     // upgrade costs nothing extra, which is a commercial commitment and
     // not a nice-to-have.
+    // Restored from the live page — see the note on skin-booster above for
+    // why the one-word lists were missed the first time round.
+    {
+      title: "What Skin Conditions Improve with Salmon DNA?",
+      points: [
+        "Scars",
+        "Enlarged pores",
+        "Wrinkles & Fine Lines",
+        "Dull Skin",
+        "Redness",
+        "Dark Circle",
+      ],
+    },
     {
       title: "Benefits of Salmon DNA Treatment in Ubud Bali",
       blocks: [
@@ -1011,6 +1231,18 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
 
   "exosome": [
+    // Restored from the live page — see the note on skin-booster above.
+    {
+      title: "What Skin Conditions Improve with Exosome in Ubud?",
+      points: [
+        "Scars",
+        "Enlarged pores",
+        "Aging",
+        "Redness",
+        "Hair Growth",
+        "Dull Skin",
+      ],
+    },
     {
       title: "Unlock the Power of Stem Cell Exosome in Ubud Bali",
       blocks: [
@@ -1085,6 +1317,20 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
 
   "ipl-hair-removal": [
+    // Restored from the live page. This benefit block was missing
+    // entirely, not just its labels — the live site runs five, all of them
+    // icon-and-label with no body text, which is why an audit looking for
+    // paragraphs never saw them.
+    {
+      title: "Benefits of IPL Treatment in Ubud Bali",
+      points: [
+        "Painless hair removal",
+        "Faster than Traditional IPL",
+        "Semi Permanent Hair Removal",
+        "No Risk of Ingrown Hair",
+        "Best Worldwide Products",
+      ],
+    },
     {
       title: "Hair Removal in Ubud Bali",
       blocks: [

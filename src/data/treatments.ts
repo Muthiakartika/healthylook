@@ -82,7 +82,31 @@ export type Treatment = {
    * leave it off and the treatment resolves to /ubud-bali/<slug> as normal.
    */
   path?: string;
+  /**
+   * The catalogue name. Used everywhere the treatment is REFERRED to —
+   * the mega-menu, the homepage tabs, the /ubud-bali index, related-
+   * treatment cards, breadcrumbs. Kept short for exactly that reason.
+   */
   name: string;
+  /**
+   * The live page's own <h1>, which is not the same string as `name` and
+   * should not be.
+   *
+   * The clinic writes its headings for search — "Affordable Botox in Ubud
+   * Bali", "Rediscover Radiance with Profhilo in Ubud", "Unlock the Power
+   * of Stem Cell Exosome in Ubud Bali" — and those are the phrases the
+   * pages currently rank on. The rebuild was rendering `name` as the h1,
+   * which quietly dropped every one of them.
+   *
+   * They are a separate field rather than a replacement for `name`
+   * because the live site separates them too: its nav says "Botox" while
+   * its heading says "Affordable Botox in Ubud Bali". Collapsing the two
+   * would put a 30-character SEO phrase into a nav column and a
+   * breadcrumb.
+   *
+   * Falls back to `name` if unset — see TreatmentDetail.
+   */
+  h1?: string;
   category: TreatmentCategoryId;
   /** Verbatim from the live site's treatments page. */
   shortDescription: string;
@@ -156,6 +180,17 @@ export type Treatment = {
   /** Longer authored copy — only where the live site actually has it. */
   intro?: string;
   popularAreas?: string[];
+  /**
+   * The live site's own heading for the `popularAreas` list, where it has
+   * one — "Popular areas treated with botox", "Popular areas treated with
+   * dermal filler in Ubud Bali". It differs per treatment because the
+   * clinic writes it per treatment.
+   *
+   * Only Botox and Dermal Filler publish a heading for this list; the four
+   * other treatments with `popularAreas` present theirs without one, so
+   * they fall back to the detail page's generic label.
+   */
+  popularAreasTitle?: string;
 };
 
 export const treatments: Treatment[] = [
@@ -163,6 +198,7 @@ export const treatments: Treatment[] = [
   {
     slug: "botox",
     name: "Botox",
+    h1: "Affordable Botox in Ubud Bali",
     treatmentTime: "15 Minutes",
     category: "facial-enhancement",
     initialResult: "Within 3 days",
@@ -193,6 +229,7 @@ export const treatments: Treatment[] = [
     // Reduction (V shaped face)") and with shoulder and calf slimming
     // collapsed into one line, dropping "More Define Jawline" and
     // "Cobblestoned chin" entirely.
+    popularAreasTitle: "Popular areas treated with botox",
     popularAreas: [
       "Botox Frown lines",
       "Botox Forehead wrinkles",
@@ -212,6 +249,7 @@ export const treatments: Treatment[] = [
   {
     slug: "dermal-filler",
     name: "Dermal Filler",
+    h1: "Dermal Filler in Ubud Bali",
     treatmentTime: "60-90 Minutes",
     category: "facial-enhancement",
     anaesthesia: "Numbing cream, plus lidocaine in the product",
@@ -252,6 +290,7 @@ export const treatments: Treatment[] = [
     // Dermal Filler are the only two treatments the live site gives an
     // explicit areas list to; the rest describe their areas in prose, which
     // is why no other entry has this field.
+    popularAreasTitle: "Popular areas treated with dermal filler in Ubud Bali",
     popularAreas: [
       "Cheek",
       "Lip",
@@ -267,6 +306,7 @@ export const treatments: Treatment[] = [
   {
     slug: "hifu",
     name: "HIFU",
+    h1: "Advanced HIFU in Ubud Bali",
     treatmentTime: "30-45 Minutes",
     category: "facial-enhancement",
     downtime: "None",
@@ -295,6 +335,7 @@ export const treatments: Treatment[] = [
   {
     slug: "collagen-stimulator",
     name: "Collagen Stimulator",
+    h1: "Collagen Stimulator in Bali",
     category: "facial-enhancement",
     downtime: "Minimal",
     initialResult: "Over the following weeks",
@@ -323,6 +364,7 @@ export const treatments: Treatment[] = [
   {
     slug: "sculptra",
     name: "Sculptra",
+    h1: "Sculptra in Bali",
     treatmentTime: "90-120 Minutes",
     category: "facial-enhancement",
     downtime: "Minimal, resolves within a few days to one week",
@@ -351,6 +393,7 @@ export const treatments: Treatment[] = [
   {
     slug: "lip-filler",
     name: "Lip Filler",
+    h1: "Premium Lip Fillers in Ubud Bali",
     category: "facial-enhancement",
     anaesthesia: "Numbing cream",
     downtime: "Minimal",
@@ -371,6 +414,7 @@ export const treatments: Treatment[] = [
   {
     slug: "botox/korean",
     name: "Korean Botox",
+    h1: "Korean Botox in Bali",
     category: "facial-enhancement",
     initialResult: "Within 3 to 5 days",
     fullResult: "After 10 to 14 days",
@@ -422,6 +466,7 @@ export const treatments: Treatment[] = [
     slug: "eye-rejuvenation",
     path: "/eye-rejuvenaton-treatment",
     name: "Eye Rejuvenation",
+    h1: "Eye Rejuvenation Treatment in Ubud Bali",
     treatmentTime: "60 Minutes",
     category: "skin-treatments",
     image: "/images/treatments/eye-rejuvenation.jpg",
@@ -446,6 +491,7 @@ export const treatments: Treatment[] = [
   {
     slug: "facial",
     name: "Facial",
+    h1: "Best Facial Experience in Ubud",
     category: "skin-treatments",
     image: "/images/treatments/facial.jpg",
     shortDescription:
@@ -463,6 +509,7 @@ export const treatments: Treatment[] = [
   {
     slug: "microneedling/rf",
     name: "Sylfirm X - RF Microneedling",
+    h1: "Sylfirm X in Bali",
     treatmentTime: "60-90 Minutes",
     category: "skin-treatments",
     anaesthesia: "Numbing cream available",
@@ -493,6 +540,7 @@ export const treatments: Treatment[] = [
   {
     slug: "skin-booster",
     name: "Skin Booster",
+    h1: "Skin Booster in Ubud Bali",
     treatmentTime: "60 Minutes",
     category: "skin-treatments",
     anaesthesia: "Numbing cream, 30 minutes",
@@ -523,6 +571,7 @@ export const treatments: Treatment[] = [
   {
     slug: "profhilo",
     name: "Profhilo",
+    h1: "Rediscover Radiance with Profhilo in Ubud",
     treatmentTime: "60 Minutes",
     category: "skin-treatments",
     anaesthesia: "Painless",
@@ -550,6 +599,7 @@ export const treatments: Treatment[] = [
   {
     slug: "prp",
     name: "PRP Vampire Facial",
+    h1: "PRP in Ubud Bali",
     treatmentTime: "90 Minutes",
     category: "skin-treatments",
     anaesthesia: "Topical anaesthetic",
@@ -576,6 +626,7 @@ export const treatments: Treatment[] = [
   {
     slug: "juvelook",
     name: "Juvelook Collagen Stimulator",
+    h1: "Juvelook Treatment in Bali",
     treatmentTime: "75 Minutes",
     category: "skin-treatments",
     anaesthesia: "Numbing cream",
@@ -600,6 +651,7 @@ export const treatments: Treatment[] = [
   {
     slug: "salmon-dna",
     name: "Salmon DNA",
+    h1: "Salmon DNA Treatment in Ubud Bali",
     treatmentTime: "60 Minutes",
     category: "skin-treatments",
     anaesthesia: "Numbing cream, 30 minutes",
@@ -636,6 +688,7 @@ export const treatments: Treatment[] = [
   {
     slug: "exosome",
     name: "Exosome - Stem Cell Derivative",
+    h1: "Unlock the Power of Stem Cell Exosome in Ubud Bali",
     treatmentTime: "75 Minutes",
     category: "skin-treatments",
     initialResult: "2–3 days",
@@ -651,6 +704,7 @@ export const treatments: Treatment[] = [
   {
     slug: "microneedling",
     name: "Microneedling - Dermapen 4",
+    h1: "Microneedling in Ubud Bali",
     treatmentTime: "75 Minutes",
     category: "skin-treatments",
     anaesthesia: "Topical anaesthetic cream, 30 minutes",
@@ -677,6 +731,7 @@ export const treatments: Treatment[] = [
   {
     slug: "facial/medi",
     name: "Medi Facial",
+    h1: "Medi Facial in Ubud Bali",
     treatmentTime: "45-120 Minutes",
     category: "skin-treatments",
     downtime: "None",
@@ -728,6 +783,7 @@ export const treatments: Treatment[] = [
   {
     slug: "chemical-peel",
     name: "Chemical Peeling",
+    h1: "Chemical Peels in Ubud Bali",
     treatmentTime: "30 Minutes",
     category: "skin-treatments",
     downtime: "None, with mild scaling for 3–7 days",
@@ -769,6 +825,7 @@ export const treatments: Treatment[] = [
   {
     slug: "ipl",
     name: "IPL (Intense Pulsed Light)",
+    h1: "IPL in Ubud Bali",
     treatmentTime: "30 Minutes",
     category: "skin-treatments",
     downtime: "None",
@@ -811,6 +868,7 @@ export const treatments: Treatment[] = [
   {
     slug: "fat-cellulite",
     name: "Lysiwave - Fat & Cellulite Treatment",
+    h1: "Lysiwave in Bali",
     treatmentTime: "30-60 Minutes",
     category: "body-treatments",
     downtime: "None",
@@ -839,6 +897,7 @@ export const treatments: Treatment[] = [
   {
     slug: "hifu/body",
     name: "Body HIFU",
+    h1: "Advanced HIFU Body in Bali",
     treatmentTime: "30-90 Minutes",
     category: "body-treatments",
     initialResult: "Immediately (partial)",
@@ -874,6 +933,7 @@ export const treatments: Treatment[] = [
   {
     slug: "muscle-sculpting",
     name: "Muscle Sculpting by CM Slim",
+    h1: "Body Sculpting in Ubud Bali",
     treatmentTime: "45 Minutes/area",
     category: "body-treatments",
     downtime: "None",
@@ -906,6 +966,7 @@ export const treatments: Treatment[] = [
   {
     slug: "pelvic-floor-strengthening",
     name: "Pelvic Floor Strengthening",
+    h1: "Pelvic Floor Strengthening in Ubud Bali",
     treatmentTime: "45 Minutes",
     category: "body-treatments",
     initialResult: "After one session",
@@ -929,6 +990,7 @@ export const treatments: Treatment[] = [
   {
     slug: "ipl-hair-removal",
     name: "IPL Hair Removal",
+    h1: "Hair Removal in Ubud Bali",
     treatmentTime: "Varied based on area",
     category: "body-treatments",
     anaesthesia: "Not needed — contact cooling instead",
@@ -987,6 +1049,7 @@ export const treatments: Treatment[] = [
   {
     slug: "fat-dissolving-injections",
     name: "Fat Dissolving Injections",
+    h1: "Fat Dissolving Injections in Ubud Bali",
     treatmentTime: "30 Minutes",
     category: "body-treatments",
     anaesthesia: "Numbing cream",
@@ -1009,6 +1072,7 @@ export const treatments: Treatment[] = [
   {
     slug: "carboxy-therapy",
     name: "Carboxy Therapy",
+    h1: "Carboxy Therapy in Ubud Bali",
     treatmentTime: "45 Minutes",
     category: "body-treatments",
     initialResult: "Immediate",
@@ -1034,6 +1098,7 @@ export const treatments: Treatment[] = [
   {
     slug: "slimming-body-contouring",
     name: "Slimming & Body Contouring",
+    h1: "Holistic Slimming & Body Contouring in Ubud",
     category: "body-treatments",
     downtime: "None",
     image: "/images/treatments/live-slimming-body-contouring.jpg",
@@ -1055,6 +1120,7 @@ export const treatments: Treatment[] = [
   {
     slug: "autologues-micrograft-hair-restoration",
     name: "Autologues Micrograft Hair Restoration",
+    h1: "Autologous Micrograft Hair Restoration in Bali",
     treatmentTime: "90 Minutes",
     category: "hair-booster",
     anaesthesia: "Local anaesthetic",
@@ -1073,6 +1139,7 @@ export const treatments: Treatment[] = [
   {
     slug: "prp/hair",
     name: "PRP Hair",
+    h1: "PRP Hair in Ubud Bali",
     treatmentTime: "90 Minutes",
     category: "hair-booster",
     anaesthesia: "Topical anaesthetic",
@@ -1100,6 +1167,7 @@ export const treatments: Treatment[] = [
   {
     slug: "hair-mesotherapy",
     name: "Hair Mesotherapy",
+    h1: "Hair Mesotherapy in Ubud Bali",
     treatmentTime: "75 Minutes",
     category: "hair-booster",
     anaesthesia: "Topical anaesthetic",
@@ -1120,6 +1188,7 @@ export const treatments: Treatment[] = [
   {
     slug: "iv-drip",
     name: "IV Drip",
+    h1: "IV Drip in Ubud Bali",
     treatmentTime: "45 Minutes",
     category: "hair-booster",
     image: "/images/treatments/iv-drip.jpg",

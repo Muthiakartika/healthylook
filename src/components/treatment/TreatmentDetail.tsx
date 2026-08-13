@@ -106,7 +106,11 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
     <>
       <PageHero
         eyebrow={category?.label}
-        title={treatment.name}
+        // The live page's own <h1>, not the catalogue name — see the `h1`
+        // field's note in treatments.ts. The breadcrumb below deliberately
+        // keeps `name`: a crumb reading "Rediscover Radiance with Profhilo
+        // in Ubud" would be the longest thing on the page.
+        title={treatment.h1 ?? treatment.name}
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Treatments", href: "/ubud-bali" },
@@ -193,7 +197,14 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
               {treatment.popularAreas && (
                 <Reveal delay={180}>
                   <div className="mt-16">
-                    <h2 className="eyebrow text-primary-strong">Commonly treated areas</h2>
+                    {/* The clinic's own heading where it has one — it
+                        writes a different line per treatment ("Popular
+                        areas treated with botox") — and a generic label
+                        for the treatments where it publishes the list
+                        without a heading. */}
+                    <h2 className="eyebrow text-primary-strong">
+                      {treatment.popularAreasTitle ?? "Commonly treated areas"}
+                    </h2>
                     <ul className="mt-7 grid gap-x-10 gap-y-3.5 sm:grid-cols-2">
                       {treatment.popularAreas.map((area) => (
                         <li

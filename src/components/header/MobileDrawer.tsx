@@ -65,7 +65,11 @@ export default function MobileDrawer({
             type="button"
             onClick={onClose}
             aria-label="Close navigation menu"
-            className="-mr-2 p-2 text-ink"
+            // p-2.5 for the same reason as the hamburger that opens this
+            // drawer: the 24px icon at p-2 measured 40×40, and 10px of padding
+            // takes it to the 44×44 touch minimum. -mr-2.5 keeps the icon
+            // sitting where it did against the panel's px-6 edge.
+            className="-mr-2.5 p-2.5 text-ink"
           >
             <CloseIcon className="h-6 w-6" />
           </button>
@@ -89,28 +93,32 @@ export default function MobileDrawer({
 
           {/* Padding rather than gap, same reason as the treatment links in
               MobileNavItem: these were 20px-tall rows with 14px of dead space
-              between them. Each row is a 40px tap target now and the list
-              looks the same. */}
+              between them. py-3 makes each row a 44px tap target — the Apple
+              HIG / WCAG 2.5.5 minimum — and the list still looks the same,
+              because the height goes inside the target rather than into a gap
+              nobody can tap. These three are the "how do I actually reach
+              these people" rows, so they're the last ones that should need a
+              careful thumb. */}
           <ul className="mt-4 flex flex-col font-sans text-label text-text-secondary">
             <li>
               <a
                 href={whatsappHref("Hello Healthy Look Aesthetic, I'd like to ask about a treatment.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 py-2.5 hover:text-primary"
+                className="flex min-h-11 items-center gap-3 py-3 hover:text-primary"
               >
                 <WhatsAppIcon className="h-4 w-4 shrink-0 text-primary" />
                 WhatsApp us
               </a>
             </li>
             <li>
-              <a href={`tel:${PHONE_E164}`} className="flex items-center gap-3 py-2.5 hover:text-primary">
+              <a href={`tel:${PHONE_E164}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
                 <PhoneIcon className="h-4 w-4 shrink-0 text-primary" />
                 {PHONE_DISPLAY}
               </a>
             </li>
             <li>
-              <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 py-2.5 hover:text-primary">
+              <a href={`mailto:${EMAIL}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
                 <MailIcon className="h-4 w-4 shrink-0 text-primary" />
                 {EMAIL}
               </a>

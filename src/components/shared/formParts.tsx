@@ -93,7 +93,11 @@ export function SubmitRow({
         href={fallbackHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 font-sans text-caption text-muted transition-colors hover:text-primary-strong"
+        // py-3.5 for the tap target: 12px type made a 17px-tall link, the
+        // smallest on the form. This is the escape hatch for anyone whose
+        // enquiry didn't send, so it's the worst possible place to ask for a
+        // precise tap. 14px of padding takes it to 45px.
+        className="inline-flex items-center gap-2 py-3.5 font-sans text-caption text-muted transition-colors hover:text-primary-strong"
       >
         <WhatsAppIcon className="h-4 w-4" />
         or send via WhatsApp

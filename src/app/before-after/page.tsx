@@ -87,7 +87,13 @@ export default function BeforeAfterPage() {
             <a
               key={group.slug}
               href={`#${group.slug}`}
-              className="snap-start whitespace-nowrap rounded-brand border border-hairline px-4 py-2 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors duration-300 hover:border-primary/50 hover:text-primary-strong"
+              // `flex items-center min-h-11`: the pill measured 35px on its
+              // padding alone. The floor takes it to 44px — and it has to be
+              // a floor rather than more py, because these already sit in a
+              // sticky bar where every extra pixel is charged to the reading
+              // area for the whole page. Centring keeps the label where it
+              // was inside the taller pill.
+              className="flex min-h-11 snap-start items-center whitespace-nowrap rounded-brand border border-hairline px-4 py-2 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors duration-300 hover:border-primary/50 hover:text-primary-strong"
             >
               {group.label}
               <span className="ml-2 text-muted">{group.images.length}</span>

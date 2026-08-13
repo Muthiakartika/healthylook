@@ -127,15 +127,26 @@ export default function PricingPage() {
           header's own height so the two never overlap. */}
       <section className="sticky top-20 z-30 border-b border-hairline bg-paper/95 backdrop-blur lg:top-24">
         {/* Vertical gap moved into the links' padding — same fix as the
-            treatments index. This bar is sticky and is the only navigation
-            on a very long price list, so it is the last place to leave 17px
-            tap targets on a phone. */}
-        <Container className="flex flex-wrap gap-x-8 py-2.5">
+            treatments index. This bar is sticky and is the only navigation on
+            a very long price list, so it is the last place to leave 17px tap
+            targets on a phone. At py-3.5 each link is a 45px target, and the
+            container's own py-2.5 comes off in exchange, since the links now
+            carry that height themselves.
+
+            One row that scrolls sideways, NOT a wrapping row — the same
+            scroll-snap pattern the Before & After jump bar already uses, for
+            the same reason. These five category names cannot share a line at
+            320px, so `flex-wrap` put each on its own row: once the links grew
+            to 45px the bar became 212px tall, a quarter of the phone screen,
+            permanently parked under the header for the entire scroll of the
+            price list. Sideways it is one 45px row at every width. Nothing
+            changes on desktop, where all five fit and the row never scrolls. */}
+        <Container className="flex snap-x gap-x-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TREATMENT_CATEGORIES.map((category) => (
             <a
               key={category.id}
               href={`#price-${category.id}`}
-              className="py-1.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
+              className="shrink-0 snap-start whitespace-nowrap py-3.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
             >
               {category.label}
             </a>
@@ -179,7 +190,14 @@ export default function PricingPage() {
                         <h3 className="font-sans text-h3 leading-tight text-ink">
                           <Link
                             href={treatmentHref(treatment)}
-                            className="group inline-flex items-start gap-2 transition-colors hover:text-primary"
+                            // `-my-2 py-2` for the tap target: the treatment
+                            // name sat on a 30.5px line box. The padding takes
+                            // it past 44px and the negative margin hands that
+                            // height back to the layout, so the price list's
+                            // spacing is untouched — there are 21 of these and
+                            // any real height change would compound down a
+                            // very long page.
+                            className="group -my-2 inline-flex items-start gap-2 py-2 transition-colors hover:text-primary"
                           >
                             {treatment.name}
                             <ArrowUpRightIcon className="mt-2 h-4 w-4 shrink-0 text-primary opacity-0 transition-opacity group-hover:opacity-100" />

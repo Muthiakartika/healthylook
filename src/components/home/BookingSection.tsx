@@ -64,6 +64,13 @@ export default function BookingSection() {
             </Reveal>
 
             <Reveal delay={210}>
+              {/* py-2.5 on each row below. The text alone made a 27px-tall
+                  link, and these three are the clinic's actual booking
+                  channels — the rows most likely to be tapped on a phone and
+                  the ones where a miss costs an enquiry. The padding takes
+                  each to 47px, clear of the 44px touch minimum. The list's
+                  own gap-5 stays, so the enlarged targets still can't
+                  overlap each other. */}
               <ul className="mt-12 flex flex-col gap-5 border-t border-primary/20 pt-10">
                 <li>
                   <a
@@ -72,7 +79,7 @@ export default function BookingSection() {
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                    className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <WhatsAppIcon className="h-5 w-5 shrink-0 text-primary" />
                     Message us on WhatsApp
@@ -81,7 +88,7 @@ export default function BookingSection() {
                 <li>
                   <a
                     href={`tel:${PHONE_E164}`}
-                    className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                    className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <PhoneIcon className="h-5 w-5 shrink-0 text-primary" />
                     {PHONE_DISPLAY}
@@ -90,7 +97,7 @@ export default function BookingSection() {
                 <li>
                   <a
                     href={`mailto:${EMAIL}`}
-                    className="flex items-center gap-4 break-all font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                    className="flex items-center gap-4 break-all py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <MailIcon className="h-5 w-5 shrink-0 text-primary" />
                     {EMAIL}

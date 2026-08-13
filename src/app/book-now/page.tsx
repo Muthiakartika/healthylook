@@ -117,6 +117,10 @@ export default function BookNowPage() {
               </Reveal>
 
               <Reveal delay={170}>
+                {/* py-2.5 on each row: the text alone gave a 27px-tall link,
+                    and on the booking page these three channels are the whole
+                    point of the screen. 47px each now, past the 44px touch
+                    minimum, with the list's gap-5 keeping them apart. */}
                 <ul className="mt-10 flex flex-col gap-5 border-t border-primary/20 pt-9">
                   <li>
                     <a
@@ -125,7 +129,7 @@ export default function BookNowPage() {
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <WhatsAppIcon className="h-5 w-5 shrink-0 text-primary" />
                       WhatsApp us
@@ -134,7 +138,7 @@ export default function BookNowPage() {
                   <li>
                     <a
                       href={`tel:${PHONE_E164}`}
-                      className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <PhoneIcon className="h-5 w-5 shrink-0 text-primary" />
                       {PHONE_DISPLAY}
@@ -143,7 +147,7 @@ export default function BookNowPage() {
                   <li>
                     <a
                       href={`mailto:${EMAIL}`}
-                      className="flex items-center gap-4 break-all font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 break-all py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <MailIcon className="h-5 w-5 shrink-0 text-primary" />
                       {EMAIL}

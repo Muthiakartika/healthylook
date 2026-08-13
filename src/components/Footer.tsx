@@ -40,15 +40,34 @@ const footerBlogPosts = FOOTER_BLOG_SLUGS.map((href) =>
   blogPosts.find((post) => post.href === href),
 ).filter((post): post is NonNullable<typeof post> => Boolean(post));
 
-// `inline-block py-0.5` keeps each row a real touch target without opening the
-// list up: 13px text is a ~19px box, and the padding sits inside the target so
-// the visual rhythm stays tight.
-// `py-1`, not `py-0.5`. At 13px type the half-step gave a 23.5px-tall row,
-// and these rows sit flush against each other with no gap — so they were
-// just under WCAG 2.5.8's 24px minimum with none of the spacing that would
-// otherwise excuse it. Half a pixel, but it is the whole footer on a phone.
+// `block` + vertical padding keeps each row a real touch target: 13px text is
+// a ~20px box, and the padding sits inside the target rather than in a gap
+// between rows, so every pixel of the row's pitch is tappable.
+//
+// `block`, not `inline-block`: an inline-block box is only as wide as its
+// label, which left the short entries ("IPL", "PRP", "HIFU") about 36px wide
+// — tall enough after the padding below, but too narrow. Going block gives
+// every row the full column width, so the target is the whole row rather than
+// the few characters of text in it. Nothing moves visually: these links carry
+// no underline or background, only a colour change on hover.
+//
+// `min-h-11` because py-3 lands on 43.5px — half a pixel short of 44. The
+// floor is what actually guarantees the number, and it keeps holding if the
+// footer's type size is ever changed.
+//
+// `py-3`, not `py-1`. py-1 gave a 28px row — past WCAG 2.5.8's 24px floor, but
+// short of the 44×44 that Apple's HIG and WCAG 2.5.5 ask for, and these rows
+// sit flush against each other with no gap to excuse the difference. py-3
+// lands on 44.
+//
+// The cost is real and worth stating plainly: there are 41 links down here,
+// and on a phone the four columns stack, so the footer grows by roughly 650px.
+// That is the honest price of a thumb-sized target on a list this long — the
+// alternative is 41 links that a thumb keeps missing. If the client would
+// rather have the shorter footer back, this constant is the one place to
+// change it.
 const linkClass =
-  "inline-block py-1 text-white/70 transition-colors duration-300 hover:text-white";
+  "block min-h-11 py-3 text-white/70 transition-colors duration-300 hover:text-white";
 
 const headingClass = "eyebrow text-gold-soft";
 const listClass = "mt-4 flex flex-col font-sans text-label";
@@ -105,7 +124,7 @@ export default function Footer() {
                 href={MAPS_HREF}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block py-0.5 text-white/70 transition-colors hover:text-white"
+                className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
               >
                 {ADDRESS}
               </a>
@@ -113,7 +132,7 @@ export default function Footer() {
             <li>
               <a
                 href={`mailto:${EMAIL}`}
-                className="inline-block py-0.5 text-white/70 transition-colors hover:text-white"
+                className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
               >
                 {EMAIL}
               </a>
@@ -121,7 +140,7 @@ export default function Footer() {
             <li>
               <a
                 href={`tel:${PHONE_E164}`}
-                className="inline-block py-0.5 text-white/70 transition-colors hover:text-white"
+                className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
               >
                 {PHONE_DISPLAY}
               </a>
@@ -139,7 +158,13 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="rounded-full border border-white/20 p-2 text-white/70 transition-colors duration-300 hover:border-gold-soft hover:text-gold-soft"
+                  // p-3.5: a 16px icon at p-2 made a 34px circle, the smallest
+                  // target on the page. 14px of padding takes it to 46px —
+                  // past the 44px minimum, and the ring is the target here, so
+                  // the circles do read visibly larger. That is the intended
+                  // trade: three social icons carrying an obvious hit area
+                  // beats three neat circles that need aiming at.
+                  className="rounded-full border border-white/20 p-3.5 text-white/70 transition-colors duration-300 hover:border-gold-soft hover:text-gold-soft"
                 >
                   <Icon className="h-4 w-4" />
                 </a>

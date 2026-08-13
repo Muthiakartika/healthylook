@@ -79,19 +79,26 @@ export default function MobileNavItem({
               <div key={column.title}>
                 <div className="eyebrow text-muted">{column.title}</div>
                 {/* The spacing moved from the list's `gap` onto each link's
-                    padding. Visually identical — same 40px pitch per row —
-                    but the whole 40px is now tappable instead of a 20px
-                    target with a 20px dead strip between. These are the
-                    treatment links, the densest and most-used list on the
-                    phone, and they were the only rows in the drawer without
-                    padding: the top-level items already had py-5. */}
+                    padding, so the whole row is tappable instead of a 20px
+                    target with a dead strip between. These are the treatment
+                    links, the densest and most-used list on the phone, and
+                    they were the only rows in the drawer without padding: the
+                    top-level items already had py-5.
+
+                    py-3, not py-2.5: at 10px the row came to exactly 40px,
+                    which clears WCAG 2.5.8's 24px floor but misses the 44×44
+                    that Apple's HIG and WCAG 2.5.5 ask for. 12px lands on 44.
+                    There are 35 of these rows, so this is the change that
+                    actually decides whether the menu feels accurate in the
+                    hand — at the cost of ~140px more scroll inside the panel,
+                    which already scrolls. */}
                 <ul className="mt-1 flex flex-col border-l border-hairline pl-4">
                   {column.links.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
                         onClick={onNavigate}
-                        className="block py-2.5 font-sans text-sm text-text-secondary transition-colors hover:text-primary-strong"
+                        className="block py-3 font-sans text-sm text-text-secondary transition-colors hover:text-primary-strong"
                       >
                         {link.label}
                       </Link>

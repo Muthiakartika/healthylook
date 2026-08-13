@@ -131,12 +131,25 @@ export default function PageHero({
                           {crumb.href && !isLast ? (
                             <Link
                               href={crumb.href}
-                              // 11px type gave a 16px-tall tap target on the
-                              // one link that appears on every inner page.
-                              // py-1 landed at 23.95px — just under the bar,
-                              // so it takes py-1.5. The negative margin keeps
-                              // the row's visual height unchanged.
-                              className="-my-1.5 py-1.5 transition-colors hover:text-ink"
+                              // 11px type gives a 16px-tall, ~38px-wide tap
+                              // target on the links that appear on every inner
+                              // page. `inline-flex` + min-h-11/min-w-11 forces
+                              // the box to 44×44, the Apple HIG / WCAG 2.5.5
+                              // minimum — a floor rather than padding, because
+                              // "Home" is too short to reach 44px wide on
+                              // padding alone. The matching negative margin
+                              // keeps the row's visual height unchanged, so
+                              // the breadcrumb still reads as one thin line;
+                              // it just answers to a thumb now.
+                              //
+                              // Safe to overhang because only the crumbs
+                              // BEFORE the last one are links, and those are
+                              // always "Home" and "Treatments" — short enough
+                              // to share the first line at every width tested
+                              // down to 320px. It's the current page's <span>
+                              // that wraps, and a span is not a tap target, so
+                              // no two targets can ever overlap vertically.
+                              className="-my-3.5 inline-flex min-h-11 min-w-11 items-center justify-center transition-colors hover:text-ink"
                             >
                               {crumb.label}
                             </Link>

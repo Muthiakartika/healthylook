@@ -44,7 +44,19 @@ export default function PriceTable({
                 key={row.label}
                 className={`flex items-baseline justify-between gap-6 border-b ${rule} py-3.5`}
               >
-                <dt className={`font-sans text-copy leading-snug ${labelColor}`}>
+                {/* min-w-0 + break-words, because a handful of the clinic's
+                    real price rows carry long slash-joined labels — e.g.
+                    "One Session per Area (Belly/Arm/Thigh/Brazilian Butt
+                    lift)". CSS puts no break opportunity around a slash, so
+                    that run counts as one 197px-wide "word", and a flex item
+                    at the default min-width:auto refuses to shrink below its
+                    min-content width. On a 320px phone the label therefore
+                    held its full width, shoved the shrink-0 price column off
+                    the right edge, and gave the whole page a horizontal
+                    scrollbar. Letting the label shrink and break keeps the
+                    row inside the viewport without touching the price list
+                    wording, which has to stay exactly as the clinic quotes it. */}
+                <dt className={`min-w-0 break-words font-sans text-copy leading-snug ${labelColor}`}>
                   {row.label}
                 </dt>
                 <dd

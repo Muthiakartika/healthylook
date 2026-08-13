@@ -132,7 +132,12 @@ export default function Treatments() {
                     setActive(category.id);
                     setHovered(null);
                   }}
-                  className={`relative -mb-px flex items-baseline gap-2 border-b-2 pb-4 font-sans text-label uppercase tracking-caps transition-colors duration-300 ${
+                  // `pt-2` for the tap target only. These tabs measured 37.5px
+                  // — the height all sits below the text, in the pb-4 that
+                  // holds the active underline off the label. The extra 8px
+                  // goes above instead, taking the button past 44px without
+                  // moving the border-b that marks the selected category.
+                  className={`relative -mb-px flex items-baseline gap-2 border-b-2 pt-2 pb-4 font-sans text-label uppercase tracking-caps transition-colors duration-300 ${
                     isActive
                       ? "border-primary text-primary-strong"
                       : "border-transparent text-muted hover:text-text"

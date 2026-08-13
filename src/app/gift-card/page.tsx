@@ -269,6 +269,9 @@ export default function GiftCardPage() {
                   is often bought in a hurry for a date that is close, so
                   the fastest route has to stay on the page. */}
               <Reveal delay={210}>
+                {/* py-2.5 on each row: the text alone gave a 27px-tall link.
+                    47px each now, past the 44px touch minimum, with the
+                    list's gap-5 keeping the enlarged targets apart. */}
                 <ul className="mt-12 flex flex-col gap-5 border-t border-primary/20 pt-10">
                   <li>
                     <a
@@ -277,7 +280,7 @@ export default function GiftCardPage() {
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <WhatsAppIcon className="h-5 w-5 shrink-0 text-primary" />
                       Arrange it on WhatsApp instead
@@ -286,7 +289,7 @@ export default function GiftCardPage() {
                   <li>
                     <a
                       href={`tel:${PHONE_E164}`}
-                      className="flex items-center gap-4 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <PhoneIcon className="h-5 w-5 shrink-0 text-primary" />
                       {PHONE_DISPLAY}
@@ -295,7 +298,7 @@ export default function GiftCardPage() {
                   <li>
                     <a
                       href={`mailto:${EMAIL}`}
-                      className="flex items-center gap-4 break-all font-sans text-copy-lg text-ink transition-colors hover:text-primary"
+                      className="flex items-center gap-4 break-all py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                     >
                       <MailIcon className="h-5 w-5 shrink-0 text-primary" />
                       {EMAIL}

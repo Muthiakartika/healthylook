@@ -50,7 +50,11 @@ function RegistrationCredential({
         href={doctor.registration.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group/reg inline-flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-caption text-primary-strong transition-colors duration-300 hover:text-primary-hover"
+        // `py-3.5` for the tap target: 12px type made this 17px tall, the
+        // shortest link on the page. It's the registration-number link — the
+        // one a cautious patient taps to check the doctor is real — so it
+        // should not need a careful thumb. 28px of padding takes it to 45px.
+        className="group/reg inline-flex flex-wrap items-center gap-x-2 gap-y-1 py-3.5 font-sans text-caption text-primary-strong transition-colors duration-300 hover:text-primary-hover"
       >
         <VerifiedIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
         <span className="tabular-nums">Reg. No. {doctor.registration.number}</span>
@@ -159,7 +163,14 @@ export default function DoctorProfile({
           <h3 className="mt-4 font-sans text-h4 font-medium leading-tight text-ink">
             <Link
               href="/our-doctor"
-              className="inline-flex items-start gap-2 transition-colors duration-300 hover:text-primary"
+              // `-my-2.5 py-2.5` for the tap target: the name sat on a 25px
+              // line box. The padding takes it to 45px and the negative
+              // margin gives that height back to the layout, so the heading
+              // keeps its exact spacing against the eyebrow above and the
+              // registration link below — neither of which moves, and neither
+              // of which this can overlap, since the nearest tap target is
+              // more than 20px clear.
+              className="-my-2.5 inline-flex items-start gap-2 py-2.5 transition-colors duration-300 hover:text-primary"
             >
               {doctor.name}
               <ArrowUpRightIcon className="mt-1.5 h-3.5 w-3.5 shrink-0 text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
