@@ -126,3 +126,22 @@ export const resultGroups: ResultGroup[] = [
 ];
 
 export const totalResults = resultGroups.reduce((n, g) => n + g.images.length, 0);
+
+/**
+ * ── CLIENT REVISION — BEFORE/AFTER ON EVERY TREATMENT PAGE ────────────
+ * "Add a before/after section to every treatment page, matched to that
+ * page's own treatment."
+ *
+ * Only 5 of the clinic's 6 published result categories name a specific
+ * treatment (see `treatmentSlug` above) — the sixth, "Hair & Skin
+ * Treatment", is the clinic's own general bucket and isn't about any one
+ * treatment. Returning `undefined` for every other slug is deliberate:
+ * the same rule this file's `hair-and-skin-treatment` comment already
+ * states applies here — showing one treatment's photos on a page for a
+ * *different* treatment is the invented-result the brief prohibits, so a
+ * treatment page with no matching category gets no embedded gallery,
+ * only the existing link out to the full /before-after page.
+ */
+export function getResultsForTreatment(slug: string): ResultGroup | undefined {
+  return resultGroups.find((group) => group.treatmentSlug === slug);
+}

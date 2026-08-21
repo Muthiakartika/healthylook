@@ -1166,7 +1166,18 @@ export const treatments: Treatment[] = [
     category: "hair-booster",
     anaesthesia: "Topical anaesthetic",
     downtime: "Very minimal",
-    image: "/images/treatments/hair-mesotherapy.jpg",
+    // ── CLIENT REVISION — WRONG PHOTO REMOVED, NOT REPLACED ─────────────
+    // `hair-mesotherapy.jpg` was a stock photo of a man getting a facial
+    // injection near his ear — byte-identical to the stock image this
+    // build used to show on /special-offers, nothing to do with hair
+    // mesotherapy. No genuine photo of this treatment exists in the
+    // client's asset library yet (checked every unused file in
+    // public/images/treatments/ — the closest candidates are a cellulite
+    // stock photo and a Sculptra product-box shot, neither is this
+    // treatment either). Per the brief's own rule — a wrong photo is worse
+    // than no photo — `image` is left unset, so the page falls back to the
+    // typographic tile / category photo like every other treatment with
+    // no photo of its own. Needs a real photo from the clinic.
     shortDescription:
       "It provides essential nutrients like vitamins and antioxidants to improve blood flow for hair growth in both men & women.",
     startingPrice: 1900000,

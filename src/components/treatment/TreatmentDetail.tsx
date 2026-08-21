@@ -27,6 +27,7 @@ import {
 } from "@/data/testimonials";
 import { getFaqs } from "@/data/treatmentFaqs";
 import { getSections } from "@/data/treatmentSections";
+import { getResultsForTreatment } from "@/data/results";
 import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
 
 /**
@@ -61,6 +62,12 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
   // The clinic's own "what this is / why choose it" copy for this
   // treatment — headings plus the specific claims underneath them.
   const sections = getSections(treatment.slug);
+  // This treatment's own before/after photos, where the clinic has
+  // published a category for it — undefined for every treatment that
+  // doesn't map to one of the 5 named categories. See the note on
+  // `getResultsForTreatment` for why an unmatched treatment gets no
+  // embedded gallery rather than someone else's photos.
+  const resultGroup = getResultsForTreatment(treatment.slug);
   const related = treatments
     .filter((t) => t.category === treatment.category && t.slug !== treatment.slug)
     .slice(0, 3);
@@ -518,29 +525,57 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
         </section>
       )}
 
-      {/* "Be Empowered to Feel Truly Confident" is the clinic's own heading
-          for the before/after block on its treatment pages. The heading is
-          kept; the gallery is not faked. The clinic has exactly one
-          before/after asset and it belongs to one specific patient —
-          dropping it onto 27 treatment pages would imply it shows each of
-          them, which is the invented-result the brief prohibits. So this
-          band carries the real heading and routes to the results page. */}
+      {/* ── CLIENT REVISION — BEFORE/AFTER EMBEDDED PER TREATMENT ────────
+          "Be Empowered to Feel Truly Confident" is the clinic's own
+          heading for this band. What changed is what sits under it: where
+          the clinic has published a results category for THIS treatment
+          (`resultGroup`), a real sample from that category now renders
+          inline, matched to the page it's on. Where it hasn't — most
+          treatments, since only 5 of the clinic's 6 categories name a
+          specific one — the band falls back to its original form: the
+          heading, and a link to the full gallery. Never someone else's
+          before/after photos captioned with this treatment's name; see
+          `getResultsForTreatment`'s own note for why that's a hard line. */}
       <section className="bg-section py-16">
         <Container>
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="font-script text-h2 leading-heading text-primary">
                 Be Empowered to Feel Truly Confident
               </h2>
               <p className="mt-3 measure font-sans text-sm leading-relaxed text-text-secondary">
-                See real patient results from our Ubud clinic. Individual results
-                vary. Your doctor will discuss what is realistic for you.
+                {resultGroup
+                  ? `Real ${treatment.name} results from our Ubud clinic. Individual results vary. Your doctor will discuss what is realistic for you.`
+                  : "See real patient results from our Ubud clinic. Individual results vary. Your doctor will discuss what is realistic for you."}
               </p>
             </div>
-            <Button href="/before-after" variant="outline" withArrow className="shrink-0">
-              View before &amp; after
+            <Button
+              href={resultGroup ? `/before-after#${resultGroup.slug}` : "/before-after"}
+              variant="outline"
+              withArrow
+              className="shrink-0"
+            >
+              {resultGroup
+                ? `View all ${resultGroup.images.length} results`
+                : "View before & after"}
             </Button>
           </div>
+
+          {resultGroup && (
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {resultGroup.images.slice(0, 4).map((src) => (
+                <Reveal key={src} variant="image">
+                  <Img
+                    src={src}
+                    alt={`Before and after ${resultGroup.label} at Healthy Look Aesthetic, Ubud`}
+                    aspect="square"
+                    rounded="rounded-none"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                </Reveal>
+              ))}
+            </div>
+          )}
         </Container>
       </section>
 
