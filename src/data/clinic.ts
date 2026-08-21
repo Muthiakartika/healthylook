@@ -114,6 +114,34 @@ export const CLINIC_HIGHLIGHTS: {
     description:
       "Treatment plans follow the evidence. Every product we carry is reviewed against the relevant journals and clinical trials before it is offered to a patient.",
   },
+  /**
+   * ── CLIENT REVISION — "Please add point that we're certified clinic" ──
+   * Appended rather than inserted, so <Highlights>'s `.slice(0, 4)` for the
+   * strip under the hero is untouched — these two only reach the full list
+   * in <WhyUs>. Nothing here is a new fact: both reuse the exact licence
+   * statement and number already published elsewhere on the site (see
+   * CLINIC_LICENCE_STATEMENT / CLINIC_LICENCE_NUMBER above), so this is the
+   * same certification, stated as a highlight rather than only as a badge.
+   */
+  {
+    title: "Certified & Licensed Clinic",
+    tagline: "Government-registered",
+    description: `${CLINIC_LICENCE_STATEMENT} We are not a medical spa.`,
+  },
+  /**
+   * ── CLIENT REVISION — "Please add 5 years experience" ──────────────────
+   * The client's own figure, given directly in their feedback rather than
+   * derived from a doctor's individual years in practice (Dr. Irene's bio
+   * separately states 7+ years personally — a different claim about a
+   * different subject, not a source to reuse here). No other detail is
+   * added beyond what they gave.
+   */
+  {
+    title: "5+ Years of Experience",
+    tagline: "Serving Ubud since day one",
+    description:
+      "Over 5 years bringing advanced, evidence-based aesthetic treatments to Ubud, Bali.",
+  },
 ];
 
 /**

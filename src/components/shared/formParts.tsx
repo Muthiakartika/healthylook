@@ -63,46 +63,36 @@ export function errorProps(name: string, fieldErrors: Record<string, string>) {
   };
 }
 
+/**
+ * ── CLIENT REVISION — CONTACT FORM MUST BE EMAIL-ONLY ─────────────────
+ * "Contact form → Email. Not Contact form → WhatsApp." WhatsApp stays
+ * available sitewide (floating button, header icon, the direct link on
+ * <BookingSection>) — what it can no longer be is an alternative SUBMIT
+ * path offered inside the form itself, which is what the link this
+ * replaced did: it invited a visitor to bypass the email submission
+ * entirely. `fallbackHref` is still threaded through from the caller and
+ * still used by <ErrorNotice> when the email send genuinely fails — that
+ * is a resilience path for a broken submission, not a competing channel
+ * for a working one, so it stays.
+ */
 export function SubmitRow({
   status,
-  fallbackHref,
   label = "Send enquiry",
 }: {
   status: Status;
-  fallbackHref: string;
   label?: string;
 }) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="group inline-flex items-center justify-center gap-2.5 rounded-brand bg-primary-strong px-8 py-4 font-sans text-caption font-medium uppercase tracking-caps-wide text-white transition-colors duration-300 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {status === "sending" ? "Sending…" : label}
-        {status !== "sending" && (
-          <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-        )}
-      </button>
-
-      {/* Always offered, not only on failure. Plenty of people — on mobile
-          especially, and especially for a medical question — would rather
-          message than fill in six fields, and a conversion surface that
-          only offers one channel quietly loses them. */}
-      <a
-        href={fallbackHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        // py-3.5 for the tap target: 12px type made a 17px-tall link, the
-        // smallest on the form. This is the escape hatch for anyone whose
-        // enquiry didn't send, so it's the worst possible place to ask for a
-        // precise tap. 14px of padding takes it to 45px.
-        className="inline-flex items-center gap-2 py-3.5 font-sans text-caption text-muted transition-colors hover:text-primary-strong"
-      >
-        <WhatsAppIcon className="h-4 w-4" />
-        or send via WhatsApp
-      </a>
-    </div>
+    <button
+      type="submit"
+      disabled={status === "sending"}
+      className="group inline-flex items-center justify-center gap-2.5 rounded-brand bg-primary-strong px-8 py-4 font-sans text-caption font-medium uppercase tracking-caps-wide text-white transition-colors duration-300 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      {status === "sending" ? "Sending…" : label}
+      {status !== "sending" && (
+        <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+      )}
+    </button>
   );
 }
 

@@ -62,8 +62,21 @@ export default function BeforeAfterPage() {
         imageAlt="Treatment room at Healthy Look Aesthetic, Ubud"
       />
 
-      {/* Disclaimer first, deliberately: it qualifies everything below it,
-          so it has to be read before the photographs and not after them. */}
+      {/* ── CLIENT REVISION — AUTHENTICITY STATEMENT ────────────────────
+          "Real patients, real results. No filter, no edit." — added as its
+          own prominent line, ahead of the "individual results vary"
+          disclaimer so the authenticity claim is the first thing read, not
+          buried under a qualifier. Photographs and captions are unchanged. */}
+      <section className="border-b border-hairline bg-paper">
+        <Container className="py-8 text-center">
+          <p className="font-script text-h3 leading-heading text-primary">
+            Real patients, real results. No filter, no edit.
+          </p>
+        </Container>
+      </section>
+
+      {/* Disclaimer next: it qualifies everything below it, so it has to
+          be read before the photographs and not after them. */}
       <section className="border-b border-primary/20 bg-section">
         <Container className="py-5">
           <p className="measure-narrow font-sans text-caption leading-body text-ink">

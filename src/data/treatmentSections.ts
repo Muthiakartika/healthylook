@@ -32,9 +32,18 @@ export type TreatmentSection = {
 export const treatmentSections: Record<string, TreatmentSection[]> = {
   "botox": [
     {
+      // ── CLIENT REVISION — PARAGRAPH, NOT A ONE-ITEM BULLET LIST ──────
+      // This was a single `points` entry — one long sentence rendered as a
+      // bulleted list item with a checkmark, which read as a bullet even
+      // though it's prose. `blocks` renders it as an ordinary paragraph
+      // instead. The words are unchanged.
       title: "Certified & Trusted Botox Provider in Ubud Bali",
-      points: [
-        "Are you already seeing the formation of wrinkles whenever you laugh? And prominent forehead lines when you raise your eyebrow or frown? Botox treatment might be suitable for you.",
+      blocks: [
+        {
+          paragraphs: [
+            "Are you already seeing the formation of wrinkles whenever you laugh? And prominent forehead lines when you raise your eyebrow or frown? Botox treatment might be suitable for you.",
+          ],
+        },
       ],
     },
     // "What is A Botox" used to sit here with the clinic's definition
@@ -79,11 +88,29 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
   "dermal-filler": [
     {
+      // ── CLIENT REVISION 27 — "same bullets and formats" ──────────────
+      // Item 1 used to be the lone entry in `points` (a plain checkmark
+      // bullet) while items 2–3 were `blocks` (heading + paragraph) — two
+      // different shapes in one three-item section, flagged directly on
+      // an annotated screenshot. All three are `blocks` now, item 1 given
+      // a heading to match the other two.
+      //
+      // The brand list inside item 1 is also updated: "Juvederm, teosyal,
+      // croma saypha" named a brand ("Croma Saypha") that appears nowhere
+      // in this treatment's own price table (which already lists Juvederm,
+      // Restylane, Teosyal, and Korean filler). The client's own message —
+      // "We have just updated our filler brands to juvederm, restylane,
+      // teosyal, and premium korean filler" — confirms that list directly,
+      // so the sentence now matches both the client's update and the
+      // pricing table it sits above on the page.
       title: "Why Should I choose Healthy Look Aesthetic ?",
-      points: [
-        "We use best worldwide filler products like Juvederm, teosyal, croma saypha with affordable price",
-      ],
       blocks: [
+        {
+          heading: "Best Worldwide Filler Products",
+          paragraphs: [
+            "We use the best worldwide filler products like Juvederm, Restylane, Teosyal, and premium Korean filler at an affordable price.",
+          ],
+        },
         {
           heading: "Handled by Certified Doctor",
           paragraphs: [
@@ -101,9 +128,20 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
   "hifu": [
     {
+      // ── CLIENT REVISION — PARAGRAPH, NOT A ONE-ITEM BULLET LIST ──────
+      // Roughly 900 characters of prose were stored as a single `points`
+      // entry — one bullet with a checkmark next to a full paragraph.
+      // Split into its natural sentences as `blocks` paragraphs; no words
+      // added, removed, or reordered.
       title: "Our Special HIFU Treatment with Linear Z",
-      points: [
-        "Linear Z HIFU treatment is the ultimate non-invasive solution for face lifting and neck tightening. As the first and only aesthetic clinic in Bali to offer Linear Z, the world’s most advanced and fastest HIFU technology, we are setting a new standard in non-surgical aesthetics. Linear Z uses high-intensity focused ultrasound (HIFU) to deliver focused waves into the skin, promoting collagen regeneration and tightening the skin by raising tissue temperature in a stable manner. Unlike traditional HIFU, Linear Z is more effective and significantly less painful, providing an unmatched lifting experience. It is the only HIFU technology in the world that can induce fat proliferation, making it ideal for treating hollow areas. Linear Z targets multiple layers beneath the skin to stimulate collagen production, reduce excess fat, and tighten the SMAS layer. With 32 customizable depth and mode settings, Linear Z offers personalized treatments to meet the unique needs of each client, ensuring optimal results. Experience the future of non-surgical aesthetics with Linear Z HIFU in Bali for a firmer, tighter, and more youthful appearance.",
+      blocks: [
+        {
+          paragraphs: [
+            "Linear Z HIFU treatment is the ultimate non-invasive solution for face lifting and neck tightening. As the first and only aesthetic clinic in Bali to offer Linear Z, the world’s most advanced and fastest HIFU technology, we are setting a new standard in non-surgical aesthetics.",
+            "Linear Z uses high-intensity focused ultrasound (HIFU) to deliver focused waves into the skin, promoting collagen regeneration and tightening the skin by raising tissue temperature in a stable manner. Unlike traditional HIFU, Linear Z is more effective and significantly less painful, providing an unmatched lifting experience. It is the only HIFU technology in the world that can induce fat proliferation, making it ideal for treating hollow areas.",
+            "Linear Z targets multiple layers beneath the skin to stimulate collagen production, reduce excess fat, and tighten the SMAS layer. With 32 customizable depth and mode settings, Linear Z offers personalized treatments to meet the unique needs of each client, ensuring optimal results. Experience the future of non-surgical aesthetics with Linear Z HIFU in Bali for a firmer, tighter, and more youthful appearance.",
+          ],
+        },
       ],
     },
     {
@@ -187,13 +225,30 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // ── CLIENT REVISION — PARAGRAPH, NOT BULLETS ─────────────────────
+      // Three long sentences were stored as `points` — three checkmark
+      // bullets, each a full paragraph. Moved into `blocks` alongside the
+      // "Enjoy the Result" paragraph that already sat below them, so the
+      // whole journey reads as one editorial passage. Words unchanged.
       title: "Your Profhilo Journey in Ubud Bali",
-      points: [
-        "Embrace the tranquility of Ubud as you undergo your Profhilo treatment. Healthy Look Aesthetic is designed to provide a serene environment, allowing you to relax while taking a step towards healthier, more beautiful skin.",
-        "Begin your Profhilo journey in Ubud Bali with a personalized consultation. Our skilled doctor will assess your skin and discuss your aesthetic goals to create a tailored treatment plan just for you.",
-        "The Profhilo treatment involves a series of injections strategically placed to stimulate collagen and elastin production. The process is painless with minimal downtime",
-      ],
       blocks: [
+        {
+          paragraphs: [
+            "Embrace the tranquility of Ubud as you undergo your Profhilo treatment. Healthy Look Aesthetic is designed to provide a serene environment, allowing you to relax while taking a step towards healthier, more beautiful skin.",
+          ],
+        },
+        {
+          heading: "Consultation",
+          paragraphs: [
+            "Begin your Profhilo journey in Ubud Bali with a personalized consultation. Our skilled doctor will assess your skin and discuss your aesthetic goals to create a tailored treatment plan just for you.",
+          ],
+        },
+        {
+          heading: "Treatment",
+          paragraphs: [
+            "The Profhilo treatment involves a series of injections strategically placed to stimulate collagen and elastin production. The process is painless with minimal downtime.",
+          ],
+        },
         {
           heading: "Enjoy the Result at Affordbale Price",
           paragraphs: [
@@ -205,33 +260,70 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
   "microneedling": [
     {
+      // ── CLIENT REVISION — NOT A WALL OF DENSE BULLETS ────────────────
+      // Six full-sentence explanations were stored as `points` — six
+      // checkmark bullets, each a paragraph. Each one names a different
+      // skin concern, so flattening them into running prose would have
+      // lost the thing that made them scannable in the first place;
+      // instead they move to `blocks` with a short heading per concern,
+      // the same heading+paragraph pattern already used in this file's
+      // other "why choose" sections (HIFU, Profhilo, Sylfirm X). Wording
+      // of every explanation is unchanged.
       title: "What Skin Conditions Improve with Microneedling?",
-      points: [
-        "Dermapen 4 is the only micro-needling pen with a dedicated scar treatment. The needles can penetrate up to 3 mm thus effectively improving the appearance of acne scars, surgical scars, and striae.",
-        "Dermapen could minimize pores by creating thousands of flawless micro-injuries to activate the skin’s natural healing response. The new collagen will tighten the pores to appear smaller",
-        "Dermapen 4 can reduce the appearance of lines, wrinkles, and thinning skin due to reduced collagen in the skin. Microneedling stimulates your skin’s natural collagen production, boosting elasticity and repairing flaws.",
-        "The microneedling utilizes 1,920 micro-channels to break down existing fibrous tissue and encourages the production and distribution of new collagen to remodel the stretch mark scar",
-        "Microneedling stimulates the formation of new blood vessels to provide better nutrition to the bulb of the hair which is essential for healthy hair growth.",
-        "Microneedling removes the risk of post-inflammatory hyperpigmentation, making it a suitable procedure for all Fitzpatrick skin types.",
+      blocks: [
+        {
+          heading: "Scars",
+          paragraphs: [
+            "Dermapen 4 is the only micro-needling pen with a dedicated scar treatment. The needles can penetrate up to 3 mm thus effectively improving the appearance of acne scars, surgical scars, and striae.",
+          ],
+        },
+        {
+          heading: "Enlarged Pores",
+          paragraphs: [
+            "Dermapen could minimize pores by creating thousands of flawless micro-injuries to activate the skin’s natural healing response. The new collagen will tighten the pores to appear smaller.",
+          ],
+        },
+        {
+          heading: "Lines & Wrinkles",
+          paragraphs: [
+            "Dermapen 4 can reduce the appearance of lines, wrinkles, and thinning skin due to reduced collagen in the skin. Microneedling stimulates your skin’s natural collagen production, boosting elasticity and repairing flaws.",
+          ],
+        },
+        {
+          heading: "Stretch Marks",
+          paragraphs: [
+            "The microneedling utilizes 1,920 micro-channels to break down existing fibrous tissue and encourages the production and distribution of new collagen to remodel the stretch mark scar.",
+          ],
+        },
+        {
+          heading: "Hair Growth",
+          paragraphs: [
+            "Microneedling stimulates the formation of new blood vessels to provide better nutrition to the bulb of the hair which is essential for healthy hair growth.",
+          ],
+        },
+        {
+          heading: "All Skin Tones",
+          paragraphs: [
+            "Microneedling removes the risk of post-inflammatory hyperpigmentation, making it a suitable procedure for all Fitzpatrick skin types.",
+          ],
+        },
       ],
     },
   ],
   "facial/medi": [
     {
+      // ── CLIENT REVISION — "same bullets and formats" ─────────────────
+      // Same fix as dermal-filler's identically-titled section: a
+      // one-item `blocks` entry (this treatment's brand list) sat below
+      // four plain `points`, rendering as the odd one out. Merged into a
+      // fifth point; wording unchanged.
       title: "Why Should I choose Healthy Look Aesthetic?",
       points: [
         "Free Personalized Facial Consultations",
         "Safe & Relaxing Experience",
         "Clinically Proven Result",
         "Real Result from the First Session",
-      ],
-      blocks: [
-        {
-          heading: "Best Worldwide Products",
-          paragraphs: [
-            "Dermalogica, Tegoder, Dermapen World, Skin Matrix, Janssen are some of premium professional brands that we partner with",
-          ],
-        },
+        "Best Worldwide Products — Dermalogica, Tegoder, Dermapen World, Skin Matrix, Janssen are some of premium professional brands that we partner with",
       ],
     },
   ],
@@ -288,18 +380,14 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // ── CLIENT REVISION — "same bullets and formats" ─────────────────
+      // Three same-weight, same-length claims were split 2-in-`points` +
+      // 1-in-`blocks` for no apparent reason. Unified as three points.
       title: "Why Should I choose Carboxy Therapy in Ubud?",
       points: [
         "Non-Invasive",
         "Immediate Result",
-      ],
-      blocks: [
-        {
-          heading: "No Downtime",
-          paragraphs: [
-            "Safe Treatment without Downtime",
-          ],
-        },
+        "No Downtime — Safe Treatment without Downtime",
       ],
     },
   ],
@@ -359,6 +447,20 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
             "Sylfirm X combines RF and microneedling in a minimally-invasive procedure. RF energy is precisely delivered deeper into the skin through microneedles. This controlled delivery induces micro-injuries, stimulating collagen regeneration and wound healing. Using Regional Regeneration Radio Repeated Pulse (RP) microneedling, Sylfirm X targets abnormal vessels associated with conditions like melasma and rosacea.",
           ],
         },
+      ],
+    },
+    {
+      // The live page follows this with a "Sylfirm X Before and After"
+      // section: this one sentence, then six before/after photographs. The
+      // photos aren't reproduced — results.ts has no Sylfirm X/RF
+      // Microneedling category, and inventing or borrowing mismatched
+      // images is exactly what the brief prohibits. The page already links
+      // to the real gallery lower down ("Be Empowered to Feel Truly
+      // Confident" → /before-after), which is this site's established,
+      // honest answer to the same gap on every other treatment page.
+      title: "Sylfirm X Before and After",
+      points: [
+        "Real patient results with smoother, firmer, and more radiant skin after Sylfirm X treatment.",
       ],
     },
     {
@@ -820,22 +922,21 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       // Restored from the live page. The import had reduced this to the
       // section's own question with no answer under it; the six benefits
       // it introduces were all missing.
+      // ── CLIENT REVISION — "same bullets and formats" ─────────────────
+      // The two `blocks` entries here weren't just an inconsistent format
+      // next to the four `points` above — "Free Mixing with PRP" /
+      // "& Home Hair Growth Kit" is one claim that the original import cut
+      // into a heading and a paragraph fragment starting mid-sentence with
+      // "&". Rejoined into one point, alongside "No rejection", matching
+      // the other four.
       title: "Why Should I choose Autologous Micrograft Hair Restoration in Bali?",
       points: [
         "No scarring or stitches",
         "Single Treatment Results",
         "Only once per year required",
         "Minimal Downtime",
-      ],
-      blocks: [
-        {
-          heading: "No rejection",
-          paragraphs: ["Uses your own stem cells"],
-        },
-        {
-          heading: "Free Mixing with PRP",
-          paragraphs: ["& Home Hair Growth Kit"],
-        },
+        "No rejection — uses your own stem cells",
+        "Free Mixing with PRP & Home Hair Growth Kit",
       ],
     },
   ],

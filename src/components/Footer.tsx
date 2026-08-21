@@ -98,6 +98,12 @@ const listClass = "mt-4 flex flex-col font-sans text-label";
  * Four tracks make every column roughly nine rows, so nothing runs long and
  * no space is left over. Content is untouched — all 41 links are still here.
  */
+// Derived, not a second hardcoded string: if ADDRESS is ever edited in
+// constants.ts, this either strips the same suffix again or — if the
+// resort name in ADDRESS changed — leaves the string untouched rather than
+// silently cutting off the wrong words.
+const streetAddress = ADDRESS.replace(/ at Ubud Nyuh Bali Resort$/, "");
+
 export default function Footer() {
   return (
     <footer className="bg-ink-brown text-white/70">
@@ -118,7 +124,18 @@ export default function Footer() {
             at Ubud Nyuh Bali Resort
           </p>
 
-          <ul className="mt-2 flex flex-col font-sans text-label leading-relaxed">
+          {/* ── CLIENT REVISION 11 — "Double Ubud Nyuh Bali Resort" ─────
+              A follow-up, annotated screenshot circled both this bold line
+              and "Ubud Nyuh" / "Bali Resort" inside {ADDRESS} below it —
+              the phrase really is stated twice back to back, not just set
+              too close together. `streetAddress` strips the resort name
+              {ADDRESS} already ends with, since the bold line above it
+              says the same thing more prominently; the full {ADDRESS}
+              constant is untouched everywhere else it's used (schema.org
+              structured data, /our-doctor, /book-now). Nothing about the
+              resort or the street is missing — it now reads as one fact
+              stated once, not twice. */}
+          <ul className="mt-4 flex flex-col font-sans text-label leading-relaxed">
             <li>
               <a
                 href={MAPS_HREF}
@@ -126,7 +143,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
               >
-                {ADDRESS}
+                {streetAddress}
               </a>
             </li>
             <li>

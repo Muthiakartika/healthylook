@@ -316,11 +316,7 @@ export default function GiftCardForm() {
           be settled in the reply — a buyer who does not yet know the
           recipient's email should still be able to start the order rather
           than being stopped by a field they cannot fill today. */}
-      <SubmitRow
-        status={status}
-        fallbackHref={fallbackHref}
-        label="Request this gift card"
-      />
+      <SubmitRow status={status} label="Request this gift card" />
 
       <div role="status" aria-live="polite">
         {status === "error" && <ErrorNotice fallbackHref={fallbackHref} />}

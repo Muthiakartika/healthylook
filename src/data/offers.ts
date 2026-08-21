@@ -100,17 +100,22 @@ export const specialOffers: Offer[] = [
     // counter — which is this file's own stated reason for copying rather
     // than restating — so a visitor in Canggu could not tell from the
     // rebuilt page that their threshold is IDR 7.500.000, not 3.000.000.
+    //
+    // ── CLIENT REVISION — MINIMUM-PURCHASE FIGURES RAISED ────────────────
+    // The client sent the new thresholds directly (message dated after the
+    // original extraction): all six rows increased. The surcharge table
+    // below is untouched — no new figures were given for it.
     tables: [
       {
         title:
           "Minimum purchase for the treatments will be applied for the free transfer as below:",
         rows: [
-          { label: "Ubud Center, Mas, Sukawati", value: "IDR 3.000.000" },
-          { label: "Kedewatan, Sayan", value: "IDR 3.500.000" },
-          { label: "Tegalalang, Payangan", value: "IDR 4.500.000" },
-          { label: "Denpasar, Sanur", value: "IDR 5.000.000" },
-          { label: "Seminyak, Kuta, Canggu, Nusadua", value: "IDR 7.500.000" },
-          { label: "Kintamani, Amed, Uluwatu", value: "IDR 10.000.000" },
+          { label: "Ubud Center, Mas, Sukawati", value: "IDR 5.000.000" },
+          { label: "Kedewatan, Sayan", value: "IDR 6.000.000" },
+          { label: "Tegalalang, Payangan", value: "IDR 7.000.000" },
+          { label: "Denpasar, Sanur", value: "IDR 7.500.000" },
+          { label: "Seminyak, Kuta, Canggu, Nusadua", value: "IDR 10.000.000" },
+          { label: "Kintamani, Amed, Uluwatu", value: "IDR 15.000.000" },
         ],
       },
       {

@@ -343,10 +343,6 @@ export const treatments: Treatment[] = [
     image: "/images/treatments/collagen-stimulator.jpg",
     shortDescription:
       "Stimulate your skin's own collagen production for a gradual, natural lift that keeps improving over the weeks following treatment.",
-    // No `image`: the only Sculptra asset in the client's library is a
-    // 250×250 product logo, and stretching a logo into a 4:3 photo frame
-    // looks broken. Falls back to the category photograph instead — see
-    // the fallback chain in the treatment detail route.
     startingPrice: 5500000,
     priceGroups: [
       {
@@ -372,8 +368,6 @@ export const treatments: Treatment[] = [
     image: "/images/treatments/sculptra-treatment.jpg",
     shortDescription:
       "Stimulate natural collagen production with advanced Sculptra treatments in Bali. Achieve firmer, smoother, youthful-looking skin with long-lasting result",
-    // See the Collagen Stimulator note above — the Sculptra asset is a
-    // product logo, not a photograph.
     startingPrice: 7900000,
     priceGroups: [
       {

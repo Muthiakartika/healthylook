@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import StickyCTA from "@/components/ui/StickyCTA";
+import WhatsAppFloatingButton from "@/components/ui/WhatsAppFloatingButton";
 import {
   SITE_NAME,
   SITE_DESCRIPTION,
@@ -114,10 +115,11 @@ const structuredData = {
   sameAs: SOCIAL_LINKS.map((social) => social.href),
 };
 
-// The root layout renders once for every route. Putting <Header>, <Footer>
-// and the mobile <StickyCTA> here — instead of importing them into each
-// page — means every new page under src/app/ gets the same global chrome
-// automatically; no page file needs to remember to include them.
+// The root layout renders once for every route. Putting <Header>, <Footer>,
+// the mobile <StickyCTA>, and the desktop <WhatsAppFloatingButton> here —
+// instead of importing them into each page — means every new page under
+// src/app/ gets the same global chrome automatically; no page file needs to
+// remember to include them.
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -165,6 +167,7 @@ export default function RootLayout({
 
         <Footer />
         <StickyCTA />
+        <WhatsAppFloatingButton />
       </body>
     </html>
   );

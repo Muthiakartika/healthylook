@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
-import Highlights from "@/components/home/Highlights";
 import BrandStory from "@/components/home/BrandStory";
 import Partners from "@/components/home/Partners";
 import Treatments from "@/components/home/Treatments";
+import TreatmentHighlights from "@/components/home/TreatmentHighlights";
 import WhyUs from "@/components/home/WhyUs";
 import Doctors from "@/components/home/Doctors";
 import Results from "@/components/home/Results";
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
  * numbering, which it explicitly allows ("this is a recommended design
  * structure"):
  *
- *   DISCOVER   Hero → Highlights → BrandStory → Partners
+ *   DISCOVER   Hero (+ Highlights, inside the hero photo) → BrandStory → Partners
  *   EXPLORE    Treatments
  *   TRUST      WhyUs → Doctors → Results → Testimonials
  *   CONNECT    ClinicExperience → InternationalPatients → Faq
@@ -48,8 +48,12 @@ export const metadata: Metadata = {
  *    very next screen. Claim, then evidence.
  *
  * ── WHAT THE CLIENT'S REVISION ROUND CHANGED ──────────────────────────
- *  + Highlights (note 2) — their four promises, directly under the hero,
- *    where the "why this clinic" question actually gets asked.
+ *  + Highlights (note 2) — their four promises. Originally its own cream
+ *    section directly under the hero; two later rounds simplified it to
+ *    titles only, then moved it again to render inside <Hero> itself, in
+ *    the photograph, where the trust strip used to sit. See Hero.tsx and
+ *    Highlights.tsx for the full history — it's no longer called from
+ *    this file at all.
  *  + InternationalPatients (note 16) — after ClinicExperience, so "what
  *    it's like to visit" is followed by "…and how it works if you're
  *    flying in".
@@ -64,19 +68,19 @@ export const metadata: Metadata = {
  *    index links to.
  *
  * Tonal rhythm alternates deliberately down the page so no two adjacent
- * sections share a background: brown → blush → paper → white → paper →
- * brown → white → paper → wash → blush → brown → paper → white → lime →
- * brown footer. That alternation is what creates section separation
- * without needing dividers or borders.
+ * sections share a background: brown (hero, incl. the highlights bar) →
+ * paper → white → paper → brown → white → paper → wash → blush → brown →
+ * paper → white → lime → brown footer. That alternation is what creates
+ * section separation without needing dividers or borders.
  */
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Highlights />
       <BrandStory />
       <Partners />
       <Treatments />
+      <TreatmentHighlights />
       <WhyUs />
       <Doctors />
       <Results />

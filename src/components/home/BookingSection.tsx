@@ -45,21 +45,29 @@ export default function BookingSection() {
               </span>
             </Reveal>
 
-            {/* Client's About Us note 3. The added clause is what turns a
-                direction into a reason — "come and see us in Ubud" is a map
-                pin, "to start your journey to confidence" is why you would.
-                It runs on the homepage as well as /our-doctor, since this is
-                one shared section and the line is right for both. */}
+            {/* ── CLIENT REVISION — SHORTER CTA WORDING ─────────────────
+                Was "Come and see us in Ubud to start your journey to
+                confidence" (About Us note 3). New instruction: use only
+                "Start your Journey to Confidence" — no added phrase. Runs on
+                the homepage as well as /our-doctor, since this is one shared
+                section. */}
             <Reveal delay={90}>
               <h2 className="mt-8 font-script text-h1 leading-script text-primary">
-                Come and see us in Ubud to start your journey to confidence
+                Start your Journey to Confidence
               </h2>
             </Reveal>
 
+            {/* ── CLIENT REVISION — "OUR DOCTOR" ────────────────────────
+                "Instead of a doctor, I think it's better to use our
+                doctor." Changed only here, where it names who responds to
+                this specific form — not a global replace of every "a
+                doctor" on the site (the pricing page, before/after page,
+                and the treatment-page pricing note all keep their own
+                wording, unchanged). */}
             <Reveal delay={150}>
               <p className="mt-8 measure-narrow font-sans text-lead text-text">
-                Tell us what you&rsquo;re thinking about and a doctor will tell you
-                honestly whether it&rsquo;s the right treatment for you.
+                Tell us what you&rsquo;re thinking about and our doctor will tell
+                you honestly whether it&rsquo;s the right treatment for you.
               </p>
             </Reveal>
 

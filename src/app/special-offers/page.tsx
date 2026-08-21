@@ -38,13 +38,19 @@ export const metadata: Metadata = {
 export default function SpecialOffersPage() {
   return (
     <>
+      {/* ── CLIENT REVISION 21 — "better to use our own" ────────────────
+          `treatment-14.jpg` was an isolated-white-background stock photo
+          (syringe next to someone's ear, no clinic setting visible) — not
+          one of the clinic's own photographs, which is exactly what the
+          client flagged. Replaced with a genuine clinic photo from the
+          client's own media library. */}
       <PageHero
         eyebrow="Special Offers"
         title="Current offers"
         crumbs={[{ label: "Home", href: "/" }, { label: "Special Offers" }]}
         description="A few things worth knowing before you book. All offers are subject to availability and cannot be combined unless stated."
-        image="/images/treatments/treatment-14.jpg"
-        imageAlt="Treatment at Healthy Look Aesthetic, Ubud"
+        image="/images/clinic/clinic-08.jpg"
+        imageAlt="Inside Healthy Look Aesthetic, Ubud"
       />
 
       <section className="bg-paper py-section">

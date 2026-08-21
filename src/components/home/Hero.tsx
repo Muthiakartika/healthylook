@@ -2,36 +2,32 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
-import { ArrowDownIcon, StarIcon } from "@/components/ui/icons";
-import {
-  HERO_HEADLINE,
-  HERO_SUBHEADLINE,
-  BOOKING_HREF,
-  BOOKING_LABEL,
-  OPENING_HOURS,
-} from "@/lib/constants";
+import Highlights from "./Highlights";
+import { HERO_HEADLINE, HERO_SUBHEADLINE, BOOKING_HREF, BOOKING_LABEL } from "@/lib/constants";
 
 /**
  * SECTION 01 — HERO
  *
  * Within a few seconds the visitor should know what this is, what's
- * offered, why to trust it, and what to do next:
+ * offered, and what to do next:
  *
  *   what it is      → the wordmark + "Aesthetic Clinic in Bali"
  *   what's offered  → the subheadline, verbatim from the live site
- *   why trust it    → the trust strip along the bottom
  *   what to do      → one primary CTA, one secondary
  *
- * ── ON THE TRUST STRIP ────────────────────────────────────────────────
- * It was briefly removed, to clear the foot of the hero for a set of
- * <Highlights> cards that overlapped it. Those cards are a flat service
- * strip now and no longer reach up here, and the client asked for the band
- * back, so it is back exactly as it was.
- *
- * It overlaps <Highlights> in substance — "Doctor-performed injectables"
- * against "Doctor-Led & Internationally Trained" — and that is fine at
- * this distance: one is three words on a photograph, the other is a
- * labelled block on a surface one scroll later. Reinforcement, not repeat.
+ * ── THE TRUST STRIP IS GONE ────────────────────────────────────────────
+ * A dark bar along the hero's foot used to carry three facts —
+ * doctor-performed injectables, the five-star resort setting, opening
+ * hours — and the client asked for it to come back after an earlier pass
+ * removed it. This round the client asked the opposite: delete it, and let
+ * <Highlights> (the cream strip immediately below this section) take that
+ * position instead. Nothing was lost — all three facts still live on the
+ * site: "Doctor-performed injectables" is "Doctor-Led & Internationally
+ * Trained" in <Highlights>/<WhyUs>, the five-star setting has its own line
+ * in <WhyUs> and <ClinicExperience>, and opening hours appear in the
+ * footer, <BookingSection>, and the international-patients FAQ. This is
+ * the client's newer instruction superseding the earlier one — see git
+ * history if the strip ever needs to be reconstructed.
  *
  * The headline is split across two type voices — the script face for the
  * emotional half, Poppins for the clinical qualifier. The sentence itself
@@ -54,12 +50,6 @@ import {
  * her in half, so the focal point shifts right on small screens to keep her
  * whole.
  */
-const TRUST_POINTS = [
-  "Doctor-performed injectables",
-  "Inside a five-star Ubud resort",
-  OPENING_HOURS,
-];
-
 export default function Hero() {
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink-brown">
@@ -82,7 +72,10 @@ export default function Hero() {
             2. A gold cast rising from the bottom-left — the corner the
                headline and buttons occupy — so the warmth is strongest
                where the eye lands and the photo stays clean on the right.
-            3. A short fade at the bottom, for the trust strip only.
+            3. A short fade at the bottom, holding contrast under the CTAs
+               (there's no trust strip below them any more — see the note
+               above the component — but the buttons still sit at the very
+               foot of the hero and still need it).
 
             ── ON THE ALPHAS ──
             An earlier pass ran these at 90/55/10, gold 30%, and a 75% fade
@@ -127,7 +120,17 @@ export default function Hero() {
           header's own scrim gradient. See Header.tsx. */}
       {/* Top padding clears the fixed header, which over this hero is a
           white utility strip plus a transparent nav row. See Header.tsx. */}
-      <Container className="pb-14 pt-40 lg:pb-20 lg:pt-56">
+      {/* ── CLIENT REVISION — NO DEAD SPACE WHERE THE TRUST STRIP WAS ────
+          `pb-14 lg:pb-20` (56/80px) used to be the gap between the CTA
+          buttons and the trust strip's own top border below them — read
+          as intentional breathing room when there was a bordered bar
+          sitting in it. With that strip gone (see the note above the
+          component), the same padding became a bare dark rectangle of
+          photograph between the buttons and <Highlights>, which the client
+          flagged directly on a screenshot. Cut roughly in half so the
+          buttons still get a little air before the section ends, without
+          the empty gap reading as a mistake. */}
+      <Container className="pb-8 pt-40 lg:pb-10 lg:pt-56">
         <div className="max-w-4xl">
           <Reveal>
             {/* White, not gold — and this is the label that was distorting
@@ -161,9 +164,22 @@ export default function Hero() {
               >
                 Helping You Look &amp; Feel Your Best
               </span>
+              {/* ── CLIENT REVISION — SMALLER "WITHOUT SURGERY", ROUND 2 ──
+                  First pass went `text-h3` → `text-lead` (matching the
+                  subheadline). Client follow-up, circled on a screenshot:
+                  still too big, and asked for it to look more refined, not
+                  just smaller. Down again to `text-label` — the small
+                  tracked-caps size this site already uses for eyebrows —
+                  with the letter-spacing eased from `tracking-caps-xl` to
+                  the standard `tracking-caps` so it doesn't fight its own
+                  smaller size, and pulled closer to the script line above
+                  it (`mt-2`, was `mt-3`) so it reads as a quiet qualifier
+                  tucked under the headline rather than a line competing
+                  with it. Same typeface, same brand colour — only size,
+                  tracking and spacing changed. */}
               <span
                 aria-hidden="true"
-                className="mt-3 block font-sans text-h3 font-light uppercase tracking-caps-xl text-white/85"
+                className="mt-2 block font-sans text-label font-light uppercase tracking-caps text-white/80"
               >
                 Without Surgery
               </span>
@@ -194,33 +210,17 @@ export default function Hero() {
         </div>
       </Container>
 
+      {/* ── CLIENT REVISION — HIGHLIGHTS MOVED INSIDE THE PHOTO ──────────
+          "aku maunya didalam bg gambar itu" — <Highlights> now renders
+          here, inside the hero photograph, in the exact spot (border-t,
+          bottom of the dark image, own Container) the old trust strip
+          occupied. <Highlights> itself carries no section wrapper or
+          background any more — this bar supplies both, the same as it
+          used to supply them for the trust strip's three points. */}
       <Reveal delay={420}>
         <div className="border-t border-white/15">
-          <Container className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
-            <ul className="flex flex-wrap items-center gap-x-8 gap-y-3">
-              {TRUST_POINTS.map((point) => (
-                <li
-                  key={point}
-                  className="flex items-center gap-2.5 font-sans text-caption uppercase tracking-caps text-white/65"
-                >
-                  {/* Gold, not the lime it was. Lime is a real brand colour
-                      and it owns the section bands further down the page, but
-                      in a hero that is warm end to end it was the one
-                      yellow-green note in an otherwise amber screen. */}
-                  <StarIcon className="h-3 w-3 shrink-0 text-accent" />
-                  {point}
-                </li>
-              ))}
-            </ul>
-
-            <a
-              href="#story"
-              aria-label="Scroll to read more"
-              className="group hidden shrink-0 items-center gap-2 font-sans text-micro uppercase tracking-caps-xl text-white/50 transition-colors hover:text-white md:flex"
-            >
-              Scroll
-              <ArrowDownIcon className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-y-1" />
-            </a>
+          <Container className="py-6">
+            <Highlights />
           </Container>
         </div>
       </Reveal>

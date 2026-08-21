@@ -37,8 +37,32 @@ export const clinicFaqs: ClinicFaq[] = [
     question: "Who will actually perform my treatment?",
     // Source: CLINIC_SAFETY_PROTOCOLS[0] + doctors.ts (Dr. Irene's
     // congresses and brand training are named in her live bio).
+    //
+    // ── CLIENT REVISION — DOCTOR VS. NURSE/THERAPIST, STATED EXPLICITLY ──
+    // The original answer was accurate but incomplete: it only described
+    // injectables, and a reader could reasonably infer from it that a
+    // doctor personally performs everything at the clinic. The client asked
+    // for the distinction to be explicit rather than implied. The facial
+    // example is the clinic's own published fact (treatments.ts: "handled
+    // by trained therapist who follow clear treatment standards"); nothing
+    // here names a treatment or a credential that isn't already documented
+    // elsewhere on the site.
     answer:
-      "A licensed doctor. All injectable treatments are exclusively administered by our doctors — never delegated to a therapist — and the same doctor handles your consultation, your treatment plan, and the treatment itself. Our head doctor is internationally trained, with ongoing training at IMCAS Paris, AMWC, Korean Derma, and directly with the brands we use.",
+      "It depends on the treatment. All injectable treatments — Botox, dermal filler, skin boosters, and similar — are exclusively administered by our licensed doctors, never delegated to a therapist, and the same doctor handles your consultation, your treatment plan, and the injection itself. Certain non-injectable treatments, such as facials and some body-contouring devices, are performed by our trained therapists and nurses following the clinic's clear treatment standards, with a doctor overseeing your treatment plan. Our head doctor is internationally trained, with ongoing training at IMCAS Paris, AMWC, Korean Derma, and directly with the brands we use.",
+  },
+  /**
+   * ── CLIENT REVISION — SAME-DAY TREATMENT ────────────────────────────
+   * The client wants same-day treatment presented honestly: possible after
+   * a consultation, but not guaranteed, since the clinic is often fully
+   * booked. Source: INTERNATIONAL_PATIENT_POINTS in clinic.ts already
+   * publishes "Same-Day Treatment available" as one of the clinic's own
+   * commitments to international patients — this FAQ explains that
+   * commitment in full rather than adding a new claim.
+   */
+  {
+    question: "Can I get treated the same day I book?",
+    answer:
+      "Often, yes — same-day treatment can usually be arranged once a doctor has assessed you at consultation, and it's one of the ways we try to work around a short holiday schedule. That said, we recommend booking your appointment ahead of your visit where you can: the clinic is regularly fully booked, and we can't always accommodate a walk-in on the spot. Booking in advance is the best way to make sure a slot — and the treatment you actually want — is available when you arrive.",
   },
   {
     question: "What if I am not sure which treatment I need?",

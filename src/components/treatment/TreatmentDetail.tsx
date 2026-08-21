@@ -401,7 +401,14 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
           shown on every treatment page because they apply to every one. */}
       <section className="bg-ink-brown py-section text-white">
         <Container>
-          <SectionHeading tone="dark" eyebrow="Why here" title="How we treat you" />
+          {/* ── CLIENT REVISION — "WHY HERE" → "TREATMENT JOURNEY" ──────
+              This is the one "Why Here" label on the site — the numbered
+              safety-protocol grid every treatment page shares. It already
+              renders as 01–07, title, description per item, which is the
+              structure the client asked a "Treatment Journey" to have; only
+              the eyebrow's wording changes, not the protocols themselves or
+              the "How we treat you" heading beneath it. */}
+          <SectionHeading tone="dark" eyebrow="Treatment Journey" title="How we treat you" />
           <div className="mt-16 grid gap-x-16 gap-y-11 sm:grid-cols-2 lg:grid-cols-3">
             {CLINIC_SAFETY_PROTOCOLS.map((point, index) => (
               <Reveal key={point.title} delay={index * 70}>
@@ -440,7 +447,10 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
                   <SectionHeading
                     align="left"
                     eyebrow="Questions"
-                    title={`${treatment.name}, answered`}
+                    // The live site's own heading is the plain "FAQ" on
+                    // every treatment page — kept literal rather than
+                    // reworded, since no client note asked for the change.
+                    title="FAQ"
                     description={`${faqs.length} question${faqs.length === 1 ? "" : "s"} our doctors are asked most often about this treatment.`}
                   />
                 </div>

@@ -89,23 +89,21 @@ export default function Treatments() {
   return (
     <section id="treatments" className="bg-paper py-section">
       <Container>
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            align="left"
-            eyebrow="What We Do"
-            title="Treatments"
-            subtitle={`${TREATMENT_COUNT_LABEL} treatments across facial enhancement, skin, body, and hair.`}
-            className="lg:max-w-xl"
-          />
-          <Reveal delay={120} className="shrink-0">
-            {/* The client's own label, from revision note 5. "View all
-                treatments" described a directory; "Explore" describes what
-                the page after the click actually is. */}
-            <Button href="/ubud-bali" variant="outline" size="sm" withArrow>
-              Explore Our Treatments
-            </Button>
-          </Reveal>
-        </div>
+        {/* ── CLIENT REVISION — CTA MOVED AFTER THE OVERVIEW ─────────────
+            "Explore Treatments should be placed after the user gets a
+            treatment overview, not too early." It sat here, beside the
+            heading, before a single treatment had been shown — the first
+            thing on the section was an exit from it. The heading now
+            stands alone; the same button renders once more below the list,
+            where a reader has actually seen the shortlist and the "explore
+            the rest" offer means something. */}
+        <SectionHeading
+          align="left"
+          eyebrow="What We Do"
+          title="Treatments"
+          subtitle={`${TREATMENT_COUNT_LABEL} treatments across facial enhancement, skin, body, and hair.`}
+          className="lg:max-w-xl"
+        />
 
         <Reveal delay={120}>
           <div
@@ -179,6 +177,17 @@ export default function Treatments() {
                     <div className="flex-1">
                       <h3 className="flex flex-wrap items-center gap-x-3 font-sans text-h3 leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
                         {treatment.name}
+                        {/* ── CLIENT REVISION — VISUAL HIERARCHY FOR THE
+                            MOST POPULAR TREATMENT ── Marks the first row in
+                            each category tab, which is already the client's
+                            own curated order (HOME_POPULAR_SLUGS) rather
+                            than a separate "best-selling" claim this file
+                            has no sales data to back up. */}
+                        {index === 0 && (
+                          <span className="rounded-full bg-primary/10 px-2.5 py-1 font-sans text-nano font-semibold uppercase tracking-caps text-primary-strong">
+                            Most Popular
+                          </span>
+                        )}
                         <ArrowUpRightIcon className="h-4 w-4 shrink-0 -translate-x-2 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                       </h3>
 
@@ -214,6 +223,16 @@ export default function Treatments() {
             </div>
           </div>
         </div>
+
+        {/* The client's own label, from revision note 5. "View all
+            treatments" described a directory; "Explore" describes what
+            the page after the click actually is. Now sits after the
+            shortlist rather than before it — see the note above. */}
+        <Reveal delay={120} className="mt-14 flex justify-center lg:justify-start">
+          <Button href="/ubud-bali" variant="outline" size="sm" withArrow>
+            Explore Our Treatments
+          </Button>
+        </Reveal>
       </Container>
     </section>
   );

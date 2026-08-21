@@ -205,7 +205,7 @@ export default function ContactForm({
         />
       </div>
 
-      <SubmitRow status={status} fallbackHref={fallbackHref} />
+      <SubmitRow status={status} />
 
       {/* aria-live so failures are announced to screen readers, which
           otherwise get no signal that the submit did anything. */}

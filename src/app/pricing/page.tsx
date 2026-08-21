@@ -84,7 +84,19 @@ export default function PricingPage() {
         "nett / tax included / no service fee" is a list a reader checks,
         not prose a reader reads.
       */}
-      <section className="bg-ink-brown py-section">
+      {/* ── CLIENT REVISION — LIGHTER INTRO, PRICING STAYS THE FOCUS ────
+          "I think this part may be too much." Nothing here was removed —
+          the claim, the description, and all three commitments are the
+          same words as before. What changed is how much room the band
+          takes before a visitor reaches an actual price: `py-section`
+          (this page's other sections all use it) is replaced with a
+          smaller fixed padding just for this band, the gap between the
+          heading and the three points is tighter, and the points
+          themselves read as a compact list rather than three spaced-out
+          cards. <SectionHeading> itself is untouched — it's the one
+          component every section opener on the site goes through, so
+          resizing it here would resize it everywhere. */}
+      <section className="bg-ink-brown py-12 lg:py-14">
         <Container>
           <SectionHeading
             tone="dark"
@@ -93,7 +105,7 @@ export default function PricingPage() {
             description={PRICING_PROMISE.description}
           />
 
-          <ul className="mx-auto mt-16 grid max-w-4xl gap-x-12 gap-y-10 sm:grid-cols-3">
+          <ul className="mx-auto mt-8 grid max-w-3xl gap-x-10 gap-y-5 sm:grid-cols-3">
             {PRICING_PROMISE.points.map((point, index) => (
               <li key={point.label}>
                 <Reveal delay={index * 90}>
@@ -103,11 +115,11 @@ export default function PricingPage() {
                       at the highlights strip, these three labels are the
                       same length, so a rule of equal width above each one
                       lands on content of equal weight. */}
-                  <div className="border-t border-gold-soft/40 pt-6">
-                    <h3 className="font-sans text-h5 font-medium leading-snug text-white">
+                  <div className="border-t border-gold-soft/40 pt-4">
+                    <h3 className="font-sans text-label font-medium leading-snug text-white">
                       {point.label}
                     </h3>
-                    <p className="mt-2.5 font-sans text-copy leading-body text-white/55">
+                    <p className="mt-1.5 font-sans text-caption leading-body text-white/55">
                       {point.detail}
                     </p>
                   </div>

@@ -66,13 +66,19 @@ export const metadata: Metadata = {
 export default function GiftCardPage() {
   return (
     <>
+      {/* ── CLIENT REVISION 22 — "change to the facial photo" ───────────
+          `treatment-10.jpg` was a stock macro shot of an eye/eyebrow — not
+          a facial, and not one of the clinic's own photos. `facial.jpg` is
+          the clinic's real photo of a facial treatment in progress
+          (already used as the Facial treatment's own image), which is
+          exactly what was asked for. */}
       <PageHero
         eyebrow={GIFT_CARD_TAGLINE}
         title={GIFT_CARD_HEADING}
         crumbs={[{ label: "Home", href: "/" }, { label: "Gift Card" }]}
         description={GIFT_CARD_INTRO}
-        image="/images/treatments/treatment-10.jpg"
-        imageAlt="Healthy Look Aesthetic gift card"
+        image="/images/treatments/facial.jpg"
+        imageAlt="A facial treatment at Healthy Look Aesthetic, Ubud"
       />
 
       {/* Story */}
