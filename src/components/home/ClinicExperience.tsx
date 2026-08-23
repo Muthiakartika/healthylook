@@ -27,7 +27,13 @@ import { OPENING_HOURS, MAPS_HREF, ADDRESS } from "@/lib/constants";
  * be unreadable.
  */
 const STRIP = [
-  { src: "/images/clinic/clinic-01.jpg", alt: "Healthy Look Aesthetic clinic interior" },
+  // ── CLIENT REVISION 13 — "Please change this picture in home page" ──
+  // The photograph they marked was clinic-01.jpg, and this slot is the one
+  // they saw it in: on a phone only the first of these three renders, and
+  // it sits directly above the "The Clinic" eyebrow exactly as in their
+  // screenshot. `reception.jpg` is the file from the Dropbox link in that
+  // note — the clinic's front desk, a guest being greeted.
+  { src: "/images/clinic/reception.jpg", alt: "The reception at Healthy Look Aesthetic, Ubud" },
   { src: "/images/clinic/clinic-03.jpg", alt: "Treatment room at Healthy Look Aesthetic" },
   { src: "/images/clinic/clinic-05.jpg", alt: "The clinic at Ubud Nyuh Bali Resort" },
 ];

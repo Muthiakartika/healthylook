@@ -99,11 +99,22 @@ export default function OurDoctorPage() {
                 </p>
               </Reveal>
 
+              {/* The photograph the home page's "The Clinic" strip used to
+                  open with, before CLIENT REVISION 13 replaced it there with
+                  the reception shot. It lands here rather than being
+                  retired, and it also clears a duplicate: this slot held
+                  clinic-02.jpg, which still runs in BrandStory on the home
+                  page, so the same photograph was appearing on both pages.
+
+                  `landscape` (4/3), not the `wide` (16/9) this slot used to
+                  be. The source is square, and a 16/9 crop of it takes the
+                  top off the standing nurse's head — checked, not assumed.
+                  4/3 keeps all three people whole. */}
               <Reveal delay={270} variant="image" className="mt-12">
                 <Img
-                  src="/images/clinic/clinic-02.jpg"
-                  alt="Treatment room at Healthy Look Aesthetic, Ubud"
-                  aspect="wide"
+                  src="/images/clinic/clinic-01.jpg"
+                  alt="A treatment in progress at Healthy Look Aesthetic, Ubud"
+                  aspect="landscape"
                   sizes="(max-width: 1024px) 100vw, 55vw"
                 />
               </Reveal>

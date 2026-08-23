@@ -28,10 +28,25 @@ export default function BrandStory() {
           {/* Image column */}
           <div className="relative lg:col-span-5">
             <Reveal variant="image">
+              {/* ── CLIENT REVISION 3 — "Please change this to another
+                  picture", answered with the Dermal Filler photograph ────
+
+                  This slot held clinic-02.jpg, which is byte-for-byte the
+                  same photograph as treatments/prp-hair.jpg — the
+                  mesotherapy gun against a parted scalp. The clinic keeps
+                  two copies of that file under two names, which is why a
+                  search for "prp-hair.jpg" on the home page found nothing
+                  while the photograph was plainly on it.
+
+                  `portrait` (3/4), not the `tall` (2/3) this slot used to
+                  be. The replacement is near-square with a practitioner at
+                  each edge, and a 2/3 crop of it takes the right-hand
+                  practitioner's head off entirely — checked against the
+                  real crop, not assumed. 3/4 keeps both of them. */}
               <Img
-                src="/images/clinic/clinic-02.jpg"
-                alt="Inside the Healthy Look Aesthetic clinic in Ubud"
-                aspect="tall"
+                src="/images/treatments/live-dermal-filler.jpg"
+                alt="Dermal filler being administered at Healthy Look Aesthetic, Ubud"
+                aspect="portrait"
                 position="object-center"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />

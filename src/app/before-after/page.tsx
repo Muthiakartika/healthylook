@@ -53,13 +53,24 @@ export const metadata: Metadata = {
 export default function BeforeAfterPage() {
   return (
     <>
+      {/* ── CLIENT-SUPPLIED BANNER ───────────────────────────
+          The clinic sent this photograph for this page's banner, replacing
+          `clinic-05.jpg`. It is their reception — a guest being greeted at
+          the front desk — which is a warmer opening for a results page
+          than the empty treatment room it replaces.
+
+          The original is 6000×4000 and 19 MB straight off the camera. It is
+          stored here at 1600px wide and 290 KB, which is the widest this
+          slot ever renders (42vw at 2× DPR) and in line with the rest of
+          public/images. Next re-encodes it to AVIF/WebP on serve, so the
+          file size here is repo weight, not download weight. */}
       <PageHero
         eyebrow="Results"
         title="Before &amp; After"
         crumbs={[{ label: "Home", href: "/" }, { label: "Before & After" }]}
         description="Outcomes from treatments performed at our Ubud clinic, shared with patient consent."
-        image="/images/clinic/clinic-05.jpg"
-        imageAlt="Treatment room at Healthy Look Aesthetic, Ubud"
+        image="/images/clinic/reception.jpg"
+        imageAlt="The reception at Healthy Look Aesthetic, Ubud"
       />
 
       {/* ── CLIENT REVISION — AUTHENTICITY STATEMENT ────────────────────

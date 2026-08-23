@@ -150,11 +150,6 @@ export const blogPosts: BlogPost[] = [
     href: "/liquid-lifting",
     articleSlug: "liquid-lifting",
   },
-  {
-    title: "Slimming & Body Contouring in Ubud",
-    href: "/ubud-bali/slimming-body-contouring",
-    treatmentSlug: "slimming-body-contouring",
-  },
   { title: "Exosome in Ubud Bali", href: "/ubud-bali/exosome", treatmentSlug: "exosome" },
   { title: "Best Facial in Ubud", href: "/ubud-bali/facial", treatmentSlug: "facial" },
   {

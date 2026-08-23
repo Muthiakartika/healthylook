@@ -678,7 +678,7 @@ export const treatmentFaqs: Record<string, TreatmentFaq[]> = {
     {
       question: "How bad is the downtime of Chemical Peels in Ubud Bali?",
       answer:
-        "There’s no downtime, however, you may experience mild yet smooth scaling for 3-7 days depending on the strength of the peels and your skin conditions. Please use appropriate UV protection and soothing cream. Avoid picking the skin with your fingers while healing. Not all chemical peels cause the skin to peel, some acids treat the skin by peeling it at the microscopic level. Patients with thicker, oilier skin may not peel much at all, while patients with sensitive skin may peel a lot. Our doctor will adjust the recommended peels tailored to your needs.",
+        "There’s no downtime, however, you may experience mild yet smooth scaling for 3-7 days depending on the strength of the peels and your skin conditions. Please use appropriate UV protection and soothing cream. Avoid picking the skin with your fingers while healing. Not all chemical peels cause the skin to peel, some acids treat the skin by peeling it at the microscopic level. Patients with thicker, oilier skin may not peel much at all, while patients with sensitive skin may peel a lot.",
     },
     {
       question: "Are there any precautions with the chemical peels?",
@@ -1040,7 +1040,7 @@ export const treatmentFaqs: Record<string, TreatmentFaq[]> = {
     {
       question: "Is it safe to do IV Drip in Bali?",
       answer:
-        "Yes, IV drip in Bali is generally safe when administered by certified healthcare professionals such as registered nurses or doctors. At Healthy Look Aesthetic, all IV drip treatments are performed under proper medical supervision in a controlled environment.",
+        "Yes, IV drip in Bali is generally safe when administered by certified healthcare professionals such as registered nurses. At Healthy Look Aesthetic, all IV drip treatments are performed under proper medical supervision in a controlled environment.",
     },
     {
       question: "Who will get benefits of having IV Drip in Ubud?",

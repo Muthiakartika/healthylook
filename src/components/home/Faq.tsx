@@ -3,7 +3,7 @@ import Reveal from "@/components/ui/Reveal";
 import Accordion from "@/components/ui/Accordion";
 import Button from "@/components/ui/Button";
 import { clinicFaqs } from "@/data/clinicFaqs";
-import { BOOKING_HREF } from "@/lib/constants";
+import { whatsappHref } from "@/lib/constants";
 
 /**
  * SECTION 12 — FAQ
@@ -67,8 +67,27 @@ export default function Faq() {
             </Reveal>
 
             <Reveal delay={210}>
+              {/* ── STRAIGHT TO WHATSAPP ─────────────────────────────
+                  This pointed at BOOKING_HREF, which is the enquiry form
+                  further down this same page — so "ask us something else"
+                  scrolled the reader down and handed them a form. It now
+                  opens the chat the clinic actually answers on, prefilled,
+                  the way every other "ask us" on the site behaves.
+
+                  `external` because WhatsApp is off-site: Button renders a
+                  plain anchor with target="_blank" and rel="noopener
+                  noreferrer" for that case, rather than a client-side
+                  Link that would try to route wa.me internally. */}
               <div className="mt-8">
-                <Button href={BOOKING_HREF} variant="quiet" size="sm" withArrow>
+                <Button
+                  href={whatsappHref(
+                    "Hello Healthy Look Aesthetic, I have a question before I book.",
+                  )}
+                  variant="quiet"
+                  size="sm"
+                  external
+                  withArrow
+                >
                   Ask us something else
                 </Button>
               </div>

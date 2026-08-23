@@ -72,6 +72,24 @@ const nextConfig: NextConfig = {
       // and its blog lives at /our-blog rather than /blog.
       { source: "/blog", destination: "/our-blog", permanent: true },
       { source: "/locations/ubud", destination: "/ubud-bali", permanent: true },
+      /**
+       * CLIENT REVISION: "Please delete page holistic slimming & body
+       * contouring as we don't provide RF anymore."
+       *
+       * The page is gone from the catalogue, but the URL is not a dead end.
+       * /ubud-bali/slimming-body-contouring is live on the clinic's current
+       * site and sits in its sitemap, so it has whatever inbound links and
+       * ranking it has earned. Deleting the route alone would turn all of
+       * that into 404s; a 308 hands it to the Body Treatments section
+       * instead, which still carries CM Slim, Lysiwave, fat dissolving and
+       * carboxy therapy — everything the retired page listed except the
+       * radiofrequency the clinic has stopped offering.
+       */
+      {
+        source: "/ubud-bali/slimming-body-contouring",
+        destination: "/ubud-bali#body-treatments",
+        permanent: true,
+      },
     ];
   },
 };

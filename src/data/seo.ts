@@ -274,11 +274,6 @@ export const TREATMENT_SEO: Record<string, PageSeo> = {
     description:
       "Try needle-free CO2 treatment for skin rejuvenation! It boosts collagen, reduces cellulite, fades stretch marks, and promotes smoother, more even skin.",
   },
-  "slimming-body-contouring": {
-    title: "Slimming & Body Contouring Treatment in Ubud Bali",
-    description:
-      "Achieve your ideal shape with slimming and body contouring treatments in Ubud, Bali. Safe, effective, affordable and with proven results.",
-  },
   "autologues-micrograft-hair-restoration": {
     title: "Autologous Hair Restoration in Bali | Stem Cell Micrograft Therapy",
     description:

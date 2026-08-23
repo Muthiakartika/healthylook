@@ -66,19 +66,26 @@ export const metadata: Metadata = {
 export default function GiftCardPage() {
   return (
     <>
-      {/* ── CLIENT REVISION 22 — "change to the facial photo" ───────────
-          `treatment-10.jpg` was a stock macro shot of an eye/eyebrow — not
-          a facial, and not one of the clinic's own photos. `facial.jpg` is
-          the clinic's real photo of a facial treatment in progress
-          (already used as the Facial treatment's own image), which is
-          exactly what was asked for. */}
+      {/* ── CLIENT REVISION 22 — "Please change to the facial photo" ────
+          The note arrived attached to a screenshot, and the photo in that
+          screenshot is the one further down this page — it sits directly
+          above "Choose an amount", which puts it in the story section
+          below, not here. This slot was changed first, by mistake.
+          `facial.jpg` has therefore moved down to the slot the client
+          actually marked, and the photo that stood there, `clinic-09.jpg`,
+          takes its place here.
+
+          The original occupant of this slot is not coming back either way:
+          `treatment-10.jpg` was a stock macro of an eye and eyebrow, not a
+          facial and not the clinic's own photograph. Both images on this
+          page are now the clinic's own. */}
       <PageHero
         eyebrow={GIFT_CARD_TAGLINE}
         title={GIFT_CARD_HEADING}
         crumbs={[{ label: "Home", href: "/" }, { label: "Gift Card" }]}
         description={GIFT_CARD_INTRO}
-        image="/images/treatments/facial.jpg"
-        imageAlt="A facial treatment at Healthy Look Aesthetic, Ubud"
+        image="/images/clinic/clinic-09.jpg"
+        imageAlt="A treatment in progress at Healthy Look Aesthetic, Ubud"
       />
 
       {/* Story */}
@@ -101,9 +108,11 @@ export default function GiftCardPage() {
               ))}
             </div>
             <Reveal delay={140} variant="image" className="lg:col-span-5">
+              {/* The photo CLIENT REVISION 22 asked for — see the note on
+                  the hero above for why it landed here rather than there. */}
               <Img
-                src="/images/clinic/clinic-09.jpg"
-                alt="Inside Healthy Look Aesthetic, Ubud"
+                src="/images/treatments/facial.jpg"
+                alt="A facial treatment at Healthy Look Aesthetic, Ubud"
                 aspect="landscape"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />

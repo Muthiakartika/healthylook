@@ -50,16 +50,23 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     // paragraph. That exact paragraph is now this treatment's `intro` in
     // treatments.ts, which the detail page renders higher up as the lead —
     // so keeping it here printed it twice on the page. Same de-duplication
-    // applied to lip-filler, botox/korean, facial and
-    // slimming-body-contouring: where a section's opening paragraph is
-    // already the treatment's `intro`, `intro` wins and the section keeps
-    // only what comes after it.
-    {
-      title: "INJECTABLES",
-      points: [
-        "Enjoy 15% off for min 40 units or 10% off for min 30 units",
-      ],
-    },
+    // applied to lip-filler, botox/korean and facial: where a section's
+    // opening paragraph is already the treatment's `intro`, `intro` wins
+    // and the section keeps only what comes after it.
+    // ── "INJECTABLES" IS A PRICE-TABLE HEADING, NOT A SECTION ───────
+    // It used to sit here as a section whose entire body was one checkmark
+    // bullet: "Enjoy 15% off for min 40 units or 10% off for min 30 units".
+    //
+    // On the live page that sentence is not a section at all — INJECTABLES
+    // is the <h3> above the Botox price table, and the discount is the note
+    // printed underneath it. The rebuild already renders both: the table is
+    // this treatment's `priceGroups`, and the note is that group's `note`.
+    // So the offer was printing twice on one page, once as a stray bullet
+    // and once under the prices.
+    //
+    // The sentence has not been dropped. It now appears exactly once, in
+    // the clinic's own wording, in the place the live page puts it — see
+    // the `note` on the Injectables price group in treatments.ts.
     {
       title: "Why Should I choose Healthy Look Aesthetic ?",
       blocks: [
@@ -145,12 +152,28 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // ── CLIENT REVISION 30 — "Why section is not tidy" ───────────
+      // The clinic writes this as six benefits, each a short heading over a
+      // one-line description. Two of them arrived here with their headings
+      // dropped, which left them as bare checkmark bullets sitting above
+      // four heading-and-paragraph pairs — one list of six claims set in
+      // two different typographic systems. That is the untidiness.
+      //
+      // "No Downtime" and "Non-Invasive" are restored from the live page,
+      // where the bullets are their descriptions rather than the claims
+      // themselves. Six uniform blocks now, no bullets, in the live page's
+      // own order. The same flattening happened on ipl, prp/hair,
+      // microneedling/rf and fat-cellulite; all five are fixed the same way.
       title: "Why Choose HIFU Treatment in Bali?",
-      points: [
-        "Safe Treatment without Downtime",
-        "Lift your face without surgery, No Needle Involved",
-      ],
       blocks: [
+        {
+          heading: "No Downtime",
+          paragraphs: ["Safe Treatment without Downtime"],
+        },
+        {
+          heading: "Non-Invasive",
+          paragraphs: ["Lift your face without surgery, No Needle Involved"],
+        },
         {
           heading: "Long-Lasting Results",
           paragraphs: [
@@ -329,24 +352,39 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
   ],
   "ipl": [
     {
+      // CLIENT REVISION 30, same fix as hifu above. Four of these six were
+      // flattened into bullets; "Brighten the Skin" is the clearest tell,
+      // because it is a heading, not a description, and it was sitting in
+      // the bullet list next to three descriptions whose headings had been
+      // dropped. Restored to the live page's six, in its order.
       title: "What’s the Benefit of having IPL in Ubud Bali?",
-      points: [
-        "Freckles, solar keratosis, and lentigines",
-        "Treat redness, rosacea, PIE, and telangiectasia",
-        "Increase collagen production and improve the skin's elasticity",
-        "Brighten the Skin",
-      ],
       blocks: [
         {
           heading: "Hair Removal",
-          paragraphs: [
-            "Semi Permanent Hair Reduction",
-          ],
+          paragraphs: ["Semi Permanent Hair Reduction"],
         },
         {
           heading: "Acne Control",
+          paragraphs: ["Reducing the Active Acne & decrease sebum production"],
+        },
+        {
+          heading: "Superficial Pigmentation",
+          paragraphs: ["Freckles, solar keratosis, and lentigines"],
+        },
+        {
+          heading: "Treat Redness",
+          paragraphs: ["Treat redness, rosacea, PIE, and telangiectasia"],
+        },
+        // The live page prints this heading with nothing under it. Kept as
+        // the clinic has it rather than inventing a line to fill the gap.
+        {
+          heading: "Brighten the Skin",
+          paragraphs: [],
+        },
+        {
+          heading: "Skin Rejuvenation",
           paragraphs: [
-            "Reducing the Active Acne & decrease sebum production",
+            "Increase collagen production and improve the skin's elasticity",
           ],
         },
       ],
@@ -409,16 +447,29 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       ],
     },
     {
+      // CLIENT REVISION 30, same fix as hifu above. The live page answers
+      // this question with three areas — Face, Body, Scalp. Only Face kept
+      // its heading here; the other two were left as bullets, which read as
+      // loose claims rather than as the answer to the question in the
+      // title. The bullets were always Body's and Scalp's descriptions.
       title: "What Areas Can Be Treated With PRP?",
-      points: [
-        "By inducing the production of collagen & elastin, the skin is rejuvenated for stretch marks, cellulite, and scarring",
-        "Stimulate hair follicles, encourage new hair growth, and thicken the existing hair.",
-      ],
       blocks: [
         {
           heading: "Face",
           paragraphs: [
             "An effective treatment to enhance the skin texture, reduce the appearance of enlarged pores, scars, and diminish signs of aging such as fine lines and wrinkles",
+          ],
+        },
+        {
+          heading: "Body",
+          paragraphs: [
+            "By inducing the production of collagen & elastin, the skin is rejuvenated for stretch marks, cellulite, and scarring",
+          ],
+        },
+        {
+          heading: "Scalp",
+          paragraphs: [
+            "Stimulate hair follicles, encourage new hair growth, and thicken the existing hair.",
           ],
         },
       ],
@@ -458,9 +509,16 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       // to the real gallery lower down ("Be Empowered to Feel Truly
       // Confident" → /before-after), which is this site's established,
       // honest answer to the same gap on every other treatment page.
+      // A single sentence set as a one-item checkmark list, which is the
+      // shape CLIENT REVISION 29 objected to on the Linear Z copy. Same
+      // sentence, rendered as the paragraph it always was.
       title: "Sylfirm X Before and After",
-      points: [
-        "Real patient results with smoother, firmer, and more radiant skin after Sylfirm X treatment.",
+      blocks: [
+        {
+          paragraphs: [
+            "Real patient results with smoother, firmer, and more radiant skin after Sylfirm X treatment.",
+          ],
+        },
       ],
     },
     {
@@ -506,11 +564,14 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
       // the one it did keep, where "Noticeable Improvement after a Single
       // Session" was promoted to the heading when it is actually the body
       // under "Single Treatment Results".
+      // CLIENT REVISION 30, same fix as hifu above. Five benefits kept
+      // their headings and the sixth did not, so "Complimentary Serum"
+      // rendered as a lone checkmark under five heading-and-paragraph
+      // pairs. The live page runs the label twice — once in its icon row,
+      // once in full — which is why the heading looked redundant and got
+      // dropped. It is not redundant: it is what makes the sixth item match
+      // the other five. Restored in the live page's position, fifth of six.
       title: "Why Should I choose RF Microneedling in Bali?",
-      // The live page runs this benefit twice, once as the short label in
-      // the icon row and once in full further down. The full one is the
-      // useful version — "Complimentary Serum" alone does not say what for.
-      points: ["Complimentary Personalized Serum according to your skin concern"],
       blocks: [
         {
           heading: "FDA Approved",
@@ -531,6 +592,12 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         {
           heading: "Single Treatment Results",
           paragraphs: ["Noticeable Improvement after a Single Session"],
+        },
+        {
+          heading: "Complimentary Serum",
+          paragraphs: [
+            "Complimentary Personalized Serum according to your skin concern",
+          ],
         },
         {
           heading: "Continual Improvement",
@@ -637,8 +704,12 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
     {
       // Restored from the live page — the whole benefit block was missing.
+      // CLIENT REVISION 30, same fix as hifu above. These two bullets are
+      // headings on the live page, not descriptions — both print there with
+      // nothing under them, exactly like "Brighten the Skin" on ipl. As
+      // bullets they read as two stray claims after five tidy pairs; as
+      // headings they close the list the way the clinic wrote it.
       title: "Why Choose Lysiwave for Cellulite and Fat Reduction in Bali?",
-      points: ["Advanced Body Contouring", "Patented Microwave with Pure Oxygen"],
       blocks: [
         {
           heading: "No Downtime",
@@ -661,6 +732,14 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         {
           heading: "Personalized Treatment",
           paragraphs: ["Tailor each treatment to match your specific goals"],
+        },
+        {
+          heading: "Advanced Body Contouring",
+          paragraphs: [],
+        },
+        {
+          heading: "Patented Microwave with Pure Oxygen",
+          paragraphs: [],
         },
       ],
     },
@@ -1364,7 +1443,7 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         {
           paragraphs: [
             "Life's stresses can take a toll on your skin, leaving it lackluster and fatigued. Elevate your skincare routine and unlock a fresher, healthier glow with chemical peels at Healthy Look Aesthetic Center Ubud. Our high-end chemical peels is designed to invigorate your skin's natural renewal process. As we age, this turnover slows, resulting in uneven texture and tone. Chemical peels gently exfoliate the outer layers of skin, diminishing imperfections and unveiling a smoother, more youthful complexion. At our Aesthetic center in Ubud, we boast a diverse array of world-class peels, each targeting specific concerns with precision. We also provide unique novel peels that don't cause photosensitivity, with minimum to no downtime, making them ideal for your holiday in Bali",
-            "Our certified doctors offer personalized consultations to tailor a treatment plan to your unique needs. Our chemical peels address a myriad of skin conditions, not limited to the face but also extending to the neck, décolleté, legs, armpits, arms, and buttocks.",
+            "Our chemical peels address a myriad of skin conditions, not limited to the face but also extending to the neck, décolleté, legs, armpits, arms, and buttocks.",
           ],
         },
       ],
@@ -1461,53 +1540,6 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         "Buttock/Buttock cleft hair",
         "Bikini line hair",
         "Brazilian",
-      ],
-    },
-  ],
-
-  "slimming-body-contouring": [
-    // The "Holistic Slimming & Body Contouring in Ubud" opener is this
-    // treatment's `intro`, so it leads the page and is not repeated here.
-    {
-      title: "Holistic Slimming Approach in Ubud",
-      blocks: [
-        {
-          heading: "Personalized Nutrition Approach with Nutrigenomic",
-          paragraphs: [
-            "Begin your journey to a healthier, and slimmer you with our Personalized Nutrition Approach grounded in Nutrigenomic science. Unveil the unique relationship between your genetics and nutrition, allowing us to craft an individualized plan tailored to your body's needs. Enjoy personalised guidance from a Certified Anti-Aging Doctor to ensure not just weight loss, but a holistic improvement in well-being.",
-          ],
-        },
-        {
-          heading: "Muscle Sculpting by CM Slim",
-          paragraphs: [
-            "Our CE Certified CM Slim machine introduces a revolutionary approach to body sculpting. Utilizing High-Intensity Electromagnetic Muscle Trainer technology, CM Slim allows you to burn fat and build muscle simultaneously. For those seeking body contouring in Ubud, this advanced non-invasive modalitiy provides a safe and effective solution without any downtime. What's even better, the procedure is painless without any needle involved.",
-          ],
-        },
-        {
-          heading: "Premium Fat Dissolving Injections",
-          paragraphs: [
-            "Experience targeted fat reduction with our premium Fat Dissolving Injections. Setting a new standard in painless injections, we offer antioxidant-infused products for a more comfortable experience compared to general market options. When searching for effective solutions for stubborn fat, Healthy Look Aesthetic Center in Ubud is your go-to destination in Ubud.",
-          ],
-        },
-        {
-          heading: "Slimming Infusion for Metabolic Boost",
-          paragraphs: [
-            "Nourish your body from within with our Slimming Infusion, a potent blend of multivitamins and antioxidants. Designed to boost metabolism and support muscle growth, this infusion is a key component of our holistic approach to slimming in Ubud",
-          ],
-        },
-        {
-          heading: "Lymphatic Drainage Massage",
-          paragraphs: [
-            "Eliminate the excess water in your body and promote a balanced system with our Signature Lymphatic Drainage Massage. This relaxing and rhythmic massage aims to stimulate the lymphatic vessels, promoting the efficient removal of toxins, excess fluid, and waste from the body. By facilitating lymphatic flow, this treatment helps reduce swelling, supports immune function, and promotes an overall sense of well-being. When searching for lymphatic drainage in Ubud, our aesthetic center offers expert care for vitality.",
-          ],
-        },
-        {
-          heading: "Radiofrequency for Skin Tightening?",
-          paragraphs: [
-            "Conclude your slimming journey with Radiofrequency technology, tightening loose skin for a rejuvenated appearance. For those in Ubud searching for effective solutions for loose skin, our Radiofrequency treatments provide a non-invasive and painless option.",
-            "As you search for slimming and body contouring in Ubud, Healthy Look Aesthetic Center in Ubud invites you to experience the pinnacle of evidence-based wellness. Discover a holistic approach that combines advanced modalities with personalized care, unlocking a revitalized, sculpted, and radiant version of yourself.",
-          ],
-        },
       ],
     },
   ],

@@ -157,7 +157,17 @@ export default function TreatmentsPage() {
                                       </span>
                                     )}
                                   {treatment.treatmentTime && (
-                                    <span>{treatment.treatmentTime}</span>
+                                    <span>
+                                      {/* Short form here, full sentence in
+                                          the At-a-glance box. This line is
+                                          uppercase next to the price; the
+                                          clinic's "60–75 minutes, depending
+                                          on the type of filler, including
+                                          anaesthesia" belongs on the
+                                          treatment page, not on a card. */}
+                                      {treatment.treatmentTimeShort ??
+                                        treatment.treatmentTime}
+                                    </span>
                                   )}
                                 </p>
                               )}

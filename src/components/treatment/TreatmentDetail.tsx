@@ -72,13 +72,44 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
     .filter((t) => t.category === treatment.category && t.slug !== treatment.slug)
     .slice(0, 3);
 
-  // Treatment time plus the four the client asked for, in their order.
-  // Declared as a list so the At-a-glance markup stays one loop rather than
-  // five near-identical blocks — and so adding a sixth is a one-line change.
+  // Treatment time plus the four the client asked for, in their order, all
+  // five now carrying the clinic's own values from "At a glance for
+  // website.xlsx". Declared as a list so the At-a-glance markup stays one
+  // loop rather than five near-identical blocks — and so adding a sixth is
+  // a one-line change.
   //
-  // Treatment time joins them because it has the same problem: the live
-  // site publishes no time for five treatments, and a row that silently
+  // Treatment time joins them because it has the same problem: five
+  // treatments are absent from the clinic's sheet, and a row that silently
   // vanishes is indistinguishable from a fact that does not apply.
+  // ── CLIENT REVISION 23: "This treatment is not performed by doctor" ──
+  // Eleven treatments — Facial, Medi Facial, Chemical Peeling, IPL, Body
+  // HIFU, Muscle Sculpting, Lysiwave, Pelvic Floor Strengthening, IPL Hair
+  // Removal, Carboxy Therapy and IV Drip — are carried out by the clinic's
+  // nursing and therapy staff, not by a doctor.
+  //
+  // This page asserted the opposite in three places regardless of which
+  // treatment it was rendering: a "Doctor-performed" badge in the hero, the
+  // At-a-glance "Performed by" row, and a whole DoctorCredit section headed
+  // "Who performs this → Treated by a licensed doctor", whose copy ran
+  // "...is handled by a licensed doctor, never a therapist". On the Facial
+  // page that last line contradicted the clinic's own intro two screens
+  // above it, which says the treatment is handled by a trained therapist.
+  //
+  // All three now read from one field, so a page can never again claim a
+  // doctor for a treatment the clinic staffs with a nurse.
+  const performedBy = treatment.performedBy ?? "Licensed doctor";
+  const isDoctorPerformed = /doctor/i.test(performedBy);
+  // Hero badge. Short adjective form to match the line it sits on
+  // ("From IDR 650.000 / Nurse-performed"), with a readable fallback for
+  // any future value that is neither doctor, nurse nor therapist.
+  const performedByBadge = isDoctorPerformed
+    ? "Doctor-performed"
+    : /nurse/i.test(performedBy)
+      ? "Nurse-performed"
+      : /therapist/i.test(performedBy)
+        ? "Therapist-performed"
+        : `Performed by ${performedBy.toLowerCase()}`;
+
   const GLANCE_ROWS = [
     { label: "Treatment time", value: treatment.treatmentTime },
     { label: "Anaesthesia", value: treatment.anaesthesia },
@@ -139,7 +170,7 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
             <span aria-hidden="true" className="text-ink/30">
               /
             </span>
-            <span>Doctor-performed</span>
+            <span>{performedByBadge}</span>
           </div>
         )}
       </PageHero>
@@ -242,20 +273,26 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
                           {section.title}
                         </h2>
 
-                        {section.points && (
-                          <ul className="mt-5 flex flex-col gap-3">
-                            {section.points.map((point) => (
-                              <li
-                                key={point}
-                                className="measure flex gap-3 font-sans text-copy leading-body text-text-secondary"
-                              >
-                                <CheckIcon className="mt-1.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                                {point}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                        {/* ── CLIENT REVISION 30 — "Why section is not
+                            tidy": PROSE FIRST, THEN THE BULLETS ─────────
+                            Seven sections — sculptra, skin-booster,
+                            salmon-dna, chemical-peel, ipl-hair-removal,
+                            fat-dissolving-injections and the micrograft
+                            page — are written as an opening paragraph
+                            followed by a list of claims, and every one of
+                            them declares `blocks` before `points` to say
+                            so. This markup mapped `points` first
+                            regardless, so all seven opened on a bare
+                            checkmark list and then produced the paragraph
+                            that was meant to introduce it.
 
+                            Checked against the live site: on
+                            /ubud-bali/sculptra the paragraph runs ~950
+                            characters ahead of the bullet list. Blocks
+                            render first now, which matches the data's own
+                            order and the clinic's pages. No section still
+                            wants bullets first — the five that mixed the
+                            two formats were rewritten as uniform blocks. */}
                         {section.blocks && (
                           <div className="mt-6 flex flex-col gap-7">
                             {section.blocks.map((block, blockIndex) => (
@@ -280,6 +317,20 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
                               </div>
                             ))}
                           </div>
+                        )}
+
+                        {section.points && (
+                          <ul className="mt-5 flex flex-col gap-3">
+                            {section.points.map((point) => (
+                              <li
+                                key={point}
+                                className="measure flex gap-3 font-sans text-copy leading-body text-text-secondary"
+                              >
+                                <CheckIcon className="mt-1.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                                {point}
+                              </li>
+                            ))}
+                          </ul>
                         )}
                       </div>
                     </Reveal>
@@ -385,8 +436,13 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
                       </div>
                       <div className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5">
                         <dt className="font-sans text-copy text-ink">Performed by</dt>
+                        {/* The clinic's own answer per treatment, not a
+                            hardcoded "Licensed doctor" — it staffs Medi
+                            Facial, the body devices and the drips with a
+                            nurse, and saying "doctor" on those pages was a
+                            promise the clinic had not made. */}
                         <dd className="font-sans text-sm text-text-secondary">
-                          Licensed doctor
+                          {performedBy}
                         </dd>
                       </div>
                     </dl>
@@ -439,11 +495,19 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
         </Container>
       </section>
 
-      {/* The hero claims "Doctor-performed" — this is where that claim is
-          evidenced, directly after the safety protocols that lead into it. */}
-      <DoctorCredit
-        description={`Every ${treatment.name.toLowerCase()} consultation, treatment plan, and injection at Healthy Look Aesthetic is handled by a licensed doctor, never a therapist.`}
-      />
+      {/* Where the hero claims "Doctor-performed", this is where that claim
+          is evidenced, directly after the safety protocols that lead into it.
+          Where it does not — the eleven nurse- and therapist-run treatments
+          noted at the top of this file — the whole section is dropped rather
+          than reworded: its heading is "Who performs this", and answering
+          that with two doctors' portraits would restate the wrong claim in
+          pictures. Those pages still name the performer in the hero badge
+          and in the At-a-glance box. */}
+      {isDoctorPerformed && (
+        <DoctorCredit
+          description={`Every ${treatment.name.toLowerCase()} consultation, treatment plan, and injection at Healthy Look Aesthetic is handled by a licensed doctor, never a therapist.`}
+        />
+      )}
 
       {faqs.length > 0 && (
         <section className="bg-wash py-section">
