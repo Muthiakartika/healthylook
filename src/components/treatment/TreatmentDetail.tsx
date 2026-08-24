@@ -14,19 +14,15 @@ import Testimonials from "@/components/home/Testimonials";
 import Partners from "@/components/home/Partners";
 import { CheckIcon, ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
+import { treatmentHref, TREATMENT_CATEGORIES, type Treatment } from "@/data/treatments";
 import {
-  treatments,
-  treatmentHref,
-  TREATMENT_CATEGORIES,
-  type Treatment,
-} from "@/data/treatments";
-import { CLINIC_SAFETY_PROTOCOLS } from "@/data/clinic";
-import {
+  getTreatments,
+  getTreatmentFaqs,
+  getTreatmentSections,
   getTestimonialsForTreatment,
   hasOwnTestimonials,
-} from "@/data/testimonials";
-import { getFaqs } from "@/data/treatmentFaqs";
-import { getSections } from "@/data/treatmentSections";
+} from "@/lib/site-content";
+import { CLINIC_SAFETY_PROTOCOLS } from "@/data/clinic";
 import { getResultsForTreatment } from "@/data/results";
 import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
 
@@ -54,21 +50,28 @@ import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
  */
 const GLANCE_UNPUBLISHED = "Varies — ask your doctor";
 
-export default function TreatmentDetail({ treatment }: { treatment: Treatment }) {
+// Async because its content now comes through the database layer. Still a
+// server component, so this costs the page nothing at runtime: the awaits
+// resolve during prerendering and the result is baked into the static HTML.
+export default async function TreatmentDetail({ treatment }: { treatment: Treatment }) {
   const category = TREATMENT_CATEGORIES.find((c) => c.id === treatment.category);
   // The clinic's real FAQ for this treatment — 184 questions across 25
   // treatments, extracted verbatim from the live pages.
-  const faqs = getFaqs(treatment.slug);
+  const faqs = await getTreatmentFaqs(treatment.slug);
   // The clinic's own "what this is / why choose it" copy for this
   // treatment — headings plus the specific claims underneath them.
-  const sections = getSections(treatment.slug);
+  const sections = await getTreatmentSections(treatment.slug);
   // This treatment's own before/after photos, where the clinic has
   // published a category for it — undefined for every treatment that
   // doesn't map to one of the 5 named categories. See the note on
   // `getResultsForTreatment` for why an unmatched treatment gets no
   // embedded gallery rather than someone else's photos.
   const resultGroup = getResultsForTreatment(treatment.slug);
-  const related = treatments
+  // Resolved here rather than inline in the JSX below: both are async now,
+  // and an await cannot sit inside a prop expression.
+  const reviews = await getTestimonialsForTreatment(treatment.slug);
+  const reviewsNameThisTreatment = await hasOwnTestimonials(treatment.slug);
+  const related = (await getTreatments())
     .filter((t) => t.category === treatment.category && t.slug !== treatment.slug)
     .slice(0, 3);
 
@@ -656,10 +659,8 @@ export default function TreatmentDetail({ treatment }: { treatment: Treatment })
           names the treatment when the reviews really are about it — on a
           fallback page it stays about the clinic. */}
       <Testimonials
-        items={getTestimonialsForTreatment(treatment.slug)}
-        subject={
-          hasOwnTestimonials(treatment.slug) ? treatment.name : undefined
-        }
+        items={reviews}
+        subject={reviewsNameThisTreatment ? treatment.name : undefined}
       />
       <BookingSection />
     </>

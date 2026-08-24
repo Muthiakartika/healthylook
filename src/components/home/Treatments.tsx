@@ -11,9 +11,8 @@ import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import {
   TREATMENT_CATEGORIES,
-  getPopularTreatments,
   treatmentHref,
-  TREATMENT_COUNT_LABEL,
+  type Treatment,
   type TreatmentCategoryId,
 } from "@/data/treatments";
 
@@ -47,11 +46,24 @@ import {
  * already in the row beside it — the interaction is an enhancement, never
  * the only route to information.
  */
-export default function Treatments() {
+/**
+ * ── WHY THE SHORTLIST ARRIVES AS A PROP ───────────────────────────────
+ * This is a client component — the category tabs are stateful — so it
+ * cannot read the database. The homepage resolves the shortlist per
+ * category on the server and hands the whole map down, which also means
+ * switching tabs stays instant: every category is already here.
+ */
+export default function Treatments({
+  popular,
+  countLabel,
+}: {
+  popular: Record<TreatmentCategoryId, Treatment[]>;
+  countLabel: string;
+}) {
   const [active, setActive] = useState<TreatmentCategoryId>("facial-enhancement");
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const visible = getPopularTreatments(active);
+  const visible = popular[active] ?? [];
   const activeCategory = TREATMENT_CATEGORIES.find((c) => c.id === active);
 
   /*
@@ -101,7 +113,7 @@ export default function Treatments() {
           align="left"
           eyebrow="What We Do"
           title="Treatments"
-          subtitle={`${TREATMENT_COUNT_LABEL} treatments across facial enhancement, skin, body, and hair.`}
+          subtitle={`${countLabel} treatments across facial enhancement, skin, body, and hair.`}
           className="lg:max-w-xl"
         />
 
@@ -117,7 +129,7 @@ export default function Treatments() {
               // category's true total. A tab reading "Skin Treatments 13"
               // that opens onto six rows reads as a bug; the honest total
               // for the whole catalogue is in the subtitle above.
-              const count = getPopularTreatments(category.id).length;
+              const count = (popular[category.id] ?? []).length;
               return (
                 <button
                   key={category.id}

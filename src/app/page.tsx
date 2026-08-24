@@ -14,6 +14,8 @@ import Faq from "@/components/home/Faq";
 import BlogTeaser from "@/components/home/BlogTeaser";
 import BookingSection from "@/components/home/BookingSection";
 import { getPageSeo } from "@/data/seo";
+import { TREATMENT_CATEGORIES, type TreatmentCategoryId, type Treatment } from "@/data/treatments";
+import { getPopularTreatments, getTreatmentCountLabel } from "@/lib/site-content";
 
 const seo = getPageSeo("/")!;
 
@@ -73,13 +75,27 @@ export const metadata: Metadata = {
  * paper → white → lime → brown footer. That alternation is what creates
  * section separation without needing dividers or borders.
  */
-export default function HomePage() {
+export default async function HomePage() {
+  // <Treatments> is a client component (its category tabs are stateful) so
+  // it cannot read the database itself. Every category's shortlist is
+  // resolved here in one pass and handed down together, which also keeps
+  // tab switching instant rather than fetching per tab.
+  const popular = Object.fromEntries(
+    await Promise.all(
+      TREATMENT_CATEGORIES.map(
+        async (category) =>
+          [category.id, await getPopularTreatments(category.id)] as const,
+      ),
+    ),
+  ) as Record<TreatmentCategoryId, Treatment[]>;
+  const countLabel = await getTreatmentCountLabel();
+
   return (
     <>
       <Hero />
       <BrandStory />
       <Partners />
-      <Treatments />
+      <Treatments popular={popular} countLabel={countLabel} />
       <TreatmentHighlights />
       <WhyUs />
       <Doctors />

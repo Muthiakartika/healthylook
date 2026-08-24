@@ -4,6 +4,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
+import PublicChrome from "@/components/PublicChrome";
+import { buildNavItems } from "@/components/header/navItems";
+import { getTreatments } from "@/lib/site-content";
 import StickyCTA from "@/components/ui/StickyCTA";
 import WhatsAppFloatingButton from "@/components/ui/WhatsAppFloatingButton";
 import {
@@ -120,11 +123,27 @@ const structuredData = {
 // instead of importing them into each page — means every new page under
 // src/app/ gets the same global chrome automatically; no page file needs to
 // remember to include them.
-export default function RootLayout({
+/**
+ * Async so the header's menu can be built from the database.
+ *
+ * ── THIS MUST NOT MAKE THE SITE DYNAMIC ───────────────────────────────
+ * A root layout that awaits an uncached request turns every page into a
+ * per-request render, which for a Neon-backed site means waking the
+ * database for every visitor and losing the static build entirely.
+ *
+ * `getTreatments` reads through `unstable_cache`, so this resolves once
+ * during prerendering rather than per request. The check that it is still
+ * true is the build output: the public routes have to stay marked as
+ * static or SSG. If they ever appear as dynamic, this await is the first
+ * place to look.
+ */
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const navItems = buildNavItems(await getTreatments());
+
   return (
     <html
       lang="en"
@@ -142,14 +161,20 @@ export default function RootLayout({
         {/* Skip link — first thing in the tab order, visually hidden until
             focused. Required for keyboard users given how many nav links
             sit between the top of the page and the content. */}
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-brand focus:bg-primary-strong focus:px-5 focus:py-3 focus:font-sans focus:text-sm focus:text-white"
-        >
-          Skip to content
-        </a>
+        {/* Everything the dashboard must not inherit is wrapped — see the
+            note in PublicChrome for why this is a wrapper rather than a
+            route group. /admin brings its own navigation and has no use
+            for a booking CTA or a floating WhatsApp button. */}
+        <PublicChrome>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-brand focus:bg-primary-strong focus:px-5 focus:py-3 focus:font-sans focus:text-sm focus:text-white"
+          >
+            Skip to content
+          </a>
 
-        <Header />
+          <Header navItems={navItems} />
+        </PublicChrome>
 
         {/* flex-1 pushes the footer to the bottom of the viewport even when
             a page's content is shorter than the screen. No top padding
@@ -165,9 +190,11 @@ export default function RootLayout({
           {children}
         </main>
 
-        <Footer />
-        <StickyCTA />
-        <WhatsAppFloatingButton />
+        <PublicChrome>
+          <Footer />
+          <StickyCTA />
+          <WhatsAppFloatingButton />
+        </PublicChrome>
       </body>
     </html>
   );

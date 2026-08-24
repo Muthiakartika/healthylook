@@ -7,7 +7,8 @@ import Reveal from "@/components/ui/Reveal";
 import PriceTable from "@/components/shared/PriceTable";
 import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import { TREATMENT_CATEGORIES, treatments, treatmentHref } from "@/data/treatments";
+import { TREATMENT_CATEGORIES, treatmentHref } from "@/data/treatments";
+import { getTreatments } from "@/lib/site-content";
 import {
   extraPricingSections,
   PRICING_NOTE,
@@ -42,8 +43,8 @@ export const metadata: Metadata = {
  * Set as typographic tables rather than pricing cards — see PriceTable for
  * why.
  */
-export default function PricingPage() {
-  const withPrices = treatments.filter((t) => t.priceGroups?.length);
+export default async function PricingPage() {
+  const withPrices = (await getTreatments()).filter((t) => t.priceGroups?.length);
 
   return (
     <>

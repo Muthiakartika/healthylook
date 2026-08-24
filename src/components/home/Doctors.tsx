@@ -3,7 +3,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import DoctorProfile from "@/components/shared/DoctorProfile";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
-import { doctors } from "@/data/doctors";
+import { getDoctors } from "@/lib/site-content";
 
 /**
  * SECTION 07 — DOCTOR / TEAM (homepage placement)
@@ -28,7 +28,8 @@ import { doctors } from "@/data/doctors";
  * Together that takes the section from roughly three screens to under one.
  * Nothing was deleted — /our-doctor still carries every word.
  */
-export default function Doctors() {
+export default async function Doctors() {
+  const doctors = await getDoctors();
   return (
     <section className="bg-background py-section">
       <Container>

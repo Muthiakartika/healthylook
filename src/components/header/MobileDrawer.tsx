@@ -1,4 +1,4 @@
-import { NAV_ITEMS } from "./navItems";
+import { NAV_ITEMS, type NavItem } from "./navItems";
 import MobileNavItem from "./MobileNavItem";
 import Button from "@/components/ui/Button";
 import { CloseIcon, WhatsAppIcon, PhoneIcon, MailIcon } from "@/components/ui/icons";
@@ -27,9 +27,13 @@ import {
 export default function MobileDrawer({
   open,
   onClose,
+  // Same seam as DesktopNav: resolved on the server, defaulted to the
+  // compiled list so the drawer still renders without it.
+  items = NAV_ITEMS,
 }: {
   open: boolean;
   onClose: () => void;
+  items?: NavItem[];
 }) {
   return (
     <div className={`fixed inset-0 z-50 lg:hidden ${open ? "" : "pointer-events-none"}`}>
@@ -76,7 +80,7 @@ export default function MobileDrawer({
         </div>
 
         <nav aria-label="Mobile" className="flex-1 px-6">
-          {NAV_ITEMS.map((item) => (
+          {items.map((item) => (
             <MobileNavItem
               key={item.label}
               item={item}

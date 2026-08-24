@@ -9,6 +9,7 @@ import { BOOKING_HREF, BOOKING_LABEL, whatsappHref } from "@/lib/constants";
 import Brand from "./Brand";
 import DesktopNav from "./DesktopNav";
 import MobileDrawer from "./MobileDrawer";
+import { NAV_ITEMS, type NavItem } from "./navItems";
 import TopBar from "./TopBar";
 
 /**
@@ -100,7 +101,10 @@ const HERO_ROUTES = [/^\/$/];
  */
 const SOLIDIFY_AFTER_PX = 48;
 
-export default function Header() {
+// The nav is resolved on the server and handed in, because this component
+// and the two below it are client components and cannot read the database.
+// Defaults to the compiled list so Header is still usable on its own.
+export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] } = {}) {
   const pathname = usePathname();
   const overHero = HERO_ROUTES.some((pattern) => pattern.test(pathname));
 
@@ -202,7 +206,7 @@ export default function Header() {
           <div className="flex h-20 items-center justify-between gap-6 lg:h-24">
             <Brand tone={solid ? "light" : "dark"} />
 
-            <DesktopNav tone={solid ? "light" : "dark"} />
+            <DesktopNav tone={solid ? "light" : "dark"} items={navItems} />
 
             <div className="flex items-center gap-2 sm:gap-4">
               {/* WhatsApp gets its own always-visible affordance next to the
@@ -274,7 +278,11 @@ export default function Header() {
         </Container>
       </header>
 
-      <MobileDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileDrawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        items={navItems}
+      />
     </>
   );
 }

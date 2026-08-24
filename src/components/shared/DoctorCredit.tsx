@@ -4,7 +4,7 @@ import Img from "@/components/ui/Img";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import { doctors } from "@/data/doctors";
+import { getDoctors } from "@/lib/site-content";
 
 /**
  * The doctors, compact, for pages that assert a doctor performs the work.
@@ -23,7 +23,7 @@ import { doctors } from "@/data/doctors";
  * attribution: who does this, what are they qualified in, where do I read
  * more. One line of bio each, then out.
  */
-export default function DoctorCredit({
+export default async function DoctorCredit({
   eyebrow = "Who performs this",
   title = "Treated by a licensed doctor",
   description = "Every consultation, treatment plan, and injection at Healthy Look Aesthetic is handled by a licensed doctor, never a therapist.",
@@ -32,6 +32,8 @@ export default function DoctorCredit({
   title?: string;
   description?: string;
 }) {
+  const doctors = await getDoctors();
+
   return (
     <section className="bg-paper py-section">
       <Container>

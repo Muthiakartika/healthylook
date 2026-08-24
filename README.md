@@ -186,3 +186,126 @@ found the actual remaining gaps to be much smaller:
   verbatim way as everything that *was* spot-checked — but "spot-checked and
   consistent everywhere it was tested" and "every character re-diffed" are
   different claims, and this file doesn't blur them.
+
+---
+
+## Admin dashboard (`/admin`)
+
+A database-backed editor for the site's content, with two roles: **admin**
+(everything, plus managing people) and **editor** (all content, no people).
+
+### Turning it on
+
+The dashboard needs Postgres. Without `DATABASE_URL` the public site builds
+and serves exactly as before — only `/admin` is affected, and it says so
+rather than erroring.
+
+```bash
+# 1. Create a free Postgres at neon.tech and copy the POOLED string
+#    (the host contains "-pooler")
+# 2. Put it in .env.local
+echo 'DATABASE_URL=postgres://…' >> .env.local
+
+# 3. Create the tables
+npm run db:migrate
+
+# 4. Create the first admin (there is no sign-up page, by design)
+npm run db:admin
+```
+
+Then sign in at `/admin/login`, and use **Import** to copy the content out
+of `src/data/` into the database.
+
+### How content flows
+
+`src/data/*.ts` stays in the repo and remains the fallback. `publishedDocuments()`
+in `src/lib/content.ts` returns `null` when the database is unset, unreachable,
+or a collection is empty — and every caller then uses the source files. That is
+what lets the dashboard be added to a live site without a flag day.
+
+Reads are cached with `unstable_cache` and tagged per collection; saving a
+document calls `revalidateTag`, so the public pages keep their static
+performance and refresh only when something actually changes.
+
+### What editors can change
+
+Defined entirely in `src/lib/collections.ts` — one registry that generates every
+list and every edit form. Adding a field is a line there, not a new screen.
+
+### Images
+
+Editors upload at `/admin/media`; anything there can be picked from the image
+field on a treatment, article or page. The site's own photographs in
+`public/images/` stay usable alongside them — an image field holds a plain
+string, so both a `/images/…` path and an uploaded URL are valid.
+
+Uploads go **from the browser straight to Blob storage**. That is not an
+optimisation: a Vercel serverless function caps request bodies at 4.5 MB and
+a server action defaults to 1 MB, so posting a phone photo through the server
+would fail for exactly the files editors have. `/api/admin/media/upload` only
+signs a short-lived token, with the allowed types and size ceiling baked into
+it so the limits are enforced by the storage service rather than by client
+code.
+
+`next.config.ts` allows `*.public.blob.vercel-storage.com` in
+`images.remotePatterns`. Without that entry `next/image` refuses uploaded
+images and they render broken with nothing to explain why.
+
+The library row is written by the browser once the upload resolves, not from
+Blob's `onUploadCompleted` webhook — that webhook never fires against
+localhost, so a row written there would exist in production and silently not
+in development. The trade-off is a blob with no row if a tab closes mid-upload;
+`/admin/media` finds those and offers to clear them.
+
+### Moving the database later
+
+Nothing in the code is Neon-specific, on purpose. `src/lib/db.ts` uses `pg`,
+the standard Postgres driver, rather than `@neondatabase/serverless` — which
+is a little faster to cold-start and works with exactly one host. The schema
+is plain SQL using only `uuid`, `jsonb`, `bigserial` and `gen_random_uuid()`,
+all built into Postgres 13 and later. The word "Neon" appears in three help
+strings and nowhere else.
+
+So the database can move, and `DATABASE_URL` is the only thing that changes:
+
+```bash
+# To any other Postgres — Supabase, RDS, a VPS, another Neon account
+pg_dump "$OLD_DATABASE_URL" --no-owner --no-privileges -Fc -f hla.dump
+pg_restore -d "$NEW_DATABASE_URL" --no-owner --no-privileges hla.dump
+npm run db:check                     # confirm before switching the app over
+```
+
+Staying on Neon, transferring the project between accounts in the Neon
+console keeps the same connection string and needs no dump at all.
+
+**The part that does not move by itself is the images.** Uploads live in
+Vercel Blob, which belongs to the Vercel project rather than to the database,
+and `media.url` stores absolute URLs that also appear inside document bodies.
+Two ways round it:
+
+- Transfer the whole Vercel project to the new account. Blob goes with it and
+  the URLs do not change. This is the clean path.
+- If the Blob store has to be recreated, re-upload the files and rewrite the
+  URLs — both places they appear:
+
+  ```sql
+  UPDATE media
+     SET url = replace(url, 'https://OLD.public.blob.vercel-storage.com',
+                            'https://NEW.public.blob.vercel-storage.com');
+
+  UPDATE documents
+     SET data = replace(data::text, 'https://OLD.public.blob.vercel-storage.com',
+                                    'https://NEW.public.blob.vercel-storage.com')::jsonb;
+  ```
+
+Worth moving sooner rather than later: the cost of this is proportional to how
+many images have been uploaded, and that number only grows.
+
+### Security notes
+
+- Passwords: `scrypt` from `node:crypto`. No native addon to compile.
+- Sessions: opaque tokens, revocable, only the SHA-256 stored server-side.
+- `middleware.ts` is a redirect for humans, not the security boundary — the
+  real check is `requireUser()` / `requireAdmin()` in the layout and in every
+  server action.
+- Disabling a user deletes their sessions in the same transaction.

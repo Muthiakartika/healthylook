@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
-import { treatments, treatmentHref } from "@/data/treatments";
+import { treatmentHref } from "@/data/treatments";
+import { getTreatments } from "@/lib/site-content";
 import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
 import { ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
 
@@ -22,8 +23,8 @@ import { ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
  * Note it renders its own top padding — the header is fixed and this page
  * has no full-bleed hero to run underneath it.
  */
-export default function NotFound() {
-  const highlights = treatments.slice(0, 6);
+export default async function NotFound() {
+  const highlights = (await getTreatments()).slice(0, 6);
 
   return (
     <section className="bg-paper pb-section pt-40 lg:pt-52">

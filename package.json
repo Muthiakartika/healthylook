@@ -6,16 +6,23 @@
     "dev": "next dev -p 3006",
     "build": "node scripts/build.cjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:check": "node scripts/db.cjs check",
+    "db:migrate": "node scripts/db.cjs migrate",
+    "db:admin": "node scripts/db.cjs admin"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.0",
     "next": "^15.1.0",
+    "pg": "^8.23.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

@@ -5,7 +5,8 @@ import Button from "@/components/ui/Button";
 import PriceTable from "@/components/shared/PriceTable";
 import { CheckIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
-import { getTreatmentBySlug, treatmentHref } from "@/data/treatments";
+import { treatmentHref } from "@/data/treatments";
+import { getTreatmentBySlug } from "@/lib/site-content";
 import { BOOKING_HREF } from "@/lib/constants";
 
 /**
@@ -25,9 +26,11 @@ import { BOOKING_HREF } from "@/lib/constants";
  * the clinic's real differentiators, so burying it would work against the
  * brand rather than for it.
  */
-const treatment = getTreatmentBySlug("botox");
-
-export default function FeaturedTreatment() {
+export default async function FeaturedTreatment() {
+  // Resolved inside the component rather than at module scope: the lookup
+  // now goes through the database layer, and a module-scope await would
+  // run once when the module is first imported and then never again.
+  const treatment = await getTreatmentBySlug("botox");
   if (!treatment) return null;
 
   return (

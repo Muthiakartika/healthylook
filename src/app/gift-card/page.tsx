@@ -23,6 +23,7 @@ import {
 } from "@/data/offers";
 import { whatsappHref, PHONE_DISPLAY, PHONE_E164, EMAIL } from "@/lib/constants";
 import { getPageSeo } from "@/data/seo";
+import { getPageCopy } from "@/lib/site-content";
 
 const seo = getPageSeo("/gift-card")!;
 
@@ -63,7 +64,17 @@ export const metadata: Metadata = {
  * non-refundable clause are contractual, and a gift card is exactly the
  * kind of purchase where a paraphrased term causes a real dispute.
  */
-export default function GiftCardPage() {
+export default async function GiftCardPage() {
+  // Editable at /admin/pages -> Gift card. Merged over the constants, so a
+  // piece the editor has not touched still renders what it always did.
+  const copy = await getPageCopy("gift-card", {
+    heading: GIFT_CARD_HEADING,
+    tagline: GIFT_CARD_TAGLINE,
+    intro: GIFT_CARD_INTRO,
+    body: GIFT_CARD_BODY as readonly string[],
+    terms: GIFT_CARD_TERMS as readonly string[],
+  });
+
   return (
     <>
       {/* ── CLIENT REVISION 22 — "Please change to the facial photo" ────
@@ -80,10 +91,10 @@ export default function GiftCardPage() {
           facial and not the clinic's own photograph. Both images on this
           page are now the clinic's own. */}
       <PageHero
-        eyebrow={GIFT_CARD_TAGLINE}
-        title={GIFT_CARD_HEADING}
+        eyebrow={copy.tagline}
+        title={copy.heading}
         crumbs={[{ label: "Home", href: "/" }, { label: "Gift Card" }]}
-        description={GIFT_CARD_INTRO}
+        description={copy.intro}
         image="/images/clinic/clinic-09.jpg"
         imageAlt="A treatment in progress at Healthy Look Aesthetic, Ubud"
       />
@@ -93,7 +104,7 @@ export default function GiftCardPage() {
         <Container>
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
             <div className="lg:col-span-7">
-              {GIFT_CARD_BODY.map((paragraph, index) => (
+              {copy.body.map((paragraph, index) => (
                 <Reveal key={paragraph} delay={index * 80}>
                   <p
                     className={`measure font-sans ${
@@ -210,7 +221,7 @@ export default function GiftCardPage() {
 
             <div className="lg:col-span-8">
               <ul className="border-t border-hairline">
-                {GIFT_CARD_TERMS.map((term, index) => (
+                {copy.terms.map((term, index) => (
                   <li key={term} className="border-b border-hairline">
                     <Reveal delay={index * 60}>
                       <div className="flex gap-6 py-6 sm:gap-10">

@@ -8,7 +8,8 @@ import Partners from "@/components/home/Partners";
 import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
-import { TREATMENT_CATEGORIES, treatments, treatmentHref } from "@/data/treatments";
+import { TREATMENT_CATEGORIES, treatmentHref } from "@/data/treatments";
+import { getTreatments } from "@/lib/site-content";
 import { getPageSeo } from "@/data/seo";
 
 const seo = getPageSeo("/ubud-bali")!;
@@ -33,7 +34,8 @@ export const metadata: Metadata = {
  * heading is an anchor target (`#facial-enhancement` etc.) so the footer
  * and the nav can link straight to a section.
  */
-export default function TreatmentsPage() {
+export default async function TreatmentsPage() {
+  const treatments = await getTreatments();
   return (
     <>
       <PageHero

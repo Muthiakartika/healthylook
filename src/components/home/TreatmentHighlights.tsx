@@ -4,7 +4,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import TreatmentThumb from "@/components/shared/TreatmentThumb";
 import { CheckIcon, ArrowUpRightIcon } from "@/components/ui/icons";
-import { getTreatmentBySlug, treatmentHref } from "@/data/treatments";
+import { treatmentHref, type Treatment } from "@/data/treatments";
+import { getTreatments } from "@/lib/site-content";
 
 /**
  * SECTION — TREATMENT HIGHLIGHTS
@@ -68,17 +69,19 @@ const HIGHLIGHT_ENTRIES: { slug: string; facts: string[] }[] = [
   },
 ];
 
-// Resolved once at module scope: an unresolved slug is dropped rather than
-// rendering a broken card, the same defensive pattern HOME_POPULAR_SLUGS
-// uses elsewhere in this codebase.
-const highlights = HIGHLIGHT_ENTRIES.map((entry) => {
-  const treatment = getTreatmentBySlug(entry.slug);
-  return treatment ? { treatment, facts: entry.facts } : null;
-}).filter((item): item is { treatment: NonNullable<typeof item>["treatment"]; facts: string[] } =>
-  item !== null,
-);
+export default async function TreatmentHighlights() {
+  // Resolved in the component, not at module scope: the lookup goes
+  // through the database layer now, and a module-scope await would run
+  // once on first import and then hold that result forever.
+  //
+  // An unresolved slug is dropped rather than rendering a broken card —
+  // the same defensive pattern HOME_POPULAR_SLUGS uses elsewhere.
+  const all = await getTreatments();
+  const highlights = HIGHLIGHT_ENTRIES.map((entry) => {
+    const treatment = all.find((t) => t.slug === entry.slug);
+    return treatment ? { treatment, facts: entry.facts } : null;
+  }).filter((item): item is { treatment: Treatment; facts: string[] } => item !== null);
 
-export default function TreatmentHighlights() {
   if (highlights.length === 0) return null;
 
   return (

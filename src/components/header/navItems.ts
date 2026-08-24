@@ -8,7 +8,12 @@
 // earlier version invented both the URL scheme (/treatments/...) and a
 // shorter treatment list, which would have broken every existing inbound
 // link and search ranking the clinic has.
-import { TREATMENT_CATEGORIES, treatments, treatmentHref } from "@/data/treatments";
+import {
+  TREATMENT_CATEGORIES,
+  treatments as sourceTreatments,
+  treatmentHref,
+  type Treatment,
+} from "@/data/treatments";
 
 export type SubLink = { label: string; href: string; note?: string };
 export type MegaColumn = { title: string; links: SubLink[] };
@@ -19,16 +24,27 @@ export type NavItem = {
   wide?: boolean;
 };
 
-// Generated from treatments.ts, one column per category — never
-// hand-duplicated, so the menu can't list a treatment that doesn't exist.
-const treatmentColumns: MegaColumn[] = TREATMENT_CATEGORIES.map((category) => ({
-  title: category.label,
-  links: treatments
-    .filter((treatment) => treatment.category === category.id)
-    .map((treatment) => ({ label: treatment.name, href: treatmentHref(treatment) })),
-}));
+// One column per category, generated — never hand-duplicated, so the menu
+// cannot list a treatment that does not exist.
+//
+// ── WHY THIS TAKES THE LIST AS AN ARGUMENT ────────────────────────────
+// The menu is rendered by DesktopNav and MobileDrawer, both of which are
+// client components, and a client component cannot read the database. So
+// the treatment list is resolved on the server — in the root layout — and
+// handed down as props. This function is the seam between the two.
+//
+// `buildNavItems()` with no argument falls back to the compiled list, which
+// is what MobileNavItem and any other consumer that has no props available
+// still uses.
+export function buildNavItems(treatments: Treatment[] = sourceTreatments): NavItem[] {
+  const treatmentColumns: MegaColumn[] = TREATMENT_CATEGORIES.map((category) => ({
+    title: category.label,
+    links: treatments
+      .filter((treatment) => treatment.category === category.id)
+      .map((treatment) => ({ label: treatment.name, href: treatmentHref(treatment) })),
+  }));
 
-export const NAV_ITEMS: NavItem[] = [
+  return [
   { label: "Home", href: "/" },
   // href is "#" on purpose: this item never navigates on its own, it only
   // opens its mega-menu.
@@ -51,4 +67,15 @@ export const NAV_ITEMS: NavItem[] = [
       },
     ],
   },
-];
+  ];
+}
+
+/**
+ * The menu built from the compiled treatment list.
+ *
+ * Kept so that anything rendering the nav without server-resolved props
+ * still works, and so the shape has a value to fall back to when the
+ * database has nothing imported yet.
+ */
+export const NAV_ITEMS: NavItem[] = buildNavItems();
+

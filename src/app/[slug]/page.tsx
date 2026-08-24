@@ -5,7 +5,7 @@ import PageHero from "@/components/shared/PageHero";
 import ArticleBody from "@/components/shared/ArticleBody";
 import BookingSection from "@/components/home/BookingSection";
 import BlogTeaser from "@/components/home/BlogTeaser";
-import { articles, getArticleBySlug } from "@/data/articles";
+import { getArticles, getArticleBySlug } from "@/lib/site-content";
 import { blogPosts } from "@/data/blog";
 
 /**
@@ -18,8 +18,11 @@ import { blogPosts } from "@/data/blog";
  * segments first, so /pricing, /our-blog and the rest are unaffected. Any slug
  * that isn't a real article falls through to notFound().
  */
-export function generateStaticParams() {
-  return articles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  // Through the database layer, so an article written in the dashboard
+  // gets a prerendered page at the next build; between builds an unlisted
+  // slug still renders on demand and is cached from then on.
+  return (await getArticles()).map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({
@@ -28,7 +31,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) return {};
 
   return {
@@ -49,7 +52,7 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
   // The blog index is the canonical name for this post, and it's often

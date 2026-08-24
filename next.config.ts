@@ -1,10 +1,16 @@
 import type { NextConfig } from "next";
 
 /**
- * No `images.remotePatterns` needed: every photo is served from
- * `public/images/`, copied from the client's own WordPress media library
- * rather than hotlinked. Hotlinking the live site would make this build
- * depend on the old site staying up, and would put load on their host.
+ * The site's own photographs are served from `public/images/`, copied from
+ * the client's WordPress media library rather than hotlinked — hotlinking
+ * would make this build depend on the old site staying up.
+ *
+ * The one remote host allowed is Vercel Blob, where images uploaded through
+ * the dashboard live. `next/image` refuses any host not listed here, so
+ * without this an uploaded photo renders as a broken image with a console
+ * error and nothing else to explain it. The pattern is scoped to the blob
+ * hostname rather than opened to all HTTPS: `remotePatterns` is what stops
+ * the site's image optimiser being used to proxy arbitrary URLs.
  */
 const nextConfig: NextConfig = {
   /**
@@ -35,6 +41,10 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+    ],
+
     // AVIF first, WebP second. The source files are mostly large JPEGs
     // (one is 4000×4000) and every one of them is re-encoded and resized
     // on demand, which is what keeps a photo-heavy redesign fast.

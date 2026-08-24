@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TreatmentDetail from "@/components/treatment/TreatmentDetail";
-import { treatments, getTreatmentBySlug } from "@/data/treatments";
+import { getTreatments, getTreatmentBySlug } from "@/lib/site-content";
 import { getTreatmentSeo } from "@/data/seo";
 
 /**
@@ -25,14 +25,19 @@ import { getTreatmentSeo } from "@/data/seo";
  * /ubud-bali/, and needs the identical page from a different route.
  */
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   // Treatments carrying an explicit `path` are served by their own route, so
   // they are deliberately NOT generated here. Without this filter Eye
   // Rejuvenation would exist at both /eye-rejuvenaton-treatment and
   // /ubud-bali/eye-rejuvenation — the same page on two URLs, each with a
   // canonical tag pointing at the other one's sibling, which is exactly the
   // duplicate-content problem keeping the live URL was meant to avoid.
-  return treatments
+  //
+  // Reads through the database layer, so a treatment added in the
+  // dashboard gets a prerendered page at the next build. Between builds it
+  // still resolves: `dynamicParams` defaults to true, so an unlisted slug
+  // renders on demand and is then cached like any other page.
+  return (await getTreatments())
     .filter((treatment) => !treatment.path)
     .map((treatment) => ({ slug: treatment.slug.split("/") }));
 }
@@ -43,7 +48,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const treatment = getTreatmentBySlug(slug.join("/"));
+  const treatment = await getTreatmentBySlug(slug.join("/"));
   if (!treatment || treatment.path) return {};
 
   // Title/description text lives in src/data/seo.ts — edit it there.
@@ -62,7 +67,7 @@ export default async function TreatmentPage({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const treatment = getTreatmentBySlug(slug.join("/"));
+  const treatment = await getTreatmentBySlug(slug.join("/"));
   // `treatment.path` means this treatment's real URL is elsewhere, so this
   // path is not one of its addresses — 404 rather than serve a second copy.
   // Filtering generateStaticParams is not enough on its own: an unlisted

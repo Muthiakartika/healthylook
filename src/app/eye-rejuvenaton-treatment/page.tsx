@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TreatmentDetail from "@/components/treatment/TreatmentDetail";
-import { getTreatmentBySlug } from "@/data/treatments";
+import { getTreatmentBySlug } from "@/lib/site-content";
 import { TREATMENT_SEO } from "@/data/seo";
 
 /**
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   openGraph: { title: seo.title, description: seo.description },
 };
 
-export default function EyeRejuvenationPage() {
-  const treatment = getTreatmentBySlug(SLUG);
+export default async function EyeRejuvenationPage() {
+  const treatment = await getTreatmentBySlug(SLUG);
   if (!treatment) notFound();
 
   return <TreatmentDetail treatment={treatment} />;

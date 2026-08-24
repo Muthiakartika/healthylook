@@ -2,7 +2,8 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { QuoteIcon, StarIcon } from "@/components/ui/icons";
-import { generalTestimonials, type Testimonial } from "@/data/testimonials";
+import { type Testimonial } from "@/data/testimonials";
+import { getFeaturedTestimonials } from "@/lib/site-content";
 
 /**
  * SECTION 09 — TESTIMONIALS
@@ -165,22 +166,26 @@ function MarqueeRow({
   );
 }
 
-export default function Testimonials({
-  items = generalTestimonials,
+// Async so the clinic-wide fallback set can come from the database. A
+// default parameter cannot await, so the fallback is resolved in the body
+// and `items` stays optional for the callers that pass their own.
+export default async function Testimonials({
+  items,
   subject,
 }: TestimonialsProps) {
-  if (items.length === 0) return null;
+  const list = items ?? (await getFeaturedTestimonials());
+  if (list.length === 0) return null;
 
   // Named from the data rather than hard-coded, so a treatment whose
   // reviews all come from one platform doesn't claim both. Google leads
   // where it's present — it's the name people scan for.
-  const platforms = [...new Set(items.map((item) => item.source))].sort((a, b) =>
+  const platforms = [...new Set(list.map((item) => item.source))].sort((a, b) =>
     a === "Google" ? -1 : b === "Google" ? 1 : a.localeCompare(b),
   );
 
-  const scrolls = items.length >= MIN_ITEMS_TO_SCROLL;
-  const twoRows = items.length >= MIN_ITEMS_FOR_TWO_ROWS;
-  const split = Math.ceil(items.length / 2);
+  const scrolls = list.length >= MIN_ITEMS_TO_SCROLL;
+  const twoRows = list.length >= MIN_ITEMS_FOR_TWO_ROWS;
+  const split = Math.ceil(list.length / 2);
 
   return (
     // `wash`, not the lime `section` band: this section is followed directly
@@ -215,15 +220,15 @@ export default function Testimonials({
         // the viewport, so cards are always arriving from off-screen rather
         // than appearing at a container edge.
         <div className="mt-16 flex flex-col gap-6">
-          <MarqueeRow items={twoRows ? items.slice(0, split) : items} />
-          {twoRows && <MarqueeRow items={items.slice(split)} reverse />}
+          <MarqueeRow items={twoRows ? list.slice(0, split) : list} />
+          {twoRows && <MarqueeRow items={list.slice(split)} reverse />}
         </div>
       ) : (
         <Container>
           <Reveal
-            className={`mx-auto mt-16 ${STATIC_LAYOUT[items.length] ?? ""}`}
+            className={`mx-auto mt-16 ${STATIC_LAYOUT[list.length] ?? ""}`}
           >
-            {items.map((testimonial) => (
+            {list.map((testimonial) => (
               <QuoteCard
                 key={testimonial.id}
                 testimonial={testimonial}
@@ -239,7 +244,7 @@ export default function Testimonials({
           complete review rather than the six lines a card has room for. */}
       {scrolls && (
         <ul className="sr-only">
-          {items.map((testimonial) => (
+          {list.map((testimonial) => (
             <li key={testimonial.id}>
               <blockquote>{testimonial.quote}</blockquote>
               {testimonial.name}, reviewed on {testimonial.source}

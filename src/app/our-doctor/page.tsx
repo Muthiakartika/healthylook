@@ -7,7 +7,7 @@ import Reveal from "@/components/ui/Reveal";
 import Img from "@/components/ui/Img";
 import Partners from "@/components/home/Partners";
 import BookingSection from "@/components/home/BookingSection";
-import { doctors } from "@/data/doctors";
+import { getDoctors, getPageCopy } from "@/lib/site-content";
 import {
   CLINIC_LICENCE_STATEMENT,
   CLINIC_LICENCE_NUMBER,
@@ -41,7 +41,15 @@ export const metadata: Metadata = {
  * is the CTA, and repeating "book with Dr. X" beside each portrait would
  * be the third and fourth CTA before the reader reaches it.
  */
-export default function OurDoctorPage() {
+export default async function OurDoctorPage() {
+  const doctors = await getDoctors();
+  // Editable at /admin/pages -> Clinic statements.
+  const copy = await getPageCopy("clinic", {
+    licenceStatement: CLINIC_LICENCE_STATEMENT,
+    licenceNumber: CLINIC_LICENCE_NUMBER,
+    philosophy: CLINIC_PHILOSOPHY,
+    safetyStatement: CLINIC_SAFETY_STATEMENT,
+  });
   return (
     <>
       <PageHero
@@ -82,7 +90,7 @@ export default function OurDoctorPage() {
               </Reveal>
               <Reveal delay={160}>
                 <p className="mt-8 inline-block border border-primary/25 px-4 py-2.5 font-sans text-caption tracking-wide text-primary-strong">
-                  {CLINIC_LICENCE_NUMBER}
+                  {copy.licenceNumber}
                 </p>
               </Reveal>
             </div>
@@ -90,12 +98,12 @@ export default function OurDoctorPage() {
             <div className="lg:col-span-7">
               <Reveal delay={150}>
                 <p className="measure font-sans text-lead text-text">
-                  {CLINIC_LICENCE_STATEMENT}
+                  {copy.licenceStatement}
                 </p>
               </Reveal>
               <Reveal delay={210}>
                 <p className="mt-7 measure font-sans text-body leading-body text-text-secondary">
-                  {CLINIC_PHILOSOPHY}
+                  {copy.philosophy}
                 </p>
               </Reveal>
 
@@ -152,7 +160,7 @@ export default function OurDoctorPage() {
             tone="dark"
             eyebrow="Safety"
             title="Your safety is our highest priority"
-            description={CLINIC_SAFETY_STATEMENT}
+            description={copy.safetyStatement}
           />
 
           <div className="mt-16 grid gap-x-16 gap-y-12 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">

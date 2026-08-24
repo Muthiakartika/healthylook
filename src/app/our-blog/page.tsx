@@ -7,7 +7,8 @@ import TreatmentThumb from "@/components/shared/TreatmentThumb";
 import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { blogPosts } from "@/data/blog";
-import { treatments, TREATMENT_CATEGORIES } from "@/data/treatments";
+import { TREATMENT_CATEGORIES } from "@/data/treatments";
+import { getTreatments } from "@/lib/site-content";
 import { getPageSeo } from "@/data/seo";
 
 const seo = getPageSeo("/our-blog")!;
@@ -28,7 +29,8 @@ export const metadata: Metadata = {
  * now, on one page: 46 cards is a comfortable single scroll, and paginating
  * a list this size only hides content behind a click.
  */
-export default function BlogPage() {
+export default async function BlogPage() {
+  const treatments = await getTreatments();
   // Reuse each article's treatment photo where the article is about a
   // treatment we have a picture for — no invented imagery, and posts with
   // no photo get the typographic tile.

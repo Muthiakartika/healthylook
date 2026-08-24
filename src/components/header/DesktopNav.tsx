@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { FocusEvent, PointerEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_ITEMS } from "./navItems";
+import { NAV_ITEMS, type NavItem } from "./navItems";
 import MegaPanel from "./MegaPanel";
 import { ChevronDownIcon } from "@/components/ui/icons";
 
@@ -52,7 +52,16 @@ const HOVER_CLOSE_DELAY = 260;
  * used on the editorial text links further down the page — one hover
  * language for the whole site.
  */
-export default function DesktopNav({ tone = "light" }: { tone?: "light" | "dark" }) {
+export default function DesktopNav({
+  tone = "light",
+  // Resolved on the server so the menu reflects what is in the database.
+  // Defaults to the compiled list, which keeps this component renderable
+  // on its own and covers the case where nothing has been imported yet.
+  items = NAV_ITEMS,
+}: {
+  tone?: "light" | "dark";
+  items?: NavItem[];
+}) {
   const dark = tone === "dark";
   const linkColor = dark ? "text-white/90 hover:text-white" : "text-text hover:text-primary";
   const ruleColor = dark ? "bg-white" : "bg-primary";
@@ -168,7 +177,7 @@ export default function DesktopNav({ tone = "light" }: { tone?: "light" | "dark"
      * panel no longer crosses dead space (see HOVER_CLOSE_DELAY above).
      */
     <nav aria-label="Main" className="hidden items-center gap-9 self-stretch lg:flex">
-      {NAV_ITEMS.map((item, index) => {
+      {items.map((item, index) => {
         const open = openLabel === item.label;
         const panelId = `${panelIdPrefix}-nav-${index}`;
 
