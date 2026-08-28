@@ -37,12 +37,20 @@ const nextConfig: NextConfig = {
    */
   webpack(config) {
     config.resolve.symlinks = false;
+    // Local Windows volumes with very little free space can opt out of the
+    // multi-gigabyte production cache. This does not affect normal builds or
+    // deployments unless the variable is set explicitly for that command.
+    if (process.env.HLA_DISABLE_WEBPACK_CACHE === "1") config.cache = false;
     return config;
   },
 
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      // Sanity's image pipeline. The path remains restricted to image
+      // assets for this project's dataset rather than allowing arbitrary
+      // HTTPS hosts through Next's optimiser.
+      { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
     ],
 
     // AVIF first, WebP second. The source files are mostly large JPEGs

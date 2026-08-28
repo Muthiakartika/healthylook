@@ -6,6 +6,15 @@ import ArticleBody from "@/components/shared/ArticleBody";
 import BookingSection from "@/components/home/BookingSection";
 import BlogTeaser from "@/components/home/BlogTeaser";
 import { getArticles, getArticleBySlug, getBlogPosts } from "@/lib/site-content";
+import SanityPortableText from "@/components/sanity/SanityPortableText";
+import PageBuilder from "@/components/sanity/PageBuilder";
+import {
+  getSanityPage,
+  getSanityPost,
+  getSanityPostSlugs,
+  getSanityTopLevelPageSlugs,
+} from "@/sanity/lib/content";
+import { sanityImageUrl } from "@/sanity/lib/image";
 
 /**
  * The clinic's long-form articles, at the same top-level URLs the live site
@@ -21,7 +30,14 @@ export async function generateStaticParams() {
   // Through the database layer, so an article written in the dashboard
   // gets a prerendered page at the next build; between builds an unlisted
   // slug still renders on demand and is cached from then on.
-  return (await getArticles()).map((article) => ({ slug: article.slug }));
+  const [articles, sanityPostSlugs, sanityPageSlugs] = await Promise.all([
+    getArticles(),
+    getSanityPostSlugs(),
+    getSanityTopLevelPageSlugs(),
+  ]);
+  return Array.from(
+    new Set([...articles.map((article) => article.slug), ...sanityPostSlugs, ...sanityPageSlugs]),
+  ).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -30,6 +46,40 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const sanityPage = await getSanityPage(`/${slug}`);
+  if (sanityPage) {
+    const title = sanityPage.seo?.title || sanityPage.title;
+    const image = sanityImageUrl(sanityPage.seo?.image);
+    return {
+      title,
+      description: sanityPage.seo?.description,
+      alternates: { canonical: sanityPage.path },
+      robots: sanityPage.seo?.noIndex ? { index: false, follow: false } : undefined,
+      openGraph: {
+        title,
+        description: sanityPage.seo?.description,
+        images: image ? [{ url: image, alt: sanityPage.seo?.image?.alt || sanityPage.title }] : undefined,
+      },
+    };
+  }
+  const sanityPost = await getSanityPost(slug);
+  if (sanityPost) {
+    const title = sanityPost.seo?.title || sanityPost.title;
+    const description = sanityPost.seo?.description || sanityPost.excerpt;
+    const image = sanityImageUrl(sanityPost.seo?.image || sanityPost.coverImage);
+    return {
+      title,
+      description,
+      alternates: { canonical: `/${sanityPost.slug}` },
+      robots: sanityPost.seo?.noIndex ? { index: false, follow: false } : undefined,
+      openGraph: {
+        title,
+        description,
+        type: "article",
+        images: image ? [{ url: image, alt: sanityPost.coverImage?.alt || sanityPost.title }] : undefined,
+      },
+    };
+  }
   const article = await getArticleBySlug(slug);
   if (!article) return {};
 
@@ -51,6 +101,38 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const sanityPage = await getSanityPage(`/${slug}`);
+  if (sanityPage) return <PageBuilder sections={sanityPage.sections} />;
+
+  const sanityPost = await getSanityPost(slug);
+  if (sanityPost) {
+    const image = sanityImageUrl(sanityPost.coverImage) || "/images/clinic/clinic-04.jpg";
+    return (
+      <>
+        <PageHero
+          eyebrow={sanityPost.categories?.[0]?.title || "Our Blog"}
+          title={sanityPost.title}
+          description={sanityPost.excerpt}
+          crumbs={[
+            { label: "Home", href: "/" },
+            { label: "Our Blog", href: "/our-blog" },
+            { label: sanityPost.title },
+          ]}
+          image={image}
+          imageAlt={sanityPost.coverImage?.alt || "Healthy Look Aesthetic clinic, Ubud"}
+        />
+        <section className="bg-paper py-section">
+          <Container>
+            <article className="max-w-3xl">
+              <SanityPortableText value={sanityPost.body} />
+            </article>
+          </Container>
+        </section>
+        <BlogTeaser />
+        <BookingSection />
+      </>
+    );
+  }
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 

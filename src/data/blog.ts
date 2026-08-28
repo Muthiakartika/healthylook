@@ -30,6 +30,10 @@
 export type BlogPost = {
   title: string;
   href: string;
+  /** Optional CMS-authored cover image URL for standalone articles. */
+  image?: string;
+  /** Optional CMS category label shown on article cards. */
+  categoryLabel?: string;
   /** Set when the post's destination is a treatment page. */
   treatmentSlug?: string;
   /**

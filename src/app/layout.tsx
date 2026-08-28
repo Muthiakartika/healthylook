@@ -9,6 +9,7 @@ import { buildNavItems } from "@/components/header/navItems";
 import { getTreatments } from "@/lib/site-content";
 import StickyCTA from "@/components/ui/StickyCTA";
 import WhatsAppFloatingButton from "@/components/ui/WhatsAppFloatingButton";
+import SanityRuntime from "@/components/sanity/SanityRuntime";
 import {
   SITE_NAME,
   SITE_DESCRIPTION,
@@ -195,6 +196,7 @@ export default async function RootLayout({
           <StickyCTA />
           <WhatsAppFloatingButton />
         </PublicChrome>
+        <SanityRuntime />
       </body>
     </html>
   );

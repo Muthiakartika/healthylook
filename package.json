@@ -9,9 +9,17 @@
     "lint": "eslint",
     "db:check": "node scripts/db.cjs check",
     "db:migrate": "node scripts/db.cjs migrate",
-    "db:admin": "node scripts/db.cjs admin"
+    "db:admin": "node scripts/db.cjs admin",
+    "sanity": "sanity",
+    "sanity:deploy": "sanity deploy",
+    "sanity:migrate": "sanity exec scripts/sanity/migrate.ts --with-user-token",
+    "sanity:typegen": "sanity schema extract --path=./src/sanity/schema.json && sanity typegen generate"
   },
   "dependencies": {
+    "@portabletext/react": "^8.0.1",
+    "@portabletext/types": "^4.0.2",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^4.22.1",
     "@tiptap/core": "^2.27.2",
     "@tiptap/extension-link": "^2.27.2",
     "@tiptap/pm": "^2.27.2",
@@ -19,10 +27,13 @@
     "@tiptap/starter-kit": "^2.27.2",
     "@vercel/blob": "^2.8.0",
     "next": "^15.1.0",
+    "next-sanity": "^11.6.13",
     "pg": "^8.23.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "server-only": "^0.0.1"
+    "sanity": "^4.22.1",
+    "server-only": "^0.0.1",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

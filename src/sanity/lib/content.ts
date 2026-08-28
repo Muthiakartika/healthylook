@@ -1,0 +1,179 @@
+import type {
+  SanityDoctorDocument,
+  SanityPage,
+  SanityPost,
+  SanityTestimonialDocument,
+  SanityTreatmentDocument,
+} from "@/sanity/types";
+import type { Treatment } from "@/data/treatments";
+import type { Doctor } from "@/data/doctors";
+import type { PortableTextBlock } from "@portabletext/types";
+import { sanityFetch } from "@/sanity/lib/client";
+import {
+  allPostSlugsQuery,
+  allPagePathsQuery,
+  allPostsQuery,
+  pageByPathQuery,
+  postBySlugQuery,
+  allDoctorsQuery,
+  allTestimonialsQuery,
+  allTreatmentsQuery,
+} from "@/sanity/lib/queries";
+import { sanityImageUrl } from "@/sanity/lib/image";
+
+function normalizePath(path: string): string {
+  if (!path || path === "/") return "/";
+  return `/${path.replace(/^\/+|\/+$/g, "")}`;
+}
+
+export async function getSanityPage(path: string): Promise<SanityPage | null> {
+  const normalized = normalizePath(path);
+  const page = await sanityFetch<SanityPage>(pageByPathQuery, {
+    params: { path: normalized },
+    tags: ["sanity", "sanity:page", `sanity:page:${normalized}`],
+  });
+
+  if (!page?.sections?.length) return null;
+  return page;
+}
+
+export async function getSanityTopLevelPageSlugs(): Promise<string[]> {
+  const paths =
+    (await sanityFetch<string[]>(allPagePathsQuery, {
+      tags: ["sanity", "sanity:page"],
+    })) ?? [];
+  return paths
+    .map(normalizePath)
+    .filter((path) => path !== "/" && path.slice(1).includes("/") === false)
+    .map((path) => path.slice(1));
+}
+
+export async function getSanityPost(slug: string): Promise<SanityPost | null> {
+  return sanityFetch<SanityPost>(postBySlugQuery, {
+    params: { slug },
+    tags: ["sanity", "sanity:post", `sanity:post:${slug}`],
+  });
+}
+
+export async function getSanityPosts(): Promise<SanityPost[] | null> {
+  return sanityFetch<SanityPost[]>(allPostsQuery, {
+    tags: ["sanity", "sanity:post"],
+  });
+}
+
+export async function getSanityPostSlugs(): Promise<string[]> {
+  return (
+    (await sanityFetch<string[]>(allPostSlugsQuery, {
+      tags: ["sanity", "sanity:post"],
+    })) ?? []
+  );
+}
+
+export type SanityTreatmentExtras = {
+  sections: NonNullable<SanityTreatmentDocument["sections"]>;
+  faqs: Array<{ question: string; answer: string }>;
+  featuredOnHomepage?: boolean;
+  featuredOrder?: number;
+  seo?: SanityTreatmentDocument["seo"];
+};
+
+function portableTextToPlainText(blocks: PortableTextBlock[]): string {
+  if (!Array.isArray(blocks)) return "";
+  return blocks
+    .map((block) => {
+      if (!block || typeof block !== "object" || !("children" in block)) return "";
+      const children = (block as { children?: Array<{ text?: string }> }).children;
+      return children?.map((child) => child.text || "").join("") || "";
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+export async function getSanityTreatments(): Promise<
+  { treatments: Treatment[]; extras: Map<string, SanityTreatmentExtras> } | null
+> {
+  const documents = await sanityFetch<SanityTreatmentDocument[]>(allTreatmentsQuery, {
+    tags: ["sanity", "sanity:treatment"],
+  });
+  if (!documents?.length) return null;
+
+  const extras = new Map<string, SanityTreatmentExtras>();
+  const treatments = documents.map((document): Treatment => {
+    extras.set(document.slug, {
+      sections: document.sections ?? [],
+      faqs: (document.faqs ?? []).map((item) => ({
+        question: item.question,
+        answer: portableTextToPlainText(item.answer),
+      })),
+      featuredOnHomepage: document.featuredOnHomepage,
+      featuredOrder: document.featuredOrder,
+      seo: document.seo,
+    });
+
+    return {
+      slug: document.slug,
+      path: document.path,
+      name: document.name,
+      h1: document.h1,
+      category: document.category,
+      shortDescription: document.shortDescription,
+      treatmentTime: document.treatmentTime,
+      treatmentTimeShort: document.treatmentTimeShort,
+      anaesthesia: document.anaesthesia,
+      downtime: document.downtime,
+      initialResult: document.initialResult,
+      fullResult: document.fullResult,
+      performedBy: document.performedBy,
+      image: sanityImageUrl(document.image) ?? undefined,
+      startingPrice: document.startingPrice,
+      priceUnit: document.priceUnit,
+      priceGroups: document.priceGroups?.map((group) => ({
+        title: group.title,
+        note: group.note,
+        rows: group.rows.map((row) => ({
+          label: row.label,
+          price: typeof row.price === "number" ? row.price : null,
+          unit: row.unit,
+        })),
+      })),
+      intro: document.intro,
+      popularAreas: document.popularAreas,
+      popularAreasTitle: document.popularAreasTitle,
+    };
+  });
+
+  return { treatments, extras };
+}
+
+export async function getSanityTreatmentExtras(
+  slug: string,
+): Promise<SanityTreatmentExtras | null> {
+  return (await getSanityTreatments())?.extras.get(slug) ?? null;
+}
+
+export async function getSanityDoctors(): Promise<Doctor[] | null> {
+  const documents = await sanityFetch<SanityDoctorDocument[]>(allDoctorsQuery, {
+    tags: ["sanity", "sanity:doctor"],
+  });
+  if (!documents?.length) return null;
+  return documents.flatMap((document) => {
+    const photo = sanityImageUrl(document.photo);
+    if (!photo) return [];
+    return [{
+      id: document._id,
+      name: document.name,
+      shortName: document.shortName,
+      title: document.title,
+      bio: document.bio,
+      photo,
+      registration: { number: document.registrationNumber, url: document.registryUrl },
+    }];
+  });
+}
+
+export async function getSanityTestimonials(): Promise<SanityTestimonialDocument[] | null> {
+  const documents = await sanityFetch<SanityTestimonialDocument[]>(allTestimonialsQuery, {
+    tags: ["sanity", "sanity:testimonial"],
+  });
+  return documents?.length ? documents : null;
+}

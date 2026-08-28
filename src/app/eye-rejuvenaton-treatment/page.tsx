@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import TreatmentDetail from "@/components/treatment/TreatmentDetail";
 import { getTreatmentBySlug } from "@/lib/site-content";
+import ManagedPage from "@/components/sanity/ManagedPage";
+import { getSanityPage } from "@/sanity/lib/content";
+import { resolvePageMetadata } from "@/sanity/lib/metadata";
 import { TREATMENT_SEO } from "@/data/seo";
 
 /**
@@ -27,16 +30,25 @@ const SLUG = "eye-rejuvenation";
 // Text lives in src/data/seo.ts, keyed by the treatment slug — edit it there.
 const seo = TREATMENT_SEO[SLUG];
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: { absolute: seo.title },
   description: seo.description,
   alternates: { canonical: "/eye-rejuvenaton-treatment" },
   openGraph: { title: seo.title, description: seo.description },
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  return resolvePageMetadata("/eye-rejuvenaton-treatment", fallbackMetadata);
+}
+
 export default async function EyeRejuvenationPage() {
+  const sanityPage = await getSanityPage("/eye-rejuvenaton-treatment");
   const treatment = await getTreatmentBySlug(SLUG);
   if (!treatment) notFound();
 
-  return <TreatmentDetail treatment={treatment} />;
+  return (
+    <ManagedPage page={sanityPage}>
+      <TreatmentDetail treatment={treatment} />
+    </ManagedPage>
+  );
 }

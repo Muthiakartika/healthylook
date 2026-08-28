@@ -29,6 +29,13 @@ import {
   hasOwnTestimonials as sourceHasOwnTestimonials,
   type Testimonial,
 } from "@/data/testimonials";
+import { getSanityPosts } from "@/sanity/lib/content";
+import {
+  getSanityDoctors,
+  getSanityTestimonials,
+  getSanityTreatments,
+} from "@/sanity/lib/content";
+import { sanityImageUrl } from "@/sanity/lib/image";
 
 /**
  * What the PUBLIC site reads. One function per collection, each returning
@@ -64,8 +71,19 @@ import {
  */
 
 export async function getTreatments(): Promise<Treatment[]> {
-  const rows = await publishedDocuments<Treatment>("treatments");
-  return rows ? rows.map((row) => row.data) : sourceTreatments;
+  const [rows, sanity] = await Promise.all([
+    publishedDocuments<Treatment>("treatments"),
+    getSanityTreatments(),
+  ]);
+  const base = rows ? rows.map((row) => row.data) : sourceTreatments;
+  if (!sanity) return base;
+
+  // Overlay by slug so Sanity can be populated gradually without making
+  // the rest of the catalogue disappear from navigation and pricing.
+  const incoming = new Map(sanity.treatments.map((treatment) => [treatment.slug, treatment]));
+  const merged = base.map((treatment) => incoming.get(treatment.slug) ?? treatment);
+  const known = new Set(base.map((treatment) => treatment.slug));
+  return [...merged, ...sanity.treatments.filter((treatment) => !known.has(treatment.slug))];
 }
 
 export async function getTreatmentBySlug(slug: string): Promise<Treatment | undefined> {
@@ -93,6 +111,19 @@ export async function getPopularTreatments(
   category: TreatmentCategoryId,
 ): Promise<Treatment[]> {
   const all = await getTreatments();
+  const sanity = await getSanityTreatments();
+  const featured = sanity?.treatments
+    .filter((treatment) => {
+      const extras = sanity.extras.get(treatment.slug);
+      return treatment.category === category && extras?.featuredOnHomepage;
+    })
+    .sort(
+      (a, b) =>
+        (sanity.extras.get(a.slug)?.featuredOrder ?? Number.MAX_SAFE_INTEGER) -
+        (sanity.extras.get(b.slug)?.featuredOrder ?? Number.MAX_SAFE_INTEGER),
+    );
+  if (featured?.length) return featured;
+
   return HOME_POPULAR_SLUGS.map((slug) => all.find((t) => t.slug === slug)).filter(
     (t): t is Treatment => t !== undefined && t.category === category,
   );
@@ -151,15 +182,28 @@ export async function getArticleBySlug(slug: string): Promise<NormalizedArticle 
  *    itself, since no curated alternative exists for it)
  */
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const articles = await getArticles();
+  const [articles, sanityPosts] = await Promise.all([getArticles(), getSanityPosts()]);
   const articleBySlug = new Map(articles.map((article) => [article.slug, article]));
 
+  const sanityEntries: BlogPost[] = (sanityPosts ?? []).map((post) => ({
+    title: post.title,
+    href: `/${post.slug}`,
+    articleSlug: post.slug,
+    image: sanityImageUrl(post.coverImage) ?? undefined,
+    categoryLabel: post.categories?.[0]?.title,
+  }));
+  const sanitySlugs = new Set(sanityEntries.map((post) => post.articleSlug));
+
   const curated = curatedBlogPosts.filter(
-    (post) => !post.articleSlug || articleBySlug.has(post.articleSlug),
+    (post) =>
+      !post.articleSlug ||
+      (!sanitySlugs.has(post.articleSlug) && articleBySlug.has(post.articleSlug)),
   );
 
   const knownSlugs = new Set(
-    curated.map((post) => post.articleSlug).filter((slug): slug is string => Boolean(slug)),
+    [...sanityEntries, ...curated]
+      .map((post) => post.articleSlug)
+      .filter((slug): slug is string => Boolean(slug)),
   );
   const uncurated: BlogPost[] = articles
     .filter((article) => !knownSlugs.has(article.slug))
@@ -169,7 +213,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       articleSlug: article.slug,
     }));
 
-  return [...uncurated, ...curated];
+  return [...sanityEntries, ...uncurated, ...curated];
 }
 
 /**
@@ -180,6 +224,10 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 export async function getTreatmentSections(
   slug: string,
 ): Promise<TreatmentSection[]> {
+  const sanity = await getSanityTreatments();
+  const sanitySections = sanity?.extras.get(slug)?.sections;
+  if (sanitySections?.length) return sanitySections;
+
   const rows = await publishedDocuments<{ slug: string; sections: TreatmentSection[] }>(
     "treatment-sections",
   );
@@ -188,6 +236,10 @@ export async function getTreatmentSections(
 }
 
 export async function getTreatmentFaqs(slug: string): Promise<TreatmentFaq[]> {
+  const sanity = await getSanityTreatments();
+  const sanityFaqs = sanity?.extras.get(slug)?.faqs;
+  if (sanityFaqs?.length) return sanityFaqs;
+
   const rows = await publishedDocuments<{ slug: string; faqs: TreatmentFaq[] }>(
     "treatment-faqs",
   );
@@ -196,8 +248,16 @@ export async function getTreatmentFaqs(slug: string): Promise<TreatmentFaq[]> {
 }
 
 export async function getDoctors(): Promise<Doctor[]> {
-  const rows = await publishedDocuments<Doctor>("doctors");
-  return rows ? rows.map((row) => row.data) : sourceDoctors;
+  const [rows, sanity] = await Promise.all([
+    publishedDocuments<Doctor>("doctors"),
+    getSanityDoctors(),
+  ]);
+  const base = rows ? rows.map((row) => row.data) : sourceDoctors;
+  if (!sanity) return base;
+  const incoming = new Map(sanity.map((doctor) => [doctor.name, doctor]));
+  const merged = base.map((doctor) => incoming.get(doctor.name) ?? doctor);
+  const known = new Set(base.map((doctor) => doctor.name));
+  return [...merged, ...sanity.filter((doctor) => !known.has(doctor.name))];
 }
 
 /**
@@ -219,12 +279,37 @@ type StoredTestimonial = Testimonial & {
 };
 
 export async function getTestimonials(): Promise<Testimonial[]> {
-  const rows = await publishedDocuments<StoredTestimonial>("testimonials");
-  return rows ? rows.map((row) => row.data) : sourceTestimonials;
+  const [rows, sanity] = await Promise.all([
+    publishedDocuments<StoredTestimonial>("testimonials"),
+    getSanityTestimonials(),
+  ]);
+  const base = rows ? rows.map((row) => row.data) : sourceTestimonials;
+  if (!sanity) return base;
+  const incoming: StoredTestimonial[] = sanity.map((review) => ({
+    id: review._id.replace(/^testimonial\./, ""),
+    name: review.name,
+    quote: review.quote,
+    source: review.source,
+    featured: review.featured,
+    treatments: review.treatmentSlugs,
+  }));
+  const byId = new Map(incoming.map((review) => [review.id, review]));
+  const merged = base.map((review) => byId.get(review.id) ?? review);
+  const known = new Set(base.map((review) => review.id));
+  return [...merged, ...incoming.filter((review) => !known.has(review.id))];
 }
 
 /** The clinic-wide set, in the order the carousel shows them. */
 export async function getFeaturedTestimonials(): Promise<Testimonial[]> {
+  const sanity = await getSanityTestimonials();
+  const sanityFeatured = sanity?.filter((review) => review.featured).map((review) => ({
+    id: review._id.replace(/^testimonial\./, ""),
+    name: review.name,
+    quote: review.quote,
+    source: review.source,
+  }));
+  if (sanityFeatured?.length) return sanityFeatured;
+
   const rows = await publishedDocuments<StoredTestimonial>("testimonials");
   if (!rows) return sourceGeneralTestimonials;
   const featured = rows.filter((row) => row.data.featured).map((row) => row.data);
@@ -234,6 +319,17 @@ export async function getFeaturedTestimonials(): Promise<Testimonial[]> {
 }
 
 export async function getTestimonialsForTreatment(slug: string): Promise<Testimonial[]> {
+  const sanity = await getSanityTestimonials();
+  const sanityOwn = sanity
+    ?.filter((review) => review.treatmentSlugs?.includes(slug))
+    .map((review) => ({
+      id: review._id.replace(/^testimonial\./, ""),
+      name: review.name,
+      quote: review.quote,
+      source: review.source,
+    }));
+  if (sanityOwn?.length) return sanityOwn;
+
   const rows = await publishedDocuments<StoredTestimonial>("testimonials");
   if (!rows) return sourceTestimonialsForTreatment(slug);
   const own = rows
@@ -249,6 +345,9 @@ export async function getTestimonialsForTreatment(slug: string): Promise<Testimo
  * "Profhilo reviews" would be a claim none of the reviewers made.
  */
 export async function hasOwnTestimonials(slug: string): Promise<boolean> {
+  const sanity = await getSanityTestimonials();
+  if (sanity?.some((review) => review.treatmentSlugs?.includes(slug))) return true;
+
   const rows = await publishedDocuments<StoredTestimonial>("testimonials");
   if (!rows) return sourceHasOwnTestimonials(slug);
   return rows.some((row) => row.data.treatments?.includes(slug));

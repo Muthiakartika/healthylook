@@ -33,7 +33,11 @@ export default async function BlogTeaser() {
     const category = treatment
       ? TREATMENT_CATEGORIES.find((candidate) => candidate.id === treatment.category)
       : undefined;
-    return { post, image: treatment?.image, categoryLabel: category?.label };
+    return {
+      post,
+      image: post.image ?? treatment?.image,
+      categoryLabel: post.categoryLabel ?? category?.label,
+    };
   });
 
   return (

@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import TreatmentDetail from "@/components/treatment/TreatmentDetail";
 import { getTreatments, getTreatmentBySlug } from "@/lib/site-content";
 import { getTreatmentSeo } from "@/data/seo";
+import PageBuilder from "@/components/sanity/PageBuilder";
+import { getSanityPage } from "@/sanity/lib/content";
+import { resolveTreatmentMetadata } from "@/sanity/lib/metadata";
 
 /**
  * /ubud-bali/[...slug] — treatment detail
@@ -53,12 +56,14 @@ export async function generateMetadata({
 
   // Title/description text lives in src/data/seo.ts — edit it there.
   const seo = getTreatmentSeo(treatment.slug, treatment);
-  return {
+  const path = `/ubud-bali/${treatment.slug}`;
+  const fallback: Metadata = {
     title: { absolute: seo.title },
     description: seo.description,
-    alternates: { canonical: `/ubud-bali/${treatment.slug}` },
+    alternates: { canonical: path },
     openGraph: { title: seo.title, description: seo.description },
   };
+  return resolveTreatmentMetadata(treatment.slug, path, fallback);
 }
 
 export default async function TreatmentPage({
@@ -67,7 +72,11 @@ export default async function TreatmentPage({
   params: Promise<{ slug: string[] }>;
 }) {
   const { slug } = await params;
-  const treatment = await getTreatmentBySlug(slug.join("/"));
+  const joinedSlug = slug.join("/");
+  const sanityPage = await getSanityPage(`/ubud-bali/${joinedSlug}`);
+  if (sanityPage) return <PageBuilder sections={sanityPage.sections} />;
+
+  const treatment = await getTreatmentBySlug(joinedSlug);
   // `treatment.path` means this treatment's real URL is elsewhere, so this
   // path is not one of its addresses — 404 rather than serve a second copy.
   // Filtering generateStaticParams is not enough on its own: an unlisted

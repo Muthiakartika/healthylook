@@ -26,6 +26,6 @@ import { usePathname } from "next/navigation";
  */
 export default function PublicChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/studio")) return null;
   return <>{children}</>;
 }
