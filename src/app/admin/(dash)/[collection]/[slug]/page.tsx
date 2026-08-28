@@ -88,6 +88,8 @@ export default async function EditDocumentPage({
           data={isNew ? {} : doc!.data}
           status={isNew ? "draft" : doc!.status}
           library={library}
+          uploadsEnabled={Boolean(process.env.BLOB_READ_WRITE_TOKEN)}
+          updatedAt={isNew ? undefined : doc!.updated_at}
         />
       </div>
 

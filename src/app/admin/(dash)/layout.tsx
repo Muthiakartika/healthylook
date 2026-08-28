@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
 import SignOutButton from "../SignOutButton";
+import AdminSidebarNav from "./AdminSidebarNav";
 
 /**
  * Everything under /admin except the login page runs inside this.
@@ -40,53 +41,42 @@ export default async function DashboardLayout({
     { href: "/admin/import", label: "Import", adminOnly: true },
     { href: "/admin/users", label: "Team", adminOnly: true },
   ];
+  const visibleNav = nav.filter((item) => !item.adminOnly || user.role === "admin");
 
   return (
-    <div className="min-h-svh bg-background">
-      <header className="border-b border-hairline bg-paper">
-        <div className="mx-auto flex w-full max-w-page items-center gap-8 px-gutter py-4">
+    <div className="flex min-h-svh bg-background">
+      <aside className="flex w-60 shrink-0 flex-col bg-[var(--color-admin-sidebar)]">
+        <Link
+          href="/admin"
+          className="flex h-16 shrink-0 items-center px-6 font-sans text-caption font-semibold uppercase tracking-caps-wide text-white"
+        >
+          Healthy Look
+        </Link>
+
+        <AdminSidebarNav items={visibleNav} />
+      </aside>
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex h-16 shrink-0 items-center justify-end gap-5 border-b border-hairline bg-paper px-8">
           <Link
-            href="/admin"
-            className="font-sans text-caption font-semibold uppercase tracking-caps-wide text-primary-strong"
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans text-caption uppercase tracking-caps text-muted transition-colors hover:text-primary"
           >
-            Healthy Look
+            View site
           </Link>
-
-          <nav className="flex flex-1 flex-wrap items-center gap-x-6 gap-y-2">
-            {nav
-              .filter((item) => !item.adminOnly || user.role === "admin")
-              .map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="font-sans text-label text-text-secondary transition-colors hover:text-primary-strong"
-                >
-                  {item.label}
-                </Link>
-              ))}
-          </nav>
-
-          <div className="flex items-center gap-5">
-            <Link
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-caption uppercase tracking-caps text-muted transition-colors hover:text-primary"
-            >
-              View site
-            </Link>
-            <span className="hidden font-sans text-label text-text-secondary sm:inline">
-              {user.name}
-              <span className="ml-2 text-caption uppercase tracking-caps text-muted">
-                {user.role}
-              </span>
+          <span className="hidden font-sans text-label text-text-secondary sm:inline">
+            {user.name}
+            <span className="ml-2 text-caption uppercase tracking-caps text-muted">
+              {user.role}
             </span>
-            <SignOutButton />
-          </div>
-        </div>
-      </header>
+          </span>
+          <SignOutButton />
+        </header>
 
-      <main className="mx-auto w-full max-w-page px-gutter py-10">{children}</main>
+        <main className="mx-auto w-full max-w-page px-gutter py-10">{children}</main>
+      </div>
     </div>
   );
 }

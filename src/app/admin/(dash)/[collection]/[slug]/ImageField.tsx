@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type DragEvent } from "react";
+import { IMAGE_ACCEPT, uploadImageFile } from "../../media/uploadImage";
 
 /**
- * An image field: type a path, or pick from what has been uploaded.
+ * An image field: drop or upload a file, type a path, or pick from what
+ * has been uploaded already.
  *
  * ── WHY THE TEXT INPUT STAYS ──────────────────────────────────────────
  * Most images on this site are not uploads — they are the clinic's own
  * photographs in /public/images, referenced by path. A picker that only
  * offered the library would make those unreachable, so the stored value is
- * always a plain string and the picker just writes into it.
+ * always a plain string and the picker/dropzone just write into it.
  *
  * The preview is deliberately un-optimised (<img>, not next/image): this is
  * a staff screen, and routing an admin thumbnail through the image
@@ -22,15 +24,33 @@ export default function ImageField({
   initial,
   help,
   library,
+  uploadsEnabled,
 }: {
   name: string;
   label: string;
   initial: string;
   help?: string;
   library: { url: string; filename: string; alt: string }[];
+  uploadsEnabled: boolean;
 }) {
   const [value, setValue] = useState(initial);
   const [picking, setPicking] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  async function handleFiles(files: FileList | null) {
+    const file = files?.[0];
+    if (!file) return;
+
+    setUploadError(null);
+    setUploading(file.name);
+    const result = await uploadImageFile(file);
+    setUploading(null);
+
+    if ("error" in result) setUploadError(result.error);
+    else setValue(result.url);
+  }
 
   return (
     <div>
@@ -46,6 +66,43 @@ export default function ImageField({
           className="mt-2 w-full border-b border-hairline bg-transparent py-2.5 font-sans text-copy text-ink outline-none transition-colors focus:border-primary"
         />
       </label>
+
+      {uploadsEnabled && (
+        <label
+          onDragOver={(e: DragEvent<HTMLLabelElement>) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e: DragEvent<HTMLLabelElement>) => {
+            e.preventDefault();
+            setDragOver(false);
+            void handleFiles(e.dataTransfer.files);
+          }}
+          className={`mt-3 flex cursor-pointer flex-col items-center justify-center border border-dashed px-4 py-6 text-center transition-colors ${
+            dragOver ? "border-primary bg-wash" : "border-hairline bg-paper hover:border-primary"
+          }`}
+        >
+          <input
+            type="file"
+            accept={IMAGE_ACCEPT}
+            className="sr-only"
+            onChange={(e) => void handleFiles(e.target.files)}
+          />
+          <span className="font-sans text-label text-ink">
+            {uploading ? `Uploading ${uploading}…` : "Drop an image here, or click to upload one"}
+          </span>
+          <span className="mt-1 font-sans text-micro text-muted">
+            JPEG, PNG, WebP or AVIF · up to 12 MB
+          </span>
+        </label>
+      )}
+
+      {uploadError && (
+        <p role="alert" className="mt-3 font-sans text-micro leading-relaxed text-primary-strong">
+          {uploadError}
+        </p>
+      )}
 
       <div className="mt-3 flex flex-wrap items-center gap-4">
         {library.length > 0 && (

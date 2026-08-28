@@ -40,12 +40,120 @@
 // where the live page's own outline is flat. How those levels are *rendered*
 // is a separate decision and lives in ArticleBody.tsx.
 
+/**
+ * The legacy, flat block shape — still what's sitting in the database and
+ * in the `articles` array below. Nothing here needs to be rewritten by
+ * hand: `normalizeArticleBlocks` below upgrades it at read time.
+ */
 export type ArticleBlock =
-  | { type: "heading"; level: 2 | 3; text: string }
+  | { type: "heading"; level: 2 | 3; text: string; id?: string }
   | { type: "paragraph"; text: string }
   | { type: "list"; items: string[] }
   | { type: "table"; head: string[]; rows: string[][] }
   | { type: "faq"; items: { question: string; answer: string }[] };
+
+/*
+ * ── RICH TEXT ────────────────────────────────────────────────────────
+ * `heading` / `paragraph` / `list` are edited as one continuous rich-text
+ * canvas now (bold, italic, headings, links, bullet lists via a
+ * selection-triggered toolbar — see RichTextBlockField.tsx), not as
+ * separate typed blocks. What's stored for that canvas is TipTap's own
+ * document JSON — this is ProseMirror's stable `Node.toJSON()` shape
+ * (`{type, attrs?, content?, text?, marks?}`), not something invented
+ * here. `table` and `faq` keep their existing structured editing and
+ * rendering entirely unchanged; they're just no longer part of the same
+ * flowing-text run.
+ */
+export type TipTapMark = { type: "link"; attrs: { href: string } } | { type: "bold" } | { type: "italic" };
+export type TipTapTextNode = { type: "text"; text: string; marks?: TipTapMark[] };
+export type TipTapNode = {
+  type: string;
+  attrs?: Record<string, unknown>;
+  content?: TipTapNode[];
+  text?: string;
+  marks?: TipTapMark[];
+};
+
+export type RichTextBlock = { type: "richtext"; content: { type: "doc"; content: TipTapNode[] } };
+
+/** What every reader of `Article.blocks` actually gets, after normalization. */
+export type NormalizedBlock = RichTextBlock | Extract<ArticleBlock, { type: "table" | "faq" }>;
+
+/** [label](href) — the one markup an editor could type in the old plain-text
+ *  paragraph editor. Converted into a real TipTap link mark on migration,
+ *  matching the identical pattern ArticleBody.tsx uses to parse it live. */
+const INLINE_LINK = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+
+function textToInlineNodes(text: string): TipTapTextNode[] {
+  const nodes: TipTapTextNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  INLINE_LINK.lastIndex = 0;
+  while ((match = INLINE_LINK.exec(text))) {
+    if (match.index > lastIndex) nodes.push({ type: "text", text: text.slice(lastIndex, match.index) });
+    const [whole, label, href] = match;
+    nodes.push({ type: "text", text: label, marks: [{ type: "link", attrs: { href } }] });
+    lastIndex = match.index + whole.length;
+  }
+  if (lastIndex < text.length || nodes.length === 0) nodes.push({ type: "text", text: text.slice(lastIndex) });
+  return nodes;
+}
+
+function legacyToTipTapNode(block: ArticleBlock): TipTapNode | null {
+  if (block.type === "heading") {
+    return { type: "heading", attrs: { level: block.level, id: block.id ?? null }, content: textToInlineNodes(block.text) };
+  }
+  if (block.type === "paragraph") {
+    return { type: "paragraph", content: textToInlineNodes(block.text) };
+  }
+  if (block.type === "list") {
+    return {
+      type: "bulletList",
+      content: block.items.map((item) => ({
+        type: "listItem",
+        content: [{ type: "paragraph", content: textToInlineNodes(item) }],
+      })),
+    };
+  }
+  return null;
+}
+
+/**
+ * Upgrades a stored `blocks` array to the current shape.
+ *
+ * ── WHY THIS RUNS ON EVERY READ, NOT ONCE AS A MIGRATION ───────────────
+ * There is no destructive database migration here. A row saved by the old
+ * editor still has `heading`/`paragraph`/`list` blocks sitting in Postgres
+ * exactly as it was written; a row saved by the new editor already has
+ * `richtext` blocks. Both have to keep working, forever, with no flag day
+ * — so every reader normalizes on the way in instead. That also means
+ * this function MUST be idempotent: an already-`richtext`/`table`/`faq`
+ * block passes straight through unchanged rather than being re-wrapped.
+ */
+export function normalizeArticleBlocks(blocks: (ArticleBlock | NormalizedBlock)[]): NormalizedBlock[] {
+  const out: NormalizedBlock[] = [];
+  let run: TipTapNode[] = [];
+
+  const flush = () => {
+    if (run.length > 0) {
+      out.push({ type: "richtext", content: { type: "doc", content: run } });
+      run = [];
+    }
+  };
+
+  for (const block of blocks) {
+    if (block.type === "heading" || block.type === "paragraph" || block.type === "list") {
+      const node = legacyToTipTapNode(block);
+      if (node) run.push(node);
+    } else {
+      flush();
+      out.push(block);
+    }
+  }
+  flush();
+
+  return out;
+}
 
 export type Article = {
   /** Real top-level path on the live site, without slashes. */
@@ -54,8 +162,17 @@ export type Article = {
   title: string;
   /** The live page's meta description. */
   description: string;
+  /** Raw storage shape — always pass this through `normalizeArticleBlocks` before use. */
   blocks: ArticleBlock[];
+  /** Set by an editor in the dashboard — none of the migrated articles have one. */
+  image?: string;
+  /** One of the treatment category ids, or "general" — see ARTICLE_CATEGORY_OPTIONS in lib/collections.ts. */
+  category?: string;
 };
+
+/** What `getArticles()`/`getArticleBySlug()` actually return — every
+ *  caller (ArticleBody, the admin editor) wants this, never the raw `Article`. */
+export type NormalizedArticle = Omit<Article, "blocks"> & { blocks: NormalizedBlock[] };
 
 export const articles: Article[] = [
   {

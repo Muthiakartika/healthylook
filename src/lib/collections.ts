@@ -48,6 +48,14 @@ export type Field = {
   /** Shown in the list view as a column. Keep to two or three per collection. */
   column?: boolean;
   required?: boolean;
+  /**
+   * Renders in the edit screen's right-hand "Post" panel (status, slug,
+   * featured image…) instead of the main content column. Unset fields
+   * default to the main column, which is every field today except the
+   * handful on `articles` that are explicitly metadata rather than body
+   * content.
+   */
+  sidebar?: boolean;
 };
 
 export type Collection = {
@@ -75,6 +83,11 @@ const CATEGORY_OPTIONS = [
   { value: "hair-booster", label: "Hair & Booster" },
 ];
 
+// Articles aren't all about one treatment (some are general skincare or
+// booking guidance), so the treatment categories get a fifth option here
+// rather than forcing every post into one of the four.
+const ARTICLE_CATEGORY_OPTIONS = [...CATEGORY_OPTIONS, { value: "general", label: "General" }];
+
 export const COLLECTIONS: Collection[] = [
   {
     id: "articles",
@@ -94,13 +107,30 @@ export const COLLECTIONS: Collection[] = [
         label: "URL slug",
         type: "text",
         required: true,
+        sidebar: true,
         help: "The path segment, e.g. skin-clinic-bali. Changing this changes the article's URL and breaks any existing link to it.",
+      },
+      {
+        name: "image",
+        label: "Featured image",
+        type: "image",
+        sidebar: true,
+        help: "Shown on the blog index and homepage teaser. Leave empty and the post falls back to its treatment's photo, or a plain tile.",
+      },
+      {
+        name: "category",
+        label: "Category",
+        type: "select",
+        options: ARTICLE_CATEGORY_OPTIONS,
+        column: true,
+        sidebar: true,
       },
       {
         name: "description",
         label: "Meta description",
         type: "textarea",
         rows: 3,
+        sidebar: true,
         help: "The sentence search engines show under the title. Around 150 characters.",
       },
       {

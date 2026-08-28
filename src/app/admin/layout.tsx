@@ -25,5 +25,7 @@ export default function AdminRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  // `data-admin` scopes the WordPress-style palette in globals.css to
+  // everything under /admin, login included.
+  return <div data-admin>{children}</div>;
 }

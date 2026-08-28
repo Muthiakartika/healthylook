@@ -288,6 +288,126 @@
 }
 
 /*
+ * ── ADMIN THEME OVERRIDE ─────────────────────────────────────────────
+ * The dashboard is a tool, not a brand surface, and the client's own
+ * mental model of "a content editor" is WordPress admin — that is what
+ * this re-themes it toward. `[data-admin]` is set once, on the wrapper in
+ * src/app/admin/layout.tsx, covering the login screen and the dashboard
+ * alike.
+ *
+ * No component below needs to change: every bg-primary / text-ink /
+ * border-hairline utility already used across the admin screens compiles
+ * to `var(--color-primary)` etc rather than a baked-in hex (see the note
+ * at the top of this file), so redeclaring the custom property on an
+ * ancestor is enough for the whole subtree to pick up the new value.
+ *
+ * --color-admin-sidebar-* have no public-site equivalent to override —
+ * WP's sidebar chrome is darker than any surface token above — so they
+ * are declared fresh here and reached with bg-[var(--color-admin-sidebar)]
+ * in the one file that needs them.
+ */
+[data-admin] {
+  --color-primary: #2271b1; /* WP admin blue */
+  --color-primary-deep: #135e96;
+  --color-primary-light: #72aee6;
+  --color-primary-strong: #2271b1;
+  --color-primary-hover: #135e96;
+  --color-accent: #72aee6;
+
+  --color-ink: #1d2327;
+  --color-background: #f0f0f1;
+  --color-paper: #ffffff;
+  --color-wash: #f6f7f7;
+
+  --color-text: #3c434a;
+  --color-text-secondary: #50575e;
+  --color-muted: #646970;
+  --color-hairline: #c3c4c7;
+
+  --color-admin-sidebar: #1d2327;
+  --color-admin-sidebar-hover: #2c3338;
+  --color-admin-sidebar-text: #f0f0f1;
+  --color-admin-sidebar-text-muted: #a7aaad;
+  --color-admin-sidebar-active: #2271b1;
+
+  /* WP's own notice colours — used by the SEO checklist's good/warning
+     dots. The public site's --color-success/-error stay untouched: those
+     are the brand's muted olive/rust, and would read as off-brand next to
+     this screen's WP blue/grey. */
+  --color-admin-success: #00a32a;
+  --color-admin-warning: #dba617;
+}
+
+/*
+ * ── RICH-TEXT CANVAS TYPOGRAPHY ──────────────────────────────────────
+ * Plain CSS, not Tailwind classNames, because TipTap generates these
+ * <h2>/<p>/<ul> elements itself inside the contentEditable region — there
+ * is no React element to attach a className to. Mirrors the exact sizes
+ * RichTextRenderer.tsx uses for the same tags on the public page, so
+ * what an editor sees while typing genuinely is what gets published —
+ * the whole point of a WYSIWYG canvas, not an approximation of it.
+ */
+[data-admin] .tiptap-editor {
+  outline: none;
+}
+[data-admin] .tiptap-editor h2 {
+  margin-top: 1.25rem;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: 500;
+  color: var(--color-ink);
+}
+[data-admin] .tiptap-editor h2:first-child {
+  margin-top: 0;
+}
+[data-admin] .tiptap-editor h3 {
+  margin-top: 1rem;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: var(--text-h4);
+  line-height: var(--text-h4--line-height);
+  font-weight: 500;
+  color: var(--color-primary-strong);
+}
+[data-admin] .tiptap-editor h3:first-child {
+  margin-top: 0;
+}
+[data-admin] .tiptap-editor p {
+  margin-top: 0.75rem;
+  font-family: var(--font-poppins), sans-serif;
+  font-size: var(--text-copy);
+  line-height: var(--text-copy--line-height);
+  color: var(--color-text-secondary);
+}
+[data-admin] .tiptap-editor p:first-child {
+  margin-top: 0;
+}
+[data-admin] .tiptap-editor ul {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--color-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: disc;
+}
+[data-admin] .tiptap-editor li {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: var(--text-copy);
+  line-height: var(--text-copy--line-height);
+  color: var(--color-text-secondary);
+}
+[data-admin] .tiptap-editor a {
+  color: var(--color-primary-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+[data-admin] .tiptap-editor strong {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/*
  * Fonts are loaded once in src/app/layout.tsx via next/font/google and
  * exposed there as CSS variables on <html>. This second `@theme inline`
  * block turns those variables into Tailwind font utilities: `font-sans`

@@ -1,26 +1,14 @@
 import Accordion from "@/components/ui/Accordion";
 import Reveal from "@/components/ui/Reveal";
-import type { ArticleBlock } from "@/data/articles";
+import RichTextRenderer from "@/components/shared/RichTextRenderer";
+import type { NormalizedBlock } from "@/data/articles";
 
 /**
- * Renders a migrated article's block list.
- *
- * The blocks come out of the live site's own markup (see src/data/articles.ts),
- * so this component's whole job is to give that content the site's typography
- * rather than to restyle it into something else.
- *
- * Two decisions worth naming:
- *
- *  - Body headings are set in Poppins, not the script face. The data now
- *    mirrors the live site's heading levels exactly, and the live site runs
- *    its FAQ questions at h2 alongside the FAQ label, so some articles carry
- *    up to nineteen h2s. Nineteen 72px script headings would be absurd, and
- *    the type system already answers this: Poppins is the clinical voice for
- *    "anything a patient must read carefully", which a medical FAQ question
- *    plainly is. The script face keeps its job on the page title above.
- *    Levels are separated by size and colour rather than by adding a rule
- *    above each one, which at this density would just be a hairline on
- *    every row.
+ * Renders an article's block list — a mix of free-form rich text
+ * (headings, paragraphs, bullet lists, all one continuous canvas in the
+ * editor — see RichTextRenderer.tsx for why headings are set in Poppins,
+ * not the script face) plus the two structured block types that stay
+ * separate from that flow:
  *
  *  - FAQ blocks go through the site's existing <Accordion>, not a bespoke
  *    list, so an FAQ on an article reads and behaves exactly like an FAQ on a
@@ -39,52 +27,15 @@ import type { ArticleBlock } from "@/data/articles";
  *    reflows into three-character columns on a phone is worse than one that
  *    scrolls.
  */
-export default function ArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
+export default function ArticleBody({ blocks }: { blocks: NormalizedBlock[] }) {
   return (
     <div className="flex flex-col">
       {blocks.map((block, index) => {
         const key = `${block.type}-${index}`;
 
         switch (block.type) {
-          case "heading":
-            return block.level === 2 ? (
-              <Reveal key={key}>
-                <h2 className="mt-14 font-sans text-h3 font-medium leading-tight text-ink first:mt-0">
-                  {block.text}
-                </h2>
-              </Reveal>
-            ) : (
-              <Reveal key={key}>
-                <h3 className="mt-10 font-sans text-h4 font-medium leading-tight text-primary-strong first:mt-0">
-                  {block.text}
-                </h3>
-              </Reveal>
-            );
-
-          case "paragraph":
-            return (
-              <Reveal key={key}>
-                <p className="mt-5 measure-narrow font-sans text-copy leading-body text-text-secondary">
-                  {block.text}
-                </p>
-              </Reveal>
-            );
-
-          case "list":
-            return (
-              <Reveal key={key}>
-                <ul className="mt-6 flex flex-col gap-3 border-l border-hairline pl-6">
-                  {block.items.map((item) => (
-                    <li
-                      key={item}
-                      className="measure-narrow font-sans text-copy leading-body text-text-secondary"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            );
+          case "richtext":
+            return <RichTextRenderer key={key} doc={block.content} />;
 
           case "table":
             return (

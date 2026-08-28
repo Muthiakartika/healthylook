@@ -5,6 +5,7 @@ import { useFormStatus } from "react-dom";
 import { saveDocumentAction, type SaveState } from "../actions";
 import ImageField from "./ImageField";
 import ArticleBlocksField from "./ArticleBlocksField";
+import SeoPanel from "./SeoPanel";
 import type { Collection, Field } from "@/lib/collections";
 
 export type LibraryImage = { url: string; filename: string; alt: string };
@@ -30,14 +31,32 @@ function initial(field: Field, data: Record<string, unknown>): string {
   return String(value);
 }
 
+/** "3 hours ago", falling back to a date once it's been a while — same
+ *  rhythm as WP's own "Last edited" line, without a live-ticking clock. */
+function timeAgo(iso: string): string {
+  const minutes = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+
 function FieldInput({
   field,
   data,
   library,
+  uploadsEnabled,
+  onLiveChange,
 }: {
   field: Field;
   data: Record<string, unknown>;
   library: LibraryImage[];
+  uploadsEnabled: boolean;
+  /** Reports every keystroke's value upward — used only by the field(s) the SEO panel reads. */
+  onLiveChange?: (value: string) => void;
 }) {
   const [value, setValue] = useState(() => initial(field, data));
   const [jsonError, setJsonError] = useState<string | null>(null);
@@ -76,6 +95,7 @@ function FieldInput({
         initial={value}
         help={field.help}
         library={library}
+        uploadsEnabled={uploadsEnabled}
       />
     );
   }
@@ -119,7 +139,13 @@ function FieldInput({
     return (
       <label className="block">
         {label}
-        <textarea name={field.name} rows={field.rows ?? 4} defaultValue={value} className={areaClass} />
+        <textarea
+          name={field.name}
+          rows={field.rows ?? 4}
+          defaultValue={value}
+          onChange={(e) => onLiveChange?.(e.target.value)}
+          className={areaClass}
+        />
         {help}
       </label>
     );
@@ -184,6 +210,7 @@ function FieldInput({
         type={field.type === "number" ? "number" : "text"}
         name={field.name}
         defaultValue={value}
+        onChange={(e) => onLiveChange?.(e.target.value)}
         className={inputClass}
       />
       {help}
@@ -191,32 +218,103 @@ function FieldInput({
   );
 }
 
-function SaveBar({ status }: { status: string }) {
+function SaveButton() {
   const { pending } = useFormStatus();
   return (
-    <div className="sticky bottom-0 -mx-gutter mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-hairline bg-paper px-gutter py-4">
-      <label className="flex items-center gap-3">
-        <span className="font-sans text-caption uppercase tracking-caps text-muted">
-          Status
-        </span>
-        <select
-          name="__status"
-          defaultValue={status}
-          className="border-b border-hairline bg-transparent py-1 font-sans text-label text-ink outline-none focus:border-primary"
-        >
-          <option value="published">Published</option>
-          <option value="draft">Draft — hidden from the site</option>
-        </select>
-      </label>
+    <button
+      type="submit"
+      disabled={pending}
+      className="mt-4 inline-flex w-full items-center justify-center rounded-brand bg-primary-strong px-6 py-2.5 font-sans text-caption font-semibold uppercase tracking-caps-wide text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+    >
+      {pending ? "Saving…" : "Save"}
+    </button>
+  );
+}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="inline-flex items-center rounded-brand bg-primary-strong px-6 py-2.5 font-sans text-caption font-semibold uppercase tracking-caps-wide text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
-        {pending ? "Saving…" : "Save"}
-      </button>
-    </div>
+/** The right-hand "Post" panel: status, save, and everything the collection
+ *  marks as metadata rather than body content — mirrors a WordPress post
+ *  editor's sidebar, built from whichever fields actually exist here. */
+function PostSidebar({
+  status,
+  updatedAt,
+  sidebarFields,
+  data,
+  library,
+  uploadsEnabled,
+  showSeo,
+  seoTitle,
+  seoDescription,
+  onDescriptionChange,
+}: {
+  status: "draft" | "published";
+  updatedAt?: string;
+  sidebarFields: Field[];
+  data: Record<string, unknown>;
+  library: LibraryImage[];
+  uploadsEnabled: boolean;
+  showSeo: boolean;
+  seoTitle: string;
+  seoDescription: string;
+  onDescriptionChange: (value: string) => void;
+}) {
+  return (
+    <aside className="flex flex-col gap-6 lg:sticky lg:top-6">
+      <div className="border border-hairline bg-paper p-5">
+        <h2 className="font-sans text-label font-semibold uppercase tracking-caps text-ink">
+          Post
+        </h2>
+        {updatedAt && (
+          <p className="mt-2 font-sans text-micro text-muted">
+            Last edited {timeAgo(updatedAt)}.
+          </p>
+        )}
+
+        <label className="mt-4 flex items-center justify-between gap-3">
+          <span className="font-sans text-caption uppercase tracking-caps text-muted">
+            Status
+          </span>
+          <select
+            name="__status"
+            defaultValue={status}
+            className="border-b border-hairline bg-transparent py-1 font-sans text-label text-ink outline-none focus:border-primary"
+          >
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </label>
+
+        <SaveButton />
+      </div>
+
+      {showSeo && (
+        <div className="border border-hairline bg-paper p-5">
+          <h2 className="font-sans text-label font-semibold uppercase tracking-caps text-ink">
+            SEO
+          </h2>
+          <p className="mt-1 font-sans text-micro leading-relaxed text-muted">
+            Quick checks, not a real analysis engine — treat these as a nudge, not a rule.
+          </p>
+          <div className="mt-4">
+            <SeoPanel title={seoTitle} description={seoDescription} />
+          </div>
+        </div>
+      )}
+
+      {sidebarFields.length > 0 && (
+        <div className="flex flex-col gap-6 border border-hairline bg-paper p-5">
+          {sidebarFields.map((field) => (
+            <FieldInput
+              key={field.name}
+              field={field}
+              data={data}
+              library={library}
+              uploadsEnabled={uploadsEnabled}
+              onLiveChange={field.name === "description" ? onDescriptionChange : undefined}
+            />
+          ))}
+        </div>
+      )}
+    </aside>
   );
 }
 
@@ -226,6 +324,8 @@ export default function DocumentForm({
   data,
   status,
   library,
+  uploadsEnabled,
+  updatedAt,
 }: {
   collection: Collection;
   slug: string;
@@ -233,38 +333,87 @@ export default function DocumentForm({
   status: "draft" | "published";
   /** Uploaded images, for the picker on image fields. */
   library: LibraryImage[];
+  uploadsEnabled: boolean;
+  /** Omitted for a document that hasn't been saved yet. */
+  updatedAt?: string;
 }) {
   const [state, formAction] = useActionState<SaveState, FormData>(saveDocumentAction, {});
+
+  const titleField = collection.fields.find((f) => f.name === collection.titleField);
+  const descriptionField = collection.fields.find((f) => f.name === "description");
+  const mainFields = collection.fields.filter(
+    (f) => f.name !== collection.titleField && !f.sidebar,
+  );
+  const sidebarFields = collection.fields.filter((f) => f.sidebar);
+  const showSeo = collection.fields.some((f) => f.type === "articleBlocks");
+
+  const [titleLive, setTitleLive] = useState(() => (titleField ? initial(titleField, data) : ""));
+  const [descriptionLive, setDescriptionLive] = useState(() =>
+    descriptionField ? initial(descriptionField, data) : "",
+  );
 
   return (
     <form action={formAction}>
       <input type="hidden" name="__collection" value={collection.id} />
       <input type="hidden" name="__slug" value={slug} />
 
-      <div className="flex max-w-3xl flex-col gap-8">
-        {collection.fields.map((field) => (
-          <FieldInput key={field.name} field={field} data={data} library={library} />
-        ))}
+      <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:items-start">
+        <div className="flex min-w-0 flex-col gap-8">
+          {titleField && (
+            <label className="block border-b border-hairline pb-4">
+              <span className="sr-only">{titleField.label}</span>
+              <input
+                name={titleField.name}
+                defaultValue={titleLive}
+                onChange={(e) => setTitleLive(e.target.value)}
+                placeholder={`Add ${titleField.label.toLowerCase()}`}
+                required={titleField.required}
+                className="w-full border-none bg-transparent font-sans text-h3 font-semibold text-ink outline-none placeholder:text-muted/60"
+              />
+            </label>
+          )}
+
+          {mainFields.map((field) => (
+            <FieldInput
+              key={field.name}
+              field={field}
+              data={data}
+              library={library}
+              uploadsEnabled={uploadsEnabled}
+            />
+          ))}
+
+          {state.error && (
+            <p
+              role="alert"
+              className="border-l-2 border-primary bg-wash py-3 pl-4 font-sans text-label leading-relaxed text-ink"
+            >
+              {state.error}
+            </p>
+          )}
+          {state.ok && (
+            <p
+              role="status"
+              className="border-l-2 border-primary bg-wash py-3 pl-4 font-sans text-label leading-relaxed text-ink"
+            >
+              {state.ok}
+            </p>
+          )}
+        </div>
+
+        <PostSidebar
+          status={status}
+          updatedAt={updatedAt}
+          sidebarFields={sidebarFields}
+          data={data}
+          library={library}
+          uploadsEnabled={uploadsEnabled}
+          showSeo={showSeo}
+          seoTitle={titleLive}
+          seoDescription={descriptionLive}
+          onDescriptionChange={setDescriptionLive}
+        />
       </div>
-
-      {state.error && (
-        <p
-          role="alert"
-          className="mt-8 max-w-3xl border-l-2 border-primary bg-wash py-3 pl-4 font-sans text-label leading-relaxed text-ink"
-        >
-          {state.error}
-        </p>
-      )}
-      {state.ok && (
-        <p
-          role="status"
-          className="mt-8 max-w-3xl border-l-2 border-primary bg-wash py-3 pl-4 font-sans text-label leading-relaxed text-ink"
-        >
-          {state.ok}
-        </p>
-      )}
-
-      <SaveBar status={status} />
     </form>
   );
 }

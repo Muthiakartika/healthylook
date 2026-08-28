@@ -124,6 +124,43 @@ export async function deleteDocumentAction(collectionId: string, slug: string) {
   redirect(`/admin/${collectionId}`);
 }
 
+/**
+ * Row- and bulk-delete from the list view share this one path (a single
+ * slug is just a one-item selection) rather than reusing
+ * `deleteDocumentAction` above, which redirects — right for a delete
+ * button on the edit page it navigates away from, wrong here: deleting a
+ * row from the list should leave you on the list.
+ */
+export async function bulkDeleteAction(collectionId: string, slugs: string[]): Promise<void> {
+  const user = await requireUser();
+  const collection = getCollection(collectionId);
+  if (!collection?.canDelete) throw new Error("This collection cannot be deleted from.");
+
+  for (const slug of slugs) {
+    await deleteDocument(collectionId, slug);
+    await audit(user.id, "content.deleted", `${collectionId}/${slug}`);
+  }
+  revalidatePath(`/admin/${collectionId}`);
+}
+
+export async function bulkSetStatusAction(
+  collectionId: string,
+  slugs: string[],
+  status: "draft" | "published",
+): Promise<void> {
+  const user = await requireUser();
+  const collection = getCollection(collectionId);
+  if (!collection) throw new Error("Unknown collection.");
+
+  for (const slug of slugs) {
+    const doc = await getDocument(collectionId, slug);
+    if (!doc) continue;
+    await saveDocument({ collection: collectionId, slug, data: doc.data, status, userId: user.id });
+    await audit(user.id, "content.saved", `${collectionId}/${slug}`, { status, bulk: true });
+  }
+  revalidatePath(`/admin/${collectionId}`);
+}
+
 export async function restoreRevisionAction(
   collectionId: string,
   slug: string,

@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import { POPULAR_TREATMENT_LINKS } from "@/data/treatments";
-import { blogPosts, FOOTER_BLOG_SLUGS } from "@/data/blog";
+import { FOOTER_BLOG_SLUGS } from "@/data/blog";
+import { getBlogPosts } from "@/lib/site-content";
 import {
   SITE_NAME,
   EMAIL,
@@ -33,12 +34,6 @@ const COMPANY_LINKS = [
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms & Conditions", href: "/terms-conditions" },
 ];
-
-// The eight posts the live site promotes in its own footer, resolved from
-// the blog index so the labels can't drift out of sync with the articles.
-const footerBlogPosts = FOOTER_BLOG_SLUGS.map((href) =>
-  blogPosts.find((post) => post.href === href),
-).filter((post): post is NonNullable<typeof post> => Boolean(post));
 
 // `block` + vertical padding keeps each row a real touch target: 13px text is
 // a ~20px box, and the padding sits inside the target rather than in a gap
@@ -104,7 +99,15 @@ const listClass = "mt-4 flex flex-col font-sans text-label";
 // silently cutting off the wrong words.
 const streetAddress = ADDRESS.replace(/ at Ubud Nyuh Bali Resort$/, "");
 
-export default function Footer() {
+export default async function Footer() {
+  // The eight posts the live site promotes in its own footer, resolved
+  // from the live blog index so the labels and the set itself can't drift
+  // out of sync with an article renamed or deleted in the dashboard.
+  const blogPosts = await getBlogPosts();
+  const footerBlogPosts = FOOTER_BLOG_SLUGS.map((href) =>
+    blogPosts.find((post) => post.href === href),
+  ).filter((post): post is NonNullable<typeof post> => Boolean(post));
+
   return (
     <footer className="bg-ink-brown text-white/70">
       <Container className="grid gap-x-10 gap-y-10 py-10 lg:grid-cols-[12fr_15fr_9fr_11fr]">

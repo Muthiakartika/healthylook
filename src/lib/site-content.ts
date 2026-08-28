@@ -8,7 +8,13 @@ import {
   type Treatment,
   type TreatmentCategoryId,
 } from "@/data/treatments";
-import { articles as sourceArticles, type Article } from "@/data/articles";
+import {
+  articles as sourceArticles,
+  normalizeArticleBlocks,
+  type Article,
+  type NormalizedArticle,
+} from "@/data/articles";
+import { blogPosts as curatedBlogPosts, type BlogPost } from "@/data/blog";
 import {
   treatmentSections as sourceSections,
   type TreatmentSection,
@@ -103,13 +109,67 @@ export async function getTreatmentCountLabel(): Promise<string> {
   return `${Math.floor(all.length / 10) * 10}+`;
 }
 
-export async function getArticles(): Promise<Article[]> {
-  const rows = await publishedDocuments<Article>("articles");
-  return rows ? rows.map((row) => row.data) : sourceArticles;
+/** Normalizes on the way out — see normalizeArticleBlocks's own comment for
+ *  why every reader does this instead of a one-time database migration. */
+function normalize(article: Article): NormalizedArticle {
+  return { ...article, blocks: normalizeArticleBlocks(article.blocks) };
 }
 
-export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
+export async function getArticles(): Promise<NormalizedArticle[]> {
+  const rows = await publishedDocuments<Article>("articles");
+  return (rows ? rows.map((row) => row.data) : sourceArticles).map(normalize);
+}
+
+export async function getArticleBySlug(slug: string): Promise<NormalizedArticle | undefined> {
   return (await getArticles()).find((a) => a.slug === slug);
+}
+
+/**
+ * The blog index's post list — the curated set from src/data/blog.ts, kept
+ * in sync with whatever articles actually exist.
+ *
+ * ── WHY THIS DOESN'T JUST RETURN getArticles() ────────────────────────
+ * `blogPosts` mixes two things: 31 entries that are really links to a
+ * treatment page (curated blog-style headlines, e.g. "Best Botox in Ubud
+ * Bali" for the /ubud-bali/botox page), and standalone articles. The
+ * treatment-linked entries aren't articles at all, so they can't come from
+ * `getArticles()`, and their curated headline is deliberately not the same
+ * as anything stored elsewhere — it stays as-is.
+ *
+ * For the article-linked entries, the curated `title` is also sometimes
+ * deliberately different from the article's own page title (see the
+ * breadcrumb note in src/app/[slug]/page.tsx — "Collagen Stimulator in
+ * Ubud" as the blog-index name for the page titled "Liquid Lifting in
+ * Bali"), so an existing entry's title is never overwritten here even
+ * though the data is now available.
+ *
+ * What this adds on top of the static list:
+ *  - an entry whose article was deleted in the dashboard is dropped,
+ *    instead of linking to a 404
+ *  - an article created in the dashboard that has no curated entry yet
+ *    appears automatically, leading the list (titled from the article
+ *    itself, since no curated alternative exists for it)
+ */
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  const articles = await getArticles();
+  const articleBySlug = new Map(articles.map((article) => [article.slug, article]));
+
+  const curated = curatedBlogPosts.filter(
+    (post) => !post.articleSlug || articleBySlug.has(post.articleSlug),
+  );
+
+  const knownSlugs = new Set(
+    curated.map((post) => post.articleSlug).filter((slug): slug is string => Boolean(slug)),
+  );
+  const uncurated: BlogPost[] = articles
+    .filter((article) => !knownSlugs.has(article.slug))
+    .map((article) => ({
+      title: article.title,
+      href: `/${article.slug}`,
+      articleSlug: article.slug,
+    }));
+
+  return [...uncurated, ...curated];
 }
 
 /**

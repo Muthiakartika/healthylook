@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCollection, documentTitle } from "@/lib/collections";
 import { listDocuments } from "@/lib/content";
+import CollectionTable from "./CollectionTable";
 
 export async function generateMetadata({
   params,
@@ -61,73 +62,25 @@ export default async function CollectionListPage({
           </p>
         </div>
       ) : (
-        <div className="mt-10 overflow-x-auto">
-          <table className="w-full min-w-[40rem] border-collapse">
-            <thead>
-              <tr className="border-y border-hairline text-left">
-                <th className="py-3 pr-6 font-sans text-caption uppercase tracking-caps text-muted">
-                  {collection.fields.find((f) => f.name === collection.titleField)?.label ??
-                    "Name"}
-                </th>
-                {columns
-                  .filter((c) => c.name !== collection.titleField)
-                  .map((c) => (
-                    <th
-                      key={c.name}
-                      className="py-3 pr-6 font-sans text-caption uppercase tracking-caps text-muted"
-                    >
-                      {c.label}
-                    </th>
-                  ))}
-                <th className="py-3 text-right font-sans text-caption uppercase tracking-caps text-muted">
-                  Updated
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {documents.map((doc) => (
-                <tr
-                  key={doc.id}
-                  className="border-b border-hairline transition-colors hover:bg-wash"
-                >
-                  <td className="py-3.5 pr-6">
-                    <Link
-                      href={`/admin/${id}/${encodeURIComponent(doc.slug)}`}
-                      className="font-sans text-copy text-ink transition-colors hover:text-primary-strong"
-                    >
-                      {documentTitle(collection, doc.data)}
-                    </Link>
-                    {doc.status === "draft" && (
-                      <span className="ml-3 font-sans text-micro uppercase tracking-caps text-primary-strong">
-                        draft
-                      </span>
-                    )}
-                    <span className="mt-0.5 block font-sans text-micro text-muted">
-                      {doc.slug}
-                    </span>
-                  </td>
-                  {columns
-                    .filter((c) => c.name !== collection.titleField)
-                    .map((c) => (
-                      <td
-                        key={c.name}
-                        className="py-3.5 pr-6 font-sans text-label text-text-secondary"
-                      >
-                        {String(doc.data[c.name] ?? "—")}
-                      </td>
-                    ))}
-                  <td className="py-3.5 text-right font-sans text-micro text-muted">
-                    {new Date(doc.updated_at).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CollectionTable
+          collectionId={id}
+          titleColumnLabel={
+            collection.fields.find((f) => f.name === collection.titleField)?.label ?? "Name"
+          }
+          columnLabels={columns
+            .filter((c) => c.name !== collection.titleField)
+            .map((c) => ({ name: c.name, label: c.label }))}
+          canDelete={collection.canDelete}
+          rows={documents.map((doc) => ({
+            slug: doc.slug,
+            title: documentTitle(collection, doc.data),
+            status: doc.status,
+            updatedAt: doc.updated_at,
+            columns: columns
+              .filter((c) => c.name !== collection.titleField)
+              .map((c) => ({ name: c.name, value: String(doc.data[c.name] ?? "—") })),
+          }))}
+        />
       )}
     </>
   );

@@ -6,9 +6,8 @@ import Reveal from "@/components/ui/Reveal";
 import TreatmentThumb from "@/components/shared/TreatmentThumb";
 import BookingSection from "@/components/home/BookingSection";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import { blogPosts } from "@/data/blog";
 import { TREATMENT_CATEGORIES } from "@/data/treatments";
-import { getTreatments } from "@/lib/site-content";
+import { getTreatments, getBlogPosts } from "@/lib/site-content";
 import { getPageSeo } from "@/data/seo";
 
 const seo = getPageSeo("/our-blog")!;
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
  * a list this size only hides content behind a click.
  */
 export default async function BlogPage() {
-  const treatments = await getTreatments();
+  const [treatments, blogPosts] = await Promise.all([getTreatments(), getBlogPosts()]);
   // Reuse each article's treatment photo where the article is about a
   // treatment we have a picture for — no invented imagery, and posts with
   // no photo get the typographic tile.

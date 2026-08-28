@@ -5,9 +5,8 @@ import Button from "@/components/ui/Button";
 import SectionHeading from "@/components/ui/SectionHeading";
 import TreatmentThumb from "@/components/shared/TreatmentThumb";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import { blogPosts } from "@/data/blog";
 import { TREATMENT_CATEGORIES } from "@/data/treatments";
-import { getTreatments } from "@/lib/site-content";
+import { getTreatments, getBlogPosts } from "@/lib/site-content";
 
 /**
  * OUR BLOG — restored.
@@ -26,7 +25,7 @@ import { getTreatments } from "@/lib/site-content";
 const FEATURED_COUNT = 3;
 
 export default async function BlogTeaser() {
-  const treatments = await getTreatments();
+  const [treatments, blogPosts] = await Promise.all([getTreatments(), getBlogPosts()]);
   const featured = blogPosts.slice(0, FEATURED_COUNT).map((post) => {
     const treatment = post.treatmentSlug
       ? treatments.find((candidate) => candidate.slug === post.treatmentSlug)

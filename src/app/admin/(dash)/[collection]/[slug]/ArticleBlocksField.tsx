@@ -1,61 +1,61 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import RichTextBlockField from "./RichTextBlockField";
+import { normalizeArticleBlocks, type ArticleBlock, type NormalizedBlock, type RichTextBlock } from "@/data/articles";
 
 /**
  * The article body editor.
  *
  * ── WHAT IT REPLACES, AND WHY THAT WAS NOT GOOD ENOUGH ────────────────
- * This field was a raw JSON textarea. That was defensible as a first cut —
- * it is honest about the shape and cannot silently drop a key — but the
- * real articles hold 240 paragraphs and 213 headings, and asking someone
- * to fix a typo by finding the right object in several hundred lines of
- * JSON is not editing, it is programming with extra steps. One missing
- * comma also loses the whole body rather than one block.
+ * This field was a raw JSON textarea, then a structured block editor with
+ * a plain `<textarea>` per paragraph and a `<select>`+`<input>` per
+ * heading. Both were honest about the shape but neither was what an
+ * editor sees is what gets published — no live bold/italic, no visible
+ * heading size, links typed as `[label](href)` text rather than applied
+ * to a selection. Headings/paragraphs/bullet lists are now one continuous
+ * rich-text canvas (RichTextBlockField.tsx) with a selection-triggered
+ * formatting toolbar, Notion/Word-style. Table and FAQ blocks keep their
+ * own structured editing below, completely unchanged — a table's rows and
+ * an FAQ's question/answer pairs are still typed into dedicated fields,
+ * not typed as flowing prose.
  *
  * ── HOW IT STAYS COMPATIBLE ───────────────────────────────────────────
- * The value still leaves as JSON, in a hidden input, in exactly the shape
- * `ArticleBlock[]` describes. Nothing in the save path changed: the server
- * still parses and validates the same string it always did. This is a
- * different way of producing that string, not a different format.
+ * The value still leaves as JSON, in a hidden input. Nothing in the save
+ * path changed: the server still parses and validates the same string it
+ * always did. `normalizeArticleBlocks` (src/data/articles.ts) upgrades
+ * whatever shape `initial` arrives in — old flat heading/paragraph/list
+ * blocks, or blocks already in the current richtext/table/faq shape — so
+ * every article, migrated or brand new, opens the same way.
  *
  * ── WHY THE JSON VIEW SURVIVES ────────────────────────────────────────
  * Kept as a toggle, for three things a form cannot do: pasting a body in
  * from elsewhere, repairing a block whose shape predates this editor, and
- * seeing exactly what will be saved. Switching back parses it, so a broken
- * edit there is caught before it reaches the form.
+ * seeing exactly what will be saved. Switching back parses and normalizes
+ * it, so a broken or legacy-shaped edit there is caught before it reaches
+ * the form.
  */
 
-type Heading = { type: "heading"; level: 2 | 3; text: string };
-type Paragraph = { type: "paragraph"; text: string };
-type ListBlock = { type: "list"; items: string[] };
-type TableBlock = { type: "table"; head: string[]; rows: string[][] };
-type FaqBlock = { type: "faq"; items: { question: string; answer: string }[] };
-export type ArticleBlock = Heading | Paragraph | ListBlock | TableBlock | FaqBlock;
+type Keyed = { key: string; block: NormalizedBlock };
 
-type Keyed = { key: string; block: ArticleBlock };
-
-const BLOCK_LABEL: Record<ArticleBlock["type"], string> = {
-  heading: "Heading",
-  paragraph: "Paragraph",
-  list: "Bullet list",
+const BLOCK_LABEL: Record<NormalizedBlock["type"], string> = {
+  richtext: "Text",
   table: "Table",
   faq: "Questions & answers",
 };
 
-function blank(type: ArticleBlock["type"]): ArticleBlock {
-  switch (type) {
-    case "heading":
-      return { type: "heading", level: 2, text: "" };
-    case "list":
-      return { type: "list", items: [""] };
-    case "table":
-      return { type: "table", head: ["", ""], rows: [["", ""]] };
-    case "faq":
-      return { type: "faq", items: [{ question: "", answer: "" }] };
-    default:
-      return { type: "paragraph", text: "" };
-  }
+/** The only two types the "+" inserter offers — rich text isn't something
+ *  you insert, it's what you're already typing into or splitting. */
+const INSERTABLE_TYPES: Array<"table" | "faq"> = ["table", "faq"];
+
+function blankRichText(): RichTextBlock {
+  return { type: "richtext", content: { type: "doc", content: [{ type: "paragraph" }] } };
+}
+
+function blank(type: "table" | "faq"): NormalizedBlock {
+  return type === "table"
+    ? { type: "table", head: ["", ""], rows: [["", ""]] }
+    : { type: "faq", items: [{ question: "", answer: "" }] };
 }
 
 /* Keys are generated per block and survive reordering. Using the array
@@ -74,89 +74,14 @@ const tiny =
 function BlockBody({
   block,
   onChange,
+  onSplit,
 }: {
-  block: ArticleBlock;
-  onChange: (next: ArticleBlock) => void;
+  block: NormalizedBlock;
+  onChange: (next: NormalizedBlock) => void;
+  onSplit: (type: "table" | "faq", before: RichTextBlock | null, after: RichTextBlock | null) => void;
 }) {
-  if (block.type === "heading") {
-    return (
-      <div className="flex flex-wrap items-end gap-4">
-        <label className="flex items-center gap-2">
-          <span className="font-sans text-micro uppercase tracking-caps text-muted">
-            Level
-          </span>
-          <select
-            value={block.level}
-            onChange={(e) =>
-              onChange({ ...block, level: Number(e.target.value) === 3 ? 3 : 2 })
-            }
-            className="border-b border-hairline bg-transparent py-1 font-sans text-label text-ink outline-none focus:border-primary"
-          >
-            <option value={2}>Section (H2)</option>
-            <option value={3}>Sub-section (H3)</option>
-          </select>
-        </label>
-        <input
-          value={block.text}
-          onChange={(e) => onChange({ ...block, text: e.target.value })}
-          placeholder="Heading text"
-          className={`${input} flex-1 min-w-48`}
-        />
-      </div>
-    );
-  }
-
-  if (block.type === "paragraph") {
-    return (
-      <textarea
-        value={block.text}
-        onChange={(e) => onChange({ ...block, text: e.target.value })}
-        rows={Math.min(14, Math.max(3, Math.ceil(block.text.length / 90) + 1))}
-        placeholder="Paragraph text"
-        className={area}
-      />
-    );
-  }
-
-  if (block.type === "list") {
-    return (
-      <div className="flex flex-col gap-2">
-        {block.items.map((item, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <span aria-hidden="true" className="text-muted">
-              ·
-            </span>
-            <input
-              value={item}
-              onChange={(e) => {
-                const items = [...block.items];
-                items[i] = e.target.value;
-                onChange({ ...block, items });
-              }}
-              placeholder="List item"
-              className={input}
-            />
-            <button
-              type="button"
-              onClick={() =>
-                onChange({ ...block, items: block.items.filter((_, j) => j !== i) })
-              }
-              disabled={block.items.length === 1}
-              className={tiny}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={() => onChange({ ...block, items: [...block.items, ""] })}
-          className={`${tiny} self-start pt-1`}
-        >
-          + Add item
-        </button>
-      </div>
-    );
+  if (block.type === "richtext") {
+    return <RichTextBlockField block={block} onChange={onChange} onSplit={onSplit} />;
   }
 
   if (block.type === "faq") {
@@ -297,6 +222,53 @@ function BlockBody({
   );
 }
 
+/**
+ * The "+" between blocks — click it to reveal Table/Q&A right at that
+ * position, WordPress-style. Rich text itself isn't inserted this way;
+ * splitting an existing text run is done from inside the canvas (its own
+ * "Split here and insert" controls), since that needs to know the cursor
+ * position, which this inserter — sitting between two already-separate
+ * blocks — never has to care about.
+ */
+function Inserter({
+  open,
+  onToggle,
+  onAdd,
+}: {
+  open: boolean;
+  onToggle: () => void;
+  onAdd: (type: "table" | "faq") => void;
+}) {
+  return (
+    <div className="relative flex items-center justify-center py-2">
+      <div className="absolute inset-x-0 top-1/2 h-px bg-hairline" aria-hidden="true" />
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label="Add block here"
+        aria-expanded={open}
+        className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full border font-sans leading-none transition-colors ${
+          open
+            ? "border-primary bg-primary text-white"
+            : "border-hairline bg-paper text-muted hover:border-primary hover:text-primary"
+        }`}
+      >
+        +
+      </button>
+
+      {open && (
+        <div className="absolute top-full z-20 mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 border border-hairline bg-paper p-3 shadow-panel">
+          {INSERTABLE_TYPES.map((type) => (
+            <button key={type} type="button" onClick={() => onAdd(type)} className={tiny}>
+              {BLOCK_LABEL[type]}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ArticleBlocksField({
   name,
   label,
@@ -307,19 +279,26 @@ export default function ArticleBlocksField({
   initial: unknown;
 }) {
   const [blocks, setBlocks] = useState<Keyed[]>(() => {
-    const source = Array.isArray(initial) ? (initial as ArticleBlock[]) : [];
-    return source.map((block) => ({ key: nextKey(), block }));
+    const source = Array.isArray(initial)
+      ? normalizeArticleBlocks(initial as (ArticleBlock | NormalizedBlock)[])
+      : [];
+    // A brand-new article opens with a canvas already there to type into,
+    // rather than an empty state screen — Notion/Word open on a blank
+    // page, not a "no content yet" message.
+    const withDefault = source.length > 0 ? source : [blankRichText()];
+    return withDefault.map((block) => ({ key: nextKey(), block }));
   });
   const [raw, setRaw] = useState(false);
   const [rawText, setRawText] = useState("");
   const [rawError, setRawError] = useState<string | null>(null);
+  const [openInserter, setOpenInserter] = useState<number | null>(null);
 
   const serialised = useMemo(
     () => JSON.stringify(blocks.map((b) => b.block)),
     [blocks],
   );
 
-  const update = (index: number, next: ArticleBlock) =>
+  const update = (index: number, next: NormalizedBlock) =>
     setBlocks((prev) =>
       prev.map((item, i) => (i === index ? { ...item, block: next } : item)),
     );
@@ -333,12 +312,34 @@ export default function ArticleBlocksField({
       return next;
     });
 
-  const add = (type: ArticleBlock["type"], at: number) =>
+  const add = (type: "table" | "faq", at: number) => {
     setBlocks((prev) => {
       const next = [...prev];
       next.splice(at, 0, { key: nextKey(), block: blank(type) });
       return next;
     });
+    setOpenInserter(null);
+  };
+
+  /** Replaces one richtext block with up to three: whatever text came
+   *  before the cursor, the new Table/FAQ, and whatever came after —
+   *  either half is omitted if the split landed at the very start/end. */
+  const split = (
+    index: number,
+    type: "table" | "faq",
+    before: RichTextBlock | null,
+    after: RichTextBlock | null,
+  ) => {
+    setBlocks((prev) => {
+      const replacement: Keyed[] = [];
+      if (before) replacement.push({ key: nextKey(), block: before });
+      replacement.push({ key: nextKey(), block: blank(type) });
+      if (after) replacement.push({ key: nextKey(), block: after });
+      const next = [...prev];
+      next.splice(index, 1, ...replacement);
+      return next;
+    });
+  };
 
   return (
     <div>
@@ -355,12 +356,13 @@ export default function ArticleBlocksField({
               setRaw(true);
               return;
             }
-            // Leaving the JSON view parses it, so a broken edit is caught
-            // here rather than on save.
+            // Leaving the JSON view parses and normalizes it, so a broken
+            // or legacy-shaped edit is caught here rather than on save.
             try {
               const parsed = JSON.parse(rawText);
               if (!Array.isArray(parsed)) throw new Error("The body must be a list of blocks.");
-              setBlocks(parsed.map((block: ArticleBlock) => ({ key: nextKey(), block })));
+              const normalized = normalizeArticleBlocks(parsed);
+              setBlocks(normalized.map((block) => ({ key: nextKey(), block })));
               setRawError(null);
               setRaw(false);
             } catch (e) {
@@ -400,67 +402,68 @@ export default function ArticleBlocksField({
             </p>
           )}
 
-          <ol className="mt-4 flex flex-col gap-4">
+          <div className="mt-2 flex flex-col">
+            <Inserter
+              open={openInserter === 0}
+              onToggle={() => setOpenInserter(openInserter === 0 ? null : 0)}
+              onAdd={(type) => add(type, 0)}
+            />
+
             {blocks.map((item, index) => (
-              <li key={item.key} className="border border-hairline bg-paper">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-4 py-2.5">
-                  <span className="font-sans text-micro uppercase tracking-caps text-primary-strong">
-                    {index + 1}. {BLOCK_LABEL[item.block.type]}
-                  </span>
-                  <span className="flex items-center gap-4">
-                    <button
-                      type="button"
-                      onClick={() => move(index, -1)}
-                      disabled={index === 0}
-                      className={tiny}
-                      aria-label="Move up"
-                    >
-                      ↑
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => move(index, 1)}
-                      disabled={index === blocks.length - 1}
-                      className={tiny}
-                      aria-label="Move down"
-                    >
-                      ↓
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setBlocks((prev) => prev.filter((_, i) => i !== index))
-                      }
-                      className={tiny}
-                    >
-                      Delete
-                    </button>
-                  </span>
+              <div key={item.key}>
+                <div className="border border-hairline bg-paper">
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-4 py-2.5">
+                    <span className="font-sans text-micro uppercase tracking-caps text-primary-strong">
+                      {index + 1}. {BLOCK_LABEL[item.block.type]}
+                    </span>
+                    <span className="flex items-center gap-4">
+                      <button
+                        type="button"
+                        onClick={() => move(index, -1)}
+                        disabled={index === 0}
+                        className={tiny}
+                        aria-label="Move up"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => move(index, 1)}
+                        disabled={index === blocks.length - 1}
+                        className={tiny}
+                        aria-label="Move down"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBlocks((prev) => prev.filter((_, i) => i !== index))
+                        }
+                        className={tiny}
+                      >
+                        Delete
+                      </button>
+                    </span>
+                  </div>
+
+                  <div className="p-4">
+                    <BlockBody
+                      block={item.block}
+                      onChange={(next) => update(index, next)}
+                      onSplit={(type, before, after) => split(index, type, before, after)}
+                    />
+                  </div>
                 </div>
 
-                <div className="p-4">
-                  <BlockBody
-                    block={item.block}
-                    onChange={(next) => update(index, next)}
-                  />
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-hairline pt-4">
-            <span className="font-sans text-micro uppercase tracking-caps text-muted">
-              Add
-            </span>
-            {(Object.keys(BLOCK_LABEL) as ArticleBlock["type"][]).map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => add(type, blocks.length)}
-                className={tiny}
-              >
-                + {BLOCK_LABEL[type]}
-              </button>
+                <Inserter
+                  open={openInserter === index + 1}
+                  onToggle={() =>
+                    setOpenInserter(openInserter === index + 1 ? null : index + 1)
+                  }
+                  onAdd={(type) => add(type, index + 1)}
+                />
+              </div>
             ))}
           </div>
         </>

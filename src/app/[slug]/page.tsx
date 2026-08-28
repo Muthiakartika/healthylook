@@ -5,8 +5,7 @@ import PageHero from "@/components/shared/PageHero";
 import ArticleBody from "@/components/shared/ArticleBody";
 import BookingSection from "@/components/home/BookingSection";
 import BlogTeaser from "@/components/home/BlogTeaser";
-import { getArticles, getArticleBySlug } from "@/lib/site-content";
-import { blogPosts } from "@/data/blog";
+import { getArticles, getArticleBySlug, getBlogPosts } from "@/lib/site-content";
 
 /**
  * The clinic's long-form articles, at the same top-level URLs the live site
@@ -58,6 +57,7 @@ export default async function ArticlePage({
   // The blog index is the canonical name for this post, and it's often
   // friendlier than the page's own <h1> ("Collagen Stimulator in Ubud" vs
   // "Liquid Lifting in Bali"), so the breadcrumb uses it where it exists.
+  const blogPosts = await getBlogPosts();
   const listing = blogPosts.find((post) => post.articleSlug === slug);
 
   return (
