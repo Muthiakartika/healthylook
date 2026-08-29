@@ -28,6 +28,7 @@ export default function TreatmentThumb({
   aspect = "landscape",
   rounded = "rounded-none",
   sizes = "(max-width: 640px) 100vw, 33vw",
+  position,
 }: {
   src?: string;
   name: string;
@@ -35,10 +36,20 @@ export default function TreatmentThumb({
   aspect?: "landscape" | "portrait" | "square" | "wide";
   rounded?: string;
   sizes?: string;
+  /** Overrides Img's default object-center crop — e.g. "object-top" for a
+   *  photo whose subject sits high in the frame. */
+  position?: string;
 }) {
   if (src) {
     return (
-      <Img src={src} alt={name} aspect={aspect} rounded={rounded} sizes={sizes} />
+      <Img
+        src={src}
+        alt={name}
+        aspect={aspect}
+        rounded={rounded}
+        sizes={sizes}
+        position={position}
+      />
     );
   }
 

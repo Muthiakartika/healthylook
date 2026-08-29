@@ -12,7 +12,7 @@ import DoctorCredit from "@/components/shared/DoctorCredit";
 import BookingSection from "@/components/home/BookingSection";
 import Testimonials from "@/components/home/Testimonials";
 import Partners from "@/components/home/Partners";
-import { CheckIcon, ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { CheckIcon, ArrowUpRightIcon, WhatsAppIcon, ClockIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import { treatmentHref, TREATMENT_CATEGORIES, type Treatment } from "@/data/treatments";
 import {
@@ -24,6 +24,7 @@ import {
 } from "@/lib/site-content";
 import { CLINIC_SAFETY_PROTOCOLS } from "@/data/clinic";
 import { getResultsForTreatment } from "@/data/results";
+import { getTreatmentJourney } from "@/data/treatmentJourney";
 import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
 
 /**
@@ -67,6 +68,10 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
   // `getResultsForTreatment` for why an unmatched treatment gets no
   // embedded gallery rather than someone else's photos.
   const resultGroup = getResultsForTreatment(treatment.slug);
+  // The clinic's own step-by-step timeline for this treatment — undefined
+  // for Facial and Medi Facial, the two treatments the source sheet
+  // doesn't cover. See treatmentJourney.ts.
+  const journey = getTreatmentJourney(treatment.slug);
   // Resolved here rather than inline in the JSX below: both are async now,
   // and an await cannot sit inside a prop expression.
   const reviews = await getTestimonialsForTreatment(treatment.slug);
@@ -123,6 +128,10 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
 
   const heroImage =
     treatment.image ?? category?.image ?? "/images/clinic/clinic-09.jpg";
+  // Only applies when the hero is actually showing the treatment's own
+  // photo — a category or clinic fallback photo has no opinion of its own
+  // on cropping, so `treatment.imagePosition` would be meaningless there.
+  const heroImagePosition = treatment.image ? treatment.imagePosition : undefined;
   // "Has the clinic published anything about this treatment?" — which is a
   // question about `intro` AND `sections`, not `intro` alone. Keyed off the
   // intro only, the "still being written" notice below rendered directly
@@ -130,18 +139,16 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
   // whose copy lives in treatmentSections rather than in an intro field.
   const hasLongForm = Boolean(treatment.intro) || sections.length > 0;
 
-  // Second photo for the sidebar. It must never be the one already running
-  // full-bleed behind the hero — repeating it a few hundred pixels below
-  // reads as a bug. Preference order: the category photo, then a neutral
-  // clinic interior that no page uses as a hero. The guard makes it
-  // impossible for either branch to echo the hero.
-  const CLINIC_FALLBACK = "/images/clinic/clinic-04.jpg";
-  const sidebarImage =
-    category?.image && category.image !== heroImage
-      ? category.image
-      : heroImage !== CLINIC_FALLBACK
-        ? CLINIC_FALLBACK
-        : null;
+  // ── CLIENT REVISION — SIDEBAR PHOTO REMOVED ────────────────────────────
+  // First it echoed the CATEGORY photo, so every treatment in a category
+  // showed the same one of only four photos across all 31 treatment pages
+  // ("the image is always the same [across every treatment page]").
+  // Switched to reusing `heroImage` instead — different per treatment, but
+  // that meant the hero and this sidebar showed the same photograph a few
+  // hundred pixels apart, cropped two ways, which read as a duplicate too
+  // ("malah duplikat"). There is no second real photo per treatment to
+  // show here, so the honest fix is no sidebar photo: the "At a glance"
+  // card now opens the column directly.
 
   return (
     <>
@@ -160,6 +167,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
         description={treatment.shortDescription}
         image={heroImage}
         imageAlt={`${treatment.name} at Healthy Look Aesthetic, Ubud`}
+        imagePosition={heroImagePosition}
       >
         {treatment.startingPrice != null && (
           // Ink type, not white: this line was written when the hero was a
@@ -360,22 +368,8 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
               )}
             </div>
 
-            {/* Sidebar. The image is deliberately NOT the hero photo —
-                see `sidebarImage` above; repeating the hero a few hundred
-                pixels below it reads as a bug rather than as composition. */}
             <aside className="lg:col-span-5">
               <div className="lg:sticky lg:top-32">
-                {sidebarImage && (
-                  <Reveal variant="image" className="mb-9">
-                    <Img
-                      src={sidebarImage}
-                      alt={`${category?.label} treatments at Healthy Look Aesthetic`}
-                      aspect="landscape"
-                      sizes="(max-width: 1024px) 100vw, 40vw"
-                    />
-                  </Reveal>
-                )}
-
                 <Reveal>
                   <div className="border border-hairline bg-background p-8">
                     <h2 className="eyebrow text-primary-strong">At a glance</h2>
@@ -463,18 +457,70 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
         </Container>
       </section>
 
+      {/* ── CLIENT-SUPPLIED DATA — "YOUR TREATMENT JOURNEY" ────────────────
+          "What to Expect with the treatment.xlsx": one row per step per
+          treatment, step name and duration, for 29 of the 31 treatments.
+          Rendered as given — same steps, same order, same durations, only
+          reformatted for consistency (see treatmentJourney.ts). Facial and
+          Medi Facial aren't in the sheet, so this section simply doesn't
+          render for those two rather than guessing a timeline for them. */}
+      {journey && journey.length > 0 && (
+        <section className="bg-wash py-section">
+          <Container>
+            <SectionHeading
+              align="left"
+              eyebrow="Treatment Journey"
+              title="What to expect, step by step"
+              description="What actually happens, from the moment you arrive to the treatment itself — and roughly how long each part takes."
+              className="lg:max-w-2xl"
+            />
+
+            <ol className="mt-14 grid gap-x-10 gap-y-11 sm:grid-cols-2 lg:grid-cols-4">
+              {journey.map((step, index) => (
+                <li key={step.label}>
+                  <Reveal delay={Math.min(index, 6) * 70}>
+                    <div className="border-t border-primary/25 pt-7">
+                      <span
+                        className="font-script text-statement leading-none text-primary/50"
+                        aria-hidden="true"
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="mt-4 font-sans text-h4 leading-tight text-ink">
+                        {step.label}
+                      </h3>
+                      <p className="mt-2.5 flex items-center gap-2 font-sans text-copy text-text-secondary">
+                        <ClockIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        {step.duration}
+                      </p>
+                    </div>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
+          </Container>
+        </section>
+      )}
+
       {/* Clinic safety commitments — the clinic's own published protocols,
           shown on every treatment page because they apply to every one. */}
       <section className="bg-ink-brown py-section text-white">
         <Container>
-          {/* ── CLIENT REVISION — "WHY HERE" → "TREATMENT JOURNEY" ──────
-              This is the one "Why Here" label on the site — the numbered
-              safety-protocol grid every treatment page shares. It already
-              renders as 01–07, title, description per item, which is the
-              structure the client asked a "Treatment Journey" to have; only
-              the eyebrow's wording changes, not the protocols themselves or
-              the "How we treat you" heading beneath it. */}
-          <SectionHeading tone="dark" eyebrow="Treatment Journey" title="How we treat you" />
+          {/* ── CLIENT REVISION, CORRECTED — "TREATMENT JOURNEY" REVERTS TO
+              "WHY HERE" ──────────────────────────────────────────────
+              An earlier round relabelled this eyebrow to "Treatment
+              Journey", reasoning that its 01–07 numbered grid already had
+              the right shape for what the client meant. It didn't: the
+              client then sent "What to Expect with the treatment.xlsx",
+              a real step-by-step timeline (Consultation, Preparation,
+              Numbing cream, Treatment…) with its own duration, PER
+              treatment — not this clinic-wide, identical-on-every-page
+              safety-protocol list. That real journey now has its own
+              section above (`getTreatmentJourney`); this one reverts to
+              its original label, since it was never actually about a
+              journey — it's the clinic's evidence for "How we treat
+              you". */}
+          <SectionHeading tone="dark" eyebrow="Why Here" title="How we treat you" />
           <div className="mt-16 grid gap-x-16 gap-y-11 sm:grid-cols-2 lg:grid-cols-3">
             {CLINIC_SAFETY_PROTOCOLS.map((point, index) => (
               <Reveal key={point.title} delay={index * 70}>
@@ -569,6 +615,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
                       src={item.image}
                       name={item.name}
                       categoryLabel={category?.label}
+                      position={item.imagePosition}
                     />
                     <div className="flex flex-1 flex-col p-7">
                       <h3 className="flex items-start justify-between gap-3 font-sans text-h4 leading-tight text-ink transition-colors duration-300 group-hover:text-primary">

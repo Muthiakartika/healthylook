@@ -88,10 +88,15 @@ export function whatsappHref(message?: string): string {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
-// The live site has a real /book-now page. This build has no booking
-// backend, so the primary CTA goes to the on-page enquiry section, which
-// itself offers WhatsApp, phone, and email.
-export const BOOKING_HREF = "/#book";
+// ── CLIENT REVISION — "BOOK NOW" GOES TO ITS OWN PAGE ──────────────────
+// This used to point at the homepage's on-page enquiry section (`/#book`)
+// rather than /book-now, on the reasoning that that section's WhatsApp/
+// phone/email channels convert better than routing everyone to a form.
+// /book-now offers those same three channels beside its own form though,
+// so that reasoning no longer holds — and the client, testing on a real
+// phone, expected "Book Now" to land on "the book now page" and reported
+// it as broken when it didn't. It goes there now, sitewide.
+export const BOOKING_HREF = "/book-now";
 
 export const BOOKING_LABEL = "Book Now";
 

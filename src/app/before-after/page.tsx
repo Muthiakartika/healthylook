@@ -77,10 +77,22 @@ export default function BeforeAfterPage() {
           "Real patients, real results. No filter, no edit." — added as its
           own prominent line, ahead of the "individual results vary"
           disclaimer so the authenticity claim is the first thing read, not
-          buried under a qualifier. Photographs and captions are unchanged. */}
+          buried under a qualifier. Photographs and captions are unchanged.
+          Follow-up: "for this section, i think it's better to use the
+          normal font" — the script face reads as decorative on a plain
+          factual claim, so this became font-sans.
+          Round 2, "font real patientnya jelek": at `text-h3 font-medium`
+          (36px Poppins Medium) it read as a heavy, oversized shout rather
+          than a calm statement of fact. Dropped to `text-lead` with no
+          explicit weight and `text-text` instead of `text-primary` — the
+          same treatment every intro paragraph on this site already uses
+          (Hero, PageHero, SectionHeading), so it reads as a confident
+          sentence instead of a card title stretched across the page. The
+          section's own padding still gives it room to stand apart from the
+          disclaimer below. */}
       <section className="border-b border-hairline bg-paper">
         <Container className="py-8 text-center">
-          <p className="font-script text-h3 leading-heading text-primary">
+          <p className="font-sans text-lead text-text">
             Real patients, real results. No filter, no edit.
           </p>
         </Container>

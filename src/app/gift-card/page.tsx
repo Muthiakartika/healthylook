@@ -84,19 +84,32 @@ export default async function GiftCardPage() {
           below, not here. This slot was changed first, by mistake.
           `facial.jpg` has therefore moved down to the slot the client
           actually marked, and the photo that stood there, `clinic-09.jpg`,
-          takes its place here.
+          took its place here.
 
           The original occupant of this slot is not coming back either way:
           `treatment-10.jpg` was a stock macro of an eye and eyebrow, not a
-          facial and not the clinic's own photograph. Both images on this
-          page are now the clinic's own. */}
+          facial and not the clinic's own photograph.
+
+          ── FOLLOW-UP — "change to facial foto, don't twin the one below" ──
+          `clinic-09.jpg` was a generic treatment-in-progress shot, not a
+          facial specifically, and the client asked for this slot to read
+          as a facial too — just not the SAME facial photo already sitting
+          in the story section below (`facial.jpg`/`live-facial-medi.jpg`,
+          which are the client's own photo saved under two filenames).
+          Checked the live site for a second, genuinely different facial
+          photo rather than reusing that one a third time: both pages
+          — /ubud-bali/facial/ and /ubud-bali/facial/medi/ — are shot from
+          the same session as `facial.jpg` and mostly repeat it, but two
+          frames don't: a red-light PDT step and this one, a device on the
+          cheek. This one reads more clearly as "a facial" at a glance, so
+          it's the one used here. */}
       <PageHero
         eyebrow={copy.tagline}
         title={copy.heading}
         crumbs={[{ label: "Home", href: "/" }, { label: "Gift Card" }]}
         description={copy.intro}
-        image="/images/clinic/clinic-09.jpg"
-        imageAlt="A treatment in progress at Healthy Look Aesthetic, Ubud"
+        image="/images/treatments/live-facial-closeup.jpg"
+        imageAlt="A close-up of a facial treatment at Healthy Look Aesthetic, Ubud"
       />
 
       {/* Story */}

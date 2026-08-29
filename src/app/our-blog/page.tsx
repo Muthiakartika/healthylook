@@ -41,7 +41,12 @@ export default async function BlogPage() {
     const category = treatment
       ? TREATMENT_CATEGORIES.find((c) => c.id === treatment.category)
       : undefined;
-    return { post, image: treatment?.image, categoryLabel: category?.label };
+    return {
+      post,
+      image: treatment?.image,
+      imagePosition: treatment?.imagePosition,
+      categoryLabel: category?.label,
+    };
   });
 
   return (
@@ -58,7 +63,7 @@ export default async function BlogPage() {
       <section className="bg-paper py-section">
         <Container>
           <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {withImages.map(({ post, image, categoryLabel }, index) => {
+            {withImages.map(({ post, image, imagePosition, categoryLabel }, index) => {
               const inner = (
                 <>
                   <TreatmentThumb
@@ -66,6 +71,7 @@ export default async function BlogPage() {
                     name={post.title}
                     categoryLabel={categoryLabel ?? "Healthy Look"}
                     aspect="landscape"
+                    position={imagePosition}
                   />
                   <div className="flex flex-1 flex-col p-7">
                     <h2 className="flex items-start justify-between gap-3 font-sans text-h4 leading-snug text-ink transition-colors duration-300 group-hover:text-primary">
