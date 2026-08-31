@@ -19,7 +19,12 @@ export const gallerySection = defineType({
       title: "Images",
       type: "array",
       of: [defineArrayMember({ type: "imageWithAlt" })],
-      validation: (Rule) => Rule.required().min(2).max(12),
+      // The cap was 12, which the clinic's own galleries already broke on the
+      // first migration — Lip Filler alone publishes 49 before/after photos.
+      // A limit the real content cannot meet just paints a red validation
+      // error across every gallery in the Studio and teaches editors to
+      // ignore validation. 60 leaves headroom over the largest real group.
+      validation: (Rule) => Rule.required().min(2).max(60),
       options: { layout: "grid" },
     }),
     toneField,
