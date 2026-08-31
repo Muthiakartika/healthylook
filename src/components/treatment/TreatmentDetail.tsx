@@ -18,15 +18,15 @@ import { treatmentHref, TREATMENT_CATEGORIES, type Treatment } from "@/data/trea
 import {
   getTreatments,
   getTreatmentFaqs,
+  getResultsForTreatment,
   getSiteCopy,
   getTreatmentJourney,
   getTreatmentSections,
   getTestimonialsForTreatment,
   hasOwnTestimonials,
 } from "@/lib/site-content";
-import { getResultsForTreatment } from "@/data/results";
 
-import { BOOKING_HREF, whatsappHrefFor } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
 
 /**
  * The treatment detail page body, shared by both routes that render one:
@@ -69,7 +69,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
   // doesn't map to one of the 5 named categories. See the note on
   // `getResultsForTreatment` for why an unmatched treatment gets no
   // embedded gallery rather than someone else's photos.
-  const resultGroup = getResultsForTreatment(treatment.slug);
+  const resultGroup = await getResultsForTreatment(treatment.slug);
   // The clinic's own step-by-step timeline for this treatment — empty for
   // Facial and Medi Facial, the two the source sheet doesn't cover, and for
   // any treatment an editor has deliberately cleared in Sanity. See
@@ -453,7 +453,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
                     </dl>
 
                     <div className="mt-8">
-                      <Button href={BOOKING_HREF} variant="primary" className="w-full" withArrow>
+                      <Button href={copy.bookingHref} variant="primary" className="w-full" withArrow>
                         {copy.bookTreatmentLabel}
                       </Button>
                     </div>

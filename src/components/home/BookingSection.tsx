@@ -2,7 +2,7 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/shared/ContactForm";
 import { WhatsAppIcon, PhoneIcon, MailIcon, MapPinIcon, ClockIcon } from "@/components/ui/icons";
-import { MAPS_HREF, whatsappHrefFor } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
 import { getSiteCopy } from "@/lib/site-content";
 
 /**
@@ -118,7 +118,7 @@ export default async function BookingSection() {
                       back, so the address stays aligned with the pin icon
                       beside it. */}
                   <a
-                    href={MAPS_HREF}
+                    href={copy.mapsHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="-my-1 py-1 transition-colors hover:text-primary"

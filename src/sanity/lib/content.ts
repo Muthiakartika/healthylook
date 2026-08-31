@@ -1,5 +1,6 @@
 import type {
   SanityDoctorDocument,
+  SanityImage,
   SanityPartnerDocument,
   SanitySiteSettings,
   SanityPricingSectionDocument,
@@ -26,6 +27,7 @@ import {
   allPricingSectionsQuery,
   allPartnersQuery,
   siteSettingsQuery,
+  resultGalleriesQuery,
 } from "@/sanity/lib/queries";
 import { sanityImageUrl } from "@/sanity/lib/image";
 
@@ -188,6 +190,25 @@ export async function getSanityPartners(): Promise<Array<{ name: string; logo: s
 }
 
 /** Clinic FAQ answers are portable text in Sanity and plain strings in code. */
+/** Result-group slug → image URLs, as published in the CMS. */
+export async function getSanityResultGalleries(): Promise<Map<string, string[]> | null> {
+  const sections = await sanityFetch<Array<{ anchor?: string; images?: SanityImage[] }>>(
+    resultGalleriesQuery,
+    { tags: ["sanity", "sanity:page", "sanity:page:/before-after"] },
+  );
+  if (!sections?.length) return null;
+
+  const galleries = new Map<string, string[]>();
+  for (const section of sections) {
+    if (!section.anchor) continue;
+    const urls = (section.images ?? [])
+      .map((image) => sanityImageUrl(image))
+      .filter((url): url is string => Boolean(url));
+    if (urls.length) galleries.set(section.anchor, urls);
+  }
+  return galleries.size ? galleries : null;
+}
+
 export async function getSanityClinicFaqs(): Promise<
   Array<{ question: string; answer: string }> | null
 > {

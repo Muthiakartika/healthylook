@@ -2,7 +2,7 @@ import { NAV_ITEMS, type NavItem } from "./navItems";
 import MobileNavItem from "./MobileNavItem";
 import Button from "@/components/ui/Button";
 import { CloseIcon, WhatsAppIcon, PhoneIcon, MailIcon } from "@/components/ui/icons";
-import { PHONE_E164, whatsappHrefFor } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
 import type { SiteCopy } from "@/lib/site-copy";
 
 /**
@@ -111,7 +111,7 @@ export default function MobileDrawer({
               </a>
             </li>
             <li>
-              <a href={`tel:${PHONE_E164}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
+              <a href={`tel:${copy.phoneE164}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
                 <PhoneIcon className="h-4 w-4 shrink-0 text-primary" />
                 {copy.phoneDisplay}
               </a>

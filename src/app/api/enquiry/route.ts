@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { EMAIL } from "@/lib/constants";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * POST /api/enquiry — the booking/enquiry form's backend.
@@ -311,9 +311,13 @@ export async function POST(request: Request) {
     </div>
   `.trim();
 
+  // The env var still wins — it is how a deployment overrides delivery
+  // without an editor being able to redirect the clinic's own enquiries.
+  // Below it, the address the clinic publishes in Site settings, so changing
+  // it there actually changes where enquiries land.
   const result = await sendEmail({
     from: process.env.ENQUIRY_FROM_EMAIL,
-    to: process.env.ENQUIRY_TO_EMAIL || EMAIL,
+    to: process.env.ENQUIRY_TO_EMAIL || (await getSiteCopy()).email,
     // The clinic replies to the patient, not to the no-reply sender.
     replyTo: email,
     // The page's own subject wins over the treatment, so a gift card

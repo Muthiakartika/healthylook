@@ -44,12 +44,17 @@ import {
   getSanityDoctors,
   getSanityPartners,
   getSanityPricingSections,
+  getSanityResultGalleries,
   getSanitySiteSettings,
   getSanityTestimonials,
   getSanityTreatments,
 } from "@/sanity/lib/content";
 import { clinicFaqs as sourceClinicFaqs, type ClinicFaq } from "@/data/clinicFaqs";
 import { partners as sourcePartners, type Partner } from "@/data/partners";
+import {
+  getResultsForTreatment as sourceResultsForTreatment,
+  type ResultGroup,
+} from "@/data/results";
 import {
   CLINIC_HIGHLIGHTS,
   CLINIC_LICENCE_NUMBER,
@@ -422,6 +427,24 @@ export async function getSiteCopy(): Promise<SiteCopy> {
       relatedEyebrow: pick(headings?.relatedEyebrow, "Also in this category"),
     },
   };
+}
+
+/**
+ * The before/after sample embedded in a treatment page.
+ *
+ * Reads the same CMS galleries /before-after renders, so editing a gallery
+ * in the Studio updates both. Which category a treatment maps to stays in
+ * code — that is a structural link, not copy, and a treatment with no
+ * matching category still gets no gallery rather than someone else's photos.
+ */
+export async function getResultsForTreatment(
+  slug: string,
+): Promise<ResultGroup | undefined> {
+  const base = sourceResultsForTreatment(slug);
+  if (!base) return undefined;
+  const galleries = await getSanityResultGalleries();
+  const images = galleries?.get(base.slug);
+  return images?.length ? { ...base, images } : base;
 }
 
 export async function getPartners(): Promise<Partner[]> {

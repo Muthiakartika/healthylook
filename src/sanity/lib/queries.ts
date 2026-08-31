@@ -102,6 +102,18 @@ export const siteSettingsQuery = defineQuery(`
   }
 `);
 
+/**
+ * The before/after galleries as the CMS holds them, so a treatment page's
+ * embedded sample and /before-after cannot drift apart. Keyed by `anchor`,
+ * which the migration sets to the result group's slug.
+ */
+export const resultGalleriesQuery = defineQuery(`
+  *[_id == "page.before-after"][0].sections[_type == "gallerySection"]{
+    anchor,
+    images[] ${imageProjection}
+  }
+`);
+
 export const allPartnersQuery = defineQuery(`
   *[_type == "partner"] | order(order asc, name asc){
     _id,

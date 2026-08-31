@@ -1311,6 +1311,24 @@ export type SiteSettingsQueryResult = {
   seo?: Seo;
   defaultSeo: null;
 } | null;
+// Variable: resultGalleriesQuery
+// Query: *[_id == "page.before-after"][0].sections[_type == "gallerySection"]{    anchor,    images[] {  _type,  asset,  alt,  caption,  crop,  hotspot}  }
+export type ResultGalleriesQueryResult = Array<{
+  anchor: string | null;
+  images: Array<{
+    _type: "imageWithAlt";
+    asset: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    } | null;
+    alt: string | null;
+    caption: string | null;
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+  }> | null;
+}> | Array<never> | null;
 // Variable: allPartnersQuery
 // Query: *[_type == "partner"] | order(order asc, name asc){    _id,    _type,    name,    order,    logo {  _type,  asset,  alt,  caption,  crop,  hotspot}  }
 export type AllPartnersQueryResult = Array<{
@@ -1383,6 +1401,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"treatment\" && defined(slug.current)] | order(name asc){\n    ...,\n    \"slug\": slug.current,\n    image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n    seo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": AllTreatmentsQueryResult;
     "\n  *[_type == \"pricingSection\"] | order(order asc, title asc){\n    _id,\n    _type,\n    title,\n    category,\n    order,\n    groups\n  }\n": AllPricingSectionsQueryResult;
     "\n  *[_id == \"siteSettings\"][0]{\n    ...,\n    defaultSeo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": SiteSettingsQueryResult;
+    "\n  *[_id == \"page.before-after\"][0].sections[_type == \"gallerySection\"]{\n    anchor,\n    images[] {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n}\n  }\n": ResultGalleriesQueryResult;
     "\n  *[_type == \"partner\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    order,\n    logo {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n}\n  }\n": AllPartnersQueryResult;
     "\n  *[_type == \"doctor\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    shortName,\n    title,\n    bio,\n    registrationNumber,\n    registryUrl,\n    order,\n    photo {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n}\n  }\n": AllDoctorsQueryResult;
     "\n  *[_type == \"testimonial\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    quote,\n    source,\n    featured,\n    order,\n    \"treatmentSlugs\": treatments[]->slug.current\n  }\n": AllTestimonialsQueryResult;
