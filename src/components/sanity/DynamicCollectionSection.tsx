@@ -6,6 +6,7 @@ import TreatmentThumb from "@/components/shared/TreatmentThumb";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
+import { extraPricingSections } from "@/data/pricing";
 import { TREATMENT_CATEGORIES, treatmentHref } from "@/data/treatments";
 import { getBlogPosts, getTreatments } from "@/lib/site-content";
 import type { CollectionSection } from "@/sanity/types";
@@ -80,6 +81,7 @@ async function BlogDirectory({ section }: { section: CollectionSection }) {
                   name={post.title}
                   categoryLabel={post.categoryLabel ?? "Healthy Look"}
                   aspect="landscape"
+                  position={treatment?.imagePosition}
                 />
                 <div className="flex flex-1 flex-col p-7">
                   <h2 className="flex items-start justify-between gap-3 font-sans text-h4 leading-snug text-ink transition-colors group-hover:text-primary">
@@ -104,7 +106,14 @@ async function PricingDirectory({ section }: { section: CollectionSection }) {
       <div className="flex flex-col gap-20">
         {TREATMENT_CATEGORIES.map((category, categoryIndex) => {
           const items = treatments.filter((item) => item.category === category.id);
-          if (!items.length) return null;
+          // Eye treatment, personalized mesotherapy, intimate care: price
+          // tables with no treatment page of their own. The client asked for
+          // them to sit under the category they belong to rather than in a
+          // "More treatments" catch-all — see extraPricingSections in
+          // data/pricing.ts. They are why a category can be worth rendering
+          // even when no treatment in it carries a price.
+          const extras = extraPricingSections.filter((item) => item.category === category.id);
+          if (!items.length && !extras.length) return null;
           return (
             <div key={category.id} id={`price-${category.id}`} className="scroll-mt-36">
               <SectionHeading eyebrow={String(categoryIndex + 1).padStart(2, "0")} title={category.label} align="left" />
@@ -116,6 +125,16 @@ async function PricingDirectory({ section }: { section: CollectionSection }) {
                       <p className="mt-4 font-sans text-sm leading-relaxed text-text-secondary">{item.shortDescription}</p>
                     </div>
                     <div className="lg:col-span-8"><PriceTable groups={item.priceGroups!} /></div>
+                  </div>
+                ))}
+                {extras.map((item) => (
+                  <div key={item.id} className="grid gap-8 border-t border-hairline pt-9 lg:grid-cols-12 lg:gap-14">
+                    {/* No description line, unlike the treatments above — these
+                        three have no treatment page to summarise. */}
+                    <div className="lg:col-span-4">
+                      <h3 className="font-sans text-h3 text-ink">{item.title}</h3>
+                    </div>
+                    <div className="lg:col-span-8"><PriceTable groups={item.groups} /></div>
                   </div>
                 ))}
               </div>

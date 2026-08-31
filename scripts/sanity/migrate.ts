@@ -694,6 +694,7 @@ async function innerPageSections(path: string): Promise<unknown[]> {
           image: "/images/clinic/reception.jpg",
           alt: "Healthy Look Aesthetic reception in Ubud",
         }),
+        richText("results-authenticity", "", ["Real patients, real results. No filter, no edit."], { tone: "paper", align: "center" }),
         ...galleries,
         curated("results-testimonials", "testimonials"),
         curated("results-booking", "booking"),
@@ -717,8 +718,8 @@ async function innerPageSections(path: string): Promise<unknown[]> {
           eyebrow: GIFT_CARD_TAGLINE,
           title: GIFT_CARD_HEADING,
           description: GIFT_CARD_INTRO,
-          image: "/images/clinic/clinic-09.jpg",
-          alt: "Healthy Look Aesthetic treatment room in Ubud",
+          image: "/images/treatments/live-facial-closeup.jpg",
+          alt: "A close-up of a facial treatment at Healthy Look Aesthetic, Ubud",
         }),
         richText("gift-introduction", "A gift that lets them choose", GIFT_CARD_BODY, { eyebrow: "Healthy Look eGift Cards", tone: "paper", width: "standard" }),
         {

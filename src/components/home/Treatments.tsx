@@ -11,6 +11,7 @@ import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import {
   TREATMENT_CATEGORIES,
+  MOST_POPULAR_SLUGS,
   treatmentHref,
   type Treatment,
   type TreatmentCategoryId,
@@ -94,6 +95,9 @@ export default function Treatments({
     hoveredTreatment?.image ??
     activeCategory?.image ??
     "/images/clinic/clinic-04.jpg";
+  // undefined whenever the category photo or clinic fallback is showing
+  // instead — Img's own default crop is the right one for those.
+  const previewPosition = showingOwnPhoto ? hoveredTreatment?.imagePosition : undefined;
   const previewLabel = showingOwnPhoto
     ? (hoveredTreatment?.name ?? "")
     : (activeCategory?.label ?? "");
@@ -189,13 +193,13 @@ export default function Treatments({
                     <div className="flex-1">
                       <h3 className="flex flex-wrap items-center gap-x-3 font-sans text-h3 leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
                         {treatment.name}
-                        {/* ── CLIENT REVISION — VISUAL HIERARCHY FOR THE
-                            MOST POPULAR TREATMENT ── Marks the first row in
-                            each category tab, which is already the client's
-                            own curated order (HOME_POPULAR_SLUGS) rather
-                            than a separate "best-selling" claim this file
-                            has no sales data to back up. */}
-                        {index === 0 && (
+                        {/* ── CLIENT REVISION — "MOST POPULAR" NAMES FIVE
+                            SPECIFIC TREATMENTS ── Used to mark whichever row
+                            sat first in a category tab; the client has since
+                            named the five directly (MOST_POPULAR_SLUGS in
+                            data/treatments.ts), so this checks the slug
+                            rather than the row's position. */}
+                        {MOST_POPULAR_SLUGS.includes(treatment.slug) && (
                           <span className="rounded-full bg-primary/10 px-2.5 py-1 font-sans text-nano font-semibold uppercase tracking-caps text-primary-strong">
                             Most Popular
                           </span>
@@ -228,6 +232,7 @@ export default function Treatments({
                 alt=""
                 aspect="portrait"
                 sizes="(max-width: 1024px) 0px, 40vw"
+                position={previewPosition}
               />
               <p className="mt-5 font-sans text-caption uppercase tracking-caps text-muted">
                 {previewLabel}

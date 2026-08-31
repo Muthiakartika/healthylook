@@ -24,9 +24,18 @@ import { getTreatments } from "@/lib/site-content";
  * special about our technology" summary, not the full treatment page.
  *
  * `getTreatmentBySlug` supplies the photo, the name, and the link, so this
- * file only has to own the six fact lists — no image or href is hardcoded,
- * and a renamed or re-slugged treatment can't silently break this section
+ * file only has to own the fact lists — no image or href is hardcoded, and
+ * a renamed or re-slugged treatment can't silently break this section
  * without TypeScript noticing the lookup returned undefined.
+ *
+ * ── FOLLOW-UP REVISION ──────────────────────────────────────────────────
+ * Juvelook and Exosome were dropped from this section on the client's own
+ * second thought ("sorry i changed my mind") — both stay on the site as
+ * full treatment pages, just not featured here. Sylfirm and CM Slim each
+ * gained two more client-supplied facts. Lysiwave's photo crop is fixed via
+ * `treatment.imagePosition` now (see treatments.ts) rather than here, since
+ * the same crop turned out to be wrong everywhere else this photo renders
+ * too, not just on this card.
  */
 const HIGHLIGHT_ENTRIES: { slug: string; facts: string[] }[] = [
   {
@@ -40,20 +49,11 @@ const HIGHLIGHT_ENTRIES: { slug: string; facts: string[] }[] = [
   },
   {
     slug: "microneedling/rf",
-    facts: ["World's first and only FDA-approved dual-wave RF Microneedling"],
-  },
-  {
-    slug: "juvelook",
     facts: [
-      "Free upgrade to the advanced Dermashine injector",
-      "Less painful",
-      "No bruising",
-      "Results-focused",
+      "World's first and only FDA-approved dual-wave RF Microneedling",
+      "Quick downtime",
+      "More advanced than conventional microneedling",
     ],
-  },
-  {
-    slug: "exosome",
-    facts: ["An aesthetic clinic offering authentic ASCE+ Exosome"],
   },
   {
     slug: "fat-cellulite",
@@ -65,7 +65,7 @@ const HIGHLIGHT_ENTRIES: { slug: string; facts: string[] }[] = [
   },
   {
     slug: "muscle-sculpting",
-    facts: ["CE Certified"],
+    facts: ["CE Certified", "No downtime", "Non invasive, no needle"],
   },
 ];
 
@@ -95,14 +95,23 @@ export default async function TreatmentHighlights() {
           className="lg:max-w-2xl"
         />
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* ── CLIENT REVISION — 2 COLUMNS, NOT 3-THEN-1 ───────────────────
+            Juvelook and Exosome's removal (see HIGHLIGHT_ENTRIES above)
+            left four cards, and lg:grid-cols-3 rendered that as three then
+            one — an orphan row the client asked to fix. Two columns turns
+            four cards into two even rows instead. */}
+        <div className="mt-14 grid gap-8 sm:grid-cols-2">
           {highlights.map(({ treatment, facts }, index) => (
             <Reveal key={treatment.slug} delay={Math.min(index, 5) * 70}>
               <Link
                 href={treatmentHref(treatment)}
                 className="group flex h-full flex-col border border-hairline bg-background transition-colors duration-300 hover:border-primary/40"
               >
-                <TreatmentThumb src={treatment.image} name={treatment.name} />
+                <TreatmentThumb
+                  src={treatment.image}
+                  name={treatment.name}
+                  position={treatment.imagePosition}
+                />
                 <div className="flex flex-1 flex-col p-7">
                   <h3 className="flex items-start justify-between gap-3 font-sans text-h4 leading-tight text-ink transition-colors duration-300 group-hover:text-primary">
                     {treatment.name}

@@ -1,16 +1,28 @@
-import type { PriceGroup } from "./treatments";
+import type { PriceGroup, TreatmentCategoryId } from "./treatments";
 
 // Price-list sections from the live site's /pricing page that don't map
-// onto a single treatment in the nav — eye treatments, mesotherapy,
-// intimate care, and the IV booster menu.
+// onto a single treatment in the nav — eye treatments, mesotherapy, and
+// intimate care.
 //
 // They're kept here rather than dropped so /pricing can reproduce the
 // clinic's published price list in full. Every row is verbatim: same
 // wording, same IDR figure, same order as the live page.
-
+//
+// ── CLIENT REVISION — GROUPED BY CATEGORY, NOT LUMPED TOGETHER ─────────
+// "Eye treatments should be in the skin treatment. Intimate care should be
+// in body treatment. Mesotherapy should be in skin treatments." These three
+// used to render together in their own "More treatments" catch-all at the
+// bottom of /pricing, disconnected from the four category sections above
+// it. `category` below is what PricingPage now groups them by, so each
+// renders under the same heading as the rest of its category — which also
+// matches where the live page itself positions them (Eye Treatment sits
+// between Skin Booster and Profhilo's Adipose Tissue Restoration;
+// Personalized Mesotherapy between Salmon DNA and Sylfirm X; Intimate Care
+// between Body Peeling and Carboxy Therapy — skin, skin, and body).
 export type PricingSection = {
   id: string;
   title: string;
+  category: TreatmentCategoryId;
   groups: PriceGroup[];
 };
 
@@ -18,6 +30,7 @@ export const extraPricingSections: PricingSection[] = [
   {
     id: "eye-treatment",
     title: "Eye Treatment",
+    category: "skin-treatments",
     groups: [
       {
         rows: [
@@ -33,6 +46,7 @@ export const extraPricingSections: PricingSection[] = [
   {
     id: "personalized-mesotherapy",
     title: "Personalized Mesotherapy",
+    category: "skin-treatments",
     groups: [
       {
         rows: [
@@ -48,6 +62,7 @@ export const extraPricingSections: PricingSection[] = [
   {
     id: "intimate-care",
     title: "Intimate Care",
+    category: "body-treatments",
     groups: [
       {
         rows: [
