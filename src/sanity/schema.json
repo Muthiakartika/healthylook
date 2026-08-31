@@ -414,6 +414,104 @@
     }
   },
   {
+    "name": "pricingSection",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "pricingSection"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "category": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "facial-enhancement"
+            },
+            {
+              "type": "string",
+              "value": "skin-treatments"
+            },
+            {
+              "type": "string",
+              "value": "body-treatments"
+            },
+            {
+              "type": "string",
+              "value": "hair-booster"
+            }
+          ]
+        },
+        "optional": true
+      },
+      "order": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "groups": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "priceGroup"
+            }
+          }
+        },
+        "optional": true
+      }
+    }
+  },
+  {
     "name": "treatment",
     "type": "document",
     "attributes": {
@@ -524,6 +622,35 @@
         },
         "optional": true
       },
+      "imagePosition": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "object-center"
+            },
+            {
+              "type": "string",
+              "value": "object-top"
+            },
+            {
+              "type": "string",
+              "value": "object-bottom"
+            },
+            {
+              "type": "string",
+              "value": "object-left"
+            },
+            {
+              "type": "string",
+              "value": "object-right"
+            }
+          ]
+        },
+        "optional": true
+      },
       "featuredOnHomepage": {
         "type": "objectAttribute",
         "value": {
@@ -535,6 +662,13 @@
         "type": "objectAttribute",
         "value": {
           "type": "number"
+        },
+        "optional": true
+      },
+      "mostPopular": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },
@@ -636,6 +770,28 @@
           "type": "array",
           "of": {
             "type": "string"
+          }
+        },
+        "optional": true
+      },
+      "journey": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "journeyStep"
+            }
           }
         },
         "optional": true
@@ -2473,6 +2629,43 @@
           "optional": true
         },
         "unit": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "description": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "journeyStep",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "journeyStep"
+          }
+        },
+        "label": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "duration": {
           "type": "objectAttribute",
           "value": {
             "type": "string"

@@ -45,10 +45,21 @@ The migration:
 To deliberately replace migrated documents with source data:
 
 ```bash
-npm run sanity:migrate -- --replace
+npx sanity exec scripts/sanity/migrate.ts --with-user-token -- --replace
 ```
 
-Use `--replace` only when discarding subsequent Studio edits is intended.
+Note the second `--`, and why the obvious `npm run sanity:migrate -- --replace`
+does not work: npm consumes its own `--`, so `sanity exec` receives `--replace`
+as an option of its own, does not recognise it, and drops it before the script
+runs. The migration then completes reporting "create missing documents only"
+and silently changes nothing — which looks like success. Check that first line
+of output says `Migration mode: replace existing documents` before believing a
+replace run did anything.
+
+Use `--replace` only when discarding subsequent Studio edits is intended. Note
+that `Page` documents are exempt either way: migrateInnerPages skips any page
+that is no longer the generated placeholder, with or without the flag, so a
+replace run cannot overwrite a page an editor has arranged.
 
 ## 3. Editing model
 

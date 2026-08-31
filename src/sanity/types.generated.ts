@@ -83,6 +83,20 @@ export type ImageWithAlt = {
   caption?: string;
 };
 
+export type PricingSection = {
+  _id: string;
+  _type: "pricingSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  category?: "facial-enhancement" | "skin-treatments" | "body-treatments" | "hair-booster";
+  order?: number;
+  groups?: Array<{
+    _key: string;
+  } & PriceGroup>;
+};
+
 export type Treatment = {
   _id: string;
   _type: "treatment";
@@ -97,8 +111,10 @@ export type Treatment = {
   shortDescription?: string;
   intro?: string;
   image?: ImageWithAlt;
+  imagePosition?: "object-center" | "object-top" | "object-bottom" | "object-left" | "object-right";
   featuredOnHomepage?: boolean;
   featuredOrder?: number;
+  mostPopular?: boolean;
   treatmentTime?: string;
   treatmentTimeShort?: string;
   anaesthesia?: string;
@@ -113,6 +129,9 @@ export type Treatment = {
   } & PriceGroup>;
   popularAreasTitle?: string;
   popularAreas?: Array<string>;
+  journey?: Array<{
+    _key: string;
+  } & JourneyStep>;
   sections?: Array<{
     _key: string;
   } & TreatmentSection>;
@@ -358,6 +377,13 @@ export type PriceRow = {
   label?: string;
   price?: number;
   unit?: string;
+  description?: string;
+};
+
+export type JourneyStep = {
+  _type: "journeyStep";
+  label?: string;
+  duration?: string;
 };
 
 export type FeatureItem = {
@@ -486,7 +512,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | Treatment | Slug | Category | Post | PortableText | Page | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | FeatureItem | FaqItem | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | PricingSection | Treatment | Slug | Category | Post | PortableText | Page | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | JourneyStep | FeatureItem | FaqItem | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: pageByPathQuery
@@ -821,8 +847,10 @@ export type AllTreatmentsQueryResult = Array<{
     crop: SanityImageCrop | null;
     hotspot: SanityImageHotspot | null;
   } | null;
+  imagePosition?: "object-bottom" | "object-center" | "object-left" | "object-right" | "object-top";
   featuredOnHomepage?: boolean;
   featuredOrder?: number;
+  mostPopular?: boolean;
   treatmentTime?: string;
   treatmentTimeShort?: string;
   anaesthesia?: string;
@@ -837,6 +865,9 @@ export type AllTreatmentsQueryResult = Array<{
   } & PriceGroup>;
   popularAreasTitle?: string;
   popularAreas?: Array<string>;
+  journey?: Array<{
+    _key: string;
+  } & JourneyStep>;
   sections?: Array<{
     _key: string;
   } & TreatmentSection>;
@@ -861,6 +892,18 @@ export type AllTreatmentsQueryResult = Array<{
     } | null;
     noIndex: boolean | null;
   } | null;
+}>;
+// Variable: allPricingSectionsQuery
+// Query: *[_type == "pricingSection"] | order(order asc, title asc){    _id,    _type,    title,    category,    order,    groups  }
+export type AllPricingSectionsQueryResult = Array<{
+  _id: string;
+  _type: "pricingSection";
+  title: string | null;
+  category: "body-treatments" | "facial-enhancement" | "hair-booster" | "skin-treatments" | null;
+  order: number | null;
+  groups: Array<{
+    _key: string;
+  } & PriceGroup> | null;
 }>;
 // Variable: allDoctorsQuery
 // Query: *[_type == "doctor"] | order(order asc, name asc){    _id,    _type,    name,    shortName,    title,    bio,    registrationNumber,    registryUrl,    order,    photo {  _type,  asset,  alt,  caption,  crop,  hotspot}  }
@@ -911,6 +954,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && defined(slug.current)] | order(publishedAt desc){\n    _id,\n    _type,\n    title,\n    \"slug\": slug.current,\n    excerpt,\n    coverImage {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n    publishedAt,\n    \"categories\": categories[]->{_id, title, \"slug\": slug.current},\n    body,\n    seo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": AllPostsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)].slug.current\n": AllPostSlugsQueryResult;
     "\n  *[_type == \"treatment\" && defined(slug.current)] | order(name asc){\n    ...,\n    \"slug\": slug.current,\n    image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n    seo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": AllTreatmentsQueryResult;
+    "\n  *[_type == \"pricingSection\"] | order(order asc, title asc){\n    _id,\n    _type,\n    title,\n    category,\n    order,\n    groups\n  }\n": AllPricingSectionsQueryResult;
     "\n  *[_type == \"doctor\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    shortName,\n    title,\n    bio,\n    registrationNumber,\n    registryUrl,\n    order,\n    photo {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n}\n  }\n": AllDoctorsQueryResult;
     "\n  *[_type == \"testimonial\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    quote,\n    source,\n    featured,\n    order,\n    \"treatmentSlugs\": treatments[]->slug.current\n  }\n": AllTestimonialsQueryResult;
   }
