@@ -6,9 +6,8 @@ import TreatmentThumb from "@/components/shared/TreatmentThumb";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import { extraPricingSections } from "@/data/pricing";
 import { TREATMENT_CATEGORIES, treatmentHref } from "@/data/treatments";
-import { getBlogPosts, getTreatments } from "@/lib/site-content";
+import { getBlogPosts, getExtraPricingSections, getTreatments } from "@/lib/site-content";
 import type { CollectionSection } from "@/sanity/types";
 import SectionShell from "./SectionShell";
 
@@ -99,7 +98,8 @@ async function BlogDirectory({ section }: { section: CollectionSection }) {
 }
 
 async function PricingDirectory({ section }: { section: CollectionSection }) {
-  const treatments = (await getTreatments()).filter((item) => item.priceGroups?.length);
+  const [all, extraSections] = await Promise.all([getTreatments(), getExtraPricingSections()]);
+  const treatments = all.filter((item) => item.priceGroups?.length);
   return (
     <SectionShell tone={section.tone} anchor={section.anchor}>
       <Heading section={section} />
@@ -112,7 +112,7 @@ async function PricingDirectory({ section }: { section: CollectionSection }) {
           // "More treatments" catch-all — see extraPricingSections in
           // data/pricing.ts. They are why a category can be worth rendering
           // even when no treatment in it carries a price.
-          const extras = extraPricingSections.filter((item) => item.category === category.id);
+          const extras = extraSections.filter((item) => item.category === category.id);
           if (!items.length && !extras.length) return null;
           return (
             <div key={category.id} id={`price-${category.id}`} className="scroll-mt-36">

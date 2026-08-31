@@ -5,9 +5,18 @@ import {
   treatments as sourceTreatments,
   TREATMENT_CATEGORIES,
   HOME_POPULAR_SLUGS,
+  MOST_POPULAR_SLUGS,
   type Treatment,
   type TreatmentCategoryId,
 } from "@/data/treatments";
+import {
+  getTreatmentJourney as sourceJourney,
+  type JourneyStep,
+} from "@/data/treatmentJourney";
+import {
+  extraPricingSections as sourcePricingSections,
+  type PricingSection,
+} from "@/data/pricing";
 import {
   articles as sourceArticles,
   normalizeArticleBlocks,
@@ -32,6 +41,7 @@ import {
 import { getSanityPosts } from "@/sanity/lib/content";
 import {
   getSanityDoctors,
+  getSanityPricingSections,
   getSanityTestimonials,
   getSanityTreatments,
 } from "@/sanity/lib/content";
@@ -245,6 +255,54 @@ export async function getTreatmentFaqs(slug: string): Promise<TreatmentFaq[]> {
   );
   if (!rows) return sourceFaqs[slug] ?? [];
   return rows.find((row) => row.slug === slug)?.data.faqs ?? [];
+}
+
+/**
+ * The "Your Treatment Journey" timeline, from Sanity where an editor has
+ * filled one in and from the clinic's own sheet otherwise.
+ *
+ * An empty array is meaningful, not missing: Facial and Medi Facial have no
+ * consultation/numbing/treatment structure, so they render no journey rather
+ * than a guessed one. That is why this falls back only when Sanity has no
+ * entry for the treatment at all — an editor who empties the field is
+ * deliberately turning the section off, and restoring the source steps would
+ * overrule them.
+ */
+export async function getTreatmentJourney(slug: string): Promise<JourneyStep[]> {
+  const sanity = await getSanityTreatments();
+  const extras = sanity?.extras.get(slug);
+  if (extras) return extras.journey;
+  return sourceJourney(slug) ?? [];
+}
+
+/**
+ * Which treatments carry the "Most popular" badge.
+ *
+ * Separate from the homepage shortlist: the clinic names these five directly,
+ * and two of them share a category, which a per-category "first row" rule
+ * could never have marked at once.
+ */
+export async function getMostPopularSlugs(): Promise<string[]> {
+  const sanity = await getSanityTreatments();
+  if (!sanity) return MOST_POPULAR_SLUGS;
+  const flagged = sanity.treatments
+    .filter((treatment) => sanity.extras.get(treatment.slug)?.mostPopular)
+    .map((treatment) => treatment.slug);
+  // No treatment flagged in Sanity reads as "not configured yet", not as "the
+  // clinic wants no badges" — the badge would otherwise vanish site-wide the
+  // moment the CMS is populated but this one checkbox is missed.
+  return flagged.length ? flagged : MOST_POPULAR_SLUGS;
+}
+
+/**
+ * The /pricing tables that have no treatment page behind them — eye
+ * treatment, personalized mesotherapy, intimate care.
+ *
+ * Falls back whole rather than per-table: a partly-populated CMS would
+ * otherwise show one table twice, once from each source.
+ */
+export async function getExtraPricingSections(): Promise<PricingSection[]> {
+  return (await getSanityPricingSections()) ?? sourcePricingSections;
 }
 
 export async function getDoctors(): Promise<Doctor[]> {

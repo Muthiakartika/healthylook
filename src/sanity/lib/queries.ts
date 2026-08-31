@@ -84,6 +84,17 @@ export const allTreatmentsQuery = defineQuery(`
   }
 `);
 
+export const allPricingSectionsQuery = defineQuery(`
+  *[_type == "pricingSection"] | order(order asc, title asc){
+    _id,
+    _type,
+    title,
+    category,
+    order,
+    groups
+  }
+`);
+
 export const allDoctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc, name asc){
     _id,

@@ -1,11 +1,14 @@
 import type {
   SanityDoctorDocument,
+  SanityPricingSectionDocument,
   SanityPage,
   SanityPost,
   SanityTestimonialDocument,
   SanityTreatmentDocument,
 } from "@/sanity/types";
 import type { Treatment } from "@/data/treatments";
+import type { JourneyStep } from "@/data/treatmentJourney";
+import type { PricingSection } from "@/data/pricing";
 import type { Doctor } from "@/data/doctors";
 import type { PortableTextBlock } from "@portabletext/types";
 import { sanityFetch } from "@/sanity/lib/client";
@@ -18,6 +21,7 @@ import {
   allDoctorsQuery,
   allTestimonialsQuery,
   allTreatmentsQuery,
+  allPricingSectionsQuery,
 } from "@/sanity/lib/queries";
 import { sanityImageUrl } from "@/sanity/lib/image";
 
@@ -72,8 +76,11 @@ export async function getSanityPostSlugs(): Promise<string[]> {
 export type SanityTreatmentExtras = {
   sections: NonNullable<SanityTreatmentDocument["sections"]>;
   faqs: Array<{ question: string; answer: string }>;
+  /** Empty means the treatment renders no journey section — see journeyStep. */
+  journey: JourneyStep[];
   featuredOnHomepage?: boolean;
   featuredOrder?: number;
+  mostPopular?: boolean;
   seo?: SanityTreatmentDocument["seo"];
 };
 
@@ -105,8 +112,13 @@ export async function getSanityTreatments(): Promise<
         question: item.question,
         answer: portableTextToPlainText(item.answer),
       })),
+      journey: (document.journey ?? []).map((step) => ({
+        label: step.label,
+        duration: step.duration,
+      })),
       featuredOnHomepage: document.featuredOnHomepage,
       featuredOrder: document.featuredOrder,
+      mostPopular: document.mostPopular,
       seo: document.seo,
     });
 
@@ -125,6 +137,7 @@ export async function getSanityTreatments(): Promise<
       fullResult: document.fullResult,
       performedBy: document.performedBy,
       image: sanityImageUrl(document.image) ?? undefined,
+      imagePosition: document.imagePosition,
       startingPrice: document.startingPrice,
       priceUnit: document.priceUnit,
       priceGroups: document.priceGroups?.map((group) => ({
@@ -134,6 +147,7 @@ export async function getSanityTreatments(): Promise<
           label: row.label,
           price: typeof row.price === "number" ? row.price : null,
           unit: row.unit,
+          description: row.description,
         })),
       })),
       intro: document.intro,
@@ -149,6 +163,32 @@ export async function getSanityTreatmentExtras(
   slug: string,
 ): Promise<SanityTreatmentExtras | null> {
   return (await getSanityTreatments())?.extras.get(slug) ?? null;
+}
+
+export async function getSanityPricingSections(): Promise<PricingSection[] | null> {
+  const documents = await sanityFetch<SanityPricingSectionDocument[]>(allPricingSectionsQuery, {
+    tags: ["sanity", "sanity:pricingSection"],
+  });
+  if (!documents?.length) return null;
+
+  return documents.map((document) => ({
+    // `_id` is the stable identity here; the source file's own `id` is not a
+    // field editors can see, and two tables sharing a React key would be a
+    // silent render bug rather than a validation error.
+    id: document._id,
+    title: document.title,
+    category: document.category,
+    groups: document.groups.map((group) => ({
+      title: group.title,
+      note: group.note,
+      rows: group.rows.map((row) => ({
+        label: row.label,
+        price: typeof row.price === "number" ? row.price : null,
+        unit: row.unit,
+        description: row.description,
+      })),
+    })),
+  }));
 }
 
 export async function getSanityDoctors(): Promise<Doctor[] | null> {

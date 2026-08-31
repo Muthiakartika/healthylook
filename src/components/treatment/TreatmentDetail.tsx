@@ -18,13 +18,14 @@ import { treatmentHref, TREATMENT_CATEGORIES, type Treatment } from "@/data/trea
 import {
   getTreatments,
   getTreatmentFaqs,
+  getTreatmentJourney,
   getTreatmentSections,
   getTestimonialsForTreatment,
   hasOwnTestimonials,
 } from "@/lib/site-content";
 import { CLINIC_SAFETY_PROTOCOLS } from "@/data/clinic";
 import { getResultsForTreatment } from "@/data/results";
-import { getTreatmentJourney } from "@/data/treatmentJourney";
+
 import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
 
 /**
@@ -68,10 +69,11 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
   // `getResultsForTreatment` for why an unmatched treatment gets no
   // embedded gallery rather than someone else's photos.
   const resultGroup = getResultsForTreatment(treatment.slug);
-  // The clinic's own step-by-step timeline for this treatment — undefined
-  // for Facial and Medi Facial, the two treatments the source sheet
-  // doesn't cover. See treatmentJourney.ts.
-  const journey = getTreatmentJourney(treatment.slug);
+  // The clinic's own step-by-step timeline for this treatment — empty for
+  // Facial and Medi Facial, the two the source sheet doesn't cover, and for
+  // any treatment an editor has deliberately cleared in Sanity. See
+  // treatmentJourney.ts and the journeyStep schema.
+  const journey = await getTreatmentJourney(treatment.slug);
   // Resolved here rather than inline in the JSX below: both are async now,
   // and an await cannot sit inside a prop expression.
   const reviews = await getTestimonialsForTreatment(treatment.slug);

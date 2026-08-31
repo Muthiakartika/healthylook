@@ -11,7 +11,8 @@ import {
 } from "../../src/data/testimonials";
 import { treatmentFaqs } from "../../src/data/treatmentFaqs";
 import { treatmentSections } from "../../src/data/treatmentSections";
-import { HOME_POPULAR_SLUGS, treatments } from "../../src/data/treatments";
+import { HOME_POPULAR_SLUGS, MOST_POPULAR_SLUGS, treatments } from "../../src/data/treatments";
+import { getTreatmentJourney } from "../../src/data/treatmentJourney";
 import {
   CLINIC_HIGHLIGHTS,
   CLINIC_LICENCE_STATEMENT,
@@ -30,6 +31,7 @@ import {
   specialOffers,
 } from "../../src/data/offers";
 import { resultGroups } from "../../src/data/results";
+import { extraPricingSections } from "../../src/data/pricing";
 import { clinicFaqs } from "../../src/data/clinicFaqs";
 import {
   BOOKING_HREF,
@@ -198,6 +200,7 @@ async function migrateTreatments() {
       initialResult: treatment.initialResult,
       fullResult: treatment.fullResult,
       performedBy: treatment.performedBy,
+      imagePosition: treatment.imagePosition,
       startingPrice: treatment.startingPrice,
       priceUnit: treatment.priceUnit,
       priceGroups: treatment.priceGroups?.map((group, groupIndex) => ({
@@ -232,14 +235,44 @@ async function migrateTreatments() {
           answer: portableAnswer(faq.answer, faqKey),
         };
       }),
+      journey: getTreatmentJourney(treatment.slug)?.map((step, stepIndex) => ({
+        ...step,
+        _type: "journeyStep",
+        _key: key("journey", stepIndex),
+      })),
       featuredOnHomepage: featuredOrder >= 0,
       featuredOrder: featuredOrder >= 0 ? featuredOrder : undefined,
+      mostPopular: MOST_POPULAR_SLUGS.includes(treatment.slug),
       seo: (() => {
         const value = getTreatmentSeo(treatment.slug, treatment);
         return { _type: "seo", title: value.title, description: value.description };
       })(),
     });
     console.log(`Treatment: ${treatment.slug}`);
+  }
+}
+
+async function migratePricingSections() {
+  for (const [index, section] of extraPricingSections.entries()) {
+    await write({
+      _id: safeId("pricing-section", section.id),
+      _type: "pricingSection",
+      title: section.title,
+      category: section.category,
+      order: index,
+      groups: section.groups.map((group, groupIndex) => ({
+        ...group,
+        _type: "priceGroup",
+        _key: key("price-group", groupIndex),
+        rows: group.rows.map((row, rowIndex) => ({
+          ...row,
+          price: row.price ?? undefined,
+          _type: "priceRow",
+          _key: key(`price-${groupIndex + 1}`, rowIndex),
+        })),
+      })),
+    });
+    console.log(`Pricing section: ${section.id}`);
   }
 }
 
@@ -834,6 +867,7 @@ async function main() {
   console.log(replaceExisting ? "Migration mode: replace existing documents" : "Migration mode: create missing documents only");
   await migrateCategories();
   await migrateTreatments();
+  await migratePricingSections();
   await migrateDoctors();
   await migrateTestimonials();
   await migratePosts();

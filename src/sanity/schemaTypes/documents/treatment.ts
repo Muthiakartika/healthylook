@@ -27,8 +27,34 @@ export const treatment = defineType({
     defineField({ name: "shortDescription", title: "Catalogue description", type: "text", rows: 3, group: "overview", validation: (Rule) => Rule.required() }),
     defineField({ name: "intro", title: "Introduction", type: "text", rows: 6, group: "overview" }),
     defineField({ name: "image", title: "Hero image", type: "imageWithAlt", group: "overview" }),
+    defineField({
+      name: "imagePosition",
+      title: "Hero image crop",
+      type: "string",
+      group: "overview",
+      description:
+        "Where to anchor the photo when it is cropped into a wider card. Leave on centre unless the subject sits at one edge — a tall product shot whose device is in the top third loses it to a centre crop.",
+      options: {
+        list: [
+          { title: "Centre (default)", value: "object-center" },
+          { title: "Top", value: "object-top" },
+          { title: "Bottom", value: "object-bottom" },
+          { title: "Left", value: "object-left" },
+          { title: "Right", value: "object-right" },
+        ],
+      },
+    }),
     defineField({ name: "featuredOnHomepage", title: "Feature on homepage", type: "boolean", group: "overview", initialValue: false }),
     defineField({ name: "featuredOrder", title: "Homepage order", type: "number", group: "overview", hidden: ({ parent }) => !parent?.featuredOnHomepage, validation: (Rule) => Rule.integer().min(0) }),
+    defineField({
+      name: "mostPopular",
+      title: "Show the “Most popular” badge",
+      type: "boolean",
+      group: "overview",
+      initialValue: false,
+      description:
+        "Independent of the homepage shortlist above. The clinic names which treatments carry this badge, and two of them can sit in the same category.",
+    }),
 
     defineField({ name: "treatmentTime", title: "Treatment time", type: "string", group: "clinical" }),
     defineField({ name: "treatmentTimeShort", title: "Treatment time (card)", type: "string", group: "clinical" }),
@@ -44,6 +70,15 @@ export const treatment = defineType({
 
     defineField({ name: "popularAreasTitle", title: "Popular areas heading", type: "string", group: "content" }),
     defineField({ name: "popularAreas", title: "Popular areas", type: "array", group: "content", of: [defineArrayMember({ type: "string" })] }),
+    defineField({
+      name: "journey",
+      title: "Treatment journey",
+      type: "array",
+      group: "content",
+      of: [defineArrayMember({ type: "journeyStep" })],
+      description:
+        "The step-by-step timeline, in order, from arrival to the treatment itself. Leave empty and the section does not render — which is correct for the spa-style services that have no consultation/numbing/treatment structure.",
+    }),
     defineField({ name: "sections", title: "Long-form sections", type: "array", group: "content", of: [defineArrayMember({ type: "treatmentSection" })] }),
     defineField({ name: "faqs", title: "FAQs", type: "array", group: "content", of: [defineArrayMember({ type: "faqItem" })] }),
     defineField({ name: "seo", title: "Search and social", type: "seo", group: "seo" }),

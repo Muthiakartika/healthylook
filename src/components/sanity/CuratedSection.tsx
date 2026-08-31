@@ -13,7 +13,11 @@ import Faq from "@/components/home/Faq";
 import BlogTeaser from "@/components/home/BlogTeaser";
 import BookingSection from "@/components/home/BookingSection";
 import { TREATMENT_CATEGORIES, type Treatment, type TreatmentCategoryId } from "@/data/treatments";
-import { getPopularTreatments, getTreatmentCountLabel } from "@/lib/site-content";
+import {
+  getMostPopularSlugs,
+  getPopularTreatments,
+  getTreatmentCountLabel,
+} from "@/lib/site-content";
 import type { CuratedSection as CuratedSectionValue } from "@/sanity/types";
 
 export default async function CuratedSection({ section }: { section: CuratedSectionValue }) {
@@ -33,7 +37,13 @@ export default async function CuratedSection({ section }: { section: CuratedSect
           ),
         ),
       ) as Record<TreatmentCategoryId, Treatment[]>;
-      return <Treatments popular={popular} countLabel={await getTreatmentCountLabel()} />;
+      return (
+        <Treatments
+          popular={popular}
+          countLabel={await getTreatmentCountLabel()}
+          mostPopular={await getMostPopularSlugs()}
+        />
+      );
     }
     case "treatmentHighlights":
       return <TreatmentHighlights />;

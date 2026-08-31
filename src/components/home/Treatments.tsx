@@ -11,7 +11,6 @@ import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import {
   TREATMENT_CATEGORIES,
-  MOST_POPULAR_SLUGS,
   treatmentHref,
   type Treatment,
   type TreatmentCategoryId,
@@ -57,9 +56,12 @@ import {
 export default function Treatments({
   popular,
   countLabel,
+  mostPopular,
 }: {
   popular: Record<TreatmentCategoryId, Treatment[]>;
   countLabel: string;
+  /** Slugs carrying the badge — resolved on the server, same reason as `popular`. */
+  mostPopular: string[];
 }) {
   const [active, setActive] = useState<TreatmentCategoryId>("facial-enhancement");
   const [hovered, setHovered] = useState<string | null>(null);
@@ -196,10 +198,13 @@ export default function Treatments({
                         {/* ── CLIENT REVISION — "MOST POPULAR" NAMES FIVE
                             SPECIFIC TREATMENTS ── Used to mark whichever row
                             sat first in a category tab; the client has since
-                            named the five directly (MOST_POPULAR_SLUGS in
-                            data/treatments.ts), so this checks the slug
-                            rather than the row's position. */}
-                        {MOST_POPULAR_SLUGS.includes(treatment.slug) && (
+                            named the five directly, so this checks the slug
+                            rather than the row's position. Which five is now
+                            editable per treatment in Sanity — see
+                            getMostPopularSlugs in lib/site-content.ts, which
+                            falls back to MOST_POPULAR_SLUGS in
+                            data/treatments.ts. */}
+                        {mostPopular.includes(treatment.slug) && (
                           <span className="rounded-full bg-primary/10 px-2.5 py-1 font-sans text-nano font-semibold uppercase tracking-caps text-primary-strong">
                             Most Popular
                           </span>

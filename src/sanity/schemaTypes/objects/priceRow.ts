@@ -19,6 +19,14 @@ export const priceRow = defineType({
       validation: (Rule) => Rule.integer().positive(),
     }),
     defineField({ name: "unit", title: "Unit", type: "string", description: "For example /unit or /ml." }),
+    defineField({
+      name: "description",
+      title: "What the package includes",
+      type: "text",
+      rows: 2,
+      description:
+        'The step-by-step rundown printed under a package on the live price list — "Deep Cleansing – Steam & Extraction – … – Moisturizer & Sunscreen". Leave empty for an ordinary row.',
+    }),
   ],
   preview: {
     select: { title: "label", price: "price", unit: "unit" },

@@ -1,5 +1,6 @@
 import type { PortableTextBlock } from "@portabletext/types";
 import type { Treatment } from "@/data/treatments";
+import type { PricingSection } from "@/data/pricing";
 import type { TreatmentSection } from "@/data/treatmentSections";
 import type { Doctor } from "@/data/doctors";
 
@@ -222,7 +223,13 @@ export type SanityTreatmentDocument = Omit<Treatment, "image" | "priceGroups"> &
     _key: string;
     title?: string;
     note?: string;
-    rows: Array<{ _key: string; label: string; price?: number; unit?: string }>;
+    rows: Array<{
+      _key: string;
+      label: string;
+      price?: number;
+      unit?: string;
+      description?: string;
+    }>;
   }>;
   sections?: TreatmentSection[];
   faqs?: Array<{
@@ -230,9 +237,32 @@ export type SanityTreatmentDocument = Omit<Treatment, "image" | "priceGroups"> &
     question: string;
     answer: PortableTextBlock[];
   }>;
+  /** Ordered — see the journeyStep schema for why the sequence is content. */
+  journey?: Array<{ _key: string; label: string; duration: string }>;
   featuredOnHomepage?: boolean;
   featuredOrder?: number;
+  mostPopular?: boolean;
   seo?: SeoFields;
+};
+
+export type SanityPricingSectionDocument = {
+  _id: string;
+  _type: "pricingSection";
+  title: string;
+  category: PricingSection["category"];
+  order?: number;
+  groups: Array<{
+    _key: string;
+    title?: string;
+    note?: string;
+    rows: Array<{
+      _key: string;
+      label: string;
+      price?: number;
+      unit?: string;
+      description?: string;
+    }>;
+  }>;
 };
 
 export type SanityDoctorDocument = Omit<Doctor, "id" | "photo" | "registration"> & {
