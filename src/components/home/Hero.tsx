@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import Highlights from "./Highlights";
-import { HERO_HEADLINE, HERO_SUBHEADLINE, BOOKING_HREF, BOOKING_LABEL } from "@/lib/constants";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 01 — HERO
@@ -50,7 +50,8 @@ import { HERO_HEADLINE, HERO_SUBHEADLINE, BOOKING_HREF, BOOKING_LABEL } from "@/
  * her in half, so the focal point shifts right on small screens to keep her
  * whole.
  */
-export default function Hero() {
+export default async function Hero() {
+  const copy = await getSiteCopy();
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink-brown">
       <div className="absolute inset-0 -z-10">
@@ -183,13 +184,13 @@ export default function Hero() {
               >
                 Without Surgery
               </span>
-              <span className="sr-only">{HERO_HEADLINE}</span>
+              <span className="sr-only">{copy.heroHeadline}</span>
             </h1>
           </Reveal>
 
           <Reveal delay={220}>
             <p className="mt-9 max-w-xl font-sans text-lead text-white/75">
-              {HERO_SUBHEADLINE}
+              {copy.heroSubheadline}
             </p>
           </Reveal>
 
@@ -198,8 +199,8 @@ export default function Hero() {
               {/* Gold, not the white it was. White-on-photo is the safe
                   choice and it is also why the first screen had no brand
                   colour anywhere in it. */}
-              <Button href={BOOKING_HREF} variant="accent" size="lg" withArrow>
-                {BOOKING_LABEL}
+              <Button href={copy.bookingHref} variant="accent" size="lg" withArrow>
+                {copy.bookingLabel}
               </Button>
               <Button href="/ubud-bali" variant="outlineLight" size="lg">
                 Explore Treatments

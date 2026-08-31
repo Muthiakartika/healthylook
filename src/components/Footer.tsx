@@ -3,18 +3,7 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import { POPULAR_TREATMENT_LINKS } from "@/data/treatments";
 import { FOOTER_BLOG_SLUGS } from "@/data/blog";
-import { getBlogPosts } from "@/lib/site-content";
-import {
-  SITE_NAME,
-  EMAIL,
-  PHONE_DISPLAY,
-  PHONE_E164,
-  ADDRESS,
-  OPENING_HOURS,
-  SOCIAL_LINKS,
-  MAPS_HREF,
-} from "@/lib/constants";
-import { CLINIC_LICENCE_NUMBER } from "@/data/clinic";
+import { getBlogPosts, getSiteCopy } from "@/lib/site-content";
 import { InstagramIcon, FacebookIcon, WhatsAppIcon } from "@/components/ui/icons";
 
 const socialIcons = {
@@ -93,13 +82,13 @@ const listClass = "mt-4 flex flex-col font-sans text-label";
  * Four tracks make every column roughly nine rows, so nothing runs long and
  * no space is left over. Content is untouched — all 41 links are still here.
  */
-// Derived, not a second hardcoded string: if ADDRESS is ever edited in
-// constants.ts, this either strips the same suffix again or — if the
-// resort name in ADDRESS changed — leaves the string untouched rather than
-// silently cutting off the wrong words.
-const streetAddress = ADDRESS.replace(/ at Ubud Nyuh Bali Resort$/, "");
-
 export default async function Footer() {
+  const copy = await getSiteCopy();
+  // Derived, not a second hardcoded string: if the address is ever edited in
+  // Site settings, this either strips the same suffix again or — if the resort
+  // name in it changed — leaves the string untouched rather than silently
+  // cutting off the wrong words.
+  const streetAddress = copy.address.replace(/ at Ubud Nyuh Bali Resort$/, "");
   // The eight posts the live site promotes in its own footer, resolved
   // from the live blog index so the labels and the set itself can't drift
   // out of sync with an article renamed or deleted in the dashboard.
@@ -115,7 +104,7 @@ export default async function Footer() {
         <div>
           <Image
             src="/images/brand/logo.png"
-            alt={SITE_NAME}
+            alt={copy.siteName}
             width={300}
             height={116}
             // Dark artwork on transparent: inverting is the reliable way to
@@ -129,11 +118,11 @@ export default async function Footer() {
 
           {/* ── CLIENT REVISION 11 — "Double Ubud Nyuh Bali Resort" ─────
               A follow-up, annotated screenshot circled both this bold line
-              and "Ubud Nyuh" / "Bali Resort" inside {ADDRESS} below it —
+              and "Ubud Nyuh" / "Bali Resort" inside {copy.address} below it —
               the phrase really is stated twice back to back, not just set
               too close together. `streetAddress` strips the resort name
-              {ADDRESS} already ends with, since the bold line above it
-              says the same thing more prominently; the full {ADDRESS}
+              {copy.address} already ends with, since the bold line above it
+              says the same thing more prominently; the full {copy.address}
               constant is untouched everywhere else it's used (schema.org
               structured data, /our-doctor, /book-now). Nothing about the
               resort or the street is missing — it now reads as one fact
@@ -141,7 +130,7 @@ export default async function Footer() {
           <ul className="mt-4 flex flex-col font-sans text-label leading-relaxed">
             <li>
               <a
-                href={MAPS_HREF}
+                href={copy.mapsHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
@@ -151,25 +140,25 @@ export default async function Footer() {
             </li>
             <li>
               <a
-                href={`mailto:${EMAIL}`}
+                href={`mailto:${copy.email}`}
                 className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
               >
-                {EMAIL}
+                {copy.email}
               </a>
             </li>
             <li>
               <a
-                href={`tel:${PHONE_E164}`}
+                href={`tel:${copy.phoneE164}`}
                 className="block min-h-11 py-3 text-white/70 transition-colors hover:text-white"
               >
-                {PHONE_DISPLAY}
+                {copy.phoneDisplay}
               </a>
             </li>
-            <li className="pt-1 font-medium text-white">{OPENING_HOURS}</li>
+            <li className="pt-1 font-medium text-white">{copy.openingHours}</li>
           </ul>
 
           <div className="mt-4 flex items-center gap-2">
-            {SOCIAL_LINKS.map((social) => {
+            {copy.socialLinks.map((social) => {
               const Icon = socialIcons[social.icon];
               return (
                 <a
@@ -237,7 +226,7 @@ export default async function Footer() {
 
       <Container className="flex flex-col gap-1 border-t border-white/10 py-3.5 lg:flex-row lg:items-center lg:justify-between">
         <p className="font-sans text-micro leading-relaxed text-white/60">
-          © {new Date().getFullYear()} {SITE_NAME} · {CLINIC_LICENCE_NUMBER}
+          © {new Date().getFullYear()} {copy.siteName} · {copy.licenceNumber}
         </p>
         <p className="font-sans text-micro leading-relaxed text-white/60">
           Individual results vary. Information here is general, not medical advice.

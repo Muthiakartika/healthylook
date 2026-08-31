@@ -40,11 +40,26 @@ import {
 } from "@/data/testimonials";
 import { getSanityPosts } from "@/sanity/lib/content";
 import {
+  getSanityClinicFaqs,
   getSanityDoctors,
+  getSanityPartners,
   getSanityPricingSections,
+  getSanitySiteSettings,
   getSanityTestimonials,
   getSanityTreatments,
 } from "@/sanity/lib/content";
+import { clinicFaqs as sourceClinicFaqs, type ClinicFaq } from "@/data/clinicFaqs";
+import { partners as sourcePartners, type Partner } from "@/data/partners";
+import {
+  CLINIC_HIGHLIGHTS,
+  CLINIC_LICENCE_NUMBER,
+  CLINIC_LICENCE_STATEMENT,
+  CLINIC_PHILOSOPHY,
+  CLINIC_SAFETY_PROTOCOLS,
+  CLINIC_SAFETY_STATEMENT,
+  INTERNATIONAL_PATIENT_POINTS,
+} from "@/data/clinic";
+import * as C from "@/lib/constants";
 import { sanityImageUrl } from "@/sanity/lib/image";
 
 /**
@@ -303,6 +318,118 @@ export async function getMostPopularSlugs(): Promise<string[]> {
  */
 export async function getExtraPricingSections(): Promise<PricingSection[]> {
   return (await getSanityPricingSections()) ?? sourcePricingSections;
+}
+
+import type { SiteCopy, SocialIcon } from "@/lib/site-copy";
+
+export type { SiteCopy, SocialIcon } from "@/lib/site-copy";
+
+/**
+ * Sanity's `link` object has no icon field, and asking editors to type one
+ * would only let them type a wrong one. The destination already says which
+ * network it is, so derive it and fall back to Instagram's mark rather than
+ * rendering a hole where an icon should be.
+ */
+function socialIconFor(href: string): SocialIcon {
+  if (/wa\.me|whatsapp/i.test(href)) return "whatsapp";
+  if (/facebook/i.test(href)) return "facebook";
+  return "instagram";
+}
+
+/** Empty strings count as unset: a cleared field means "use the default". */
+function pick(value: string | undefined, fallback: string): string {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : fallback;
+}
+
+function pickList<T>(value: T[] | undefined, fallback: T[]): T[] {
+  return value?.length ? value : fallback;
+}
+
+/**
+ * Every string, list and label the site says outside a page or a treatment.
+ *
+ * Each field falls back to the constant it replaced, so an unconfigured
+ * Sanity project — or a settings document an editor has only half filled in
+ * — renders exactly what the site rendered before this existed. That is
+ * deliberate: this copy includes the clinic's phone number and address, and
+ * a blank there is worse than a stale one.
+ */
+export async function getSiteCopy(): Promise<SiteCopy> {
+  const settings = await getSanitySiteSettings();
+  const headings = settings?.sectionHeadings;
+  const labels = settings?.glanceLabels;
+
+  return {
+    siteName: pick(settings?.title, C.SITE_NAME),
+    tagline: pick(settings?.tagline, C.SITE_TAGLINE),
+    description: pick(settings?.description, C.SITE_DESCRIPTION),
+    heroHeadline: pick(settings?.heroHeadline, C.HERO_HEADLINE),
+    heroSubheadline: pick(settings?.heroSubheadline, C.HERO_SUBHEADLINE),
+    brandIntro: pick(settings?.brandIntro, C.BRAND_INTRO),
+    brandStory: pickList(settings?.brandStory, C.BRAND_STORY),
+    brandPhilosophy: pickList(settings?.brandPhilosophy, C.BRAND_PHILOSOPHY),
+    phoneDisplay: pick(settings?.phoneDisplay, C.PHONE_DISPLAY),
+    phoneE164: pick(settings?.phoneE164, C.PHONE_E164),
+    whatsappNumber: pick(settings?.whatsappNumber, C.WHATSAPP_NUMBER),
+    email: pick(settings?.email, C.EMAIL),
+    address: pick(settings?.address, C.ADDRESS),
+    openingHours: pick(settings?.openingHours, C.OPENING_HOURS),
+    mapsHref: pick(settings?.mapsHref, C.MAPS_HREF),
+    socialLinks: settings?.socialLinks?.length
+      ? settings.socialLinks.map((link) => ({
+          label: link.label,
+          href: link.href,
+          icon: socialIconFor(link.href),
+        }))
+      : [...C.SOCIAL_LINKS],
+    bookingLabel: pick(settings?.bookingLabel, C.BOOKING_LABEL),
+    bookingHref: pick(settings?.bookingHref, C.BOOKING_HREF),
+    bookingTimeSlots: pickList(settings?.bookingTimeSlots, [...C.BOOKING_TIME_SLOTS]),
+    bookingTreatmentOptions: pickList(
+      settings?.bookingTreatmentOptions,
+      [...C.BOOKING_TREATMENT_OPTIONS],
+    ),
+    clinicPhilosophy: pick(settings?.clinicPhilosophy, CLINIC_PHILOSOPHY),
+    licenceStatement: pick(settings?.licenceStatement, CLINIC_LICENCE_STATEMENT),
+    licenceNumber: pick(settings?.licenceNumber, CLINIC_LICENCE_NUMBER),
+    safetyStatement: pick(settings?.safetyStatement, CLINIC_SAFETY_STATEMENT),
+    highlights: pickList(settings?.highlights, CLINIC_HIGHLIGHTS),
+    safetyProtocols: pickList(settings?.safetyProtocols, CLINIC_SAFETY_PROTOCOLS),
+    internationalPoints: pickList(settings?.internationalPoints, INTERNATIONAL_PATIENT_POINTS),
+    glanceTitle: pick(settings?.glanceTitle, "At a glance"),
+    glanceLabels: {
+      startingFrom: pick(labels?.startingFrom, "Starting from"),
+      treatmentTime: pick(labels?.treatmentTime, "Treatment time"),
+      anaesthesia: pick(labels?.anaesthesia, "Anaesthesia"),
+      downtime: pick(labels?.downtime, "Downtime"),
+      initialResult: pick(labels?.initialResult, "Initial result"),
+      fullResult: pick(labels?.fullResult, "Full result"),
+      category: pick(labels?.category, "Category"),
+      performedBy: pick(labels?.performedBy, "Performed by"),
+    },
+    glanceUnpublished: pick(settings?.glanceUnpublished, "Varies — ask your doctor"),
+    bookTreatmentLabel: pick(settings?.bookTreatmentLabel, "Book this treatment"),
+    sectionHeadings: {
+      aboutEyebrow: pick(headings?.aboutEyebrow, "About this treatment"),
+      journeyEyebrow: pick(headings?.journeyEyebrow, "Treatment Journey"),
+      journeyTitle: pick(headings?.journeyTitle, "What to expect, step by step"),
+      safetyEyebrow: pick(headings?.safetyEyebrow, "Why Here"),
+      safetyTitle: pick(headings?.safetyTitle, "How we treat you"),
+      faqEyebrow: pick(headings?.faqEyebrow, "Questions"),
+      faqTitle: pick(headings?.faqTitle, "FAQ"),
+      resultsTitle: pick(headings?.resultsTitle, "Be Empowered to Feel Truly Confident"),
+      relatedEyebrow: pick(headings?.relatedEyebrow, "Also in this category"),
+    },
+  };
+}
+
+export async function getPartners(): Promise<Partner[]> {
+  return (await getSanityPartners()) ?? sourcePartners;
+}
+
+export async function getClinicFaqs(): Promise<ClinicFaq[]> {
+  return (await getSanityClinicFaqs()) ?? sourceClinicFaqs;
 }
 
 export async function getDoctors(): Promise<Doctor[]> {

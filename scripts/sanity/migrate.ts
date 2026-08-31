@@ -15,6 +15,7 @@ import { HOME_POPULAR_SLUGS, MOST_POPULAR_SLUGS, treatments } from "../../src/da
 import { getTreatmentJourney } from "../../src/data/treatmentJourney";
 import {
   CLINIC_HIGHLIGHTS,
+  CLINIC_LICENCE_NUMBER,
   CLINIC_LICENCE_STATEMENT,
   CLINIC_PHILOSOPHY,
   CLINIC_SAFETY_PROTOCOLS,
@@ -32,15 +33,29 @@ import {
 } from "../../src/data/offers";
 import { resultGroups } from "../../src/data/results";
 import { extraPricingSections } from "../../src/data/pricing";
+import { partners } from "../../src/data/partners";
 import { clinicFaqs } from "../../src/data/clinicFaqs";
 import {
+  ADDRESS,
   BOOKING_HREF,
   BOOKING_LABEL,
+  BOOKING_TIME_SLOTS,
+  BOOKING_TREATMENT_OPTIONS,
   BRAND_INTRO,
   BRAND_PHILOSOPHY,
   BRAND_STORY,
+  EMAIL,
   HERO_HEADLINE,
   HERO_SUBHEADLINE,
+  MAPS_HREF,
+  OPENING_HOURS,
+  PHONE_DISPLAY,
+  PHONE_E164,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SOCIAL_LINKS,
+  WHATSAPP_NUMBER,
 } from "../../src/lib/constants";
 
 const baseClient = getCliClient({ apiVersion: "2025-02-19" });
@@ -276,6 +291,21 @@ async function migratePricingSections() {
   }
 }
 
+async function migratePartners() {
+  for (const [index, brand] of partners.entries()) {
+    const logo = await migratedImage(brand.logo, `${brand.name} logo`);
+    if (!logo) continue;
+    await write({
+      _id: safeId("partner", brand.name),
+      _type: "partner",
+      name: brand.name,
+      logo,
+      order: index,
+    });
+  }
+  console.log(`Partners: ${partners.length}`);
+}
+
 async function migrateDoctors() {
   for (const [index, doctor] of doctors.entries()) {
     await write({
@@ -492,7 +522,64 @@ async function migrateHomepage() {
   await write({
     _id: "siteSettings",
     _type: "siteSettings",
-    title: "Healthy Look Aesthetic",
+    title: SITE_NAME,
+    tagline: SITE_TAGLINE,
+    description: SITE_DESCRIPTION,
+    heroHeadline: HERO_HEADLINE,
+    heroSubheadline: HERO_SUBHEADLINE,
+    brandIntro: BRAND_INTRO,
+    brandStory: BRAND_STORY,
+    brandPhilosophy: BRAND_PHILOSOPHY,
+    phoneDisplay: PHONE_DISPLAY,
+    phoneE164: PHONE_E164,
+    whatsappNumber: WHATSAPP_NUMBER,
+    email: EMAIL,
+    address: ADDRESS,
+    openingHours: OPENING_HOURS,
+    mapsHref: MAPS_HREF,
+    socialLinks: SOCIAL_LINKS.map((social, index) => ({
+      _type: "link",
+      _key: key("social", index),
+      label: social.label,
+      href: social.href,
+      external: true,
+    })),
+    bookingLabel: BOOKING_LABEL,
+    bookingHref: BOOKING_HREF,
+    bookingTimeSlots: [...BOOKING_TIME_SLOTS],
+    bookingTreatmentOptions: [...BOOKING_TREATMENT_OPTIONS],
+    clinicPhilosophy: CLINIC_PHILOSOPHY,
+    licenceStatement: CLINIC_LICENCE_STATEMENT,
+    licenceNumber: CLINIC_LICENCE_NUMBER,
+    safetyStatement: CLINIC_SAFETY_STATEMENT,
+    highlights: CLINIC_HIGHLIGHTS.map((item, index) => ({
+      ...item,
+      _type: "clinicHighlight",
+      _key: key("highlight", index),
+    })),
+    safetyProtocols: CLINIC_SAFETY_PROTOCOLS.map((item, index) => ({
+      ...item,
+      _type: "safetyProtocol",
+      _key: key("protocol", index),
+    })),
+    internationalPoints: INTERNATIONAL_PATIENT_POINTS.map((item, index) => ({
+      ...item,
+      _type: "internationalPoint",
+      _key: key("intl", index),
+    })),
+    clinicFaqs: clinicFaqs.map((item, index) => {
+      const faqKey = key("clinic-faq", index);
+      return {
+        _type: "faqItem",
+        _key: faqKey,
+        question: item.question,
+        answer: portableAnswer(item.answer, faqKey),
+      };
+    }),
+    // Left unset on purpose: every label and heading falls back to the
+    // wording the components already ship, so seeding them would only turn
+    // "unchanged" into "explicitly set to the same thing" and lose the
+    // signal of which ones an editor has actually touched.
   });
   console.log("Homepage and site settings: ready");
 }
@@ -868,6 +955,7 @@ async function main() {
   await migrateCategories();
   await migrateTreatments();
   await migratePricingSections();
+  await migratePartners();
   await migrateDoctors();
   await migrateTestimonials();
   await migratePosts();

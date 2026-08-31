@@ -7,7 +7,12 @@ import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { TREATMENT_CATEGORIES, treatmentHref } from "@/data/treatments";
-import { getBlogPosts, getExtraPricingSections, getTreatments } from "@/lib/site-content";
+import {
+  getBlogPosts,
+  getExtraPricingSections,
+  getSiteCopy,
+  getTreatments,
+} from "@/lib/site-content";
 import type { CollectionSection } from "@/sanity/types";
 import SectionShell from "./SectionShell";
 
@@ -146,12 +151,17 @@ async function PricingDirectory({ section }: { section: CollectionSection }) {
   );
 }
 
-function BookingFormSection({ section }: { section: CollectionSection }) {
+async function BookingFormSection({ section }: { section: CollectionSection }) {
+  const copy = await getSiteCopy();
   return (
     <SectionShell tone={section.tone} anchor={section.anchor}>
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-4"><Heading section={section} /></div>
-        <Reveal className="lg:col-span-8"><div className="border border-primary/15 bg-background p-8 sm:p-12"><ContactForm withSchedule /></div></Reveal>
+        <Reveal className="lg:col-span-8"><div className="border border-primary/15 bg-background p-8 sm:p-12"><ContactForm
+          withSchedule
+          timeSlots={copy.bookingTimeSlots}
+          treatmentOptions={copy.bookingTreatmentOptions}
+        /></div></Reveal>
       </div>
     </SectionShell>
   );

@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { PointerEvent } from "react";
 import type { MegaColumn } from "./navItems";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import { BOOKING_HREF } from "@/lib/constants";
 
 /**
  * Rendered by DesktopNav for any NAV_ITEMS entry that has `columns`.
@@ -28,6 +27,7 @@ import { BOOKING_HREF } from "@/lib/constants";
  * most likely person on the site to want to book.
  */
 export default function MegaPanel({
+  bookingHref,
   id,
   columns,
   open,
@@ -36,6 +36,8 @@ export default function MegaPanel({
   onPointerLeave,
   wide = false,
 }: {
+  /** From the layout — this panel sits inside a client component. */
+  bookingHref: string;
   id: string;
   columns: MegaColumn[];
   open: boolean;
@@ -153,7 +155,7 @@ export default function MegaPanel({
                 honestly.
               </p>
               <Link
-                href={BOOKING_HREF}
+                href={bookingHref}
                 onClick={onNavigate}
                 className="group/cta inline-flex shrink-0 items-center gap-2 font-sans text-caption font-semibold uppercase tracking-caps-wide text-primary-strong"
               >

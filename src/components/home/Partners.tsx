@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import Container from "@/components/ui/Container";
-import { partners } from "@/data/partners";
+import { getPartners } from "@/lib/site-content";
 
 /**
  * PARTNER BRANDS
@@ -38,7 +38,8 @@ import { partners } from "@/data/partners";
  * both edges, and they keep moving. The slight opacity lift on hover is all
  * that is left of the old treatment.
  */
-export default function Partners() {
+export default async function Partners() {
+  const partners = await getPartners();
   return (
     <section className="border-y border-hairline bg-background py-14 lg:py-16">
       <Container>

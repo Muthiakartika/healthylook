@@ -6,13 +6,7 @@ import {
   MapPinIcon,
   PhoneIcon,
 } from "@/components/ui/icons";
-import {
-  SOCIAL_LINKS,
-  ADDRESS,
-  PHONE_DISPLAY,
-  PHONE_E164,
-  MAPS_HREF,
-} from "@/lib/constants";
+import type { SiteCopy } from "@/lib/site-copy";
 
 /**
  * The slim strip above the navigation, over the hero only.
@@ -50,12 +44,12 @@ const socialIcons = {
   whatsapp: WhatsAppIcon,
 };
 
-export default function TopBar() {
+export default function TopBar({ copy }: { copy: SiteCopy }) {
   return (
     <div className="hidden bg-background lg:block">
       <Container className="flex h-11 items-center justify-between gap-8">
         <div className="flex items-center gap-1">
-          {SOCIAL_LINKS.map((social) => {
+          {copy.socialLinks.map((social) => {
             const Icon = socialIcons[social.icon];
             return (
               <a
@@ -74,20 +68,20 @@ export default function TopBar() {
 
         <div className="flex items-center gap-7">
           <a
-            href={MAPS_HREF}
+            href={copy.mapsHref}
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-2 font-sans text-caption text-text-secondary transition-colors duration-300 hover:text-ink"
           >
             <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
-            {ADDRESS}
+            {copy.address}
           </a>
           <a
-            href={`tel:${PHONE_E164}`}
+            href={`tel:${copy.phoneE164}`}
             className="flex items-center gap-2 font-sans text-caption text-text-secondary transition-colors duration-300 hover:text-ink"
           >
             <PhoneIcon className="h-3.5 w-3.5 shrink-0 text-primary" />
-            {PHONE_DISPLAY}
+            {copy.phoneDisplay}
           </a>
         </div>
       </Container>

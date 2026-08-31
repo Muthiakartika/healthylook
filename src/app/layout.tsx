@@ -6,19 +6,10 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import PublicChrome from "@/components/PublicChrome";
 import { buildNavItems } from "@/components/header/navItems";
-import { getTreatments } from "@/lib/site-content";
+import { getSiteCopy, getTreatments, type SiteCopy } from "@/lib/site-content";
 import StickyCTA from "@/components/ui/StickyCTA";
 import WhatsAppFloatingButton from "@/components/ui/WhatsAppFloatingButton";
 import SanityRuntime from "@/components/sanity/SanityRuntime";
-import {
-  SITE_NAME,
-  SITE_DESCRIPTION,
-  SITE_TAGLINE,
-  EMAIL,
-  PHONE_E164,
-  MAPS_HREF,
-  SOCIAL_LINKS,
-} from "@/lib/constants";
 // next/font/google downloads and self-hosts the font at build time (no
 // runtime request to Google Fonts, and no layout-shift flash of a fallback
 // font). Each font is exposed as a CSS variable on <html> rather than a
@@ -53,26 +44,29 @@ const retroSignature = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = await getSiteCopy();
+  return {
   // The `%s` template means each page sets only its own title and gets the
   // brand suffix for free — matching the live site's title pattern, which
   // is an SEO-critical element the brief says to preserve.
   title: {
-    default: `${SITE_NAME} | ${SITE_TAGLINE}`,
-    template: `%s | ${SITE_NAME}`,
+    default: `${copy.siteName} | ${copy.tagline}`,
+    template: `%s | ${copy.siteName}`,
   },
-  description: SITE_DESCRIPTION,
+  description: copy.description,
   metadataBase: new URL("https://healthylook-aesthetic.com"),
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${SITE_NAME} | ${SITE_TAGLINE}`,
-    description: SITE_DESCRIPTION,
+    title: `${copy.siteName} | ${copy.tagline}`,
+    description: copy.description,
     type: "website",
     locale: "en_US",
-    siteName: SITE_NAME,
+    siteName: copy.siteName,
   },
-  robots: { index: true, follow: true },
-};
+    robots: { index: true, follow: true },
+  };
+}
 
 /**
  * Schema.org structured data for the clinic.
@@ -86,15 +80,16 @@ export const metadata: Metadata = {
  * both a policy violation and exactly the invented-statistic the brief
  * rules out.
  */
-const structuredData = {
+function buildStructuredData(copy: SiteCopy) {
+  return {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
-  name: SITE_NAME,
-  description: SITE_DESCRIPTION,
+  name: copy.siteName,
+  description: copy.description,
   url: "https://healthylook-aesthetic.com",
-  email: EMAIL,
-  telephone: PHONE_E164,
-  hasMap: MAPS_HREF,
+  email: copy.email,
+  telephone: copy.phoneE164,
+  hasMap: copy.mapsHref,
   address: {
     "@type": "PostalAddress",
     streetAddress: "Jl. Raya Silungan, Lodtunduh",
@@ -116,8 +111,9 @@ const structuredData = {
     opens: "10:00",
     closes: "18:00",
   },
-  sameAs: SOCIAL_LINKS.map((social) => social.href),
-};
+    sameAs: copy.socialLinks.map((social) => social.href),
+  };
+}
 
 // The root layout renders once for every route. Putting <Header>, <Footer>,
 // the mobile <StickyCTA>, and the desktop <WhatsAppFloatingButton> here —
@@ -143,6 +139,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const copy = await getSiteCopy();
   const navItems = buildNavItems(await getTreatments());
 
   return (
@@ -156,7 +153,7 @@ export default async function RootLayout({
           // Next.js requires JSON-LD to be injected this way; the content is
           // a literal object defined above, never user input, so there's no
           // injection surface here.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildStructuredData(copy)) }}
         />
 
         {/* Skip link — first thing in the tab order, visually hidden until
@@ -174,7 +171,7 @@ export default async function RootLayout({
             Skip to content
           </a>
 
-          <Header navItems={navItems} />
+          <Header navItems={navItems} copy={copy} />
         </PublicChrome>
 
         {/* flex-1 pushes the footer to the bottom of the viewport even when
@@ -193,7 +190,11 @@ export default async function RootLayout({
 
         <PublicChrome>
           <Footer />
-          <StickyCTA />
+          <StickyCTA
+            bookingHref={copy.bookingHref}
+            bookingLabel={copy.bookingLabel}
+            whatsappNumber={copy.whatsappNumber}
+          />
           <WhatsAppFloatingButton />
         </PublicChrome>
         <SanityRuntime />

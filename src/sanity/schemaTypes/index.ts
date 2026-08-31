@@ -4,11 +4,13 @@ import { post } from "./documents/post";
 import { siteSettings } from "./documents/siteSettings";
 import { treatment } from "./documents/treatment";
 import { pricingSection } from "./documents/pricingSection";
+import { partner } from "./documents/partner";
 import { doctor } from "./documents/doctor";
 import { testimonial } from "./documents/testimonial";
 import { faqItem } from "./objects/faqItem";
 import { featureItem } from "./objects/featureItem";
 import { journeyStep } from "./objects/journeyStep";
+import { clinicHighlight, internationalPoint, safetyProtocol } from "./objects/clinicItems";
 import { imageWithAlt } from "./objects/imageWithAlt";
 import { link } from "./objects/link";
 import { portableText } from "./objects/portableText";
@@ -35,6 +37,9 @@ export const schemaTypes = [
   faqItem,
   featureItem,
   journeyStep,
+  clinicHighlight,
+  safetyProtocol,
+  internationalPoint,
   priceRow,
   priceGroup,
   treatmentContentBlock,
@@ -57,6 +62,7 @@ export const schemaTypes = [
   category,
   treatment,
   pricingSection,
+  partner,
   doctor,
   testimonial,
   siteSettings,

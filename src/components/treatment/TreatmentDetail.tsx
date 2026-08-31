@@ -18,15 +18,15 @@ import { treatmentHref, TREATMENT_CATEGORIES, type Treatment } from "@/data/trea
 import {
   getTreatments,
   getTreatmentFaqs,
+  getSiteCopy,
   getTreatmentJourney,
   getTreatmentSections,
   getTestimonialsForTreatment,
   hasOwnTestimonials,
 } from "@/lib/site-content";
-import { CLINIC_SAFETY_PROTOCOLS } from "@/data/clinic";
 import { getResultsForTreatment } from "@/data/results";
 
-import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
+import { BOOKING_HREF, whatsappHrefFor } from "@/lib/constants";
 
 /**
  * The treatment detail page body, shared by both routes that render one:
@@ -50,7 +50,8 @@ import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
  * exactly the fields that are blank, because downtime and result timing
  * genuinely depend on the plan the doctor agrees with you.
  */
-const GLANCE_UNPUBLISHED = "Varies — ask your doctor";
+// Default only — an editor can change it in Site settings → Treatment page
+// labels. See `glanceUnpublished` there.
 
 // Async because its content now comes through the database layer. Still a
 // server component, so this costs the page nothing at runtime: the awaits
@@ -74,6 +75,11 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
   // any treatment an editor has deliberately cleared in Sanity. See
   // treatmentJourney.ts and the journeyStep schema.
   const journey = await getTreatmentJourney(treatment.slug);
+  // Labels, section headings and the shared safety grid, from Sanity where an
+  // editor has set them and from the values this file used to hardcode
+  // otherwise. See getSiteCopy.
+  const copy = await getSiteCopy();
+  const { glanceLabels, sectionHeadings } = copy;
   // Resolved here rather than inline in the JSX below: both are async now,
   // and an await cannot sit inside a prop expression.
   const reviews = await getTestimonialsForTreatment(treatment.slug);
@@ -121,11 +127,11 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
         : `Performed by ${performedBy.toLowerCase()}`;
 
   const GLANCE_ROWS = [
-    { label: "Treatment time", value: treatment.treatmentTime },
-    { label: "Anaesthesia", value: treatment.anaesthesia },
-    { label: "Downtime", value: treatment.downtime },
-    { label: "Initial result", value: treatment.initialResult },
-    { label: "Full result", value: treatment.fullResult },
+    { label: glanceLabels.treatmentTime, value: treatment.treatmentTime },
+    { label: glanceLabels.anaesthesia, value: treatment.anaesthesia },
+    { label: glanceLabels.downtime, value: treatment.downtime },
+    { label: glanceLabels.initialResult, value: treatment.initialResult },
+    { label: glanceLabels.fullResult, value: treatment.fullResult },
   ];
 
   const heroImage =
@@ -195,7 +201,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
               <Reveal>
                 <span className="eyebrow flex items-center gap-3 text-primary-strong">
                   <span className="h-px w-8 bg-primary/40" aria-hidden="true" />
-                  About this treatment
+                  {sectionHeadings.aboutEyebrow}
                 </span>
               </Reveal>
 
@@ -230,7 +236,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
                     </p>
                     <div className="mt-7">
                       <Button
-                        href={whatsappHref(
+                        href={whatsappHrefFor(copy.whatsappNumber, 
                           `Hello Healthy Look Aesthetic, I'd like to ask about ${treatment.name}.`,
                         )}
                         variant="primary"
@@ -374,7 +380,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
               <div className="lg:sticky lg:top-32">
                 <Reveal>
                   <div className="border border-hairline bg-background p-8">
-                    <h2 className="eyebrow text-primary-strong">At a glance</h2>
+                    <h2 className="eyebrow text-primary-strong">{copy.glanceTitle}</h2>
                     <dl className="mt-6">
                       {treatment.startingPrice != null && (
                         <div className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5">
@@ -423,18 +429,18 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
                               value ? "text-text-secondary" : "text-muted"
                             }`}
                           >
-                            {value ?? GLANCE_UNPUBLISHED}
+                            {value ?? copy.glanceUnpublished}
                           </dd>
                         </div>
                       ))}
                       <div className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5">
-                        <dt className="font-sans text-copy text-ink">Category</dt>
+                        <dt className="font-sans text-copy text-ink">{glanceLabels.category}</dt>
                         <dd className="font-sans text-sm text-text-secondary">
                           {category?.label}
                         </dd>
                       </div>
                       <div className="flex items-baseline justify-between gap-5 border-b border-hairline py-3.5">
-                        <dt className="font-sans text-copy text-ink">Performed by</dt>
+                        <dt className="font-sans text-copy text-ink">{glanceLabels.performedBy}</dt>
                         {/* The clinic's own answer per treatment, not a
                             hardcoded "Licensed doctor" — it staffs Medi
                             Facial, the body devices and the drips with a
@@ -448,7 +454,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
 
                     <div className="mt-8">
                       <Button href={BOOKING_HREF} variant="primary" className="w-full" withArrow>
-                        Book this treatment
+                        {copy.bookTreatmentLabel}
                       </Button>
                     </div>
                   </div>
@@ -471,8 +477,8 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
           <Container>
             <SectionHeading
               align="left"
-              eyebrow="Treatment Journey"
-              title="What to expect, step by step"
+              eyebrow={sectionHeadings.journeyEyebrow}
+              title={sectionHeadings.journeyTitle}
               description="What actually happens, from the moment you arrive to the treatment itself — and roughly how long each part takes."
               className="lg:max-w-2xl"
             />
@@ -522,9 +528,13 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
               its original label, since it was never actually about a
               journey — it's the clinic's evidence for "How we treat
               you". */}
-          <SectionHeading tone="dark" eyebrow="Why Here" title="How we treat you" />
+          <SectionHeading
+            tone="dark"
+            eyebrow={sectionHeadings.safetyEyebrow}
+            title={sectionHeadings.safetyTitle}
+          />
           <div className="mt-16 grid gap-x-16 gap-y-11 sm:grid-cols-2 lg:grid-cols-3">
-            {CLINIC_SAFETY_PROTOCOLS.map((point, index) => (
+            {copy.safetyProtocols.map((point, index) => (
               <Reveal key={point.title} delay={index * 70}>
                 <div className="border-t border-white/15 pt-7">
                   <span
@@ -568,11 +578,11 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
                 <div className="lg:sticky lg:top-32">
                   <SectionHeading
                     align="left"
-                    eyebrow="Questions"
+                    eyebrow={sectionHeadings.faqEyebrow}
                     // The live site's own heading is the plain "FAQ" on
                     // every treatment page — kept literal rather than
                     // reworded, since no client note asked for the change.
-                    title="FAQ"
+                    title={sectionHeadings.faqTitle}
                     description={`${faqs.length} question${faqs.length === 1 ? "" : "s"} our doctors are asked most often about this treatment.`}
                   />
                 </div>
@@ -599,7 +609,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
           <Container>
             <SectionHeading
               align="left"
-              eyebrow="Also in this category"
+              eyebrow={sectionHeadings.relatedEyebrow}
               title={category?.label ?? "Related treatments"}
             />
             <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -657,7 +667,7 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="font-script text-h2 leading-heading text-primary">
-                Be Empowered to Feel Truly Confident
+                {sectionHeadings.resultsTitle}
               </h2>
               <p className="mt-3 measure font-sans text-sm leading-relaxed text-text-secondary">
                 {resultGroup

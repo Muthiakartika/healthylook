@@ -39,8 +39,13 @@ import { BOOKING_TIME_SLOTS, BOOKING_TREATMENT_OPTIONS } from "@/lib/constants";
  * dedicated /book-now page has and its inline footer form doesn't.
  */
 export default function ContactForm({
+  timeSlots = BOOKING_TIME_SLOTS,
+  treatmentOptions = BOOKING_TREATMENT_OPTIONS,
   withSchedule = false,
 }: {
+  /** Resolved by the server parent; falls back to the compiled list. */
+  timeSlots?: string[];
+  treatmentOptions?: string[];
   withSchedule?: boolean;
 }) {
   const { status, fieldErrors, fallbackHref, formRef, submit } = useEnquirySubmit();
@@ -150,7 +155,7 @@ export default function ContactForm({
             className={`mt-3 ${fieldClass}`}
           >
             <option value="">Not sure yet</option>
-            {BOOKING_TREATMENT_OPTIONS.map((option) => (
+            {treatmentOptions.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -181,7 +186,7 @@ export default function ContactForm({
                 className={`mt-3 ${fieldClass}`}
               >
                 <option value="">Select a time</option>
-                {BOOKING_TIME_SLOTS.map((slot) => (
+                {timeSlots.map((slot) => (
                   <option key={slot} value={slot}>
                     {slot}
                   </option>

@@ -2,15 +2,8 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/shared/ContactForm";
 import { WhatsAppIcon, PhoneIcon, MailIcon, MapPinIcon, ClockIcon } from "@/components/ui/icons";
-import {
-  EMAIL,
-  PHONE_DISPLAY,
-  PHONE_E164,
-  ADDRESS,
-  OPENING_HOURS,
-  MAPS_HREF,
-  whatsappHref,
-} from "@/lib/constants";
+import { MAPS_HREF, whatsappHrefFor } from "@/lib/constants";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 13 — FINAL CTA + ENQUIRY
@@ -32,7 +25,8 @@ import {
  * globals.css sets `scroll-padding-top` so the fixed header doesn't cover
  * the heading on arrival.
  */
-export default function BookingSection() {
+export default async function BookingSection() {
+  const copy = await getSiteCopy();
   return (
     <section id="book" className="scroll-mt-24 bg-section py-section">
       <Container>
@@ -82,7 +76,7 @@ export default function BookingSection() {
               <ul className="mt-12 flex flex-col gap-5 border-t border-primary/20 pt-10">
                 <li>
                   <a
-                    href={whatsappHref(
+                    href={whatsappHrefFor(copy.whatsappNumber, 
                       "Hello Healthy Look Aesthetic, I'd like to book an appointment.",
                     )}
                     target="_blank"
@@ -95,20 +89,20 @@ export default function BookingSection() {
                 </li>
                 <li>
                   <a
-                    href={`tel:${PHONE_E164}`}
+                    href={`tel:${copy.phoneE164}`}
                     className="flex items-center gap-4 py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <PhoneIcon className="h-5 w-5 shrink-0 text-primary" />
-                    {PHONE_DISPLAY}
+                    {copy.phoneDisplay}
                   </a>
                 </li>
                 <li>
                   <a
-                    href={`mailto:${EMAIL}`}
+                    href={`mailto:${copy.email}`}
                     className="flex items-center gap-4 break-all py-2.5 font-sans text-copy-lg text-ink transition-colors hover:text-primary"
                   >
                     <MailIcon className="h-5 w-5 shrink-0 text-primary" />
-                    {EMAIL}
+                    {copy.email}
                   </a>
                 </li>
               </ul>
@@ -129,12 +123,12 @@ export default function BookingSection() {
                     rel="noopener noreferrer"
                     className="-my-1 py-1 transition-colors hover:text-primary"
                   >
-                    {ADDRESS}
+                    {copy.address}
                   </a>
                 </li>
                 <li className="flex items-start gap-4">
                   <ClockIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  {OPENING_HOURS}
+                  {copy.openingHours}
                 </li>
               </ul>
             </Reveal>
@@ -151,7 +145,10 @@ export default function BookingSection() {
                 </p>
 
                 <div className="mt-10">
-                  <ContactForm />
+                  <ContactForm
+                    timeSlots={copy.bookingTimeSlots}
+                    treatmentOptions={copy.bookingTreatmentOptions}
+                  />
                 </div>
               </div>
             </Reveal>

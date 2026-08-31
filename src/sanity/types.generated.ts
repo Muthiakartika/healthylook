@@ -21,6 +21,67 @@ export type SiteSettings = {
   _rev: string;
   title?: string;
   announcement?: string;
+  tagline?: string;
+  description?: string;
+  heroHeadline?: string;
+  heroSubheadline?: string;
+  brandIntro?: string;
+  brandStory?: Array<string>;
+  brandPhilosophy?: Array<string>;
+  phoneDisplay?: string;
+  phoneE164?: string;
+  whatsappNumber?: string;
+  email?: string;
+  address?: string;
+  openingHours?: string;
+  mapsHref?: string;
+  socialLinks?: Array<{
+    _key: string;
+  } & Link>;
+  bookingLabel?: string;
+  bookingHref?: string;
+  bookingTimeSlots?: Array<string>;
+  bookingTreatmentOptions?: Array<string>;
+  clinicPhilosophy?: string;
+  licenceStatement?: string;
+  licenceNumber?: string;
+  safetyStatement?: string;
+  highlights?: Array<{
+    _key: string;
+  } & ClinicHighlight>;
+  safetyProtocols?: Array<{
+    _key: string;
+  } & SafetyProtocol>;
+  internationalPoints?: Array<{
+    _key: string;
+  } & InternationalPoint>;
+  clinicFaqs?: Array<{
+    _key: string;
+  } & FaqItem>;
+  glanceTitle?: string;
+  glanceLabels?: {
+    startingFrom?: string;
+    treatmentTime?: string;
+    anaesthesia?: string;
+    downtime?: string;
+    initialResult?: string;
+    fullResult?: string;
+    category?: string;
+    performedBy?: string;
+  };
+  glanceUnpublished?: string;
+  bookTreatmentLabel?: string;
+  sectionHeadings?: {
+    aboutEyebrow?: string;
+    journeyEyebrow?: string;
+    journeyTitle?: string;
+    safetyEyebrow?: string;
+    safetyTitle?: string;
+    faqEyebrow?: string;
+    faqTitle?: string;
+    resultsTitle?: string;
+    relatedEyebrow?: string;
+  };
   defaultSeo?: Seo;
 };
 
@@ -81,6 +142,44 @@ export type ImageWithAlt = {
   crop?: SanityImageCrop;
   alt?: string;
   caption?: string;
+};
+
+export type Partner = {
+  _id: string;
+  _type: "partner";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type PricingSection = {
@@ -380,6 +479,25 @@ export type PriceRow = {
   description?: string;
 };
 
+export type InternationalPoint = {
+  _type: "internationalPoint";
+  title?: string;
+  note?: string;
+};
+
+export type SafetyProtocol = {
+  _type: "safetyProtocol";
+  title?: string;
+  description?: string;
+};
+
+export type ClinicHighlight = {
+  _type: "clinicHighlight";
+  title?: string;
+  tagline?: string;
+  description?: string;
+};
+
 export type JourneyStep = {
   _type: "journeyStep";
   label?: string;
@@ -398,22 +516,6 @@ export type FaqItem = {
   _type: "faqItem";
   question?: string;
   answer?: PortableText;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -512,7 +614,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | PricingSection | Treatment | Slug | Category | Post | PortableText | Page | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | JourneyStep | FeatureItem | FaqItem | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | Partner | SanityImageCrop | SanityImageHotspot | PricingSection | Treatment | Slug | Category | Post | PortableText | Page | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | InternationalPoint | SafetyProtocol | ClinicHighlight | JourneyStep | FeatureItem | FaqItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: pageByPathQuery
@@ -905,6 +1007,331 @@ export type AllPricingSectionsQueryResult = Array<{
     _key: string;
   } & PriceGroup> | null;
 }>;
+// Variable: siteSettingsQuery
+// Query: *[_id == "siteSettings"][0]{    ...,    defaultSeo {  title,  description,  image {  _type,  asset,  alt,  caption,  crop,  hotspot},  noIndex}  }
+export type SiteSettingsQueryResult = {
+  _id: "siteSettings";
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "doctor";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  shortName?: string;
+  title?: string;
+  photo?: ImageWithAlt;
+  bio?: Array<string>;
+  registrationNumber?: string;
+  registryUrl?: string;
+  order?: number;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  path?: string;
+  sections?: Array<{
+    _key: string;
+  } & CollectionSection | {
+    _key: string;
+  } & CtaSection | {
+    _key: string;
+  } & CuratedSection | {
+    _key: string;
+  } & FaqSection | {
+    _key: string;
+  } & FeatureGridSection | {
+    _key: string;
+  } & GallerySection | {
+    _key: string;
+  } & HeroSection | {
+    _key: string;
+  } & RichTextSection | {
+    _key: string;
+  } & SplitContentSection>;
+  seo?: Seo;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "partner";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "post";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  excerpt?: string;
+  coverImage?: ImageWithAlt;
+  body?: PortableText;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
+  publishedAt?: string;
+  seo?: Seo;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "pricingSection";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  category?: "body-treatments" | "facial-enhancement" | "hair-booster" | "skin-treatments";
+  order?: number;
+  groups?: Array<{
+    _key: string;
+  } & PriceGroup>;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  announcement?: string;
+  tagline?: string;
+  description?: string;
+  heroHeadline?: string;
+  heroSubheadline?: string;
+  brandIntro?: string;
+  brandStory?: Array<string>;
+  brandPhilosophy?: Array<string>;
+  phoneDisplay?: string;
+  phoneE164?: string;
+  whatsappNumber?: string;
+  email?: string;
+  address?: string;
+  openingHours?: string;
+  mapsHref?: string;
+  socialLinks?: Array<{
+    _key: string;
+  } & Link>;
+  bookingLabel?: string;
+  bookingHref?: string;
+  bookingTimeSlots?: Array<string>;
+  bookingTreatmentOptions?: Array<string>;
+  clinicPhilosophy?: string;
+  licenceStatement?: string;
+  licenceNumber?: string;
+  safetyStatement?: string;
+  highlights?: Array<{
+    _key: string;
+  } & ClinicHighlight>;
+  safetyProtocols?: Array<{
+    _key: string;
+  } & SafetyProtocol>;
+  internationalPoints?: Array<{
+    _key: string;
+  } & InternationalPoint>;
+  clinicFaqs?: Array<{
+    _key: string;
+  } & FaqItem>;
+  glanceTitle?: string;
+  glanceLabels?: {
+    startingFrom?: string;
+    treatmentTime?: string;
+    anaesthesia?: string;
+    downtime?: string;
+    initialResult?: string;
+    fullResult?: string;
+    category?: string;
+    performedBy?: string;
+  };
+  glanceUnpublished?: string;
+  bookTreatmentLabel?: string;
+  sectionHeadings?: {
+    aboutEyebrow?: string;
+    journeyEyebrow?: string;
+    journeyTitle?: string;
+    safetyEyebrow?: string;
+    safetyTitle?: string;
+    faqEyebrow?: string;
+    faqTitle?: string;
+    resultsTitle?: string;
+    relatedEyebrow?: string;
+  };
+  defaultSeo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      _type: "imageWithAlt";
+      asset: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      } | null;
+      alt: string | null;
+      caption: string | null;
+      crop: SanityImageCrop | null;
+      hotspot: SanityImageHotspot | null;
+    } | null;
+    noIndex: boolean | null;
+  } | null;
+} | {
+  _id: "siteSettings";
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  quote?: string;
+  source?: "Fresha" | "Google" | "Other";
+  featured?: boolean;
+  treatments?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "treatment";
+  }>;
+  order?: number;
+  defaultSeo: null;
+} | {
+  _id: "siteSettings";
+  _type: "treatment";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  h1?: string;
+  slug?: Slug;
+  path?: string;
+  category?: "body-treatments" | "facial-enhancement" | "hair-booster" | "skin-treatments";
+  shortDescription?: string;
+  intro?: string;
+  image?: ImageWithAlt;
+  imagePosition?: "object-bottom" | "object-center" | "object-left" | "object-right" | "object-top";
+  featuredOnHomepage?: boolean;
+  featuredOrder?: number;
+  mostPopular?: boolean;
+  treatmentTime?: string;
+  treatmentTimeShort?: string;
+  anaesthesia?: string;
+  downtime?: string;
+  initialResult?: string;
+  fullResult?: string;
+  performedBy?: string;
+  startingPrice?: number;
+  priceUnit?: string;
+  priceGroups?: Array<{
+    _key: string;
+  } & PriceGroup>;
+  popularAreasTitle?: string;
+  popularAreas?: Array<string>;
+  journey?: Array<{
+    _key: string;
+  } & JourneyStep>;
+  sections?: Array<{
+    _key: string;
+  } & TreatmentSection>;
+  faqs?: Array<{
+    _key: string;
+  } & FaqItem>;
+  seo?: Seo;
+  defaultSeo: null;
+} | null;
+// Variable: allPartnersQuery
+// Query: *[_type == "partner"] | order(order asc, name asc){    _id,    _type,    name,    order,    logo {  _type,  asset,  alt,  caption,  crop,  hotspot}  }
+export type AllPartnersQueryResult = Array<{
+  _id: string;
+  _type: "partner";
+  name: string | null;
+  order: number | null;
+  logo: {
+    _type: "image";
+    asset: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    } | null;
+    alt: null;
+    caption: null;
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+  } | null;
+}>;
 // Variable: allDoctorsQuery
 // Query: *[_type == "doctor"] | order(order asc, name asc){    _id,    _type,    name,    shortName,    title,    bio,    registrationNumber,    registryUrl,    order,    photo {  _type,  asset,  alt,  caption,  crop,  hotspot}  }
 export type AllDoctorsQueryResult = Array<{
@@ -955,6 +1382,8 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && defined(slug.current)].slug.current\n": AllPostSlugsQueryResult;
     "\n  *[_type == \"treatment\" && defined(slug.current)] | order(name asc){\n    ...,\n    \"slug\": slug.current,\n    image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n    seo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": AllTreatmentsQueryResult;
     "\n  *[_type == \"pricingSection\"] | order(order asc, title asc){\n    _id,\n    _type,\n    title,\n    category,\n    order,\n    groups\n  }\n": AllPricingSectionsQueryResult;
+    "\n  *[_id == \"siteSettings\"][0]{\n    ...,\n    defaultSeo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": SiteSettingsQueryResult;
+    "\n  *[_type == \"partner\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    order,\n    logo {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n}\n  }\n": AllPartnersQueryResult;
     "\n  *[_type == \"doctor\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    shortName,\n    title,\n    bio,\n    registrationNumber,\n    registryUrl,\n    order,\n    photo {\n  _type,\n  asset,\n  alt,\n  caption,\n  crop,\n  hotspot\n}\n  }\n": AllDoctorsQueryResult;
     "\n  *[_type == \"testimonial\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    quote,\n    source,\n    featured,\n    order,\n    \"treatmentSlugs\": treatments[]->slug.current\n  }\n": AllTestimonialsQueryResult;
   }

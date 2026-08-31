@@ -2,8 +2,8 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { CheckIcon } from "@/components/ui/icons";
-import { INTERNATIONAL_PATIENT_POINTS } from "@/data/clinic";
-import { whatsappHref } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 11 — INTERNATIONAL PATIENTS  (client revision note 16)
@@ -32,7 +32,8 @@ import { whatsappHref } from "@/lib/constants";
  * form three sections further down would answer their question with an
  * email address. The enquiry form is still there for anyone who prefers it.
  */
-export default function InternationalPatients() {
+export default async function InternationalPatients() {
+  const copy = await getSiteCopy();
   return (
     <section className="bg-ink-brown py-section text-white">
       <Container>
@@ -54,7 +55,7 @@ export default function InternationalPatients() {
 
           <div className="lg:col-span-7">
             <ul className="border-t border-white/12">
-              {INTERNATIONAL_PATIENT_POINTS.map((point, index) => (
+              {copy.internationalPoints.map((point, index) => (
                 <li key={point.title} className="border-b border-white/12">
                   <Reveal delay={index * 70}>
                     <div className="flex items-start gap-5 py-6">
@@ -99,7 +100,7 @@ export default function InternationalPatients() {
                   Planning your treatment before arriving?
                 </p>
                 <Button
-                  href={whatsappHref(
+                  href={whatsappHrefFor(copy.whatsappNumber, 
                     "Hello Healthy Look Aesthetic, I'm travelling to Bali and I'd like to plan a treatment before I arrive.",
                   )}
                   variant="accent"

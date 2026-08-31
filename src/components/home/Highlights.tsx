@@ -5,7 +5,7 @@ import {
   MessageIcon,
   VerifiedIcon,
 } from "@/components/ui/icons";
-import { CLINIC_HIGHLIGHTS } from "@/data/clinic";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * THE HIGHLIGHTS — now the hero's own bottom bar, not a section of its own.
@@ -45,13 +45,14 @@ import { CLINIC_HIGHLIGHTS } from "@/data/clinic";
  * site's caps tracking is wider than one line survives at small sizes.
  */
 
-// Index-matched to CLINIC_HIGHLIGHTS, so the icons follow the client's own
+// Index-matched to copy.highlights, so the icons follow the client's own
 // order. Only the first four are used here — the last two belong to <WhyUs>,
 // which renders all six with their full descriptions.
 const ICONS = [SparkleIcon, ShieldIcon, MessageIcon, VerifiedIcon];
 
-export default function Highlights() {
-  const highlights = CLINIC_HIGHLIGHTS.slice(0, 4);
+export default async function Highlights() {
+  const copy = await getSiteCopy();
+  const highlights = copy.highlights.slice(0, 4);
 
   return (
     <ul className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-8">

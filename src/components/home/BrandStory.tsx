@@ -2,8 +2,7 @@ import Container from "@/components/ui/Container";
 import Img from "@/components/ui/Img";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
-import { BRAND_STORY, BRAND_PHILOSOPHY } from "@/lib/constants";
-import { CLINIC_PHILOSOPHY, CLINIC_LICENCE_STATEMENT } from "@/data/clinic";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 03 — INTRODUCTION / BRAND STORY
@@ -20,7 +19,8 @@ import { CLINIC_PHILOSOPHY, CLINIC_LICENCE_STATEMENT } from "@/data/clinic";
  * "medical spa" it explicitly says it isn't — so it's set as a bordered
  * aside rather than folded into body copy where it would be skimmed past.
  */
-export default function BrandStory() {
+export default async function BrandStory() {
+  const copy = await getSiteCopy();
   return (
     <section id="story" className="bg-paper py-section">
       <Container>
@@ -80,7 +80,7 @@ export default function BrandStory() {
 
             <Reveal delay={100}>
               <h2 className="mt-8 font-script text-h1 leading-script text-primary">
-                {BRAND_PHILOSOPHY.map((line) => (
+                {copy.brandPhilosophy.map((line) => (
                   <span key={line} className="block">
                     {line}
                   </span>
@@ -90,7 +90,7 @@ export default function BrandStory() {
 
             {/* The lead paragraph carries the products and platforms by
                 name; the rest continue at body size. */}
-            {BRAND_STORY.map((paragraph, index) => (
+            {copy.brandStory.map((paragraph, index) => (
               <Reveal key={paragraph.slice(0, 32)} delay={180 + index * 40}>
                 <p
                   className={
@@ -106,13 +106,13 @@ export default function BrandStory() {
 
             <Reveal delay={230}>
               <p className="mt-6 measure font-sans text-body leading-body text-text-secondary">
-                {CLINIC_PHILOSOPHY}
+                {copy.clinicPhilosophy}
               </p>
             </Reveal>
 
             <Reveal delay={280}>
               <p className="mt-10 measure border-l-2 border-primary/30 py-1 pl-6 font-sans text-sm leading-relaxed text-text-secondary">
-                {CLINIC_LICENCE_STATEMENT}
+                {copy.licenceStatement}
               </p>
             </Reveal>
 

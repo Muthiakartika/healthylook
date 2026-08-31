@@ -84,7 +84,17 @@ export const MAPS_HREF = "https://maps.app.goo.gl/PQvW7nnn4WaDgyrw9?g_st=ic";
  * "Book Now" resolves here rather than to a dead link.
  */
 export function whatsappHref(message?: string): string {
-  const base = `https://wa.me/${WHATSAPP_NUMBER}`;
+  return whatsappHrefFor(WHATSAPP_NUMBER, message);
+}
+
+/**
+ * The same link for a number that did not come from this file — the clinic
+ * can change its WhatsApp number in Site settings, and a component that
+ * still built the URL from the constant would keep sending enquiries to the
+ * old one. Callers with access to the resolved copy should use this.
+ */
+export function whatsappHrefFor(number: string, message?: string): string {
+  const base = `https://wa.me/${number}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 

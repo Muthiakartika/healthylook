@@ -24,16 +24,24 @@ import { SITE_NAME } from "@/lib/constants";
  * `priority` because the logo is in the first viewport on every page, and
  * a logo that pops in late is the most visible possible loading artifact.
  */
-export default function Brand({ tone = "light" }: { tone?: "light" | "dark" }) {
+export default function Brand({
+  tone = "light",
+  siteName = SITE_NAME,
+}: {
+  tone?: "light" | "dark";
+  /** Passed down from the layout — <Header> is a client component, so this
+      cannot be read from the CMS here. */
+  siteName?: string;
+}) {
   return (
     <Link
       href="/"
-      aria-label={`${SITE_NAME}, home`}
+      aria-label={`${siteName}, home`}
       className="flex shrink-0 items-center"
     >
       <Image
         src="/images/brand/logo.png"
-        alt={SITE_NAME}
+        alt={siteName}
         width={300}
         height={116}
         priority

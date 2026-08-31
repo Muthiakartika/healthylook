@@ -1,5 +1,6 @@
 import { WhatsAppIcon } from "@/components/ui/icons";
-import { whatsappHref } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * The sitewide floating WhatsApp button.
@@ -25,10 +26,11 @@ import { whatsappHref } from "@/lib/constants";
  * affordance; the header icon is left as-is since it's a different, smaller
  * thing (inline nav utility) rather than a second copy of this one.
  */
-export default function WhatsAppFloatingButton() {
+export default async function WhatsAppFloatingButton() {
+  const copy = await getSiteCopy();
   return (
     <a
-      href={whatsappHref(
+      href={whatsappHrefFor(copy.whatsappNumber, 
         "Hello Healthy Look Aesthetic, I'd like to ask about a treatment.",
       )}
       target="_blank"

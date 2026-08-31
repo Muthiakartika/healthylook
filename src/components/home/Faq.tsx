@@ -2,8 +2,8 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import Accordion from "@/components/ui/Accordion";
 import Button from "@/components/ui/Button";
-import { clinicFaqs } from "@/data/clinicFaqs";
-import { whatsappHref } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
+import { getClinicFaqs, getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 12 — FAQ
@@ -31,7 +31,9 @@ import { whatsappHref } from "@/lib/constants";
  * The accordion keeps every answer in the DOM while collapsed, so nothing
  * here is hidden from search engines or from in-page find.
  */
-export default function Faq() {
+export default async function Faq() {
+  const copy = await getSiteCopy();
+  const clinicFaqs = await getClinicFaqs();
   const items = clinicFaqs.map((faq, index) => ({
     id: `faq-${index}`,
     question: faq.question,
@@ -80,7 +82,7 @@ export default function Faq() {
                   Link that would try to route wa.me internally. */}
               <div className="mt-8">
                 <Button
-                  href={whatsappHref(
+                  href={whatsappHrefFor(copy.whatsappNumber, 
                     "Hello Healthy Look Aesthetic, I have a question before I book.",
                   )}
                   variant="quiet"

@@ -6,8 +6,7 @@ import PriceTable from "@/components/shared/PriceTable";
 import { CheckIcon } from "@/components/ui/icons";
 import { formatIDR } from "@/lib/format";
 import { treatmentHref } from "@/data/treatments";
-import { getTreatmentBySlug } from "@/lib/site-content";
-import { BOOKING_HREF } from "@/lib/constants";
+import { getSiteCopy, getTreatmentBySlug } from "@/lib/site-content";
 
 /**
  * SECTION 05 — FEATURED TREATMENT
@@ -27,6 +26,7 @@ import { BOOKING_HREF } from "@/lib/constants";
  * brand rather than for it.
  */
 export default async function FeaturedTreatment() {
+  const copy = await getSiteCopy();
   // Resolved inside the component rather than at module scope: the lookup
   // now goes through the database layer, and a module-scope await would
   // run once when the module is first imported and then never again.
@@ -121,7 +121,7 @@ export default async function FeaturedTreatment() {
                 <Button href={treatmentHref(treatment)} variant="primary" withArrow>
                   Read the full guide
                 </Button>
-                <Button href={BOOKING_HREF} variant="outline">
+                <Button href={copy.bookingHref} variant="outline">
                   Book a consultation
                 </Button>
               </div>

@@ -2,15 +2,8 @@ import { NAV_ITEMS, type NavItem } from "./navItems";
 import MobileNavItem from "./MobileNavItem";
 import Button from "@/components/ui/Button";
 import { CloseIcon, WhatsAppIcon, PhoneIcon, MailIcon } from "@/components/ui/icons";
-import {
-  BOOKING_HREF,
-  BOOKING_LABEL,
-  EMAIL,
-  PHONE_DISPLAY,
-  PHONE_E164,
-  OPENING_HOURS,
-  whatsappHref,
-} from "@/lib/constants";
+import { PHONE_E164, whatsappHrefFor } from "@/lib/constants";
+import type { SiteCopy } from "@/lib/site-copy";
 
 /**
  * The slide-out mobile menu. Owns no state itself (`open`/`onClose` are
@@ -25,12 +18,14 @@ import {
  * to make room; the panel simply scrolls.
  */
 export default function MobileDrawer({
+  copy,
   open,
   onClose,
   // Same seam as DesktopNav: resolved on the server, defaulted to the
   // compiled list so the drawer still renders without it.
   items = NAV_ITEMS,
 }: {
+  copy: SiteCopy;
   open: boolean;
   onClose: () => void;
   items?: NavItem[];
@@ -91,8 +86,8 @@ export default function MobileDrawer({
         </nav>
 
         <div className="mt-8 border-t border-hairline bg-wash px-6 py-7">
-          <Button href={BOOKING_HREF} onClick={onClose} className="w-full" size="md">
-            {BOOKING_LABEL}
+          <Button href={copy.bookingHref} onClick={onClose} className="w-full" size="md">
+            {copy.bookingLabel}
           </Button>
 
           {/* Padding rather than gap, same reason as the treatment links in
@@ -106,7 +101,7 @@ export default function MobileDrawer({
           <ul className="mt-4 flex flex-col font-sans text-label text-text-secondary">
             <li>
               <a
-                href={whatsappHref("Hello Healthy Look Aesthetic, I'd like to ask about a treatment.")}
+                href={whatsappHrefFor(copy.whatsappNumber, "Hello Healthy Look Aesthetic, I'd like to ask about a treatment.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex min-h-11 items-center gap-3 py-3 hover:text-primary"
@@ -118,18 +113,18 @@ export default function MobileDrawer({
             <li>
               <a href={`tel:${PHONE_E164}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
                 <PhoneIcon className="h-4 w-4 shrink-0 text-primary" />
-                {PHONE_DISPLAY}
+                {copy.phoneDisplay}
               </a>
             </li>
             <li>
-              <a href={`mailto:${EMAIL}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
+              <a href={`mailto:${copy.email}`} className="flex min-h-11 items-center gap-3 py-3 hover:text-primary">
                 <MailIcon className="h-4 w-4 shrink-0 text-primary" />
-                {EMAIL}
+                {copy.email}
               </a>
             </li>
           </ul>
 
-          <p className="mt-5 font-sans text-caption text-muted">{OPENING_HOURS}</p>
+          <p className="mt-5 font-sans text-caption text-muted">{copy.openingHours}</p>
         </div>
       </div>
     </div>

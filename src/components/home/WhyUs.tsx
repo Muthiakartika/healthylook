@@ -2,11 +2,7 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import Img from "@/components/ui/Img";
-import {
-  CLINIC_HIGHLIGHTS,
-  CLINIC_SAFETY_STATEMENT,
-  CLINIC_LICENCE_NUMBER,
-} from "@/data/clinic";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 06 — WHY PATIENTS CHOOSE HEALTHY LOOK
@@ -43,7 +39,8 @@ import {
  * The licence number stays in the open, on the left, because it is the one
  * credential a sceptical reader can go and verify for themselves.
  */
-export default function WhyUs() {
+export default async function WhyUs() {
+  const copy = await getSiteCopy();
   return (
     <section className="bg-ink-brown py-section text-white">
       <Container>
@@ -64,13 +61,13 @@ export default function WhyUs() {
 
             <Reveal delay={160}>
               <p className="mt-7 measure font-sans text-copy leading-body text-white/55">
-                {CLINIC_SAFETY_STATEMENT}
+                {copy.safetyStatement}
               </p>
             </Reveal>
 
             <Reveal delay={220}>
               <p className="mt-8 inline-block border border-white/15 px-4 py-2.5 font-sans text-caption tracking-wide text-gold-soft">
-                {CLINIC_LICENCE_NUMBER}
+                {copy.licenceNumber}
               </p>
             </Reveal>
 
@@ -91,7 +88,7 @@ export default function WhyUs() {
                 aria-hidden so a screen reader announces six headings rather
                 than "zero one, zero two". */}
             <ul className="border-t border-white/12">
-              {CLINIC_HIGHLIGHTS.map((highlight, index) => (
+              {copy.highlights.map((highlight, index) => (
                 <li key={highlight.title} className="border-b border-white/12">
                   <Reveal delay={index * 70}>
                     <div className="flex flex-col gap-4 py-8 sm:flex-row sm:gap-12">

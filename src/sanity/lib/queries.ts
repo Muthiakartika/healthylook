@@ -95,6 +95,23 @@ export const allPricingSectionsQuery = defineQuery(`
   }
 `);
 
+export const siteSettingsQuery = defineQuery(`
+  *[_id == "siteSettings"][0]{
+    ...,
+    defaultSeo ${seoProjection}
+  }
+`);
+
+export const allPartnersQuery = defineQuery(`
+  *[_type == "partner"] | order(order asc, name asc){
+    _id,
+    _type,
+    name,
+    order,
+    logo ${imageProjection}
+  }
+`);
+
 export const allDoctorsQuery = defineQuery(`
   *[_type == "doctor"] | order(order asc, name asc){
     _id,

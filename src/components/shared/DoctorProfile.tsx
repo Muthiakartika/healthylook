@@ -3,8 +3,9 @@ import Img from "@/components/ui/Img";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { ArrowUpRightIcon, VerifiedIcon } from "@/components/ui/icons";
-import { whatsappHref } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
 import type { Doctor } from "@/data/doctors";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * The doctor's entry in the Ministry of Health's practitioner registry.
@@ -126,7 +127,7 @@ function RegistrationCredential({
  * The full profiles at /our-doctor are unchanged, and every compact card
  * links to them.
  */
-export default function DoctorProfile({
+export default async function DoctorProfile({
   doctor,
   index,
   showCta = true,
@@ -138,6 +139,7 @@ export default function DoctorProfile({
   /** Homepage rendering: portrait, name, one paragraph, link. */
   compact?: boolean;
 }) {
+  const copy = await getSiteCopy();
   if (compact) {
     return (
       <Reveal delay={index * 120}>
@@ -194,7 +196,7 @@ export default function DoctorProfile({
           {showCta && (
             <div className="mt-7">
               <Button
-                href={whatsappHref(
+                href={whatsappHrefFor(copy.whatsappNumber, 
                   `Hello Healthy Look Aesthetic, I'd like to book with ${doctor.shortName}.`,
                 )}
                 variant="quiet"
@@ -268,7 +270,7 @@ export default function DoctorProfile({
           <Reveal delay={380}>
             <div className="mt-9">
               <Button
-                href={whatsappHref(
+                href={whatsappHrefFor(copy.whatsappNumber, 
                   `Hello Healthy Look Aesthetic, I'd like to book with ${doctor.shortName}.`,
                 )}
                 variant="quiet"

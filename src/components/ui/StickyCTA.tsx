@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { WhatsAppIcon, ArrowRightIcon } from "@/components/ui/icons";
-import { BOOKING_HREF, BOOKING_LABEL, whatsappHref } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
 
 /**
  * Mobile-only sticky action bar, pinned to the bottom of the viewport.
@@ -28,7 +28,15 @@ import { BOOKING_HREF, BOOKING_LABEL, whatsappHref } from "@/lib/constants";
  * It's `lg:hidden`: on desktop the header CTA is always visible, so a
  * second floating one would be pure noise.
  */
-export default function StickyCTA() {
+export default function StickyCTA({
+  bookingHref,
+  bookingLabel,
+  whatsappNumber,
+}: {
+  bookingHref: string;
+  bookingLabel: string;
+  whatsappNumber: string;
+}) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -59,7 +67,7 @@ export default function StickyCTA() {
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       <a
-        href={whatsappHref(
+        href={whatsappHrefFor(whatsappNumber, 
           "Hello Healthy Look Aesthetic, I'd like to ask about a treatment.",
         )}
         target="_blank"
@@ -70,10 +78,10 @@ export default function StickyCTA() {
         WhatsApp
       </a>
       <Link
-        href={BOOKING_HREF}
+        href={bookingHref}
         className="flex flex-1 items-center justify-center gap-2 rounded-brand bg-primary-strong py-3.5 font-sans text-micro font-semibold uppercase tracking-caps-wide text-white"
       >
-        {BOOKING_LABEL}
+        {bookingLabel}
         <ArrowRightIcon className="h-3.5 w-3.5" />
       </Link>
     </div>

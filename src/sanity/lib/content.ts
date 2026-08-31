@@ -1,5 +1,7 @@
 import type {
   SanityDoctorDocument,
+  SanityPartnerDocument,
+  SanitySiteSettings,
   SanityPricingSectionDocument,
   SanityPage,
   SanityPost,
@@ -22,6 +24,8 @@ import {
   allTestimonialsQuery,
   allTreatmentsQuery,
   allPricingSectionsQuery,
+  allPartnersQuery,
+  siteSettingsQuery,
 } from "@/sanity/lib/queries";
 import { sanityImageUrl } from "@/sanity/lib/image";
 
@@ -163,6 +167,36 @@ export async function getSanityTreatmentExtras(
   slug: string,
 ): Promise<SanityTreatmentExtras | null> {
   return (await getSanityTreatments())?.extras.get(slug) ?? null;
+}
+
+export async function getSanitySiteSettings(): Promise<SanitySiteSettings | null> {
+  return sanityFetch<SanitySiteSettings>(siteSettingsQuery, {
+    tags: ["sanity", "sanity:siteSettings"],
+  });
+}
+
+/** Logo paths are resolved here so callers keep taking a plain string src. */
+export async function getSanityPartners(): Promise<Array<{ name: string; logo: string }> | null> {
+  const documents = await sanityFetch<SanityPartnerDocument[]>(allPartnersQuery, {
+    tags: ["sanity", "sanity:partner"],
+  });
+  if (!documents?.length) return null;
+
+  return documents
+    .map((document) => ({ name: document.name, logo: sanityImageUrl(document.logo) ?? "" }))
+    .filter((partner) => partner.logo !== "");
+}
+
+/** Clinic FAQ answers are portable text in Sanity and plain strings in code. */
+export async function getSanityClinicFaqs(): Promise<
+  Array<{ question: string; answer: string }> | null
+> {
+  const settings = await getSanitySiteSettings();
+  if (!settings?.clinicFaqs?.length) return null;
+  return settings.clinicFaqs.map((item) => ({
+    question: item.question,
+    answer: portableTextToPlainText(item.answer),
+  }));
 }
 
 export async function getSanityPricingSections(): Promise<PricingSection[] | null> {

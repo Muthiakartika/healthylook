@@ -3,8 +3,9 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import { treatmentHref } from "@/data/treatments";
 import { getTreatments } from "@/lib/site-content";
-import { BOOKING_HREF, whatsappHref } from "@/lib/constants";
+import { whatsappHrefFor } from "@/lib/constants";
 import { ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * 404.
@@ -24,6 +25,7 @@ import { ArrowUpRightIcon, WhatsAppIcon } from "@/components/ui/icons";
  * has no full-bleed hero to run underneath it.
  */
 export default async function NotFound() {
+  const copy = await getSiteCopy();
   const highlights = (await getTreatments()).slice(0, 6);
 
   return (
@@ -56,7 +58,7 @@ export default async function NotFound() {
                 Back to home
               </Button>
               <Button
-                href={whatsappHref(
+                href={whatsappHrefFor(copy.whatsappNumber, 
                   "Hello Healthy Look Aesthetic, I was looking for something on your website.",
                 )}
                 variant="outline"
@@ -104,7 +106,7 @@ export default async function NotFound() {
                 About
               </Link>
               <Link
-                href={BOOKING_HREF}
+                href={copy.bookingHref}
                 className="font-sans text-label uppercase tracking-caps text-primary-strong hover:text-primary-hover"
               >
                 Book

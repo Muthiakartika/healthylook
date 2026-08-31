@@ -53,12 +53,14 @@ const HOVER_CLOSE_DELAY = 260;
  * language for the whole site.
  */
 export default function DesktopNav({
+  bookingHref,
   tone = "light",
   // Resolved on the server so the menu reflects what is in the database.
   // Defaults to the compiled list, which keeps this component renderable
   // on its own and covers the case where nothing has been imported yet.
   items = NAV_ITEMS,
 }: {
+  bookingHref: string;
   tone?: "light" | "dark";
   items?: NavItem[];
 }) {
@@ -236,6 +238,7 @@ export default function DesktopNav({
             )}
             {item.columns && (
               <MegaPanel
+                bookingHref={bookingHref}
                 id={panelId}
                 columns={item.columns}
                 wide={item.wide}

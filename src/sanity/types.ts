@@ -265,6 +265,73 @@ export type SanityPricingSectionDocument = {
   }>;
 };
 
+export type SanitySiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  title?: string;
+  announcement?: string;
+  tagline?: string;
+  description?: string;
+  heroHeadline?: string;
+  heroSubheadline?: string;
+  brandIntro?: string;
+  brandStory?: string[];
+  brandPhilosophy?: string[];
+  phoneDisplay?: string;
+  phoneE164?: string;
+  whatsappNumber?: string;
+  email?: string;
+  address?: string;
+  openingHours?: string;
+  mapsHref?: string;
+  socialLinks?: SanityLink[];
+  bookingLabel?: string;
+  bookingHref?: string;
+  bookingTimeSlots?: string[];
+  bookingTreatmentOptions?: string[];
+  clinicPhilosophy?: string;
+  licenceStatement?: string;
+  licenceNumber?: string;
+  safetyStatement?: string;
+  highlights?: Array<{ _key: string; title: string; tagline: string; description: string }>;
+  safetyProtocols?: Array<{ _key: string; title: string; description: string }>;
+  internationalPoints?: Array<{ _key: string; title: string; note?: string }>;
+  clinicFaqs?: Array<{ _key: string; question: string; answer: PortableTextBlock[] }>;
+  glanceTitle?: string;
+  glanceLabels?: {
+    startingFrom?: string;
+    treatmentTime?: string;
+    anaesthesia?: string;
+    downtime?: string;
+    initialResult?: string;
+    fullResult?: string;
+    category?: string;
+    performedBy?: string;
+  };
+  glanceUnpublished?: string;
+  bookTreatmentLabel?: string;
+  sectionHeadings?: {
+    aboutEyebrow?: string;
+    journeyEyebrow?: string;
+    journeyTitle?: string;
+    safetyEyebrow?: string;
+    safetyTitle?: string;
+    faqEyebrow?: string;
+    faqTitle?: string;
+    resultsTitle?: string;
+    relatedEyebrow?: string;
+  };
+  defaultSeo?: SeoFields;
+};
+
+export type SanityPartnerDocument = {
+  _id: string;
+  _type: "partner";
+  name: string;
+  logo?: SanityImage;
+  order?: number;
+};
+
 export type SanityDoctorDocument = Omit<Doctor, "id" | "photo" | "registration"> & {
   _id: string;
   _type: "doctor";

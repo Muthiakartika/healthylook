@@ -4,7 +4,7 @@ import Img from "@/components/ui/Img";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { MapPinIcon, ClockIcon } from "@/components/ui/icons";
-import { OPENING_HOURS, MAPS_HREF, ADDRESS } from "@/lib/constants";
+import { getSiteCopy } from "@/lib/site-content";
 
 /**
  * SECTION 10 — CLINIC / EXPERIENCE
@@ -38,7 +38,8 @@ const STRIP = [
   { src: "/images/clinic/clinic-05.jpg", alt: "The clinic at Ubud Nyuh Bali Resort" },
 ];
 
-export default function ClinicExperience() {
+export default async function ClinicExperience() {
+  const copy = await getSiteCopy();
   return (
     // Blush, not white. This is the "what is it actually like to go there"
     // section, and blush is the colour the live site reaches for in exactly
@@ -135,17 +136,17 @@ export default function ClinicExperience() {
                 <li className="flex items-start gap-3.5 font-sans text-copy text-ink">
                   <MapPinIcon className="mt-1 h-4 w-4 shrink-0 text-primary-strong" />
                   <a
-                    href={MAPS_HREF}
+                    href={copy.mapsHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline decoration-ink/25 underline-offset-4 transition-colors hover:decoration-ink"
                   >
-                    {ADDRESS}
+                    {copy.address}
                   </a>
                 </li>
                 <li className="flex items-start gap-3.5 font-sans text-copy text-ink">
                   <ClockIcon className="mt-1 h-4 w-4 shrink-0 text-primary-strong" />
-                  {OPENING_HOURS}
+                  {copy.openingHours}
                 </li>
               </ul>
             </Reveal>
@@ -155,7 +156,7 @@ export default function ClinicExperience() {
                 <Button href="/ubud-bali" variant="primary" withArrow>
                   Explore our treatments
                 </Button>
-                <Button href={MAPS_HREF} variant="outline" external>
+                <Button href={copy.mapsHref} variant="outline" external>
                   Open in Google Maps
                 </Button>
               </div>

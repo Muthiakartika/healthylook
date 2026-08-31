@@ -5,12 +5,13 @@ import { usePathname } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import { MenuIcon, WhatsAppIcon } from "@/components/ui/icons";
-import { BOOKING_HREF, BOOKING_LABEL, whatsappHref } from "@/lib/constants";
 import Brand from "./Brand";
 import DesktopNav from "./DesktopNav";
 import MobileDrawer from "./MobileDrawer";
 import { NAV_ITEMS, type NavItem } from "./navItems";
 import TopBar from "./TopBar";
+import { whatsappHrefFor } from "@/lib/constants";
+import type { SiteCopy } from "@/lib/site-copy";
 
 /**
  * THE HEADER — two states, and a split first one.
@@ -104,7 +105,14 @@ const SOLIDIFY_AFTER_PX = 48;
 // The nav is resolved on the server and handed in, because this component
 // and the two below it are client components and cannot read the database.
 // Defaults to the compiled list so Header is still usable on its own.
-export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] } = {}) {
+export default function Header({
+  navItems = NAV_ITEMS,
+  copy,
+}: {
+  navItems?: NavItem[];
+  /** Resolved on the server — this is a client component and cannot read the CMS. */
+  copy: SiteCopy;
+}) {
   const pathname = usePathname();
   const overHero = HERO_ROUTES.some((pattern) => pattern.test(pathname));
 
@@ -196,7 +204,7 @@ export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] 
           }`}
           aria-hidden={solid}
         >
-          <TopBar />
+          <TopBar copy={copy} />
         </div>
 
         <Container>
@@ -204,9 +212,13 @@ export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] 
               both states are the same bar at the same width and the same
               container padding. Only the type colour changes. */}
           <div className="flex h-20 items-center justify-between gap-6 lg:h-24">
-            <Brand tone={solid ? "light" : "dark"} />
+            <Brand tone={solid ? "light" : "dark"} siteName={copy.siteName} />
 
-            <DesktopNav tone={solid ? "light" : "dark"} items={navItems} />
+            <DesktopNav
+              tone={solid ? "light" : "dark"}
+              items={navItems}
+              bookingHref={copy.bookingHref}
+            />
 
             <div className="flex items-center gap-2 sm:gap-4">
               {/* WhatsApp gets its own always-visible affordance next to the
@@ -214,7 +226,7 @@ export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] 
                   tap-to-chat icon converts far better than routing everyone
                   through a form. */}
               <a
-                href={whatsappHref(
+                href={whatsappHrefFor(copy.whatsappNumber, 
                   "Hello Healthy Look Aesthetic, I'd like to ask about a treatment.",
                 )}
                 target="_blank"
@@ -248,12 +260,12 @@ export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] 
                   is to be clicked had no colour at all. Scrolled, it takes
                   the deep gold that clears 4.5:1 on paper. */}
               <Button
-                href={BOOKING_HREF}
+                href={copy.bookingHref}
                 variant={solid ? "primary" : "accent"}
                 size="sm"
                 className="max-sm:hidden"
               >
-                {BOOKING_LABEL}
+                {copy.bookingLabel}
               </Button>
 
               <button
@@ -279,6 +291,7 @@ export default function Header({ navItems = NAV_ITEMS }: { navItems?: NavItem[] 
       </header>
 
       <MobileDrawer
+        copy={copy}
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         items={navItems}
