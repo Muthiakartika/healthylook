@@ -64,6 +64,14 @@ export type PriceRow = {
   /** IDR, integer. `null` where the live site says "By Consultation". */
   price: number | null;
   unit?: string;
+  /**
+   * The live price list's own step-by-step rundown for a package — the
+   * medi facials each list one, e.g. "Deep Cleansing – Steam & Extraction
+   * – … – Moisturizer & Sunscreen". Verbatim from
+   * healthylook-aesthetic.com/pricing/, where it prints under the row's
+   * name and price. Left unset wherever the live list doesn't carry one.
+   */
+  description?: string;
 };
 
 export type PriceGroup = {
@@ -212,6 +220,24 @@ export type Treatment = {
   /** Real photo where the live site has one for this treatment. */
   image?: string;
   /**
+   * Overrides `Img`'s default object-center crop for `image` above —
+   * "object-top", "object-bottom", etc.
+   *
+   * ── CLIENT REVISION — LYSIWAVE'S PHOTO, CROPPED IN THE WRONG PLACE ──
+   * `live-fat-cellulite.jpg` is a tall product shot: the Lysiwave device's
+   * screen and handles — the part that actually reads as "this machine" —
+   * sit in the top third, with a plain, empty stretch of its body below.
+   * Center-cropping it into any landscape-ish box keeps that empty middle
+   * and cuts the screen off. First fixed only where the client happened to
+   * spot it (the homepage's Treatment Highlights card); the same crop then
+   * turned up again on the blog teaser, the full blog index, and the
+   * related-treatments grid — every other place `TreatmentThumb` renders
+   * this photo. Setting it here, once, is what every one of those call
+   * sites now reads from, so a treatment's crop can't go stale in the
+   * places nobody thought to check.
+   */
+  imagePosition?: string;
+  /**
    * The headline "From" price, in IDR — taken from the live site's own
    * /ubud-bali/ index card for this treatment, because that card is the
    * same surface this field feeds (index cards, hero, related-treatment
@@ -261,7 +287,21 @@ export const treatments: Treatment[] = [
     performedBy: "Licensed doctor",
     shortDescription:
       "A quick and effective treatment to smooth the dynamic wrinkles, slim the face, treat bruxism, and contour the specific area of the body.",
-    image: "/images/treatments/live-botox.jpg",
+    // ── CLIENT REVISION — BOTOX'S OWN PHOTO SWAPPED IN ──────────────────
+    // `live-botox.jpg` (the forehead-injection photo) is genuinely Botox's
+    // own photo on the live site too — checked directly — but the client
+    // wants it reserved for Lip Filler's page instead (see that entry) and
+    // this product shot used for Botox here. Sourced from the live site's
+    // own Botox page, where it sits beside "Popular areas treated with
+    // botox": healthylook-aesthetic.com/wp-content/uploads/2026/03/
+    // MEITU_20260329_121323705-1.jpg.
+    image: "/images/treatments/live-botox-products.jpg",
+    // Portrait source (1080×1350); the boxes sit in the lower half with
+    // blurred plant filling the top, so a center crop into any wider box
+    // keeps the empty top and cuts the boxes off — same failure mode as
+    // Lysiwave's photo (see that field's own note). Bottom-anchoring keeps
+    // both boxes and their reflection in frame.
+    imagePosition: "object-bottom",
     startingPrice: 60000,
     priceUnit: "per unit",
     priceGroups: [
@@ -475,7 +515,15 @@ export const treatments: Treatment[] = [
     initialResult: "Immediately",
     fullResult: "1–2 weeks",
     performedBy: "Licensed doctor",
-    image: "/images/treatments/live-lip-filler.jpg",
+    // ── CLIENT REVISION — REASSIGNED FROM BOTOX ─────────────────────────
+    // The client's own read of this photo is that it belongs on Lip
+    // Filler's page, not Botox's — see the note on Botox's `image` field.
+    // Filename still says "live-botox" — left as-is rather than renamed,
+    // since the obvious target name, live-lip-filler.jpg, is already a
+    // different photo on disk (unused; a plain lips close-up), and
+    // overwriting one real photo's filename with another is how this kind
+    // of mismatch happens in the first place.
+    image: "/images/treatments/live-botox.jpg",
     shortDescription:
       "Enhance your lips with premium lip fillers in Ubud, Bali. Achieve fuller, natural-looking lips with expert, safe treatments.",
     intro:
@@ -875,43 +923,146 @@ export const treatments: Treatment[] = [
       "Our medi facial is a combination of advanced technology, and high-quality products with a pampering experience to leave you feeling refreshed and revitalized with healthier skin.",
     image: "/images/treatments/live-facial-medi.jpg",
     startingPrice: 490000,
+    /**
+     * ── CLIENT REQUEST — PER-PACKAGE DESCRIPTIONS ──────────────────────
+     * "Please complete all the data [for Medi Facial]… if there's a
+     * description for each treatment, add it" — referencing
+     * healthylook-aesthetic.com/pricing/. The live price list prints a
+     * step-by-step rundown under every package's name and price (e.g.
+     * "Deep Cleansing – Steam & Extraction – … – Moisturizer &
+     * Sunscreen"); `description` on each row below is that text, verbatim
+     * from the live page — nothing summarised or invented.
+     */
     priceGroups: [
       {
         title: "By Dermalogica",
         rows: [
-          { label: "Acne & Blemish Facial (75 mins)", price: 850000 },
-          { label: "Triple Action Acne Care (90 mins)", price: 1290000 },
-          { label: "Luminous Facial (75 mins)", price: 850000 },
-          { label: "Firming & Resurfacing Facial (90 mins)", price: 1190000 },
-          { label: "Collagen Booster Facial (90 mins)", price: 1290000 },
-          { label: "Ageless Radiance Facial (90 mins)", price: 1490000 },
+          {
+            label: "Acne & Blemish Facial (75 mins)",
+            price: 850000,
+            description:
+              "Deep Cleansing — Pre-Extraction Gel - Steam & Extraction - High Frequency - Anti Bacterial - Soft Peeling - Mask – Shoulder Massage - Serum – Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Triple Action Acne Care (90 mins)",
+            price: 1290000,
+            description:
+              "Deep Cleansing — Pre Extraction Gel - Steam & Extraction - Anti Bacterial Extracts — IPL Acne - Soft Peeling - Mask – Shoulder Massage - Serum – Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Luminous Facial (75 mins)",
+            price: 850000,
+            description:
+              "Deep Cleansing – Microfoliant – Steam & Extraction – Face Massage with Guasha - Soft Peeling - Serum Infusion with Electroporation - Peptide Sheet Mask with PDT – Shoulder Massage – Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Firming & Resurfacing Facial (90 mins)",
+            price: 1190000,
+            description:
+              "Deep Cleansing – Radiofrequency – Diamond Microdermabrasion - Steam & Extraction - High Frequency - Face Massage with Guasha - Recovery Mask - Serum Infusion - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Collagen Booster Facial (90 mins)",
+            price: 1290000,
+            description:
+              "Deep Cleansing – Microfoliant – Steam & Extraction – Face Massage with Roller - Soft Peeling - IPL Rejuvenation – Premium Gold Mask – Shoulder Massage – Serum Infusion with Electroporation – Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Ageless Radiance Facial (90 mins)",
+            price: 1490000,
+            description:
+              "Deep Cleansing – Radiofrequency – Steam & Extraction – Face Massage - Soft Peeling - PDT - Stem Cell Mask - Brightening Eye Mask - Shoulder Massage – Eye & Lip Care – Moisturizer & Sunscreen",
+          },
         ],
       },
       {
         title: "Healthy Look's Signature",
         rows: [
-          { label: "Bright Eye Care – Add On (30 mins)", price: 390000 },
-          { label: "Glow and Go Facial (45 mins)", price: 590000 },
-          { label: "Skin Prep Facial (60 mins)", price: 690000 },
-          { label: "Calming Oxygen Facial (75 mins)", price: 850000 },
-          { label: "Hydra Glow Facial (75 mins)", price: 850000 },
-          { label: "Red Carpet Hydra Glow (90 mins)", price: 1290000 },
-          { label: "Red Carpet Hydra Glow (Face & Neck) (90 mins)", price: 1680000 },
+          {
+            label: "Bright Eye Care – Add On (30 mins)",
+            price: 390000,
+            description:
+              "Deep cleansing – Enzyme Peeling – Massage – Soothing Mask – Eye Concentrate & Serum",
+          },
+          {
+            label: "Glow and Go Facial (45 mins)",
+            price: 590000,
+            description:
+              "Deep Cleansing – Soft Exfoliant – Hydra Peeling – Face Massage - Tightening Stimulation - Mask - Shoulder Massage - Hydrating Infusion - Serum - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Skin Prep Facial (60 mins)",
+            price: 690000,
+            description:
+              "Deep Cleansing – Enzyme Peeling — Soft Exfoliant & Steam - Extraction – Face Massage - Sheet Mask – Shoulder Massage - Moisturizer & Sunscreen",
+          },
+          {
+            label: "Calming Oxygen Facial (75 mins)",
+            price: 850000,
+            description:
+              "Deep Cleansing - Jet Peel - Soft Exfoliant - Steam & Extraction – Face Massage with Roller – Oxygen Spray - Calming Stem Cell Mask with PDT - Serum Infusion with Electroporation - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Hydra Glow Facial (75 mins)",
+            price: 850000,
+            description:
+              "Deep Cleansing – Enzyme Peeling - Soft Exfoliant & Steam - Hydra Peeling - Extraction - Face Massage – Tightening Stimulation - Mask – Shoulder Massage - Hydrating Infusion - Serum Infusion — Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Red Carpet Hydra Glow (90 mins)",
+            price: 1290000,
+            description:
+              "Deep Cleansing – Enzyme Peeling - Soft Exfoliant & Steam - Hydra Peeling - Extraction - Face Massage – Tightening Stimulation - Premium Alga Mask – Brightening Eye Mask - Shoulder Massage - Hydrating Infusion - Serum - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Red Carpet Hydra Glow (Face & Neck) (90 mins)",
+            price: 1680000,
+            // Same rundown as the Face-only version above — the live page
+            // repeats it verbatim for the Face & Neck row rather than
+            // stating a delta, so this does too.
+            description:
+              "Deep Cleansing – Enzyme Peeling - Soft Exfoliant & Steam - Hydra Peeling - Extraction - Face Massage – Tightening Stimulation - Premium Alga Mask – Brightening Eye Mask - Shoulder Massage - Hydrating Infusion - Serum - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
         ],
       },
       {
         title: "Body Series",
         rows: [
-          { label: "Bootylicious (75 mins)", price: 1050000 },
-          { label: "Backne Care (90 mins)", price: 1290000 },
+          {
+            label: "Bootylicious (75 mins)",
+            price: 1050000,
+            description:
+              "Deep Cleansing – Jet Peel - Soft Exfoliant - Steam & Extraction - Booty Mask – Firming Body Serum with Electroporation — Radiofrequency - Firming Body Cream with Booty Massage",
+          },
+          {
+            label: "Backne Care (90 mins)",
+            price: 1290000,
+            description:
+              "Cleansing – Steam & Extraction – High Frequency - Soft Peeling – PDT - Peel Off Mask – Serum Infusion with Ultrasound - Oil-Free Acne Moisturizer",
+          },
         ],
       },
       {
         title: "Not The Ordinary Facial",
         rows: [
-          { label: "Ultimate Radiance (90 mins)", price: 2590000 },
-          { label: "Advanced Tightening Facial (90 mins)", price: 2590000 },
-          { label: "Power Lift Facial (90 mins)", price: 4500000 },
+          {
+            label: "Ultimate Radiance (90 mins)",
+            price: 2590000,
+            description:
+              "Deep Cleansing – Enzyme Peeling - Soft Exfoliant – Steam & Extraction - Face Massage - Topical Anesthesia - Personalized Mesotherapy with Dermashine Pro – Stem Cell Tightening Mask – Shoulder Massage - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Advanced Tightening Facial (90 mins)",
+            price: 2590000,
+            description:
+              "Deep Cleansing – Enzyme Peeling - Carboxtherapy – Extraction - Face Massage – HIFU 150 shots - Hydrating Sheet Mask – Shoulder Massage - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
+          {
+            label: "Power Lift Facial (90 mins)",
+            price: 4500000,
+            description:
+              "Deep Cleansing – Enzyme Peeling - Soft Peeling – Steam & Extraction - Face Massage with Roller - Lower Face HIFU – Calming Peptde Mask – Shoulder Massage - Eye & Lip Care – Moisturizer & Sunscreen",
+          },
         ],
       },
     ],
@@ -1023,6 +1174,8 @@ export const treatments: Treatment[] = [
     shortDescription:
       "An advanced non-invasive body contouring treatment to reduce cellulite and stubborn fat while improving skin firmness.",
     image: "/images/treatments/live-fat-cellulite.jpg",
+    // See the `imagePosition` field's own note in the Treatment type above.
+    imagePosition: "object-top",
     startingPrice: 2900000,
     priceGroups: [
       {
@@ -1456,6 +1609,24 @@ export const HOME_POPULAR_SLUGS: string[] = [
   // Hair & Booster
   "autologues-micrograft-hair-restoration",
   "prp/hair",
+];
+
+/**
+ * ── CLIENT REVISION — "MOST POPULAR" LABEL, NAMED EXPLICITLY ───────────
+ * The badge on the Treatments section used to mark whichever treatment
+ * happened to sit first in HOME_POPULAR_SLUGS for its category — a proxy,
+ * since this file has no sales data to rank treatments by. The client has
+ * now named the five they want labelled directly: HIFU, Botox, Sylfirm,
+ * Lysiwave, PRP Hair. HIFU and Botox share a category, which the old
+ * "first row only" rule could never have marked at once — hence a slug
+ * set checked by membership rather than a per-category index.
+ */
+export const MOST_POPULAR_SLUGS: string[] = [
+  "hifu",
+  "botox",
+  "microneedling/rf", // Sylfirm
+  "fat-cellulite", // Lysiwave
+  "prp/hair", // PRP Hair
 ];
 
 /**

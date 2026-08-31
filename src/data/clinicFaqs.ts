@@ -42,13 +42,15 @@ export const clinicFaqs: ClinicFaq[] = [
     // The original answer was accurate but incomplete: it only described
     // injectables, and a reader could reasonably infer from it that a
     // doctor personally performs everything at the clinic. The client asked
-    // for the distinction to be explicit rather than implied. The facial
-    // example is the clinic's own published fact (treatments.ts: "handled
-    // by trained therapist who follow clear treatment standards"); nothing
-    // here names a treatment or a credential that isn't already documented
-    // elsewhere on the site.
+    // for the distinction to be explicit rather than implied.
+    //
+    // ── FOLLOW-UP REVISION — WORDING SUPPLIED VERBATIM ────────────────
+    // The client then gave the exact sentence to use for the non-injectable
+    // half of this answer, replacing "trained therapists and nurses […]
+    // with a doctor overseeing your treatment plan" with their own
+    // "trained nurses and beautician" phrasing below — used as given.
     answer:
-      "It depends on the treatment. All injectable treatments — Botox, dermal filler, skin boosters, and similar — are exclusively administered by our licensed doctors, never delegated to a therapist, and the same doctor handles your consultation, your treatment plan, and the injection itself. Certain non-injectable treatments, such as facials and some body-contouring devices, are performed by our trained therapists and nurses following the clinic's clear treatment standards, with a doctor overseeing your treatment plan. Our head doctor is internationally trained, with ongoing training at IMCAS Paris, AMWC, Korean Derma, and directly with the brands we use.",
+      "It depends on the treatment. All injectable treatments — Botox, dermal filler, skin boosters, and similar — are exclusively administered by our licensed doctors, never delegated to a therapist, and the same doctor handles your consultation, your treatment plan, and the injection itself. Certain non-injectable treatments, such as facials and some body-contouring devices, are performed by our trained nurses and beautician following the clinic's clear treatment standards. Our head doctor is internationally trained, with ongoing training at IMCAS Paris, AMWC, Korean Derma, and directly with the brands we use.",
   },
   /**
    * ── CLIENT REVISION — SAME-DAY TREATMENT ────────────────────────────

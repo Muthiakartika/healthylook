@@ -58,6 +58,13 @@ export default function PriceTable({
                     wording, which has to stay exactly as the clinic quotes it. */}
                 <dt className={`min-w-0 break-words font-sans text-copy leading-snug ${labelColor}`}>
                   {row.label}
+                  {row.description && (
+                    <span
+                      className={`mt-1 block font-sans text-caption font-normal leading-relaxed ${noteColor}`}
+                    >
+                      {row.description}
+                    </span>
+                  )}
                 </dt>
                 <dd
                   className={`shrink-0 text-right font-sans text-sm tabular-nums ${priceColor}`}

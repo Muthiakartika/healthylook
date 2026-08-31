@@ -45,11 +45,8 @@ export const metadata: Metadata = {
  * willingness to turn work away — and it belongs on the page where
  * someone is deciding to commit.
  *
- * Note the site's own CTAs still point at the homepage enquiry section
- * (`BOOKING_HREF`), not here: that section offers WhatsApp, phone and
- * email side by side, which converts better than routing everyone to a
- * form. This page exists so the real URL resolves and so there's a
- * dedicated destination for anyone who lands on it directly.
+ * Every "Book Now" on the site (`BOOKING_HREF`) now points here — see the
+ * note on that constant in lib/constants.ts for why.
  */
 export default function BookNowPage() {
   return (

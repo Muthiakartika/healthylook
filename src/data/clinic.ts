@@ -128,20 +128,11 @@ export const CLINIC_HIGHLIGHTS: {
     tagline: "Government-registered",
     description: `${CLINIC_LICENCE_STATEMENT} We are not a medical spa.`,
   },
-  /**
-   * ── CLIENT REVISION — "Please add 5 years experience" ──────────────────
-   * The client's own figure, given directly in their feedback rather than
-   * derived from a doctor's individual years in practice (Dr. Irene's bio
-   * separately states 7+ years personally — a different claim about a
-   * different subject, not a source to reuse here). No other detail is
-   * added beyond what they gave.
-   */
-  {
-    title: "5+ Years of Experience",
-    tagline: "Serving Ubud since day one",
-    description:
-      "Over 5 years bringing advanced, evidence-based aesthetic treatments to Ubud, Bali.",
-  },
+  // ── CLIENT REVISION — "5+ Years of Experience" removed ────────────────
+  // A prior round asked for this figure ("Please add 5 years experience").
+  // The client has since corrected it: the clinic opened in 2023, so "5+
+  // years" overstates it. Removed outright rather than replaced with a
+  // smaller number, since no replacement figure was given.
 ];
 
 /**

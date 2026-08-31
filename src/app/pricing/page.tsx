@@ -148,12 +148,12 @@ export default async function PricingPage() {
 
             One row that scrolls sideways, NOT a wrapping row — the same
             scroll-snap pattern the Before & After jump bar already uses, for
-            the same reason. These five category names cannot share a line at
+            the same reason. These four category names cannot share a line at
             320px, so `flex-wrap` put each on its own row: once the links grew
             to 45px the bar became 212px tall, a quarter of the phone screen,
             permanently parked under the header for the entire scroll of the
             price list. Sideways it is one 45px row at every width. Nothing
-            changes on desktop, where all five fit and the row never scrolls. */}
+            changes on desktop, where all four fit and the row never scrolls. */}
         <Container className="flex snap-x gap-x-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TREATMENT_CATEGORIES.map((category) => (
             <a
@@ -164,18 +164,15 @@ export default async function PricingPage() {
               {category.label}
             </a>
           ))}
-          <a
-            href="#price-more"
-            className="py-1.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
-          >
-            More Treatments
-          </a>
         </Container>
       </section>
 
       {TREATMENT_CATEGORIES.map((category, categoryIndex) => {
         const list = withPrices.filter((t) => t.category === category.id);
-        if (list.length === 0) return null;
+        // Eye treatment, personalized mesotherapy, intimate care — see the
+        // CLIENT REVISION note on extraPricingSections in data/pricing.ts.
+        const extras = extraPricingSections.filter((s) => s.category === category.id);
+        if (list.length === 0 && extras.length === 0) return null;
         const alt = categoryIndex % 2 === 1;
 
         return (
@@ -227,45 +224,45 @@ export default async function PricingPage() {
                     </div>
                   </Reveal>
                 ))}
+
+                {extras.map((section) => (
+                  <Reveal key={section.id}>
+                    <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
+                      <div className="lg:col-span-4">
+                        {/* No link, unlike the treatments above — these
+                            three don't have a treatment page of their own,
+                            just a price table on the live site's own
+                            /pricing page. */}
+                        <h3 className="font-sans text-h3 leading-tight text-ink">
+                          {section.title}
+                        </h3>
+                      </div>
+
+                      <div className="lg:col-span-8">
+                        <PriceTable groups={section.groups} />
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
               </div>
             </Container>
           </section>
         );
       })}
 
-      {/* Sections from the live price list that don't map to a nav item.
-          White, not wash: the last category block above is Hair & Booster,
-          which lands on wash via the odd/even alternation — two wash
-          sections back to back merged into one undifferentiated slab. */}
-      <section id="price-more" className="scroll-mt-40 bg-background py-section">
+      {/* The clinic's own price-list footnote.
+          bg-background, not wash: the last category block above is Hair &
+          Booster, which lands on wash via the odd/even alternation — two
+          wash sections back to back would merge into one undifferentiated
+          slab. This used to share a section with a "More treatments" grid
+          (eye treatment, mesotherapy, intimate care); those three now
+          render inside their own category above instead — see
+          extraPricingSections in data/pricing.ts — so this section is the
+          footnote alone. */}
+      <section className="bg-background py-section">
         <Container>
-          <SectionHeading
-            align="left"
-            eyebrow="05"
-            title="More treatments"
-            description="Further treatments from our price list. Ask us at consultation which of these suits what you're after."
-            className="lg:max-w-2xl"
-          />
-
-          <div className="mt-14 grid gap-14 sm:grid-cols-2 lg:grid-cols-3">
-            {extraPricingSections.map((section, index) => (
-              <Reveal key={section.id} delay={index * 80}>
-                <h3 className="font-sans text-h4 leading-tight text-ink">
-                  {section.title}
-                </h3>
-                <div className="mt-6">
-                  <PriceTable groups={section.groups} />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* The clinic's own price-list footnote. Folded into this
-              section rather than sitting in its own band — a full section
-              wrapper for one line of 13px text was both wasted height and
-              a third consecutive white block. */}
           <Reveal>
-            <div className="mt-16 measure border-t border-hairline pt-8">
+            <div className="measure border-t border-hairline pt-8">
               <p className="font-sans text-label leading-relaxed text-muted">
                 {PRICING_NOTE}
               </p>

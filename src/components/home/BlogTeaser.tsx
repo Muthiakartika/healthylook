@@ -33,7 +33,12 @@ export default async function BlogTeaser() {
     const category = treatment
       ? TREATMENT_CATEGORIES.find((candidate) => candidate.id === treatment.category)
       : undefined;
-    return { post, image: treatment?.image, categoryLabel: category?.label };
+    return {
+      post,
+      image: treatment?.image,
+      imagePosition: treatment?.imagePosition,
+      categoryLabel: category?.label,
+    };
   });
 
   return (
@@ -55,7 +60,7 @@ export default async function BlogTeaser() {
         </div>
 
         <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map(({ post, image, categoryLabel }, index) => {
+          {featured.map(({ post, image, imagePosition, categoryLabel }, index) => {
             const cardClass =
               "group flex h-full flex-col border border-hairline bg-background transition-colors duration-300 hover:border-primary/40";
 
@@ -66,6 +71,7 @@ export default async function BlogTeaser() {
                   name={post.title}
                   categoryLabel={categoryLabel ?? "Healthy Look"}
                   aspect="landscape"
+                  position={imagePosition}
                 />
                 <div className="flex flex-1 flex-col p-7">
                   <h3 className="flex items-start justify-between gap-3 font-sans text-h4 leading-snug text-ink transition-colors duration-300 group-hover:text-primary">
