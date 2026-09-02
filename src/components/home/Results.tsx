@@ -40,6 +40,7 @@ export default function Results() {
             // retouched results are the norm, saying plainly that these
             // are not is a stronger claim than any adjective.
             subtitle="Real patients, real results. No filter, no edit."
+            subtitleClassName="font-script text-[28px] leading-[1.15] lg:text-[45px] lg:leading-[1.1]"
             className="lg:max-w-xl"
           />
           <Reveal delay={100} className="shrink-0">

@@ -3,12 +3,17 @@ import SanityHeroSection from "./SanityHeroSection";
 import CuratedSection from "./CuratedSection";
 import DynamicCollectionSection from "./DynamicCollectionSection";
 import {
+  CategoryNavBlock,
   CtaBlock,
+  DisclaimerBlock,
   FaqBlock,
   FeatureGridBlock,
   GalleryBlock,
+  PricingPromiseBlock,
+  ResultsNavBlock,
   RichTextBlock,
   SplitContentBlock,
+  TaglineBlock,
 } from "./ContentSections";
 import type { PageSection } from "@/sanity/types";
 
@@ -32,6 +37,16 @@ async function renderSection(section: PageSection) {
       return <DynamicCollectionSection section={section} />;
     case "curatedSection":
       return <CuratedSection section={section} />;
+    case "pricingPromiseSection":
+      return <PricingPromiseBlock section={section} />;
+    case "categoryNavSection":
+      return <CategoryNavBlock section={section} />;
+    case "taglineSection":
+      return <TaglineBlock section={section} />;
+    case "disclaimerSection":
+      return <DisclaimerBlock section={section} />;
+    case "resultsNavSection":
+      return <ResultsNavBlock section={section} />;
     default:
       return null;
   }

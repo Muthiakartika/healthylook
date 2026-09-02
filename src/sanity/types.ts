@@ -162,6 +162,39 @@ export type CuratedSection = SectionBase<"curatedSection"> & {
   component: CuratedSectionComponent;
 };
 
+export type PricingPromisePoint = SanityKeyed & {
+  _type: "pricingPromisePoint";
+  label: string;
+  detail?: string;
+};
+
+export type PricingPromiseSection = SectionBase<"pricingPromiseSection"> & {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  points: PricingPromisePoint[];
+};
+
+/** `label` is Studio-only bookkeeping — see the schema's own comment for why
+ *  this type needs at least one real field. Nothing here drives rendering. */
+export type CategoryNavSection = SectionBase<"categoryNavSection"> & {
+  label?: string;
+};
+
+export type TaglineSection = SectionBase<"taglineSection"> & {
+  text: string;
+};
+
+export type DisclaimerSection = SectionBase<"disclaimerSection"> & {
+  lead: string;
+  text: string;
+};
+
+/** `label` is Studio-only bookkeeping, same reasoning as CategoryNavSection. */
+export type ResultsNavSection = SectionBase<"resultsNavSection"> & {
+  label?: string;
+};
+
 export type PageSection =
   | HeroSection
   | RichTextSection
@@ -171,7 +204,12 @@ export type PageSection =
   | FaqSection
   | CtaSection
   | CollectionSection
-  | CuratedSection;
+  | CuratedSection
+  | PricingPromiseSection
+  | CategoryNavSection
+  | TaglineSection
+  | DisclaimerSection
+  | ResultsNavSection;
 
 export type SeoFields = {
   title?: string;

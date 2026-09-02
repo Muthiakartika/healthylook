@@ -327,8 +327,62 @@ export type Page = {
     _key: string;
   } & CollectionSection | {
     _key: string;
-  } & CuratedSection>;
+  } & CuratedSection | {
+    _key: string;
+  } & PricingPromiseSection | {
+    _key: string;
+  } & CategoryNavSection | {
+    _key: string;
+  } & TaglineSection | {
+    _key: string;
+  } & DisclaimerSection | {
+    _key: string;
+  } & ResultsNavSection>;
   seo?: Seo;
+};
+
+export type ResultsNavSection = {
+  _type: "resultsNavSection";
+  label?: string;
+  anchor?: string;
+  isHidden?: boolean;
+};
+
+export type DisclaimerSection = {
+  _type: "disclaimerSection";
+  lead?: string;
+  text?: string;
+  anchor?: string;
+  isHidden?: boolean;
+};
+
+export type TaglineSection = {
+  _type: "taglineSection";
+  text?: string;
+  anchor?: string;
+  isHidden?: boolean;
+};
+
+export type CategoryNavSection = {
+  _type: "categoryNavSection";
+  label?: string;
+  anchor?: string;
+  isHidden?: boolean;
+};
+
+export type PricingPromiseSection = {
+  _type: "pricingPromiseSection";
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  points?: Array<{
+    label?: string;
+    detail?: string;
+    _type: "pricingPromisePoint";
+    _key: string;
+  }>;
+  anchor?: string;
+  isHidden?: boolean;
 };
 
 export type CuratedSection = {
@@ -614,7 +668,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | Partner | SanityImageCrop | SanityImageHotspot | PricingSection | Treatment | Slug | Category | Post | PortableText | Page | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | InternationalPoint | SafetyProtocol | ClinicHighlight | JourneyStep | FeatureItem | FaqItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | Partner | SanityImageCrop | SanityImageHotspot | PricingSection | Treatment | Slug | Category | Post | PortableText | Page | ResultsNavSection | DisclaimerSection | TaglineSection | CategoryNavSection | PricingPromiseSection | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | InternationalPoint | SafetyProtocol | ClinicHighlight | JourneyStep | FeatureItem | FaqItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: pageByPathQuery
@@ -643,6 +697,15 @@ export type PageByPathQueryResult = {
     noIndex: boolean | null;
   } | null;
   sections: Array<{
+    _key: string;
+    _type: "categoryNavSection";
+    label?: string;
+    anchor?: string;
+    isHidden?: boolean;
+    image: null;
+    images: null;
+    items: null;
+  } | {
     _key: string;
     _type: "collectionSection";
     source?: "blogDirectory" | "bookingForm" | "giftCardForm" | "pricingDirectory" | "treatmentsDirectory";
@@ -673,6 +736,16 @@ export type PageByPathQueryResult = {
     _key: string;
     _type: "curatedSection";
     component?: "blogTeaser" | "booking" | "brandStory" | "clinicExperience" | "doctors" | "homeFaq" | "homeHero" | "internationalPatients" | "partners" | "results" | "testimonials" | "treatmentHighlights" | "treatments" | "whyUs";
+    anchor?: string;
+    isHidden?: boolean;
+    image: null;
+    images: null;
+    items: null;
+  } | {
+    _key: string;
+    _type: "disclaimerSection";
+    lead?: string;
+    text?: string;
     anchor?: string;
     isHidden?: boolean;
     image: null;
@@ -780,6 +853,32 @@ export type PageByPathQueryResult = {
     items: null;
   } | {
     _key: string;
+    _type: "pricingPromiseSection";
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    points?: Array<{
+      label?: string;
+      detail?: string;
+      _type: "pricingPromisePoint";
+      _key: string;
+    }>;
+    anchor?: string;
+    isHidden?: boolean;
+    image: null;
+    images: null;
+    items: null;
+  } | {
+    _key: string;
+    _type: "resultsNavSection";
+    label?: string;
+    anchor?: string;
+    isHidden?: boolean;
+    image: null;
+    images: null;
+    items: null;
+  } | {
+    _key: string;
     _type: "richTextSection";
     eyebrow?: string;
     title?: string;
@@ -817,6 +916,15 @@ export type PageByPathQueryResult = {
     tone?: "blush" | "brown" | "lime" | "paper" | "wash" | "white";
     anchor?: string;
     isHidden?: boolean;
+    images: null;
+    items: null;
+  } | {
+    _key: string;
+    _type: "taglineSection";
+    text?: string;
+    anchor?: string;
+    isHidden?: boolean;
+    image: null;
     images: null;
     items: null;
   }> | null;
@@ -1044,11 +1152,15 @@ export type SiteSettingsQueryResult = {
   path?: string;
   sections?: Array<{
     _key: string;
+  } & CategoryNavSection | {
+    _key: string;
   } & CollectionSection | {
     _key: string;
   } & CtaSection | {
     _key: string;
   } & CuratedSection | {
+    _key: string;
+  } & DisclaimerSection | {
     _key: string;
   } & FaqSection | {
     _key: string;
@@ -1058,9 +1170,15 @@ export type SiteSettingsQueryResult = {
     _key: string;
   } & HeroSection | {
     _key: string;
+  } & PricingPromiseSection | {
+    _key: string;
+  } & ResultsNavSection | {
+    _key: string;
   } & RichTextSection | {
     _key: string;
-  } & SplitContentSection>;
+  } & SplitContentSection | {
+    _key: string;
+  } & TaglineSection>;
   seo?: Seo;
   defaultSeo: null;
 } | {

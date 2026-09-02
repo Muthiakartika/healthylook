@@ -18,14 +18,19 @@ import { seo } from "./objects/seo";
 import { priceRow } from "./objects/priceRow";
 import { priceGroup } from "./objects/priceGroup";
 import { treatmentContentBlock, treatmentSection } from "./objects/treatmentSection";
+import { categoryNavSection } from "./objects/sections/categoryNavSection";
 import { ctaSection } from "./objects/sections/ctaSection";
 import { collectionSection } from "./objects/sections/collectionSection";
 import { curatedSection } from "./objects/sections/curatedSection";
+import { disclaimerSection } from "./objects/sections/disclaimerSection";
 import { faqSection } from "./objects/sections/faqSection";
 import { featureGridSection } from "./objects/sections/featureGridSection";
 import { gallerySection } from "./objects/sections/gallerySection";
 import { heroSection } from "./objects/sections/heroSection";
+import { pricingPromiseSection } from "./objects/sections/pricingPromiseSection";
+import { resultsNavSection } from "./objects/sections/resultsNavSection";
 import { richTextSection } from "./objects/sections/richTextSection";
+import { taglineSection } from "./objects/sections/taglineSection";
 import { splitContentSection } from "./objects/sections/splitContentSection";
 
 export const schemaTypes = [
@@ -55,6 +60,11 @@ export const schemaTypes = [
   ctaSection,
   collectionSection,
   curatedSection,
+  pricingPromiseSection,
+  categoryNavSection,
+  taglineSection,
+  disclaimerSection,
+  resultsNavSection,
 
   // Documents
   page,

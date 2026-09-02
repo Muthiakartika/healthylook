@@ -120,7 +120,10 @@ async function PricingDirectory({ section }: { section: CollectionSection }) {
           const extras = extraSections.filter((item) => item.category === category.id);
           if (!items.length && !extras.length) return null;
           return (
-            <div key={category.id} id={`price-${category.id}`} className="scroll-mt-36">
+            // 160px of scroll offset: an anchor here has to clear both the
+            // fixed header (96px) and the sticky category nav beneath it
+            // (~54px, when a categoryNavSection is present on the page).
+            <div key={category.id} id={`price-${category.id}`} className="scroll-mt-40">
               <SectionHeading eyebrow={String(categoryIndex + 1).padStart(2, "0")} title={category.label} align="left" />
               <div className="mt-12 flex flex-col gap-14">
                 {items.map((item) => (
