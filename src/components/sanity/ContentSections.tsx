@@ -1,19 +1,28 @@
 import Button from "@/components/ui/Button";
+import Container from "@/components/ui/Container";
 import Img from "@/components/ui/Img";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Accordion from "@/components/ui/Accordion";
 import SanityPortableText from "./SanityPortableText";
 import SectionShell from "./SectionShell";
+import ScrollNavButton from "./ScrollNavButton";
 import { sanityImageUrl } from "@/sanity/lib/image";
+import { TREATMENT_CATEGORIES } from "@/data/treatments";
+import { resultGroups } from "@/data/results";
 import type {
+  CategoryNavSection,
   CtaSection,
+  DisclaimerSection,
   FaqSection,
   FeatureGridSection,
   GallerySection,
+  PricingPromiseSection,
+  ResultsNavSection,
   RichTextSection,
   SanityLink,
   SplitContentSection,
+  TaglineSection,
 } from "@/sanity/types";
 
 function LinkedButton({ action, dark = false }: { action?: SanityLink; dark?: boolean }) {
@@ -110,6 +119,11 @@ export function FeatureGridBlock({ section }: { section: FeatureGridSection }) {
         eyebrow={section.eyebrow}
         title={section.title}
         description={section.description}
+        descriptionClassName={
+          section.title === "Not all aesthetic providers are equal"
+            ? "font-script text-[28px] leading-[1.15] lg:text-[45px] lg:leading-[1.1]"
+            : ""
+        }
         tone={dark ? "dark" : "light"}
       />
       <div className={`mt-14 grid gap-px bg-hairline ${gridColumns[section.columns || 3]}`}>
@@ -153,6 +167,11 @@ export function GalleryBlock({ section }: { section: GallerySection }) {
         eyebrow={section.eyebrow}
         title={section.title}
         description={section.description}
+        descriptionClassName={
+          section.title === "Before & After"
+            ? "font-script text-[28px] leading-[1.15] lg:text-[45px] lg:leading-[1.1]"
+            : ""
+        }
         tone={dark ? "dark" : "light"}
       />
       <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -234,5 +253,174 @@ export function CtaBlock({ section }: { section: CtaSection }) {
         </div>
       </div>
     </SectionShell>
+  );
+}
+
+/**
+ * The dark brown trust band at the top of a price list — always brown, on
+ * purpose: this is the client's own requested statement ("we believe in
+ * transparency... nett prices, tax included, no service fee"), not a
+ * generic content block, so unlike the sections above it has no tone
+ * picker. It doesn't use <SectionShell> because the client specifically
+ * asked for lighter padding here (`py-12`) than the site-wide section
+ * rhythm (`py-section`) SectionShell always applies.
+ */
+export function PricingPromiseBlock({ section }: { section: PricingPromiseSection }) {
+  return (
+    <section id={section.anchor} className="scroll-mt-24 bg-ink-brown py-12 lg:py-14">
+      <Container>
+        <SectionHeading
+          tone="dark"
+          eyebrow={section.eyebrow || "Our pricing promise"}
+          title={section.title}
+          description={section.description}
+        />
+        <ul className="mx-auto mt-8 grid max-w-3xl gap-x-10 gap-y-5 sm:grid-cols-3">
+          {section.points.map((point, index) => (
+            <li key={point._key}>
+              {/* A gold hairline above each — the site's own device for a
+                  set of parallel facts of equal weight (see <Highlights>
+                  and the safety grid on /our-doctor). */}
+              <Reveal delay={index * 90}>
+                <div className="border-t border-gold-soft/40 pt-4">
+                  <h3 className="font-sans text-label font-medium leading-snug text-white">
+                    {point.label}
+                  </h3>
+                  {point.detail && (
+                    <p className="mt-1.5 font-sans text-caption leading-body text-white/55">
+                      {point.detail}
+                    </p>
+                  )}
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </section>
+  );
+}
+
+/**
+ * A sticky row of links to each treatment category, for jumping down a
+ * long page — e.g. the price list, which runs to ~20,000px. Sticky, not
+ * scroll-away, because a jump nav that disappears after the first screen
+ * is useless on a page this long. Categories, labels and order come from
+ * the treatment catalogue, not from Sanity — see the schema's own comment.
+ */
+export function CategoryNavBlock({ section }: { section: CategoryNavSection }) {
+  return (
+    <section
+      id={section.anchor}
+      className="sticky top-20 z-30 border-b border-hairline bg-paper/95 backdrop-blur lg:top-24"
+    >
+      {/* One row that scrolls sideways, not one that wraps — on a phone,
+          four category names wrapped onto their own rows would turn a
+          45px-tall bar into one permanently parked a quarter of the
+          screen tall for the entire scroll of the price list. Centered
+          only from lg up: centering a row that's still narrower than the
+          viewport is fine once everything fits on one line, but doing it
+          while the row is still scrollable would start the scroll
+          position off-centre instead of flush at the first category. */}
+      <Container className="flex snap-x gap-x-8 overflow-x-auto [scrollbar-width:none] lg:justify-center [&::-webkit-scrollbar]:hidden">
+        {TREATMENT_CATEGORIES.map((category) => (
+          <a
+            key={category.id}
+            href={`#price-${category.id}`}
+            className="shrink-0 snap-start whitespace-nowrap py-3.5 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors hover:text-primary-strong"
+          >
+            {category.label}
+          </a>
+        ))}
+      </Container>
+    </section>
+  );
+}
+
+/**
+ * A single short line in the script display face, centred, framed by
+ * hairlines — for a brief trust/authenticity statement. Deliberately not
+ * generic: no tone or alignment options, because this is one specific
+ * typographic treatment, matching where it's used verbatim today rather
+ * than a flexible block that could drift into other looks over time.
+ */
+export function TaglineBlock({ section }: { section: TaglineSection }) {
+  return (
+    <section id={section.anchor} className="scroll-mt-24 border-b border-hairline bg-paper">
+      <Container className="py-8 text-center">
+        <p className="font-sans text-lead font-bold italic text-primary">{section.text}</p>
+      </Container>
+    </section>
+  );
+}
+
+/**
+ * A short, plain note — smaller and tighter than a Rich text section on
+ * purpose (see the schema's own comment). The lead-in is a separate field
+ * rather than rich text so it can render bold with zero portable-text
+ * machinery.
+ */
+export function DisclaimerBlock({ section }: { section: DisclaimerSection }) {
+  return (
+    <section id={section.anchor} className="scroll-mt-24 border-b border-primary/20 bg-section">
+      <Container className="py-5">
+        <p className="measure-narrow font-sans text-caption leading-body text-ink">
+          <strong className="font-semibold">{section.lead}</strong> {section.text}
+        </p>
+      </Container>
+    </section>
+  );
+}
+
+/**
+ * A sticky row of pill links, one per result group, each showing its
+ * photo count — for jumping down the Before & After page. Groups, labels,
+ * order and counts come from the results catalogue, not from Sanity — see
+ * the schema's own comment.
+ */
+export function ResultsNavBlock({ section }: { section: ResultsNavSection }) {
+  return (
+    <nav
+      id={section.anchor}
+      aria-label="Jump to a treatment"
+      className="sticky top-20 z-30 border-b border-hairline bg-paper/95 backdrop-blur-md lg:top-24"
+    >
+      {/* The scrollbar is hidden for a cleaner look, but with 9 groups —
+          several with long names — the row never fits one viewport width.
+          A fade alone read as ambiguous, and the chevron that used to sit
+          on top of it was decorative (pointer-events-none, so clicks fall
+          through to the pills) — which just reads as a broken button. Both
+          edges now fade, each with a real ScrollNavButton on top of it —
+          one-sided would look lopsided once the row has been scrolled. */}
+      <div className="relative">
+        <Container
+          id="results-nav-scroll"
+          className="flex snap-x snap-mandatory gap-2 overflow-x-auto py-3 [-webkit-mask-image:linear-gradient(to_right,transparent,black_56px,black_calc(100%-56px),transparent_100%)] [mask-image:linear-gradient(to_right,transparent,black_56px,black_calc(100%-56px),transparent_100%)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {resultGroups.map((group) => (
+            <a
+              key={group.slug}
+              href={`#${group.slug}`}
+              className="flex min-h-11 snap-start items-center whitespace-nowrap rounded-brand border border-hairline px-4 py-2 font-sans text-caption uppercase tracking-caps text-text-secondary transition-colors duration-300 hover:border-primary/50 hover:text-primary-strong"
+            >
+              {group.label}
+              <span className="ml-2 text-muted">{group.images.length}</span>
+            </a>
+          ))}
+        </Container>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 flex w-14 items-center justify-start bg-gradient-to-r from-paper from-40% to-transparent pl-[var(--spacing-gutter)]"
+        >
+          <ScrollNavButton targetId="results-nav-scroll" direction="left" />
+        </div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 flex w-14 items-center justify-end bg-gradient-to-l from-paper from-40% to-transparent pr-[var(--spacing-gutter)]"
+        >
+          <ScrollNavButton targetId="results-nav-scroll" direction="right" />
+        </div>
+      </div>
+    </nav>
   );
 }

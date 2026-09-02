@@ -23,6 +23,11 @@ const sectionMembers = [
   "ctaSection",
   "collectionSection",
   "curatedSection",
+  "pricingPromiseSection",
+  "categoryNavSection",
+  "taglineSection",
+  "disclaimerSection",
+  "resultsNavSection",
 ].map((type) => defineArrayMember({ type }));
 
 export const page = defineType({

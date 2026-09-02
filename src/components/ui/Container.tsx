@@ -23,14 +23,17 @@ export default function Container({
   width = "default",
   as: Tag = "div",
   className = "",
+  id,
 }: {
   children: ReactNode;
   width?: Width;
   as?: ElementType;
   className?: string;
+  id?: string;
 }) {
   return (
     <Tag
+      id={id}
       className={`mx-auto w-full ${widths[width]} px-gutter ${className}`}
     >
       {children}

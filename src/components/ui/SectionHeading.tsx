@@ -9,7 +9,11 @@ type SectionHeadingProps = {
   title: ReactNode;
   /** Optional Poppins line under the script title, for clinical clarity. */
   subtitle?: ReactNode;
+  /** Optional local type treatment for a section's subtitle. */
+  subtitleClassName?: string;
   description?: ReactNode;
+  /** Optional local type treatment for a section's description. */
+  descriptionClassName?: string;
   align?: "center" | "left";
   /** `dark` recolors the whole block for use on the ink contrast bands. */
   tone?: Tone;
@@ -39,7 +43,9 @@ export default function SectionHeading({
   eyebrow,
   title,
   subtitle,
+  subtitleClassName = "",
   description,
+  descriptionClassName = "",
   align = "center",
   tone = "light",
   as: Tag = "h2",
@@ -77,7 +83,7 @@ export default function SectionHeading({
 
       {subtitle && (
         <p
-          className={`mt-4 font-sans text-h4 leading-tight ${subtitleColor}`}
+          className={`mt-4 ${subtitleClassName || "font-sans text-h4 leading-tight"} ${subtitleColor}`}
         >
           {subtitle}
         </p>
@@ -85,7 +91,7 @@ export default function SectionHeading({
 
       {description && (
         <p
-          className={`mt-6 measure font-sans text-lead ${bodyColor} ${isCenter ? "mx-auto" : ""}`}
+          className={`mt-6 measure ${descriptionClassName || "font-sans text-lead"} ${bodyColor} ${isCenter ? "mx-auto" : ""}`}
         >
           {description}
         </p>
