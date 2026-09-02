@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isSanityHostedImage } from "@/sanity/lib/image";
 
 type Aspect = "portrait" | "tall" | "landscape" | "wide" | "cinema" | "square" | "fill";
 
@@ -71,6 +72,7 @@ export default function Img({
         sizes={sizes}
         quality={quality}
         priority={priority}
+        unoptimized={isSanityHostedImage(src)}
         className={`object-cover ${position}`}
       />
       {scrim && (

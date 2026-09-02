@@ -3,7 +3,7 @@ import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import PageHero from "@/components/shared/PageHero";
-import { sanityImageUrl } from "@/sanity/lib/image";
+import { sanityImageUrl, isSanityHostedImage } from "@/sanity/lib/image";
 import type { HeroSection, SanityLink } from "@/sanity/types";
 
 function Action({ action, variant }: { action?: SanityLink; variant: "accent" | "outlineLight" | "primary" | "outline" }) {
@@ -57,6 +57,7 @@ export default function SanityHeroSection({ section }: { section: HeroSection })
           priority
           sizes="100vw"
           quality={85}
+          unoptimized={isSanityHostedImage(image)}
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink-warm/80 via-ink-warm/28 to-ink-warm/0" />

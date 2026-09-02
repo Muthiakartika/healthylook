@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
+import { isSanityHostedImage } from "@/sanity/lib/image";
 import type { ReactNode } from "react";
 
 export type Crumb = { label: string; href?: string };
@@ -105,6 +106,11 @@ export default function PageHero({
             // in Img.tsx about "only the homepage hero" predates inner pages
             // having a hero image of their own.
             priority
+            // `image` is either a Sanity CDN URL (already resized and
+            // format-negotiated there) or one of a handful of local
+            // fallback paths (e.g. when a post has no cover image) — only
+            // the Sanity case should skip Vercel's optimizer.
+            unoptimized={isSanityHostedImage(image)}
             className={`object-cover ${imagePosition}`}
           />
           {/* No scrim any more: the header is solid on these routes, so
