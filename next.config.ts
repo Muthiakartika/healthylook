@@ -45,6 +45,23 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    // EMERGENCY, TEMPORARY: the Hobby plan's Image Transformations quota
+    // (5,000/month) is already exhausted for this billing cycle — Vercel is
+    // returning a hard 402 Payment Required for any image size/quality
+    // combination that isn't already cached, so visitors were seeing
+    // outright broken images, not just slow ones. `unoptimized: true` here
+    // overrides every component-level `unoptimized` prop (including the
+    // Sanity-specific ones below, which were already effectively free of
+    // this problem) and stops ALL new Vercel image transformations, local
+    // and remote alike — images render as their original files with no
+    // resizing, which beats them not rendering at all.
+    //
+    // The billing cycle resets 2026-09-03. Once it does, this line can come
+    // out — the Sanity bypass and the trimmed formats/sizes/cache-TTL below
+    // stay either way, and together they should keep this from happening
+    // again on a normal month's traffic.
+    unoptimized: true,
+
     remotePatterns: [
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
       // Sanity's image pipeline. The path remains restricted to image
