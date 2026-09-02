@@ -53,10 +53,16 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
     ],
 
-    // AVIF first, WebP second. The source files are mostly large JPEGs
-    // (one is 4000×4000) and every one of them is re-encoded and resized
-    // on demand, which is what keeps a photo-heavy redesign fast.
-    formats: ["image/avif", "image/webp"],
+    // WebP only. Every Sanity-hosted image (the large majority of image
+    // volume on this content-heavy site — treatment photos, before-after
+    // galleries, blog covers) now skips Vercel's optimizer entirely (see
+    // isSanityHostedImage in sanity/lib/image.ts), since Sanity's own CDN
+    // already resizes and format-negotiates those. What's left going
+    // through Vercel's optimizer is the small, fixed local `public/images/`
+    // set and Vercel Blob uploads — AVIF barely improves on WebP for either
+    // and doubles the billable transformation variants for every image
+    // still on this path, since Vercel bills AVIF and WebP separately.
+    formats: ["image/webp"],
 
     // Every `quality` value used anywhere in the app has to be declared
     // here. Next 15 only warns about undeclared ones — but it warns twice
@@ -67,6 +73,20 @@ const nextConfig: NextConfig = {
     //   82 — the <Img> default, used by every in-page photograph
     //   85 — the two hero images, which are the largest things on screen
     qualities: [75, 82, 85],
+
+    // Trimmed from Next's default 8 deviceSizes + 8 imageSizes (16 total)
+    // to what `grep -rhoE 'sizes="[^"]*"' src` actually turned up sitewide.
+    // Fewer size buckets means fewer billable variants per image for
+    // whatever still goes through Vercel's optimizer.
+    deviceSizes: [640, 768, 1024, 1440, 1920],
+    imageSizes: [120, 140, 160, 180, 208, 400],
+
+    // Default is 4 hours — long enough that a popular image gets
+    // re-transformed (and re-billed) several times a month as it goes
+    // STALE. Local transformations are keyed to file content and survive
+    // redeploys, so this is effectively a monthly ceiling per image, not
+    // a per-deploy one.
+    minimumCacheTTL: 2678400, // 31 days
   },
 
   /**
