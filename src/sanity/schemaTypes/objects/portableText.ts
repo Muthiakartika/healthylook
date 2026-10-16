@@ -1,11 +1,13 @@
 import { defineArrayMember, defineType } from "sanity";
 import { textLinkAnnotation } from "./textLink";
 import { pasteComponents } from "../../portableText/paste";
+import { justifiedStyle } from "../../portableText/justify";
 
 const textBlock = defineArrayMember({
   type: "block",
   styles: [
     { title: "Paragraph", value: "normal" },
+    justifiedStyle,
     { title: "Heading 2", value: "h2" },
     { title: "Heading 3", value: "h3" },
     { title: "Quote", value: "blockquote" },

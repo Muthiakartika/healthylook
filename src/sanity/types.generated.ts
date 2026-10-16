@@ -254,7 +254,7 @@ export type ArticleBody = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h2" | "h3" | "blockquote";
+  style?: "normal" | "justify" | "h2" | "h3" | "blockquote";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
@@ -529,7 +529,7 @@ export type PortableText = Array<{
     _type: "span";
     _key: string;
   }>;
-  style?: "normal" | "h2" | "h3" | "blockquote";
+  style?: "normal" | "justify" | "h2" | "h3" | "blockquote";
   listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
@@ -613,7 +613,7 @@ export type TreatmentContentBlock = {
       _type: "span";
       _key: string;
     }>;
-    style?: "normal";
+    style?: "normal" | "justify";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;

@@ -2,6 +2,7 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 import { headingLevelField } from "./headingLevel";
 import { textLinkAnnotation } from "./textLink";
 import { pasteComponents } from "../../portableText/paste";
+import { justifiedStyle } from "../../portableText/justify";
 
 export const treatmentContentBlock = defineType({
   name: "treatmentContentBlock",
@@ -41,7 +42,7 @@ export const treatmentContentBlock = defineType({
       of: [
         defineArrayMember({
           type: "block",
-          styles: [{ title: "Normal", value: "normal" }],
+          styles: [{ title: "Normal", value: "normal" }, justifiedStyle],
           lists: [
             { title: "Bullet", value: "bullet" },
             { title: "Numbered", value: "number" },

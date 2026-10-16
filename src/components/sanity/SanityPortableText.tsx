@@ -16,6 +16,10 @@ type SanityTable = {
 const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
   block: {
     normal: ({ children }) => <p>{children}</p>,
+    // "Paragraph (justified)" in Studio. Left-aligned on phones, where a
+    // narrow column justifies into gaps between words; hyphenation narrows
+    // those gaps above that. See src/sanity/portableText/justify.tsx.
+    justify: ({ children }) => <p className="hyphens-auto sm:text-justify">{children}</p>,
     h2: ({ children }) => (
       <h2 className="font-script text-h2 leading-heading text-primary">{children}</h2>
     ),
