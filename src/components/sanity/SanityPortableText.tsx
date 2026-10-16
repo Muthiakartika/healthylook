@@ -2,10 +2,18 @@ import Link from "next/link";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
 import Img from "@/components/ui/Img";
+import SectionTableFigure, { SECTION_TONES } from "@/components/treatment/SectionTableFigure";
 import { sanityImageUrl } from "@/sanity/lib/image";
 import type { SanityImage } from "@/sanity/types";
 
-const components: PortableTextComponents = {
+type SanityTable = {
+  caption?: string;
+  columns?: string[];
+  rows?: Array<{ cells?: string[] }>;
+  labelFirstColumn?: boolean;
+};
+
+const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
   block: {
     normal: ({ children }) => <p>{children}</p>,
     h2: ({ children }) => (
@@ -81,8 +89,29 @@ const components: PortableTextComponents = {
         </figure>
       );
     },
+    // A blog article's table. The same component, and so the same phone
+    // layout, as a comparison table on a treatment page — see
+    // SectionTableFigure for why it reflows rather than scrolls.
+    treatmentTable: ({ value }) => {
+      const table = value as SanityTable;
+      return (
+        <SectionTableFigure
+          table={{
+            kind: "table",
+            caption: table.caption,
+            columns: table.columns ?? [],
+            rows: (table.rows ?? []).map((row) => row.cells ?? []),
+            labelFirstColumn: table.labelFirstColumn ?? true,
+          }}
+          tone={tone === "dark" ? SECTION_TONES.brown : SECTION_TONES.plain}
+          className="py-2"
+        />
+      );
+    },
   },
-};
+});
+
+const COMPONENTS = { light: makeComponents("light"), dark: makeComponents("dark") };
 
 export default function SanityPortableText({
   value,
@@ -117,7 +146,7 @@ export default function SanityPortableText({
         tone === "dark" ? "text-white/70" : "text-text-secondary"
       } ${className}`}
     >
-      <PortableText value={value} components={components} />
+      <PortableText value={value} components={COMPONENTS[tone]} />
     </div>
   );
 }

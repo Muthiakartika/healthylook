@@ -235,7 +235,7 @@ export type Post = {
   slug?: Slug;
   excerpt?: string;
   coverImage?: ImageWithAlt;
-  body?: PortableText;
+  body?: ArticleBody;
   categories?: Array<{
     _ref: string;
     _type: "reference";
@@ -247,7 +247,7 @@ export type Post = {
   seo?: Seo;
 };
 
-export type PortableText = Array<{
+export type ArticleBody = Array<{
   children?: Array<{
     marks?: Array<string>;
     text?: string;
@@ -267,7 +267,9 @@ export type PortableText = Array<{
   _key: string;
 } | {
   _key: string;
-} & ImageWithAlt>;
+} & ImageWithAlt | {
+  _key: string;
+} & TreatmentTable>;
 
 export type Page = {
   _id: string;
@@ -519,6 +521,28 @@ export type SplitContentSection = {
   anchor?: string;
   isHidden?: boolean;
 };
+
+export type PortableText = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h2" | "h3" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    blank?: boolean;
+    _type: "textLink";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  _key: string;
+} & ImageWithAlt>;
 
 export type RichTextSection = {
   _type: "richTextSection";
@@ -857,7 +881,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | Partner | SanityImageCrop | SanityImageHotspot | PricingSection | Category | Slug | Post | PortableText | Page | ResultsNavSection | DisclaimerSection | TaglineSection | CategoryNavSection | PricingPromiseSection | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | RichTextSection | HeroSection | TreatmentTableRow | TreatmentTable | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | InternationalPoint | SafetyProtocol | ClinicHighlight | TreatmentHighlight | Treatment | JourneyStep | FeatureItem | FaqItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SiteSettings | Seo | Testimonial | Doctor | ImageWithAlt | Partner | SanityImageCrop | SanityImageHotspot | PricingSection | Category | Slug | Post | ArticleBody | Page | ResultsNavSection | DisclaimerSection | TaglineSection | CategoryNavSection | PricingPromiseSection | CuratedSection | CollectionSection | CtaSection | Link | FaqSection | GallerySection | FeatureGridSection | SplitContentSection | PortableText | RichTextSection | HeroSection | TreatmentTableRow | TreatmentTable | TreatmentSection | TreatmentContentBlock | PriceGroup | PriceRow | InternationalPoint | SafetyProtocol | ClinicHighlight | TreatmentHighlight | Treatment | JourneyStep | FeatureItem | FaqItem | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: pageByPathQuery
@@ -1274,7 +1298,7 @@ export type PostBySlugQueryResult = {
     title: string | null;
     slug: string | null;
   }> | null;
-  body: PortableText | null;
+  body: ArticleBody | null;
   seo: {
     title: string | null;
     description: string | null;
@@ -1323,7 +1347,7 @@ export type AllPostsQueryResult = Array<{
     title: string | null;
     slug: string | null;
   }> | null;
-  body: PortableText | null;
+  body: ArticleBody | null;
   seo: {
     title: string | null;
     description: string | null;
@@ -1536,7 +1560,7 @@ export type SiteSettingsQueryResult = {
   slug?: Slug;
   excerpt?: string;
   coverImage?: ImageWithAlt;
-  body?: PortableText;
+  body?: ArticleBody;
   categories?: Array<{
     _ref: string;
     _type: "reference";

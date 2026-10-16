@@ -42,7 +42,9 @@ export const post = defineType({
     defineField({
       name: "body",
       title: "Article body",
-      type: "portableText",
+      type: "articleBody",
+      description:
+        "Add a table with the Table button in the toolbar. Pasting also works: a table copied from Google Docs, Sheets, Excel or Word becomes a table, links stay links, and a URL pasted over selected words links them. · ID: Tambahkan tabel lewat tombol Table di toolbar. Bisa juga langsung paste: tabel dari Google Docs, Sheets, Excel atau Word otomatis jadi tabel, link tetap jadi link, dan URL yang di-paste ke teks yang sedang dipilih langsung menjadikannya link.",
       group: "content",
       validation: (Rule) => Rule.required(),
     }),

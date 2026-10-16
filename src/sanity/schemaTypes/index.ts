@@ -14,7 +14,7 @@ import { treatmentHighlight } from "./objects/treatmentHighlight";
 import { clinicHighlight, internationalPoint, safetyProtocol } from "./objects/clinicItems";
 import { imageWithAlt } from "./objects/imageWithAlt";
 import { link } from "./objects/link";
-import { portableText } from "./objects/portableText";
+import { articleBody, portableText } from "./objects/portableText";
 import { seo } from "./objects/seo";
 import { priceRow } from "./objects/priceRow";
 import { priceGroup } from "./objects/priceGroup";
@@ -44,6 +44,7 @@ export const schemaTypes = [
   imageWithAlt,
   link,
   portableText,
+  articleBody,
   seo,
   faqItem,
   featureItem,

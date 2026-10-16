@@ -1,6 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { headingLevelField } from "./headingLevel";
 import { textLinkAnnotation } from "./textLink";
+import { pasteComponents } from "../../portableText/paste";
 
 export const treatmentContentBlock = defineType({
   name: "treatmentContentBlock",
@@ -55,6 +56,8 @@ export const treatmentContentBlock = defineType({
         }),
         defineArrayMember({ type: "imageWithAlt" }),
       ],
+      // Links pasted from a Google Doc or a website stay links. See paste.tsx.
+      components: pasteComponents,
       description:
         "Select text to make it bold, italic or a link. An image can also be dropped straight into the text. · ID: Pilih teksnya untuk membuat bold, italic, atau link. Gambar juga bisa ditaruh langsung di dalam teks.",
     }),
