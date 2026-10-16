@@ -24,10 +24,47 @@ import { BLOG_CRUMB, HOME_CRUMB, toHeroCrumbs } from "@/lib/breadcrumbs";
  * paths is the point: these are the pages that rank, and moving them under a
  * tidier /blog/ prefix would drop every one of them.
  *
- * A root-level `[slug]` catches anything unmatched, but Next resolves static
- * segments first, so /pricing, /our-blog and the rest are unaffected. Any slug
- * that isn't a real article falls through to notFound().
+ * A root-level `[slug]` catches anything unmatched, and Next resolves static
+ * segments first when it SERVES a request, so /pricing, /our-blog and the rest
+ * render from their own folders. Any slug that isn't a real article or Sanity
+ * page falls through to notFound().
  */
+
+/**
+ * Top-level pages with a folder of their own in src/app. `[slug]` must never
+ * list these in generateStaticParams. Add a slug here whenever a folder is
+ * added next to `[slug]`.
+ *
+ * ── WHAT LISTING ONE BREAKS ───────────────────────────────────────────
+ * Serving a request, Next picks the folder. Building, it records the
+ * prerendered page under whichever route listed it last, and that was
+ * `[slug]`: the prerender manifest said /our-blog came from "/[slug]".
+ * Vercel builds its server function from that manifest, so it left
+ * app/our-blog/page.js out. The deploy's prerendered copy served fine, but
+ * every refresh after it, timed or from the Sanity webhook, failed with
+ * "Cannot find module '/var/task/.next/server/app/our-blog/page.js'", and
+ * Vercel kept serving the copy from the build. A published post never
+ * reached /our-blog, and no edit to /pricing, /our-doctor or any other page
+ * below reached the live site until the next deploy. The homepage was never
+ * affected because `/` is not a slug.
+ */
+const OWN_ROUTE_SLUGS = new Set([
+  "before-after",
+  "book-now",
+  "eye-rejuvenaton-treatment",
+  "gift-card",
+  "our-blog",
+  "our-doctor",
+  "pricing",
+  "privacy-policy",
+  "special-offers",
+  "terms-conditions",
+  "ubud-bali",
+  "studio",
+  "admin",
+  "api",
+]);
+
 export async function generateStaticParams() {
   // Through the database layer, so an article written in the dashboard
   // gets a prerendered page at the next build; between builds an unlisted
@@ -39,7 +76,9 @@ export async function generateStaticParams() {
   ]);
   return Array.from(
     new Set([...articles.map((article) => article.slug), ...sanityPostSlugs, ...sanityPageSlugs]),
-  ).map((slug) => ({ slug }));
+  )
+    .filter((slug) => !OWN_ROUTE_SLUGS.has(slug))
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
