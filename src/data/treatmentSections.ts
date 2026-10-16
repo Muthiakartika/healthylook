@@ -1336,26 +1336,6 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
         },
       ],
     },
-    {
-      title: "Be Empowered to Feel Truly Confident",
-      blocks: [
-        {
-          heading: "FAQ Juvelook in Bali",
-          paragraphs: [
-            "What results can I expect from the Juvelook treatment in Bali?",
-            "How is Juvelook different from traditional dermal fillers?",
-            "How long does Juvelook in Bali last?",
-            "How soon will I see results of Juvelook in Bali?",
-            "Am I a suitable candidate for the Juvelook in Bali?",
-            "Is the Juvelook in Bali safe?",
-            "Are there any side effects of Juvelook in Bali?",
-            "Is the Juvelook in Bali painful?",
-            "Is there any downtime with the Juvelook treatment in Bali?",
-            "How is the after care treatment post Collagen Stimulator in Bali?",
-          ],
-        },
-      ],
-    },
   ],
   "fat-cellulite": [
     {
@@ -1442,21 +1422,6 @@ export const treatmentSections: Record<string, TreatmentSection[]> = {
     },
   ],
   "prp": [
-    {
-      title: "Healthy Look's PRP with Minimum Downtime",
-      blocks: [
-        {
-          heading: "FAQ about PRP in Bali",
-          paragraphs: [
-            "How is the Process of PRP in Ubud Bali?",
-            "How long is the downtime of PRP in Bali?",
-            "When Can I See the Result of PRP in Bali?",
-            "Does it hurt?",
-            "Are there possible side effects of PRP facial rejuvenation?",
-          ],
-        },
-      ],
-    },
     // ── RESTORED FROM THE LIVE PAGE ────────────────────────────────────
     // The clinic's strongest technical differentiator, and it was missing
     // from both PRP pages: the two-step purification, the named depletion
