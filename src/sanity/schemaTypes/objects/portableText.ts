@@ -1,13 +1,12 @@
 import { defineArrayMember, defineType } from "sanity";
 import { textLinkAnnotation } from "./textLink";
-import { pasteComponents } from "../../portableText/paste";
-import { justifiedStyle } from "../../portableText/justify";
+import { editorComponents } from "../../portableText/paste";
+import { alignDecorators } from "../../portableText/align";
 
 const textBlock = defineArrayMember({
   type: "block",
   styles: [
     { title: "Paragraph", value: "normal" },
-    justifiedStyle,
     { title: "Heading 2", value: "h2" },
     { title: "Heading 3", value: "h3" },
     { title: "Quote", value: "blockquote" },
@@ -20,6 +19,8 @@ const textBlock = defineArrayMember({
     decorators: [
       { title: "Strong", value: "strong" },
       { title: "Emphasis", value: "em" },
+      // Left / center / right / justify, as in Google Docs. See align.tsx.
+      ...alignDecorators,
     ],
     // Shared with the treatment page's prose so a link behaves the
     // same wherever it is written — including an in-page `#anchor`,
@@ -34,7 +35,7 @@ export const portableText = defineType({
   type: "array",
   of: [textBlock, defineArrayMember({ type: "imageWithAlt" })],
   // Links pasted from a Google Doc or a website stay links. See paste.tsx.
-  components: pasteComponents,
+  components: editorComponents,
 });
 
 /**
@@ -60,5 +61,5 @@ export const articleBody = defineType({
     defineArrayMember({ type: "imageWithAlt" }),
     defineArrayMember({ type: "treatmentTable", title: "Table" }),
   ],
-  components: pasteComponents,
+  components: editorComponents,
 });

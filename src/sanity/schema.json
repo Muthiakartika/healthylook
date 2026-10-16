@@ -1636,10 +1636,6 @@
                     },
                     {
                       "type": "string",
-                      "value": "justify"
-                    },
-                    {
-                      "type": "string",
                       "value": "h2"
                     },
                     {
@@ -3804,10 +3800,6 @@
                     },
                     {
                       "type": "string",
-                      "value": "justify"
-                    },
-                    {
-                      "type": "string",
                       "value": "h2"
                     },
                     {
@@ -4527,10 +4519,6 @@
                           {
                             "type": "string",
                             "value": "normal"
-                          },
-                          {
-                            "type": "string",
-                            "value": "justify"
                           }
                         ]
                       },

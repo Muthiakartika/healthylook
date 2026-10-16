@@ -7,6 +7,7 @@ import { markdownToPortableText } from "@portabletext/markdown";
 import { portableTextMemberSchemaTypesToSchema } from "@portabletext/sanity-bridge";
 import type { InputProps, PortableTextInputProps, PortableTextPluginsProps } from "sanity";
 import { SITE_URL } from "@/lib/constants";
+import { AlignEditorStyles, alignParagraphs } from "./align";
 
 /**
  * What a paste into a Studio rich-text field turns into.
@@ -250,18 +251,20 @@ const pastedUrl = defineBehavior({
   ],
 });
 
-/** Sanity's own editor plugins, plus the URL behaviour. Used as a schema
- *  type's `components.portableText.plugins`. */
-export function pastePlugins(props: PortableTextPluginsProps) {
+/** Sanity's own editor plugins, plus the URL paste and the alignment
+ *  buttons (see align.tsx). Used as a schema type's
+ *  `components.portableText.plugins`. */
+export function editorPlugins(props: PortableTextPluginsProps) {
   return (
     <>
       {props.renderDefault(props)}
-      <BehaviorPlugin behaviors={[pastedUrl]} />
+      <BehaviorPlugin behaviors={[pastedUrl, alignParagraphs]} />
+      <AlignEditorStyles />
     </>
   );
 }
 
-export const pasteComponents = {
+export const editorComponents = {
   input: PastingInput,
-  portableText: { plugins: pastePlugins },
+  portableText: { plugins: editorPlugins },
 };

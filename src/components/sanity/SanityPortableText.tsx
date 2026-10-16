@@ -3,6 +3,7 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import type { PortableTextBlock } from "@portabletext/types";
 import Img from "@/components/ui/Img";
 import SectionTableFigure, { SECTION_TONES } from "@/components/treatment/SectionTableFigure";
+import { blockAlignment } from "@/sanity/lib/alignment";
 import { sanityImageUrl } from "@/sanity/lib/image";
 import type { SanityImage } from "@/sanity/types";
 
@@ -13,21 +14,42 @@ type SanityTable = {
   labelFirstColumn?: boolean;
 };
 
+/**
+ * The alignment set with Studio's alignment buttons (see
+ * src/sanity/portableText/align.tsx). Justified text stays left-aligned on
+ * phones, where a narrow column justifies into gaps between words, and is
+ * hyphenated above that to keep the gaps small.
+ */
+const ALIGN_CLASS = {
+  alignLeft: "",
+  alignCenter: "text-center",
+  alignRight: "text-right",
+  alignJustify: "hyphens-auto sm:text-justify",
+} as const;
+const alignClass = (value: unknown) => ALIGN_CLASS[blockAlignment(value)];
+const noop = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
+
 const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
   block: {
-    normal: ({ children }) => <p>{children}</p>,
-    // "Paragraph (justified)" in Studio. Left-aligned on phones, where a
-    // narrow column justifies into gaps between words; hyphenation narrows
-    // those gaps above that. See src/sanity/portableText/justify.tsx.
-    justify: ({ children }) => <p className="hyphens-auto sm:text-justify">{children}</p>,
-    h2: ({ children }) => (
-      <h2 className="font-script text-h2 leading-heading text-primary">{children}</h2>
+    normal: ({ children, value }) => <p className={alignClass(value) || undefined}>{children}</p>,
+    // The "Paragraph (justified)" style that briefly preceded the buttons.
+    // No document used it, but a Studio tab opened before the change could
+    // still have written one.
+    justify: ({ children }) => <p className={ALIGN_CLASS.alignJustify}>{children}</p>,
+    h2: ({ children, value }) => (
+      <h2 className={`font-script text-h2 leading-heading text-primary ${alignClass(value)}`}>
+        {children}
+      </h2>
     ),
-    h3: ({ children }) => (
-      <h3 className="font-sans text-h3 font-light leading-heading text-ink">{children}</h3>
+    h3: ({ children, value }) => (
+      <h3 className={`font-sans text-h3 font-light leading-heading text-ink ${alignClass(value)}`}>
+        {children}
+      </h3>
     ),
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-2 border-primary/40 pl-6 font-sans text-lead text-text">
+    blockquote: ({ children, value }) => (
+      <blockquote
+        className={`border-l-2 border-primary/40 pl-6 font-sans text-lead text-text ${alignClass(value)}`}
+      >
         {children}
       </blockquote>
     ),
@@ -52,6 +74,11 @@ const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
     number: ({ children }) => <ol className="list-decimal space-y-2 pl-6">{children}</ol>,
   },
   marks: {
+    // The alignment marks do their work on the paragraph, above.
+    alignLeft: noop,
+    alignCenter: noop,
+    alignRight: noop,
+    alignJustify: noop,
     textLink: ({ children, value }) => {
       const href = typeof value?.href === "string" ? value.href : "#";
       const className =
