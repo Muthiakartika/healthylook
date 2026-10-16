@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient, type QueryParams } from "next-sanity";
 import { defineLive } from "next-sanity/live";
+import { draftMode } from "next/headers";
 import {
   isSanityConfigured,
   resolvedSanityProjectId,
@@ -109,6 +110,16 @@ export type SanityFetchOptions = {
   revalidate?: number | false;
 };
 
+/** Studio's Presentation preview. False outside a request, e.g. in
+ *  generateStaticParams, where draftMode() throws. */
+async function isDraftMode() {
+  try {
+    return (await draftMode()).isEnabled;
+  } catch {
+    return false;
+  }
+}
+
 function fetchPublished<TResult>(
   query: string,
   options: SanityFetchOptions,
@@ -147,6 +158,36 @@ export async function sanityFetch<TResult>(
     try {
       return await fetchPublished<TResult>(query, { ...options, revalidate: 0 });
     } catch {
+      return null;
+    }
+  }
+
+  /* ── PUBLISHED CONTENT IS READ WITH THE TOKEN, NOT THROUGH LIVE ───────
+   * Every document the migration created has a dot in its _id
+   * (`post.nucleofill-vs-rejuran`, `treatment.botox`, `page.our-blog`…),
+   * and Sanity hides dotted ids from any request without a token. Live
+   * Content's published reads go through the token-free `client`, so they
+   * never saw one: 1 post of 15, 0 treatments of 32, 0 pages of 11.
+   *
+   * That stayed invisible for weeks because the code below falls back to
+   * the token client whenever Live answers with nothing, and with every
+   * document hidden, Live always answered with nothing. The first post
+   * written in Studio (a random id, no dot) broke it. Live returned that
+   * one post, nothing was empty, and the other 14 left the blog list,
+   * taking their cover photos and titles with them. Any list would go the
+   * same way the day its first document is created in Studio: a new
+   * testimonial would hide the other 27.
+   *
+   * So visitors' pages read with the token, directly. In practice that is
+   * what served them all along, through the fallback. The webhook tags plus
+   * the 60-second revalidate keep it fresh. Live stays for draft mode below,
+   * where it reads with `serverToken` and so sees everything.
+   */
+  if (!(await isDraftMode())) {
+    try {
+      return await fetchPublished<TResult>(query, options);
+    } catch (error) {
+      console.error("Sanity published fetch failed.", error);
       return null;
     }
   }
