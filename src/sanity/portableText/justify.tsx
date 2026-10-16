@@ -18,8 +18,13 @@ import type { BlockStyleProps } from "sanity";
  * Kept off feature cards and journey steps: a few words in a narrow card
  * justify into one or two stretched lines.
  */
-function JustifiedInEditor(props: BlockStyleProps) {
-  return <div style={{ textAlign: "justify", hyphens: "auto" }}>{props.renderDefault(props)}</div>;
+/* `children`, not `renderDefault(props)`. The type lists renderDefault, but
+ * Studio also renders this without it (the style menu's preview, at least),
+ * and calling it there threw "renderDefault is not a function" over the
+ * whole Article body field. `children` is the block already rendered, which
+ * is all this needs to wrap. */
+function JustifiedInEditor({ children }: BlockStyleProps) {
+  return <div style={{ textAlign: "justify", hyphens: "auto" }}>{children}</div>;
 }
 
 export const justifiedStyle = {
