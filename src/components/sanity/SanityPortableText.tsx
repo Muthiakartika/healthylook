@@ -4,7 +4,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 import Img from "@/components/ui/Img";
 import SectionTableFigure, { SECTION_TONES } from "@/components/treatment/SectionTableFigure";
 import { blockAlignment } from "@/sanity/lib/alignment";
-import { sanityImageUrl } from "@/sanity/lib/image";
+import { sanityImageRatio, sanityImageUrl } from "@/sanity/lib/image";
 import type { SanityImage } from "@/sanity/types";
 
 type SanityTable = {
@@ -111,7 +111,15 @@ const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
       if (!src) return null;
       return (
         <figure>
-          <Img src={src} alt={image.alt} aspect="landscape" sizes="(max-width: 768px) 100vw, 760px" />
+          {/* Whole by default, the same rule as a treatment section's
+              figure; 4:3 only when "Show the whole image" is turned off. */}
+          <Img
+            src={src}
+            alt={image.alt}
+            aspect="landscape"
+            ratio={image.uncropped === false ? undefined : sanityImageRatio(image)}
+            sizes="(max-width: 768px) 100vw, 760px"
+          />
           {image.caption && (
             <figcaption className="mt-3 font-sans text-caption text-muted">
               {image.caption}

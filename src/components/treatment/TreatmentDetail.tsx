@@ -171,6 +171,33 @@ function SectionProseBlock({
   );
 }
 
+/** The sentence under one claim in an icon list — smaller than prose, since
+ *  it captions the icon and label above it rather than being read on its own. */
+function IconClaimText({ block, className = "" }: { block: SectionBlock; className?: string }) {
+  if (block.body?.length) {
+    return (
+      <SanityPortableText
+        value={block.body}
+        spacing="space-y-2"
+        className={`mt-1 [&_p]:text-caption [&_p]:leading-body ${className}`}
+      />
+    );
+  }
+  if (!block.paragraphs?.length) return null;
+  return (
+    <div className={`mt-1 flex flex-col gap-2 ${className}`}>
+      {block.paragraphs.map((paragraph) => (
+        <p
+          key={paragraph.slice(0, 40)}
+          className="font-sans text-caption leading-body text-text-secondary"
+        >
+          {paragraph}
+        </p>
+      ))}
+    </div>
+  );
+}
+
 // Async because its content now comes through the database layer. Still a
 // server component, so this costs the page nothing at runtime: the awaits
 // resolve during prerendering and the result is baked into the static HTML.
@@ -548,24 +575,60 @@ export default async function TreatmentDetail({ treatment }: { treatment: Treatm
                                column-width: these are 179px pieces of line
                                art, and blown up to the measure they would
                                read as illustrations rather than as marks
-                               against a list. */
-                            <IconList
-                              className="mt-7"
-                              layout={iconLayout}
-                              labelClass={tone.point}
-                              items={section.blocks
-                                .filter((block) => !isSectionTable(block))
-                                .map((block, blockIndex) => {
-                                  const item = block as SectionBlock;
-                                  return {
-                                    key: item.heading ?? String(blockIndex),
-                                    label: item.heading,
-                                    image: item.image?.src
-                                      ? { src: item.image.src, alt: item.image.alt }
-                                      : undefined,
-                                  };
-                                })}
-                            />
+                               against a list.
+
+                               ── THE CLAIM'S OWN SENTENCE STAYS ─────────
+                               XERF's claims are a heading and nothing else,
+                               so this used to print the heading alone. The
+                               other treatments' "Why choose" lists carry a
+                               sentence under each claim ("Safe Treatment
+                               without Downtime"), and when their icons came
+                               over from the old site that sentence would
+                               have silently disappeared from the page. It
+                               renders under the label now. A block with no
+                               heading and no icon is the section's opening
+                               paragraph, not a claim, so it stays above the
+                               list as prose — the same rule cards use. */
+                            <>
+                              {section.blocks
+                                .filter(
+                                  (block) =>
+                                    !isSectionTable(block) &&
+                                    !block.heading &&
+                                    !(block as SectionBlock).image?.src,
+                                )
+                                .map((block, blockIndex) => (
+                                  <SectionProseBlock
+                                    key={blockIndex}
+                                    block={block as SectionBlock}
+                                    className="mt-6"
+                                    headingClass={tone.heading}
+                                    proseClass={tone.prose}
+                                  />
+                                ))}
+                              <IconList
+                                className="mt-7"
+                                layout={iconLayout}
+                                labelClass={tone.point}
+                                items={section.blocks
+                                  .filter(
+                                    (block) =>
+                                      !isSectionTable(block) &&
+                                      (block.heading || (block as SectionBlock).image?.src),
+                                  )
+                                  .map((block, blockIndex) => {
+                                    const item = block as SectionBlock;
+                                    return {
+                                      key: item.heading ?? String(blockIndex),
+                                      label: item.heading,
+                                      image: item.image?.src
+                                        ? { src: item.image.src, alt: item.image.alt }
+                                        : undefined,
+                                      children: <IconClaimText block={item} className={tone.prose} />,
+                                    };
+                                  })}
+                              />
+                            </>
                           ) : asCards ? (
                             /* ── CARDS ────────────────────────────────
                                Blocks that have a subheading become the

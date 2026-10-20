@@ -55,7 +55,7 @@ import {
   resultGalleriesQuery,
   sitemapEntriesQuery,
 } from "@/sanity/lib/queries";
-import { sanityImageUrl } from "@/sanity/lib/image";
+import { sanityImageRatio, sanityImageUrl } from "@/sanity/lib/image";
 
 function normalizePath(path: string): string {
   if (!path || path === "/") return "/";
@@ -124,25 +124,6 @@ export type SanityTreatmentExtras = {
  * a plain path — TreatmentDetail should render a section without knowing
  * which of the two it came from.
  */
-/**
- * The image's own proportions, read out of the Sanity asset id.
- *
- * Every asset id carries its dimensions — `image-<hash>-1287x616-jpg` — so
- * the ratio is already in the document and needs no extra field in the
- * projection and no second request for asset metadata. Returns undefined
- * for anything that does not match, which simply leaves the figure on its
- * default crop.
- */
-function imageRatio(image: SanityImage | undefined): number | undefined {
-  const ref = image?.asset?._ref;
-  const match = typeof ref === "string" ? /-(\d+)x(\d+)-[a-z]+$/.exec(ref) : null;
-  if (!match) return undefined;
-  const width = Number(match[1]);
-  const height = Number(match[2]);
-  if (!width || !height) return undefined;
-  return Number((width / height).toFixed(4));
-}
-
 function sectionImage(image: SanityImage | undefined): SectionImage | undefined {
   const src = sanityImageUrl(image);
   if (!src) return undefined;
@@ -150,11 +131,14 @@ function sectionImage(image: SanityImage | undefined): SectionImage | undefined 
     src,
     alt: image?.alt ?? "",
     caption: image?.caption,
-    // Only when the editor has asked for it. Deriving a ratio for every
-    // image would reshape eight already-published treatment photographs to
-    // solve a problem only the diagrams have — see `uncropped` in
-    // imageWithAlt.ts.
-    ratio: image?.uncropped ? imageRatio(image) : undefined,
+    // Whole unless the editor has turned "Show the whole image" off. It
+    // was the other way round, and the clinic's first upload of their own —
+    // a three-panel Sylfirm X diagram, 3.27:1 — came out as its middle
+    // panel: nobody uploading a picture expects it to be cropped, so the
+    // box nobody knew to tick cannot be what keeps it whole. Undefined
+    // counts as on, because that is what every image uploaded before the
+    // default changed holds. See `uncropped` in imageWithAlt.ts.
+    ratio: image?.uncropped === false ? undefined : sanityImageRatio(image),
   };
 }
 

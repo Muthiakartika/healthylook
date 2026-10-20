@@ -35,6 +35,31 @@ export function sanityImageUrl(
 }
 
 /**
+ * The image's own width ÷ height, as it will actually be served.
+ *
+ * Every asset id carries its dimensions — `image-<hash>-1287x616-jpg` — so
+ * the ratio needs no extra field in the projection and no second request
+ * for asset metadata. A crop drawn in Studio is applied by the URL builder,
+ * so it has to be applied here too, or a cropped image would be boxed at
+ * the uncropped file's shape. Returns undefined for anything that does not
+ * match, which leaves the figure on its default frame.
+ */
+export function sanityImageRatio(
+  image: { asset?: { _ref?: string }; crop?: SanityImageCrop } | null | undefined,
+): number | undefined {
+  const ref = image?.asset?._ref;
+  const match = typeof ref === "string" ? /-(\d+)x(\d+)-[a-z]+$/.exec(ref) : null;
+  if (!match) return undefined;
+  const crop = image?.crop;
+  const width = Number(match[1]) * (1 - (crop?.left ?? 0) - (crop?.right ?? 0));
+  const height = Number(match[2]) * (1 - (crop?.top ?? 0) - (crop?.bottom ?? 0));
+  if (!(width > 0) || !(height > 0)) return undefined;
+  return Number((width / height).toFixed(4));
+}
+
+type SanityImageCrop = { top?: number; bottom?: number; left?: number; right?: number };
+
+/**
  * `sanityImageUrl()` already asks Sanity's own CDN to resize, compress and
  * format-negotiate (`.auto("format").fit("max").width(...)`), so sending
  * one of those URLs through Vercel's optimizer re-runs a job that is

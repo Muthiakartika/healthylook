@@ -44,25 +44,26 @@ export const imageWithAlt = defineType({
       title: "Caption",
       type: "string",
     }),
-    /* ── OPT-IN, NOT AUTOMATIC ─────────────────────────────────────────
-     * Figures crop to a fixed shape so a page of them keeps one rhythm,
-     * which is right for photographs and wrong for anything whose content
-     * is text. A diagram cropped to 16:9 loses its outer columns; a wide
-     * strip of icons loses most of itself.
+    /* ── ON BY DEFAULT ─────────────────────────────────────────────────
+     * Read by a treatment section's figures and by images in rich text;
+     * cards, heroes and galleries always crop to their layout's shape.
      *
-     * The page could simply never crop, and that was the first instinct —
-     * but eight treatments already carry photographs that have been
-     * composed against the existing crop, and silently reshaping all of
-     * them to fix three diagrams on one page is not a trade worth making.
-     * Off by default means nothing already published moves.
+     * It began opt-in, to protect photographs composed against the 16:9
+     * crop. Then the clinic uploaded a three-panel diagram into a Sylfirm X
+     * section, saw only its middle panel, and reported it as broken — the
+     * box that would have fixed it was one they had no reason to know
+     * about. No treatment section held a photograph by then, so nothing
+     * moved when the default flipped. The renderers treat an unset value as
+     * on (every image saved before the flip is unset), so `initialValue`
+     * here is only what the checkbox shows.
      */
     defineField({
       name: "uncropped",
       title: "Show the whole image",
       type: "boolean",
-      initialValue: false,
+      initialValue: true,
       description:
-        "Turn on for a diagram, chart, or anything with text in it: the image keeps its own shape instead of being cropped to fit. Leave off for photographs. · ID: Nyalakan untuk diagram, bagan, atau gambar yang ada tulisannya: gambar tampil utuh sesuai bentuk aslinya, tidak dipotong. Biarkan mati untuk foto biasa.",
+        "On: the image shows whole, in its own shape — right for diagrams and anything with text in it. Turn off to crop a photograph to the page's frame (16:9 in treatment sections, 4:3 in articles). · ID: Nyala: gambar tampil utuh sesuai bentuk aslinya — cocok untuk diagram dan gambar yang ada tulisannya. Matikan untuk memotong foto mengikuti bingkai halaman (16:9 di section treatment, 4:3 di artikel).",
     }),
   ],
   preview: {
