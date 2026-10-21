@@ -89,9 +89,8 @@ export default async function Footer() {
   // name in it changed — leaves the string untouched rather than silently
   // cutting off the wrong words.
   const streetAddress = copy.address.replace(/ at Ubud Nyuh Bali Resort$/, "");
-  // The eight posts the live site promotes in its own footer, resolved
-  // from the live blog index so the labels and the set itself can't drift
-  // out of sync with an article renamed or deleted in the dashboard.
+  // Resolve the selected articles from the blog index so renamed or deleted
+  // articles stay in sync with the dashboard.
   const blogPosts = await getBlogPosts();
   const footerBlogPosts = FOOTER_BLOG_SLUGS.map((href) =>
     blogPosts.find((post) => post.href === href),

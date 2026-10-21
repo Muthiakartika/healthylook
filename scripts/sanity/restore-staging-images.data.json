@@ -1,0 +1,2557 @@
+{
+ "_note": "Generated from the staging-vs-new-site image audit of 2026-10-20. See restore-staging-images.ts.",
+ "aliases": {
+  "2023/11/15.jpg": "2023/10/Before-After-2.jpg",
+  "2024/10/What-is-Microneedling-Good-For-2-Source-Skvalval.jpg": "2024/07/WFM03562-min.jpg",
+  "2024/05/2.png": "2023/10/Website-Pictures-12.png"
+ },
+ "uploads": {
+  "2025/07/Graft-Extraction.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Graft-Extraction.jpg",
+   "filename": "Graft-Extraction.jpg",
+   "bytes": 7523
+  },
+  "2025/07/2.-Microlyzer-Processing.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/2.-Microlyzer-Processing.jpg",
+   "filename": "2.-Microlyzer-Processing.jpg",
+   "bytes": 6888
+  },
+  "2025/07/Mixing-with-PRP-1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Mixing-with-PRP-1.jpg",
+   "filename": "Mixing-with-PRP-1.jpg",
+   "bytes": 14951
+  },
+  "2025/07/Filtering.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Filtering.jpg",
+   "filename": "Filtering.jpg",
+   "bytes": 6884
+  },
+  "2025/07/Untitled-design-4.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Untitled-design-4.jpg",
+   "filename": "Untitled-design-4.jpg",
+   "bytes": 83688
+  },
+  "2024/11/1-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/1-min.jpg",
+   "filename": "1-min.jpg",
+   "bytes": 9148
+  },
+  "2023/10/Website-Pictures-14.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-14.png",
+   "filename": "Website-Pictures-14.png",
+   "bytes": 68071
+  },
+  "2025/07/Untitled-design.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Untitled-design.jpg",
+   "filename": "Untitled-design.jpg",
+   "bytes": 33237
+  },
+  "2025/07/Untitled-design-2.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Untitled-design-2.jpg",
+   "filename": "Untitled-design-2.jpg",
+   "bytes": 47320
+  },
+  "2025/07/Untitled-design-1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Untitled-design-1.jpg",
+   "filename": "Untitled-design-1.jpg",
+   "bytes": 46909
+  },
+  "2023/10/Website-Pictures-13.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-13.png",
+   "filename": "Website-Pictures-13.png",
+   "bytes": 46238
+  },
+  "2023/10/3.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/3.png",
+   "filename": "3.png",
+   "bytes": 112091
+  },
+  "2023/10/4.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/4.png",
+   "filename": "4.png",
+   "bytes": 72040
+  },
+  "2023/10/2.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/2.png",
+   "filename": "2.png",
+   "bytes": 90664
+  },
+  "2024/05/Untitled-design-13-1.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/Untitled-design-13-1.png",
+   "filename": "Untitled-design-13-1.png",
+   "bytes": 34264
+  },
+  "2023/10/Website-Pictures-9.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-9.png",
+   "filename": "Website-Pictures-9.png",
+   "bytes": 76704
+  },
+  "2023/10/Website-Pictures-21.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-21.png",
+   "filename": "Website-Pictures-21.png",
+   "bytes": 36284
+  },
+  "2023/10/Website-Pictures-20.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-20.png",
+   "filename": "Website-Pictures-20.png",
+   "bytes": 56459
+  },
+  "2023/10/20.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/20.png",
+   "filename": "20.png",
+   "bytes": 92899
+  },
+  "2023/10/Website-Pictures-18.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-18.png",
+   "filename": "Website-Pictures-18.png",
+   "bytes": 73685
+  },
+  "2023/10/Website-Pictures-22.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-22.png",
+   "filename": "Website-Pictures-22.png",
+   "bytes": 43503
+  },
+  "2023/10/15.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/15.png",
+   "filename": "15.png",
+   "bytes": 83969
+  },
+  "2023/10/Website-Pictures-7.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-7.png",
+   "filename": "Website-Pictures-7.png",
+   "bytes": 89581
+  },
+  "2023/10/28.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/28.png",
+   "filename": "28.png",
+   "bytes": 158876
+  },
+  "2023/10/Website-Pictures-8.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-8.png",
+   "filename": "Website-Pictures-8.png",
+   "bytes": 109275
+  },
+  "2023/10/Website-Pictures-10.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-10.png",
+   "filename": "Website-Pictures-10.png",
+   "bytes": 65252
+  },
+  "2026/06/CE-Certified.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/CE-Certified.png",
+   "filename": "CE-Certified.png",
+   "bytes": 20946
+  },
+  "2024/11/Untitled-design-17-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/Untitled-design-17-min.jpg",
+   "filename": "Untitled-design-17-min.jpg",
+   "bytes": 18811
+  },
+  "2024/11/Untitled-design-16.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/Untitled-design-16.jpg",
+   "filename": "Untitled-design-16.jpg",
+   "bytes": 56875
+  },
+  "2023/10/7.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/7.png",
+   "filename": "7.png",
+   "bytes": 79059
+  },
+  "2023/10/Website-Pictures-30.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-30.png",
+   "filename": "Website-Pictures-30.png",
+   "bytes": 98163
+  },
+  "2023/10/9.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/9.png",
+   "filename": "9.png",
+   "bytes": 127519
+  },
+  "2024/11/3-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/3-min.jpg",
+   "filename": "3-min.jpg",
+   "bytes": 10714
+  },
+  "2023/10/Website-Pictures-12.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-12.png",
+   "filename": "Website-Pictures-12.png",
+   "bytes": 43829
+  },
+  "2023/10/Website-Pictures-17.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-17.png",
+   "filename": "Website-Pictures-17.png",
+   "bytes": 85202
+  },
+  "2023/10/12.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/12.png",
+   "filename": "12.png",
+   "bytes": 55194
+  },
+  "2023/10/14.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/14.png",
+   "filename": "14.png",
+   "bytes": 95990
+  },
+  "2023/10/25.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/25.png",
+   "filename": "25.png",
+   "bytes": 317553
+  },
+  "2023/10/27.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/27.png",
+   "filename": "27.png",
+   "bytes": 60926
+  },
+  "2023/10/Website-Pictures-11.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-11.png",
+   "filename": "Website-Pictures-11.png",
+   "bytes": 78083
+  },
+  "2024/02/4.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/4.png",
+   "filename": "4.png",
+   "bytes": 29310
+  },
+  "2024/02/Untitled-design-9.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/Untitled-design-9.png",
+   "filename": "Untitled-design-9.png",
+   "bytes": 102405
+  },
+  "2024/05/1.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/1.png",
+   "filename": "1.png",
+   "bytes": 39053
+  },
+  "2024/05/3.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/3.png",
+   "filename": "3.png",
+   "bytes": 50220
+  },
+  "2024/05/4.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/4.png",
+   "filename": "4.png",
+   "bytes": 29235
+  },
+  "2024/05/5.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/5.png",
+   "filename": "5.png",
+   "bytes": 42435
+  },
+  "2023/10/Website-Pictures-16.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-16.png",
+   "filename": "Website-Pictures-16.png",
+   "bytes": 159424
+  },
+  "2023/10/Website-Pictures-15.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-15.png",
+   "filename": "Website-Pictures-15.png",
+   "bytes": 53480
+  },
+  "2023/10/16.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/16.png",
+   "filename": "16.png",
+   "bytes": 68420
+  },
+  "2023/10/17.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/17.png",
+   "filename": "17.png",
+   "bytes": 59692
+  },
+  "2023/10/Website-Pictures-29.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-29.png",
+   "filename": "Website-Pictures-29.png",
+   "bytes": 104070
+  },
+  "2023/10/Website-Pictures-26.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-26.png",
+   "filename": "Website-Pictures-26.png",
+   "bytes": 51253
+  },
+  "2023/10/Website-Pictures-27.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-27.png",
+   "filename": "Website-Pictures-27.png",
+   "bytes": 47816
+  },
+  "2023/10/Website-Pictures-28.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-28.png",
+   "filename": "Website-Pictures-28.png",
+   "bytes": 36728
+  },
+  "2024/07/WFM03732-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/07/WFM03732-min.jpg",
+   "filename": "WFM03732-min.jpg",
+   "bytes": 62158
+  },
+  "2024/07/WFM03562-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/07/WFM03562-min.jpg",
+   "filename": "WFM03562-min.jpg",
+   "bytes": 119147
+  },
+  "2023/10/Website-Pictures-6.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Website-Pictures-6.jpg",
+   "filename": "Website-Pictures-6.jpg",
+   "bytes": 90373
+  },
+  "2024/01/A848CB9B-3B83-4DAD-B1C4-019212A43356-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/01/A848CB9B-3B83-4DAD-B1C4-019212A43356-min.jpg",
+   "filename": "A848CB9B-3B83-4DAD-B1C4-019212A43356-min.jpg",
+   "bytes": 52287
+  },
+  "2025/01/Stimulate-the-collagen-1-min-1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/01/Stimulate-the-collagen-1-min-1.jpg",
+   "filename": "Stimulate-the-collagen-1-min-1.jpg",
+   "bytes": 156242
+  },
+  "2025/10/02.-DermaShine-Pro_Main-Unit_002-w-min.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/10/02.-DermaShine-Pro_Main-Unit_002-w-min.png",
+   "filename": "02.-DermaShine-Pro_Main-Unit_002-w-min.png",
+   "bytes": 205571
+  },
+  "2026/06/1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/1.jpg",
+   "filename": "1.jpg",
+   "bytes": 126205
+  },
+  "2026/06/Untitled-design-7.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Untitled-design-7.jpg",
+   "filename": "Untitled-design-7.jpg",
+   "bytes": 80842
+  },
+  "2026/06/Handpiece_LYSIWAVE_2-1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Handpiece_LYSIWAVE_2-1.jpg",
+   "filename": "Handpiece_LYSIWAVE_2-1.jpg",
+   "bytes": 62931
+  },
+  "2023/10/CM-Slim-Instagram-Post-5.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/CM-Slim-Instagram-Post-5.jpg",
+   "filename": "CM-Slim-Instagram-Post-5.jpg",
+   "bytes": 122301
+  },
+  "2023/10/Treatment-Menu-3.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Treatment-Menu-3.jpg",
+   "filename": "Treatment-Menu-3.jpg",
+   "bytes": 95526
+  },
+  "public/images/treatments/ipl-hair-removal.jpg": {
+   "from": "local",
+   "path": "public/images/treatments/ipl-hair-removal.jpg",
+   "filename": "ipl-hair-removal.jpg"
+  },
+  "2026/05/Untitled-design-5.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/05/Untitled-design-5.jpg",
+   "filename": "Untitled-design-5.jpg",
+   "bytes": 155576
+  },
+  "2023/10/Treatment-Menu-1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Treatment-Menu-1.jpg",
+   "filename": "Treatment-Menu-1.jpg",
+   "bytes": 43848
+  },
+  "2023/10/Treatment-Menu-2.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Treatment-Menu-2.jpg",
+   "filename": "Treatment-Menu-2.jpg",
+   "bytes": 63516
+  },
+  "2024/01/Untitled-design-10-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/01/Untitled-design-10-min.jpg",
+   "filename": "Untitled-design-10-min.jpg",
+   "bytes": 150637
+  },
+  "2024/07/WFM04330-min-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/07/WFM04330-min-min.jpg",
+   "filename": "WFM04330-min-min.jpg",
+   "bytes": 54757
+  },
+  "2024/06/IMG_0545-min-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/06/IMG_0545-min-min.jpg",
+   "filename": "IMG_0545-min-min.jpg",
+   "bytes": 75286
+  },
+  "2024/03/3.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/03/3.jpg",
+   "filename": "3.jpg",
+   "bytes": 107799
+  },
+  "2024/03/4.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/03/4.jpg",
+   "filename": "4.jpg",
+   "bytes": 69742
+  },
+  "2025/07/Hair-loss-stages.webp": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Hair-loss-stages.webp",
+   "filename": "Hair-loss-stages.webp",
+   "bytes": 58244
+  },
+  "public/images/treatments/treatment-generic.jpg": {
+   "from": "local",
+   "path": "public/images/treatments/treatment-generic.jpg",
+   "filename": "treatment-generic.jpg"
+  },
+  "public/images/treatments/live-profhilo.jpg": {
+   "from": "local",
+   "path": "public/images/treatments/live-profhilo.jpg",
+   "filename": "live-profhilo.jpg"
+  },
+  "public/images/treatments/lip-filler.jpg": {
+   "from": "local",
+   "path": "public/images/treatments/lip-filler.jpg",
+   "filename": "lip-filler.jpg"
+  },
+  "public/images/treatments/treatment-misc.jpg": {
+   "from": "local",
+   "path": "public/images/treatments/treatment-misc.jpg",
+   "filename": "treatment-misc.jpg"
+  },
+  "2026/06/Novuma-2.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Novuma-2.png",
+   "filename": "Novuma-2.png",
+   "bytes": 474411
+  },
+  "2024/11/IMG_7764-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/IMG_7764-min.jpg",
+   "filename": "IMG_7764-min.jpg",
+   "bytes": 47230
+  },
+  "2024/02/55.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/55.jpg",
+   "filename": "55.jpg",
+   "bytes": 59263
+  },
+  "2023/12/45.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/12/45.jpg",
+   "filename": "45.jpg",
+   "bytes": 74654
+  },
+  "2024/05/105.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/105.jpg",
+   "filename": "105.jpg",
+   "bytes": 80567
+  },
+  "2024/05/104.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/104.jpg",
+   "filename": "104.jpg",
+   "bytes": 80209
+  },
+  "2023/12/47.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/12/47.png",
+   "filename": "47.png",
+   "bytes": 632109
+  },
+  "2025/06/49-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/06/49-min.jpg",
+   "filename": "49-min.jpg",
+   "bytes": 48161
+  },
+  "2025/06/50-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/06/50-min.jpg",
+   "filename": "50-min.jpg",
+   "bytes": 31141
+  },
+  "2023/12/33.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/12/33.jpg",
+   "filename": "33.jpg",
+   "bytes": 75032
+  },
+  "2023/12/34.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/12/34.jpg",
+   "filename": "34.jpg",
+   "bytes": 81331
+  },
+  "2024/02/56.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/56.jpg",
+   "filename": "56.jpg",
+   "bytes": 65954
+  },
+  "2024/02/58.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/58.jpg",
+   "filename": "58.jpg",
+   "bytes": 51758
+  },
+  "2024/05/106.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/05/106.jpg",
+   "filename": "106.jpg",
+   "bytes": 65226
+  },
+  "2023/11/10.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/11/10.jpg",
+   "filename": "10.jpg",
+   "bytes": 95854
+  },
+  "2023/12/56.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/12/56.jpg",
+   "filename": "56.jpg",
+   "bytes": 78258
+  },
+  "2024/12/201.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/12/201.jpg",
+   "filename": "201.jpg",
+   "bytes": 84495
+  },
+  "2024/02/45.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/45.jpg",
+   "filename": "45.jpg",
+   "bytes": 63480
+  },
+  "2023/10/Before-After-2.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Before-After-2.jpg",
+   "filename": "Before-After-2.jpg",
+   "bytes": 65113
+  },
+  "2024/02/44.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/44.jpg",
+   "filename": "44.jpg",
+   "bytes": 75149
+  },
+  "2024/12/200.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/12/200.jpg",
+   "filename": "200.jpg",
+   "bytes": 111838
+  },
+  "2024/01/57-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/01/57-min.jpg",
+   "filename": "57-min.jpg",
+   "bytes": 76772
+  },
+  "2024/01/56-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/01/56-min.jpg",
+   "filename": "56-min.jpg",
+   "bytes": 78173
+  },
+  "2023/10/CM-Slim-Instagram-Post-2.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/CM-Slim-Instagram-Post-2.jpg",
+   "filename": "CM-Slim-Instagram-Post-2.jpg",
+   "bytes": 81001
+  },
+  "2026/06/Lysiwave-1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Lysiwave-1.jpg",
+   "filename": "Lysiwave-1.jpg",
+   "bytes": 91527
+  },
+  "2026/06/Lysiwave-2.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Lysiwave-2.jpg",
+   "filename": "Lysiwave-2.jpg",
+   "bytes": 108435
+  },
+  "2026/06/Lysiwave-3.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Lysiwave-3.jpg",
+   "filename": "Lysiwave-3.jpg",
+   "bytes": 81292
+  },
+  "2026/06/Lysiwave-4.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Lysiwave-4.jpg",
+   "filename": "Lysiwave-4.jpg",
+   "bytes": 109578
+  },
+  "2026/06/Lysiwave-5.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Lysiwave-5.jpg",
+   "filename": "Lysiwave-5.jpg",
+   "bytes": 133138
+  },
+  "2026/06/Lysiwave-6.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2026/06/Lysiwave-6.jpg",
+   "filename": "Lysiwave-6.jpg",
+   "bytes": 109364
+  },
+  "2024/11/198.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/198.jpg",
+   "filename": "198.jpg",
+   "bytes": 48799
+  },
+  "2024/11/199.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/199.jpg",
+   "filename": "199.jpg",
+   "bytes": 46070
+  },
+  "2024/11/200.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/200.jpg",
+   "filename": "200.jpg",
+   "bytes": 50138
+  },
+  "2025/07/Best-Before-After-2-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Best-Before-After-2-min.jpg",
+   "filename": "Best-Before-After-2-min.jpg",
+   "bytes": 87277
+  },
+  "2025/07/Best-Before-After-2-1-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Best-Before-After-2-1-min.jpg",
+   "filename": "Best-Before-After-2-1-min.jpg",
+   "bytes": 74662
+  },
+  "2025/07/Best-Before-After-2-2-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/07/Best-Before-After-2-2-min.jpg",
+   "filename": "Best-Before-After-2-2-min.jpg",
+   "bytes": 96378
+  },
+  "2023/10/2023-10-26-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/2023-10-26-min.jpg",
+   "filename": "2023-10-26-min.jpg",
+   "bytes": 82482
+  },
+  "2024/10/How-Long-Does-Botox-Last_-1-Source_-studioroman.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/10/How-Long-Does-Botox-Last_-1-Source_-studioroman.jpg",
+   "filename": "How-Long-Does-Botox-Last_-1-Source_-studioroman.jpg",
+   "bytes": 102989
+  },
+  "2024/10/How-Long-Does-Botox-Last_-2-Source_-Robert-Daly.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/10/How-Long-Does-Botox-Last_-2-Source_-Robert-Daly.jpg",
+   "filename": "How-Long-Does-Botox-Last_-2-Source_-Robert-Daly.jpg",
+   "bytes": 116561
+  },
+  "2024/10/How-Long-Does-Lip-Filler-Last_-1-Source_-Africa.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/10/How-Long-Does-Lip-Filler-Last_-1-Source_-Africa.jpg",
+   "filename": "How-Long-Does-Lip-Filler-Last_-1-Source_-Africa.jpg",
+   "bytes": 103999
+  },
+  "2024/10/How-Long-Does-Lip-Filler-Last_-2-Source_-studioroman.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/10/How-Long-Does-Lip-Filler-Last_-2-Source_-studioroman.jpg",
+   "filename": "How-Long-Does-Lip-Filler-Last_-2-Source_-studioroman.jpg",
+   "bytes": 98692
+  },
+  "2024/11/How-Many-Units-of-Botox-for-Forehead_-1-Source_-SerhiiBobyk.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/How-Many-Units-of-Botox-for-Forehead_-1-Source_-SerhiiBobyk.jpg",
+   "filename": "How-Many-Units-of-Botox-for-Forehead_-1-Source_-SerhiiBobyk.jpg",
+   "bytes": 109841
+  },
+  "2024/11/How-Many-Units-of-Botox-for-Forehead_-2-Source_-Science-Photo.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/11/How-Many-Units-of-Botox-for-Forehead_-2-Source_-Science-Photo.jpg",
+   "filename": "How-Many-Units-of-Botox-for-Forehead_-2-Source_-Science-Photo.jpg",
+   "bytes": 89927
+  },
+  "2024/03/1711682607445-min-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/03/1711682607445-min-min.jpg",
+   "filename": "1711682607445-min-min.jpg",
+   "bytes": 86430
+  },
+  "2024/02/Untitled-design-11-min.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/02/Untitled-design-11-min.jpg",
+   "filename": "Untitled-design-11-min.jpg",
+   "bytes": 100505
+  },
+  "2024/12/A-woman-receiving-a-Mesotherapy-treatment-compress.png": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/12/A-woman-receiving-a-Mesotherapy-treatment-compress.png",
+   "filename": "A-woman-receiving-a-Mesotherapy-treatment-compress.png",
+   "bytes": 478405
+  },
+  "2023/10/Treatment-Menu.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2023/10/Treatment-Menu.jpg",
+   "filename": "Treatment-Menu.jpg",
+   "bytes": 112524
+  },
+  "2024/10/What-is-Microneedling-Good-For-1-Source-Lifestock.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2024/10/What-is-Microneedling-Good-For-1-Source-Lifestock.jpg",
+   "filename": "What-is-Microneedling-Good-For-1-Source-Lifestock.jpg",
+   "bytes": 144728
+  },
+  "2025/12/1.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/12/1.jpg",
+   "filename": "1.jpg",
+   "bytes": 84871
+  },
+  "2025/12/2.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/12/2.jpg",
+   "filename": "2.jpg",
+   "bytes": 91756
+  },
+  "2025/12/3.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/12/3.jpg",
+   "filename": "3.jpg",
+   "bytes": 70177
+  },
+  "2025/12/4.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/12/4.jpg",
+   "filename": "4.jpg",
+   "bytes": 110519
+  },
+  "2025/12/5.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/12/5.jpg",
+   "filename": "5.jpg",
+   "bytes": 85256
+  },
+  "2025/12/6.jpg": {
+   "from": "staging",
+   "url": "https://staging.healthylook-aesthetic.com/wp-content/uploads/2025/12/6.jpg",
+   "filename": "6.jpg",
+   "bytes": 70177
+  }
+ },
+ "placements": [
+  {
+   "kind": "block-image",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-001",
+   "block": "section-1-001",
+   "label": "1. Harvesting",
+   "display": "cards",
+   "staging": "2025/07/Graft-Extraction.jpg",
+   "file": "2025/07/Graft-Extraction.jpg",
+   "alt": "Harvesting hair cells with a small punch biopsy"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-001",
+   "block": "section-1-002",
+   "label": "2. Microlyzer Blade Technology Processing",
+   "display": "cards",
+   "staging": "2025/07/2.-Microlyzer-Processing.jpg",
+   "file": "2025/07/2.-Microlyzer-Processing.jpg",
+   "alt": "Dermomine Microlyzer blade processing unit"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-001",
+   "block": "section-1-003",
+   "label": "3. Enrichment with PRP",
+   "display": "cards",
+   "staging": "2025/07/Mixing-with-PRP-1.jpg",
+   "file": "2025/07/Mixing-with-PRP-1.jpg",
+   "alt": "Micrograft suspension mixed with PRP"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-001",
+   "block": "section-1-004",
+   "label": "4. Filtration",
+   "display": "cards",
+   "staging": "2025/07/Filtering.jpg",
+   "file": "2025/07/Filtering.jpg",
+   "alt": "Filter used to purify the micrograft suspension"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-001",
+   "block": "section-1-005",
+   "label": "5. Injection",
+   "display": "cards",
+   "staging": "2025/07/Untitled-design-4.jpg",
+   "file": "2025/07/Untitled-design-4.jpg",
+   "alt": "Micrograft suspension injected into the scalp"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-003",
+   "point": 4,
+   "label": "No rejection — uses your own stem cells",
+   "staging": "2024/11/1-min.jpg",
+   "file": "2024/11/1-min.jpg",
+   "alt": "No rejection icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-003",
+   "point": 0,
+   "label": "No scarring or stitches",
+   "staging": "2023/10/Website-Pictures-14.png",
+   "file": "2023/10/Website-Pictures-14.png",
+   "alt": "No scarring or stitches icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-003",
+   "point": 5,
+   "label": "Free Mixing with PRP & Home Hair Growth Kit",
+   "staging": "2025/07/Untitled-design.jpg",
+   "file": "2025/07/Untitled-design.jpg",
+   "alt": "Free Mixing with PRP & Home Hair Growth Kit icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-003",
+   "point": 1,
+   "label": "Single Treatment Results",
+   "staging": "2025/07/Untitled-design-2.jpg",
+   "file": "2025/07/Untitled-design-2.jpg",
+   "alt": "Single Treatment Results icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-003",
+   "point": 2,
+   "label": "Only once per year required",
+   "staging": "2025/07/Untitled-design-1.jpg",
+   "file": "2025/07/Untitled-design-1.jpg",
+   "alt": "Only once per year required icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-003",
+   "point": 3,
+   "label": "Minimal Downtime",
+   "staging": "2023/10/Website-Pictures-13.png",
+   "file": "2023/10/Website-Pictures-13.png",
+   "alt": "Minimal Downtime icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.botox",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "Handled by Certified Doctor",
+   "staging": "2023/10/3.png",
+   "file": "2023/10/3.png",
+   "alt": "Handled by Certified Doctor icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.botox",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Free Touch Up*",
+   "staging": "2023/10/4.png",
+   "file": "2023/10/4.png",
+   "alt": "Free Touch Up* icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.botox",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "Affordable Price",
+   "staging": "2023/10/2.png",
+   "file": "2023/10/2.png",
+   "alt": "Affordable Price icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.botox-korean",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "Handled by Certified Doctor",
+   "staging": "2023/10/3.png",
+   "file": "2023/10/3.png",
+   "alt": "Handled by Certified Doctor icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.botox-korean",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Free Touch Up*",
+   "staging": "2023/10/4.png",
+   "file": "2023/10/4.png",
+   "alt": "Free Touch Up* icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.botox-korean",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "Affordable Price",
+   "staging": "2023/10/2.png",
+   "file": "2023/10/2.png",
+   "alt": "Affordable Price icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.carboxy-therapy",
+   "section": "section-002",
+   "point": 2,
+   "label": "No Downtime — Safe Treatment without Downtime",
+   "staging": "2024/05/Untitled-design-13-1.png",
+   "file": "2024/05/Untitled-design-13-1.png",
+   "alt": "No Downtime icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.carboxy-therapy",
+   "section": "section-002",
+   "point": 0,
+   "label": "Non-Invasive",
+   "staging": "2023/10/Website-Pictures-14.png",
+   "file": "2023/10/Website-Pictures-14.png",
+   "alt": "Non-Invasive icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.carboxy-therapy",
+   "section": "section-002",
+   "point": 1,
+   "label": "Immediate Result",
+   "staging": "2023/10/Website-Pictures-9.png",
+   "file": "2023/10/Website-Pictures-9.png",
+   "alt": "Immediate Result icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.dermal-filler",
+   "section": "section-001",
+   "block": "section-1-002",
+   "label": "Handled by Certified Doctor",
+   "staging": "2023/10/3.png",
+   "file": "2023/10/3.png",
+   "alt": "Handled by Certified Doctor icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.dermal-filler",
+   "section": "section-001",
+   "block": "section-1-003",
+   "label": "Free Touch Up*",
+   "staging": "2023/10/4.png",
+   "file": "2023/10/4.png",
+   "alt": "Free Touch Up* icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.exosome",
+   "section": "section-001",
+   "point": 0,
+   "label": "Scars",
+   "staging": "2023/10/Website-Pictures-21.png",
+   "file": "2023/10/Website-Pictures-21.png",
+   "alt": "Scars icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.exosome",
+   "section": "section-001",
+   "point": 1,
+   "label": "Enlarged pores",
+   "staging": "2023/10/Website-Pictures-20.png",
+   "file": "2023/10/Website-Pictures-20.png",
+   "alt": "Enlarged pores icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.exosome",
+   "section": "section-001",
+   "point": 2,
+   "label": "Aging",
+   "staging": "2023/10/20.png",
+   "file": "2023/10/20.png",
+   "alt": "Aging icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.exosome",
+   "section": "section-001",
+   "point": 3,
+   "label": "Redness",
+   "staging": "2023/10/Website-Pictures-18.png",
+   "file": "2023/10/Website-Pictures-18.png",
+   "alt": "Redness icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.exosome",
+   "section": "section-001",
+   "point": 4,
+   "label": "Hair Growth",
+   "staging": "2023/10/Website-Pictures-22.png",
+   "file": "2023/10/Website-Pictures-22.png",
+   "alt": "Hair Growth icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.exosome",
+   "section": "section-001",
+   "point": 5,
+   "label": "Dull Skin",
+   "staging": "2023/10/15.png",
+   "file": "2023/10/15.png",
+   "alt": "Dull Skin icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.facial-medi",
+   "section": "section-001",
+   "point": 0,
+   "label": "Free Personalized Facial Consultations",
+   "staging": "2023/10/Website-Pictures-7.png",
+   "file": "2023/10/Website-Pictures-7.png",
+   "alt": "Free Personalized Facial Consultations icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.facial-medi",
+   "section": "section-001",
+   "point": 1,
+   "label": "Safe & Relaxing Experience",
+   "staging": "2023/10/28.png",
+   "file": "2023/10/28.png",
+   "alt": "Safe & Relaxing Experience icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.facial-medi",
+   "section": "section-001",
+   "point": 2,
+   "label": "Clinically Proven Result",
+   "staging": "2023/10/Website-Pictures-8.png",
+   "file": "2023/10/Website-Pictures-8.png",
+   "alt": "Clinically Proven Result icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.facial-medi",
+   "section": "section-001",
+   "point": 3,
+   "label": "Real Result from the First Session",
+   "staging": "2023/10/Website-Pictures-9.png",
+   "file": "2023/10/Website-Pictures-9.png",
+   "alt": "Real Result from the First Session icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.facial-medi",
+   "section": "section-001",
+   "point": 4,
+   "label": "Best Worldwide Products — Dermalogica, Tegoder, Dermapen World, Skin Matrix, Janssen are some of premium professional brands that we partner with",
+   "staging": "2023/10/Website-Pictures-10.png",
+   "file": "2023/10/Website-Pictures-10.png",
+   "alt": "Best Worldwide Products icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "No Downtime",
+   "staging": "2024/11/1-min.jpg",
+   "file": "2024/11/1-min.jpg",
+   "alt": "No Downtime icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Non-Invasive",
+   "staging": "2023/10/Website-Pictures-14.png",
+   "file": "2023/10/Website-Pictures-14.png",
+   "alt": "Non-Invasive icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "CE Certified",
+   "staging": "2026/06/CE-Certified.png",
+   "file": "2026/06/CE-Certified.png",
+   "alt": "CE Certified icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-002",
+   "block": "section-2-004",
+   "label": "Comprehensive Treatment",
+   "staging": "2024/11/Untitled-design-17-min.jpg",
+   "file": "2024/11/Untitled-design-17-min.jpg",
+   "alt": "Comprehensive Treatment icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-002",
+   "block": "section-2-005",
+   "label": "Personalized Treatment",
+   "staging": "2024/11/Untitled-design-16.jpg",
+   "file": "2024/11/Untitled-design-16.jpg",
+   "alt": "Personalized Treatment icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-dissolving-injections",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "Handled by Certified Doctor",
+   "staging": "2023/10/3.png",
+   "file": "2023/10/3.png",
+   "alt": "Handled by Certified Doctor icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-dissolving-injections",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Painless",
+   "staging": "2023/10/4.png",
+   "file": "2023/10/4.png",
+   "alt": "Painless icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.fat-dissolving-injections",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "Affordable Price",
+   "staging": "2023/10/2.png",
+   "file": "2023/10/2.png",
+   "alt": "Affordable Price icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "No Downtime",
+   "staging": "2024/11/1-min.jpg",
+   "file": "2024/11/1-min.jpg",
+   "alt": "No Downtime icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Non-Invasive",
+   "staging": "2023/10/Website-Pictures-14.png",
+   "file": "2023/10/Website-Pictures-14.png",
+   "alt": "Non-Invasive icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "Long-Lasting Results",
+   "staging": "2023/10/Website-Pictures-13.png",
+   "file": "2023/10/Website-Pictures-13.png",
+   "alt": "Long-Lasting Results icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu",
+   "section": "section-002",
+   "block": "section-2-004",
+   "label": "Single Treatment Results",
+   "staging": "2023/10/7.png",
+   "file": "2023/10/7.png",
+   "alt": "Single Treatment Results icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu",
+   "section": "section-002",
+   "block": "section-2-005",
+   "label": "Tighten & Lift the Face & Neck",
+   "staging": "2023/10/Website-Pictures-30.png",
+   "file": "2023/10/Website-Pictures-30.png",
+   "alt": "Tighten & Lift the Face & Neck icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu",
+   "section": "section-002",
+   "block": "section-2-006",
+   "label": "Reduce Stubborn Fat",
+   "staging": "2023/10/9.png",
+   "file": "2023/10/9.png",
+   "alt": "Reduce Stubborn Fat icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu-body",
+   "section": "section-003",
+   "block": "section-3-001",
+   "label": "No Downtime",
+   "staging": "2024/11/1-min.jpg",
+   "file": "2024/11/1-min.jpg",
+   "alt": "No Downtime icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu-body",
+   "section": "section-003",
+   "block": "section-3-002",
+   "label": "Non-Invasive",
+   "staging": "2023/10/Website-Pictures-14.png",
+   "file": "2023/10/Website-Pictures-14.png",
+   "alt": "Non-Invasive icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu-body",
+   "section": "section-003",
+   "block": "section-3-003",
+   "label": "Long-Lasting Results",
+   "staging": "2023/10/Website-Pictures-13.png",
+   "file": "2023/10/Website-Pictures-13.png",
+   "alt": "Long-Lasting Results icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu-body",
+   "section": "section-003",
+   "block": "section-3-004",
+   "label": "Comprehensive Treatment",
+   "staging": "2024/11/Untitled-design-17-min.jpg",
+   "file": "2024/11/Untitled-design-17-min.jpg",
+   "alt": "Comprehensive Treatment icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu-body",
+   "section": "section-003",
+   "block": "section-3-005",
+   "label": "Personalized Treatment",
+   "staging": "2024/11/Untitled-design-16.jpg",
+   "file": "2024/11/Untitled-design-16.jpg",
+   "alt": "Personalized Treatment icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.hifu-body",
+   "section": "section-003",
+   "block": "section-3-006",
+   "label": "Newest Technology",
+   "staging": "2024/11/3-min.jpg",
+   "file": "2024/11/3-min.jpg",
+   "alt": "Newest Technology icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-001",
+   "point": 0,
+   "label": "Painless hair removal",
+   "staging": "2023/10/Website-Pictures-12.png",
+   "file": "2023/10/Website-Pictures-12.png",
+   "alt": "Painless hair removal icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-001",
+   "point": 1,
+   "label": "Faster than Traditional IPL",
+   "staging": "2023/10/Website-Pictures-13.png",
+   "file": "2023/10/Website-Pictures-13.png",
+   "alt": "Faster than Traditional IPL icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-001",
+   "point": 2,
+   "label": "Semi Permanent Hair Removal",
+   "staging": "2023/10/Website-Pictures-9.png",
+   "file": "2023/10/Website-Pictures-9.png",
+   "alt": "Semi Permanent Hair Removal icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-001",
+   "point": 3,
+   "label": "No Risk of Ingrown Hair",
+   "staging": "2023/10/4.png",
+   "file": "2023/10/4.png",
+   "alt": "No Risk of Ingrown Hair icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-001",
+   "point": 4,
+   "label": "Best Worldwide Products",
+   "staging": "2023/10/2.png",
+   "file": "2023/10/2.png",
+   "alt": "Best Worldwide Products icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.ipl",
+   "section": "section-001",
+   "block": "section-1-001",
+   "label": "Hair Removal",
+   "staging": "2023/10/Website-Pictures-17.png",
+   "file": "2023/10/Website-Pictures-17.png",
+   "alt": "Hair Removal icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.ipl",
+   "section": "section-001",
+   "block": "section-1-002",
+   "label": "Acne Control",
+   "staging": "2023/10/12.png",
+   "file": "2023/10/12.png",
+   "alt": "Acne Control icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.ipl",
+   "section": "section-001",
+   "block": "section-1-003",
+   "label": "Superficial Pigmentation",
+   "staging": "2023/10/15.png",
+   "file": "2023/10/15.png",
+   "alt": "Superficial Pigmentation icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.ipl",
+   "section": "section-001",
+   "block": "section-1-004",
+   "label": "Treat Redness",
+   "staging": "2023/10/Website-Pictures-18.png",
+   "file": "2023/10/Website-Pictures-18.png",
+   "alt": "Treat Redness icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.ipl",
+   "section": "section-001",
+   "block": "section-1-006",
+   "label": "Skin Rejuvenation",
+   "staging": "2023/10/14.png",
+   "file": "2023/10/14.png",
+   "alt": "Skin Rejuvenation icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.iv-drip",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "Immune Booster",
+   "staging": "2023/10/25.png",
+   "file": "2023/10/25.png",
+   "alt": "Immune Booster icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.iv-drip",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Jet Lag Recovery",
+   "staging": "2023/10/27.png",
+   "file": "2023/10/27.png",
+   "alt": "Jet Lag Recovery icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.iv-drip",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "Ultimate Glow",
+   "staging": "2023/10/28.png",
+   "file": "2023/10/28.png",
+   "alt": "Ultimate Glow icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.iv-drip",
+   "section": "section-002",
+   "block": "section-2-004",
+   "label": "Anti Aging",
+   "staging": "2023/10/Website-Pictures-11.png",
+   "file": "2023/10/Website-Pictures-11.png",
+   "alt": "Anti Aging icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.iv-drip",
+   "section": "section-002",
+   "block": "section-2-005",
+   "label": "Myer's Cocktail",
+   "staging": "2024/02/4.png",
+   "file": "2024/02/4.png",
+   "alt": "Myer's Cocktail icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling",
+   "section": "section-001",
+   "block": "section-1-001",
+   "label": "Scars",
+   "staging": "2023/10/Website-Pictures-21.png",
+   "file": "2023/10/Website-Pictures-21.png",
+   "alt": "Scars icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling",
+   "section": "section-001",
+   "block": "section-1-002",
+   "label": "Enlarged Pores",
+   "staging": "2023/10/Website-Pictures-20.png",
+   "file": "2023/10/Website-Pictures-20.png",
+   "alt": "Enlarged Pores icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling",
+   "section": "section-001",
+   "block": "section-1-005",
+   "label": "Hair Growth",
+   "staging": "2023/10/Website-Pictures-22.png",
+   "file": "2023/10/Website-Pictures-22.png",
+   "alt": "Hair Growth icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-007",
+   "block": "section-7-001",
+   "label": "FDA Approved",
+   "staging": "2024/02/Untitled-design-9.png",
+   "file": "2024/02/Untitled-design-9.png",
+   "alt": "FDA Approved icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-007",
+   "block": "section-7-002",
+   "label": "Minimal Downtime",
+   "staging": "2024/05/1.png",
+   "file": "2024/05/1.png",
+   "alt": "Minimal Downtime icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-007",
+   "block": "section-7-003",
+   "label": "Less Discomfort",
+   "staging": "2024/05/2.png",
+   "file": "2023/10/Website-Pictures-12.png",
+   "alt": "Less Discomfort icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-007",
+   "block": "section-7-004",
+   "label": "Single Treatment Results",
+   "staging": "2024/05/3.png",
+   "file": "2024/05/3.png",
+   "alt": "Single Treatment Results icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-007",
+   "block": "section-7-005",
+   "label": "Complimentary Serum",
+   "staging": "2024/05/4.png",
+   "file": "2024/05/4.png",
+   "alt": "Complimentary Serum icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-007",
+   "block": "section-7-006",
+   "label": "Continual Improvement",
+   "staging": "2024/05/5.png",
+   "file": "2024/05/5.png",
+   "alt": "Continual Improvement icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.pelvic-floor-strengthening",
+   "section": "section-002",
+   "point": 0,
+   "label": "Non Invasive",
+   "staging": "2023/10/Website-Pictures-12.png",
+   "file": "2023/10/Website-Pictures-12.png",
+   "alt": "Non Invasive icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.pelvic-floor-strengthening",
+   "section": "section-002",
+   "point": 1,
+   "label": "No Surgery",
+   "staging": "2023/10/Website-Pictures-14.png",
+   "file": "2023/10/Website-Pictures-14.png",
+   "alt": "No Surgery icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.pelvic-floor-strengthening",
+   "section": "section-002",
+   "point": 2,
+   "label": "No Downtime",
+   "staging": "2023/10/Website-Pictures-13.png",
+   "file": "2023/10/Website-Pictures-13.png",
+   "alt": "No Downtime icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.pelvic-floor-strengthening",
+   "section": "section-002",
+   "point": 3,
+   "label": "For both men & women regardless of your age",
+   "staging": "2023/10/Website-Pictures-16.png",
+   "file": "2023/10/Website-Pictures-16.png",
+   "alt": "For both men & women regardless of your age icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.pelvic-floor-strengthening",
+   "section": "section-002",
+   "point": 4,
+   "label": "Remain Fully Clothed",
+   "staging": "2023/10/Website-Pictures-15.png",
+   "file": "2023/10/Website-Pictures-15.png",
+   "alt": "Remain Fully Clothed icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.profhilo",
+   "section": "section-003",
+   "block": "section-3-002",
+   "label": "Consultation",
+   "staging": "2023/10/3.png",
+   "file": "2023/10/3.png",
+   "alt": "Consultation icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.profhilo",
+   "section": "section-003",
+   "block": "section-3-003",
+   "label": "Treatment",
+   "staging": "2023/10/4.png",
+   "file": "2023/10/4.png",
+   "alt": "Treatment icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.profhilo",
+   "section": "section-003",
+   "block": "section-3-004",
+   "label": "Enjoy the Result at Affordbale Price",
+   "staging": "2023/10/2.png",
+   "file": "2023/10/2.png",
+   "alt": "Enjoy the Result at Affordbale Price icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.prp-hair",
+   "section": "section-002",
+   "block": "section-2-001",
+   "label": "Face",
+   "staging": "2023/10/28.png",
+   "file": "2023/10/28.png",
+   "alt": "Face icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.prp-hair",
+   "section": "section-002",
+   "block": "section-2-002",
+   "label": "Body",
+   "staging": "2023/10/16.png",
+   "file": "2023/10/16.png",
+   "alt": "Body icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.prp-hair",
+   "section": "section-002",
+   "block": "section-2-003",
+   "label": "Scalp",
+   "staging": "2023/10/17.png",
+   "file": "2023/10/17.png",
+   "alt": "Scalp icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.skin-booster",
+   "section": "section-001",
+   "point": 0,
+   "label": "Face",
+   "staging": "2023/10/28.png",
+   "file": "2023/10/28.png",
+   "alt": "Face icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.skin-booster",
+   "section": "section-001",
+   "point": 1,
+   "label": "Under Eye",
+   "staging": "2023/10/Website-Pictures-29.png",
+   "file": "2023/10/Website-Pictures-29.png",
+   "alt": "Under Eye icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.skin-booster",
+   "section": "section-001",
+   "point": 2,
+   "label": "Lip",
+   "staging": "2023/10/Website-Pictures-26.png",
+   "file": "2023/10/Website-Pictures-26.png",
+   "alt": "Lip icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.skin-booster",
+   "section": "section-001",
+   "point": 3,
+   "label": "Hands",
+   "staging": "2023/10/Website-Pictures-27.png",
+   "file": "2023/10/Website-Pictures-27.png",
+   "alt": "Hands icon"
+  },
+  {
+   "kind": "icon-point",
+   "doc": "treatment.skin-booster",
+   "section": "section-001",
+   "point": 4,
+   "label": "Neck & Decolette",
+   "staging": "2023/10/Website-Pictures-28.png",
+   "file": "2023/10/Website-Pictures-28.png",
+   "alt": "Neck & Decolette icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling",
+   "section": "section-001",
+   "block": "section-1-003",
+   "label": "Lines & Wrinkles (WP: Aging)",
+   "staging": "2023/10/20.png",
+   "file": "2023/10/20.png",
+   "alt": "Lines & Wrinkles (WP: Aging) icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling",
+   "section": "section-001",
+   "block": "section-1-004",
+   "label": "Stretch Marks",
+   "staging": "2023/10/16.png",
+   "file": "2023/10/16.png",
+   "alt": "Stretch Marks icon"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.microneedling",
+   "section": "section-001",
+   "block": "section-1-006",
+   "label": "All Skin Tones (WP: Pigmentation)",
+   "staging": "2023/10/15.png",
+   "file": "2023/10/15.png",
+   "alt": "All Skin Tones (WP: Pigmentation) icon"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.hifu",
+   "section": "section-001",
+   "staging": "2024/07/WFM03732-min.jpg",
+   "file": "2024/07/WFM03732-min.jpg",
+   "alt": "Linear Z HIFU treatment along a patient's neck and jawline"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.microneedling-rf",
+   "section": "section-001",
+   "staging": "2024/07/WFM03562-min.jpg",
+   "file": "2024/07/WFM03562-min.jpg",
+   "alt": "Sylfirm X RF microneedling handpiece on a patient's cheek"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.iv-drip",
+   "section": "section-001",
+   "staging": "2023/10/Website-Pictures-6.jpg",
+   "file": "2023/10/Website-Pictures-6.jpg",
+   "alt": "IV drip bag filled with fresh fruit, for a vitamin infusion"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.exosome",
+   "section": "section-002",
+   "staging": "2024/01/A848CB9B-3B83-4DAD-B1C4-019212A43356-min.jpg",
+   "file": "2024/01/A848CB9B-3B83-4DAD-B1C4-019212A43356-min.jpg",
+   "alt": "ASCE exosome solution for big pores, skin stress, dryness, saggy, dull and sensitive skin"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.juvelook",
+   "section": "section-001",
+   "staging": "2025/01/Stimulate-the-collagen-1-min-1.jpg",
+   "file": "2025/01/Stimulate-the-collagen-1-min-1.jpg",
+   "alt": "How Juvelook works: hyaluronic acid gives physical support while PDLLA stimulates natural collagen"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.juvelook",
+   "section": "section-002",
+   "staging": "2025/10/02.-DermaShine-Pro_Main-Unit_002-w-min.png",
+   "file": "2025/10/02.-DermaShine-Pro_Main-Unit_002-w-min.png",
+   "alt": "DermaShine Pro injector used for painless skin booster treatments"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.skin-booster",
+   "section": "section-003",
+   "staging": "2025/10/02.-DermaShine-Pro_Main-Unit_002-w-min.png",
+   "file": "2025/10/02.-DermaShine-Pro_Main-Unit_002-w-min.png",
+   "alt": "DermaShine Pro injector used for painless skin booster treatments"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-001",
+   "staging": "2026/06/1.jpg",
+   "file": "2026/06/1.jpg",
+   "alt": "Silhouette of a woman at sunset"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-003",
+   "block": "section-3-001",
+   "staging": "2026/06/Untitled-design-7.jpg",
+   "file": "2026/06/Untitled-design-7.jpg",
+   "alt": "How deep radiofrequency and microwaves heat the skin, compared"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.fat-cellulite",
+   "section": "section-001",
+   "block": "section-1-001",
+   "staging": "2026/06/Handpiece_LYSIWAVE_2-1.jpg",
+   "file": "2026/06/Handpiece_LYSIWAVE_2-1.jpg",
+   "alt": "Lysiwave handpiece heating the fat layer beneath the skin"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.pelvic-floor-strengthening",
+   "section": "section-001",
+   "staging": "2023/10/CM-Slim-Instagram-Post-5.jpg",
+   "file": "2023/10/CM-Slim-Instagram-Post-5.jpg",
+   "alt": "Smiling older couple embracing"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-002",
+   "staging": "2023/10/Treatment-Menu-3.jpg",
+   "file": "2023/10/Treatment-Menu-3.jpg",
+   "alt": "Smooth legs after IPL hair removal"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.ipl-hair-removal",
+   "section": "section-003",
+   "staging": "2024/07/WFM04072-min-min.jpg",
+   "file": "public/images/treatments/ipl-hair-removal.jpg",
+   "alt": "IPL hair removal treatment at Healthy Look Aesthetic"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.sculptra",
+   "section": "section-003",
+   "staging": "2026/05/Untitled-design-5.jpg",
+   "file": "2026/05/Untitled-design-5.jpg",
+   "alt": "Sculptra injected into the skin layers to stimulate collagen"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.prp",
+   "section": "section-002",
+   "staging": "2023/10/Treatment-Menu-1.jpg",
+   "file": "2023/10/Treatment-Menu-1.jpg",
+   "alt": "Tube of platelet-rich plasma prepared for PRP treatment"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.fat-dissolving-injections",
+   "section": "section-001",
+   "staging": "2023/10/Treatment-Menu-2.jpg",
+   "file": "2023/10/Treatment-Menu-2.jpg",
+   "alt": "Fat dissolving injection in the abdomen"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.facial",
+   "section": "section-002",
+   "block": "section-2-001",
+   "staging": "2024/01/Untitled-design-10-min.jpg",
+   "file": "2024/01/Untitled-design-10-min.jpg",
+   "alt": "Skincare products used in facials at Healthy Look Aesthetic"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.facial",
+   "section": "section-002",
+   "block": "section-2-005",
+   "staging": "2024/07/WFM04330-min-min.jpg",
+   "file": "2024/07/WFM04330-min-min.jpg",
+   "alt": "LED light therapy during a facial"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.botox-korean",
+   "section": "section-001",
+   "block": "section-1-003",
+   "staging": "2024/06/IMG_0545-min-min.jpg",
+   "file": "2024/06/IMG_0545-min-min.jpg",
+   "alt": "Authentic Korean Botox box and vial"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.eye-rejuvenation",
+   "section": "section-003",
+   "staging": "2024/03/3.jpg",
+   "file": "2024/03/3.jpg",
+   "alt": "Close-up of crow's feet at the corner of the eye"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.eye-rejuvenation",
+   "section": "section-005",
+   "staging": "2024/03/4.jpg",
+   "file": "2024/03/4.jpg",
+   "alt": "Under-eye filler injection"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.autologues-micrograft-hair-restoration",
+   "section": "section-002",
+   "staging": "2025/07/Hair-loss-stages.webp",
+   "file": "2025/07/Hair-loss-stages.webp",
+   "alt": "Hair loss stages in men and women"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.carboxy-therapy",
+   "section": "section-001",
+   "block": "section-1-003",
+   "staging": "2024/05/Untitled-design-15.jpg",
+   "file": "public/images/treatments/treatment-generic.jpg",
+   "alt": "Carboxy therapy treatment"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.profhilo",
+   "section": "section-001",
+   "staging": "2023/12/DR_00362-min-min-1.jpg",
+   "file": "public/images/treatments/live-profhilo.jpg",
+   "alt": "Profhilo treatment at Healthy Look Aesthetic"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.lip-filler",
+   "section": "section-001",
+   "block": "section-1-004",
+   "staging": "2024/07/WFM03639-min.jpg",
+   "file": "public/images/treatments/lip-filler.jpg",
+   "alt": "Lip filler touch-up session"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.collagen-stimulator",
+   "section": "section-002",
+   "block": "section-2-001",
+   "staging": "2026/06/Sculptra.jpg",
+   "file": "public/images/treatments/treatment-misc.jpg",
+   "alt": "Sculptra (PLLA) collagen stimulator"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.collagen-stimulator",
+   "section": "section-002",
+   "block": "section-2-002",
+   "staging": "2026/06/Novuma-2.png",
+   "file": "2026/06/Novuma-2.png",
+   "alt": "Novuma CaHA collagen-stimulating dermal filler"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.collagen-stimulator",
+   "section": "section-002",
+   "block": "section-2-003",
+   "staging": "2025/01/IMG_20250102_173323-min.jpg",
+   "file": "image-a9c910ba6190bb8936d673819a4748cb037cf860-674x600-jpg",
+   "alt": "Juvelook Classic vials"
+  },
+  {
+   "kind": "block-image",
+   "doc": "treatment.collagen-stimulator",
+   "section": "section-002",
+   "block": "section-2-004",
+   "staging": "2024/02/PHOTO-2024-01-24-22-28-26.jpg",
+   "file": "image-4f2b55329ad00396f7e34a568d062842d4772c52-1500x1000-jpg",
+   "alt": "Gouri PCL collagen stimulator"
+  },
+  {
+   "kind": "section-image",
+   "doc": "treatment.hifu-body",
+   "section": "section-001",
+   "staging": "2024/11/IMG_7764-min.jpg",
+   "file": "2024/11/IMG_7764-min.jpg",
+   "alt": "Linear Z HIFU body handpiece"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "botox",
+   "staging": "2024/02/55.jpg",
+   "file": "2024/02/55.jpg",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "botox",
+   "staging": "2023/12/45.jpg",
+   "file": "2023/12/45.jpg",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "botox",
+   "staging": "2024/05/105.jpg",
+   "file": "2024/05/105.jpg",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "botox",
+   "staging": "2024/05/104.jpg",
+   "file": "2024/05/104.jpg",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "botox",
+   "staging": "2023/12/47.png",
+   "file": "2023/12/47.png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lip-filler",
+   "staging": "2025/06/49-min.jpg",
+   "file": "2025/06/49-min.jpg",
+   "alt": "Lip Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lip-filler",
+   "staging": "2025/06/50-min.jpg",
+   "file": "2025/06/50-min.jpg",
+   "alt": "Lip Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lip-filler",
+   "staging": "2023/12/33.jpg",
+   "file": "2023/12/33.jpg",
+   "alt": "Lip Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lip-filler",
+   "staging": "2023/12/34.jpg",
+   "file": "2023/12/34.jpg",
+   "alt": "Lip Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lip-filler",
+   "staging": "2024/02/56.jpg",
+   "file": "2024/02/56.jpg",
+   "alt": "Lip Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lip-filler",
+   "staging": "2024/02/58.jpg",
+   "file": "2024/02/58.jpg",
+   "alt": "Lip Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "dermal-filler",
+   "staging": "2024/05/106.jpg",
+   "file": "2024/05/106.jpg",
+   "alt": "Dermal Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "dermal-filler",
+   "staging": "2023/11/10.jpg",
+   "file": "2023/11/10.jpg",
+   "alt": "Dermal Filler before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "premium-hifu-by-linear-z",
+   "staging": "2023/12/56.jpg",
+   "file": "2023/12/56.jpg",
+   "alt": "HIFU before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "premium-hifu-by-linear-z",
+   "staging": "2024/12/201.jpg",
+   "file": "2024/12/201.jpg",
+   "alt": "HIFU before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "premium-hifu-by-linear-z",
+   "staging": "2024/02/45.jpg",
+   "file": "2024/02/45.jpg",
+   "alt": "HIFU before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "premium-hifu-by-linear-z",
+   "staging": "2023/10/Before-After-2.jpg",
+   "file": "2023/10/Before-After-2.jpg",
+   "alt": "HIFU before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "premium-hifu-by-linear-z",
+   "staging": "2024/02/44.jpg",
+   "file": "2024/02/44.jpg",
+   "alt": "HIFU before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "premium-hifu-by-linear-z",
+   "staging": "2024/12/200.jpg",
+   "file": "2024/12/200.jpg",
+   "alt": "HIFU before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "ce-certified-muscle-sculpting-by-cm-slim",
+   "staging": "2024/01/57-min.jpg",
+   "file": "2024/01/57-min.jpg",
+   "alt": "Muscle sculpting before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "ce-certified-muscle-sculpting-by-cm-slim",
+   "staging": "2024/01/56-min.jpg",
+   "file": "2024/01/56-min.jpg",
+   "alt": "Muscle sculpting before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "ce-certified-muscle-sculpting-by-cm-slim",
+   "staging": "2023/10/CM-Slim-Instagram-Post-2.jpg",
+   "file": "2023/10/CM-Slim-Instagram-Post-2.jpg",
+   "alt": "Muscle sculpting before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lysiwave",
+   "staging": "2026/06/Lysiwave-1.jpg",
+   "file": "2026/06/Lysiwave-1.jpg",
+   "alt": "Lysiwave before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lysiwave",
+   "staging": "2026/06/Lysiwave-2.jpg",
+   "file": "2026/06/Lysiwave-2.jpg",
+   "alt": "Lysiwave before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lysiwave",
+   "staging": "2026/06/Lysiwave-3.jpg",
+   "file": "2026/06/Lysiwave-3.jpg",
+   "alt": "Lysiwave before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lysiwave",
+   "staging": "2026/06/Lysiwave-4.jpg",
+   "file": "2026/06/Lysiwave-4.jpg",
+   "alt": "Lysiwave before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lysiwave",
+   "staging": "2026/06/Lysiwave-5.jpg",
+   "file": "2026/06/Lysiwave-5.jpg",
+   "alt": "Lysiwave before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "lysiwave",
+   "staging": "2026/06/Lysiwave-6.jpg",
+   "file": "2026/06/Lysiwave-6.jpg",
+   "alt": "Lysiwave before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "NEW:hifu-body",
+   "staging": "2024/11/198.jpg",
+   "file": "2024/11/198.jpg",
+   "alt": "HIFU Body before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "NEW:hifu-body",
+   "staging": "2024/11/199.jpg",
+   "file": "2024/11/199.jpg",
+   "alt": "HIFU Body before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "NEW:hifu-body",
+   "staging": "2024/11/200.jpg",
+   "file": "2024/11/200.jpg",
+   "alt": "HIFU Body before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "NEW:autologous-micrograft",
+   "staging": "2025/07/Best-Before-After-2-min.jpg",
+   "file": "2025/07/Best-Before-After-2-min.jpg",
+   "alt": "Autologous Micrograft before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "NEW:autologous-micrograft",
+   "staging": "2025/07/Best-Before-After-2-1-min.jpg",
+   "file": "2025/07/Best-Before-After-2-1-min.jpg",
+   "alt": "Autologous Micrograft before and after result"
+  },
+  {
+   "kind": "board",
+   "doc": "page.before-after",
+   "board": "NEW:autologous-micrograft",
+   "staging": "2025/07/Best-Before-After-2-2-min.jpg",
+   "file": "2025/07/Best-Before-After-2-2-min.jpg",
+   "alt": "Autologous Micrograft before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Understanding botox treatments",
+   "staging": "2023/10/2023-10-26-min.jpg",
+   "file": "2023/10/2023-10-26-min.jpg",
+   "alt": "Botox Cosmetic 100-unit vial and box"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:how-long-does-botox-last",
+   "after": null,
+   "staging": "2024/10/How-Long-Does-Botox-Last_-1-Source_-studioroman.jpg",
+   "file": "2024/10/How-Long-Does-Botox-Last_-1-Source_-studioroman.jpg",
+   "alt": "Patient being prepared for a Botox treatment"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:how-long-does-botox-last",
+   "after": "How Long Does Botox Last?",
+   "staging": "2024/10/How-Long-Does-Botox-Last_-2-Source_-Robert-Daly.jpg",
+   "file": "2024/10/How-Long-Does-Botox-Last_-2-Source_-Robert-Daly.jpg",
+   "alt": "Botox injection beside the eye"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:how-long-does-lip-filler-last",
+   "after": null,
+   "staging": "2024/10/How-Long-Does-Lip-Filler-Last_-1-Source_-Africa.jpg",
+   "file": "2024/10/How-Long-Does-Lip-Filler-Last_-1-Source_-Africa.jpg",
+   "alt": "Lip filler injection"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:how-long-does-lip-filler-last",
+   "after": "How Long Does Lip Filler Actually Last",
+   "staging": "2024/10/How-Long-Does-Lip-Filler-Last_-2-Source_-studioroman.jpg",
+   "file": "2024/10/How-Long-Does-Lip-Filler-Last_-2-Source_-studioroman.jpg",
+   "alt": "Patient receiving a lip filler treatment"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:how-many-units-of-botox-for-forehead",
+   "after": null,
+   "staging": "2024/11/How-Many-Units-of-Botox-for-Forehead_-1-Source_-SerhiiBobyk.jpg",
+   "file": "2024/11/How-Many-Units-of-Botox-for-Forehead_-1-Source_-SerhiiBobyk.jpg",
+   "alt": "Botox injection in the forehead"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:how-many-units-of-botox-for-forehead",
+   "after": "Finding the Right Number of Units",
+   "staging": "2024/11/How-Many-Units-of-Botox-for-Forehead_-2-Source_-Science-Photo.jpg",
+   "file": "2024/11/How-Many-Units-of-Botox-for-Forehead_-2-Source_-Science-Photo.jpg",
+   "alt": "Woman smiling during a forehead treatment"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:hydra-facial-in-ubud",
+   "after": "Glow and Go Facial",
+   "staging": "2024/03/1711682607445-min-min.jpg",
+   "file": "2024/03/1711682607445-min-min.jpg",
+   "alt": "Glow and Go facial treatment"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:liquid-lifting",
+   "after": null,
+   "staging": "2024/02/Untitled-design-11-min.jpg",
+   "file": "2024/02/Untitled-design-11-min.jpg",
+   "alt": "Illustration of collagen-stimulating microspheres"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:mesotherapy-for-rejuvenating-skin-hair",
+   "after": null,
+   "staging": "2024/12/A-woman-receiving-a-Mesotherapy-treatment-compress.png",
+   "file": "2024/12/A-woman-receiving-a-Mesotherapy-treatment-compress.png",
+   "alt": "A woman receiving a mesotherapy treatment"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:personalize-mesotherapy-ubud-bali",
+   "after": null,
+   "staging": "2023/10/Treatment-Menu.jpg",
+   "file": "2023/10/Treatment-Menu.jpg",
+   "alt": "Three women with different skin tones"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:what-is-microneedling-good-for",
+   "after": null,
+   "staging": "2024/10/What-is-Microneedling-Good-For-1-Source-Lifestock.jpg",
+   "file": "2024/10/What-is-Microneedling-Good-For-1-Source-Lifestock.jpg",
+   "alt": "Microneedling pen treatment on the face"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:what-is-microneedling-good-for",
+   "after": "What is Microneedling Bad For?",
+   "staging": "2024/10/What-is-Microneedling-Good-For-2-Source-Skvalval.jpg",
+   "file": "2024/07/WFM03562-min.jpg",
+   "alt": "Sylfirm X RF microneedling handpiece on a patient's cheek"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Before and After Botox Snapshots",
+   "group": "botox-snapshots",
+   "staging": "2023/12/39.png",
+   "file": "image-50b7fc860842d215d70bc77390ba5bbf4cc91410-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Before and After Botox Snapshots",
+   "group": "botox-snapshots",
+   "staging": "2023/12/40.png",
+   "file": "image-6af83d3f3528f75965604f582670e96167c45fa7-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Before and After Botox Snapshots",
+   "group": "botox-snapshots",
+   "staging": "2023/12/41.png",
+   "file": "image-8ae44caea72f81b96c4c109817cee8ab05b4e627-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Before and After Botox Snapshots",
+   "group": "botox-snapshots",
+   "staging": "2023/12/45.png",
+   "file": "image-d08c060ff9b4a7690f7fd8a4b89a05c86fa32381-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Before and After Botox Snapshots",
+   "group": "botox-snapshots",
+   "staging": "2023/12/47.png",
+   "file": "2023/12/47.png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:botox-before-after",
+   "after": "Before and After Botox Snapshots",
+   "group": "botox-snapshots",
+   "staging": "2023/11/Before-After-8-min.jpg",
+   "file": "image-3a5f39d999fd4801066580ce0000e1041fb5d3b7-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:when-to-start-botox-bali",
+   "after": "Conclusion",
+   "group": "botox-snapshots",
+   "staging": "2023/12/39.png",
+   "file": "image-50b7fc860842d215d70bc77390ba5bbf4cc91410-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:when-to-start-botox-bali",
+   "after": "Conclusion",
+   "group": "botox-snapshots",
+   "staging": "2023/12/40.png",
+   "file": "image-6af83d3f3528f75965604f582670e96167c45fa7-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:when-to-start-botox-bali",
+   "after": "Conclusion",
+   "group": "botox-snapshots",
+   "staging": "2023/12/41.png",
+   "file": "image-8ae44caea72f81b96c4c109817cee8ab05b4e627-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:when-to-start-botox-bali",
+   "after": "Conclusion",
+   "group": "botox-snapshots",
+   "staging": "2023/12/45.png",
+   "file": "image-d08c060ff9b4a7690f7fd8a4b89a05c86fa32381-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:when-to-start-botox-bali",
+   "after": "Conclusion",
+   "group": "botox-snapshots",
+   "staging": "2023/12/47.png",
+   "file": "2023/12/47.png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "post-image",
+   "doc": "post:when-to-start-botox-bali",
+   "after": "Conclusion",
+   "group": "botox-snapshots",
+   "staging": "2023/11/Before-After-8-min.jpg",
+   "file": "image-3a5f39d999fd4801066580ce0000e1041fb5d3b7-1080x1080-png",
+   "alt": "Botox before and after result"
+  },
+  {
+   "kind": "gift-design",
+   "doc": "page.gift-card",
+   "staging": "2025/12/1.jpg",
+   "file": "2025/12/1.jpg",
+   "alt": "Christmas gift card design"
+  },
+  {
+   "kind": "gift-design",
+   "doc": "page.gift-card",
+   "staging": "2025/12/2.jpg",
+   "file": "2025/12/2.jpg",
+   "alt": "Thanksgiving gift card design"
+  },
+  {
+   "kind": "gift-design",
+   "doc": "page.gift-card",
+   "staging": "2025/12/3.jpg",
+   "file": "2025/12/3.jpg",
+   "alt": "Birthday gift card design"
+  },
+  {
+   "kind": "gift-design",
+   "doc": "page.gift-card",
+   "staging": "2025/12/4.jpg",
+   "file": "2025/12/4.jpg",
+   "alt": "Wedding gift card design"
+  },
+  {
+   "kind": "gift-design",
+   "doc": "page.gift-card",
+   "staging": "2025/12/5.jpg",
+   "file": "2025/12/5.jpg",
+   "alt": "Honeymoon gift card design"
+  },
+  {
+   "kind": "gift-design",
+   "doc": "page.gift-card",
+   "staging": "2025/12/6.jpg",
+   "file": "2025/12/6.jpg",
+   "alt": "Healthy Look gift card design"
+  },
+  {
+   "kind": "icon",
+   "doc": "treatment.dermal-filler",
+   "section": "section-001",
+   "block": "section-1-001",
+   "label": "Best Worldwide Filler Products",
+   "staging": "2023/10/Website-Pictures-10.png",
+   "file": "2023/10/Website-Pictures-10.png",
+   "alt": "Best Worldwide Filler Products icon"
+  }
+ ]
+}

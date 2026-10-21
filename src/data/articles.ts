@@ -934,7 +934,7 @@ export const articles: Article[] = [
     ],
   },
   {
-    slug: "when-to-start-botox-bali",
+    slug: "when-to-start-botox",
     title: "When to Start Botox?",
     description: "When to start Botox? Learn the right time to start Botox by considering several factors in consultation with our doctor.",
     blocks: [

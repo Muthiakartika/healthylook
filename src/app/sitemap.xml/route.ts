@@ -1,3 +1,4 @@
+import { canonicalPath, legacyPath } from "@/lib/url-moves";
 import { SITE_URL } from "@/lib/constants";
 import { LEGACY_LASTMOD } from "@/data/legacySitemap";
 import { getArticles, getDocumentTimestamps, getTreatments } from "@/lib/site-content";
@@ -87,7 +88,7 @@ const STATIC_ROUTES = [
 
 /** No trailing slash, `/` for the homepage — the canonical spelling. */
 function normalizePath(path: string): string {
-  const trimmed = path.trim().replace(/\/+$/, "");
+  const trimmed = canonicalPath(path.trim().replace(/\/+$/, ""));
   if (!trimmed) return "/";
   return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
 }
@@ -134,8 +135,8 @@ async function collectEntries(): Promise<SitemapEntry[]> {
     const path = normalizePath(rawPath);
     paths.add(path);
     if (when) lastModified.set(path, when);
-    else if (!lastModified.has(path) && LEGACY_LASTMOD[path]) {
-      lastModified.set(path, LEGACY_LASTMOD[path]);
+    else if (!lastModified.has(path) && (LEGACY_LASTMOD[path] ?? LEGACY_LASTMOD[legacyPath(path) ?? ""])) {
+      lastModified.set(path, LEGACY_LASTMOD[path] ?? LEGACY_LASTMOD[legacyPath(path) ?? ""]);
     }
   };
 

@@ -14,7 +14,7 @@ export async function getCmsPageMetadata(path: string): Promise<Metadata> {
     title: { absolute: title },
     description,
     alternates: { canonical: page.path },
-    robots: page.seo?.noIndex ? { index: false, follow: false } : undefined,
+    robots: page.seo?.noIndex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {
       title,
       description,
@@ -42,7 +42,7 @@ export async function resolvePageMetadata(
     title: title ? { absolute: title } : fallback.title || page.title,
     description,
     alternates: { canonical: page.path },
-    robots: page.seo?.noIndex ? { index: false, follow: false } : fallback.robots,
+    robots: page.seo?.noIndex ? { index: false, follow: false } : fallback.robots ?? { index: true, follow: true },
     openGraph: {
       ...fallback.openGraph,
       title: title || fallback.openGraph?.title || page.title,
@@ -67,7 +67,7 @@ export async function resolveTreatmentMetadata(
         ...fallback,
         title: seo.title ? { absolute: seo.title } : fallback.title,
         description: seo.description || fallback.description,
-        robots: seo.noIndex ? { index: false, follow: false } : fallback.robots,
+        robots: seo.noIndex ? { index: false, follow: false } : fallback.robots ?? { index: true, follow: true },
         openGraph: {
           ...fallback.openGraph,
           title: seo.title || fallback.openGraph?.title,

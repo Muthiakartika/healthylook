@@ -1,4 +1,5 @@
 import "server-only";
+import { canonicalPath } from "@/lib/url-moves";
 import { cache } from "react";
 import { publishedDocuments } from "@/lib/content";
 
@@ -120,7 +121,8 @@ export const getTreatments = cache(async (): Promise<Treatment[]> => {
     publishedDocuments<Treatment>("treatments"),
     getSanityTreatments(),
   ]);
-  const base = rows ? rows.map((row) => row.data) : sourceTreatments;
+  const moveTreatment = (t: Treatment): Treatment => ({ ...t, path: t.path ? canonicalPath(t.path) : undefined });
+  const base = (rows ? rows.map((row) => row.data) : sourceTreatments).map(moveTreatment);
   if (!sanity) return base;
 
   // Overlay by slug so Sanity can be populated gradually without making
@@ -128,7 +130,7 @@ export const getTreatments = cache(async (): Promise<Treatment[]> => {
   const incoming = new Map(sanity.treatments.map((treatment) => [treatment.slug, treatment]));
   const merged = base.map((treatment) => incoming.get(treatment.slug) ?? treatment);
   const known = new Set(base.map((treatment) => treatment.slug));
-  return [...merged, ...sanity.treatments.filter((treatment) => !known.has(treatment.slug))];
+  return [...merged, ...sanity.treatments.filter((treatment) => !known.has(treatment.slug))].map(moveTreatment);
 });
 
 export async function getTreatmentBySlug(slug: string): Promise<Treatment | undefined> {
@@ -188,7 +190,7 @@ export async function getTreatmentCountLabel(): Promise<string> {
 /** Normalizes on the way out — see normalizeArticleBlocks's own comment for
  *  why every reader does this instead of a one-time database migration. */
 function normalize(article: Article): NormalizedArticle {
-  return { ...article, blocks: normalizeArticleBlocks(article.blocks) };
+  return { ...article, slug: canonicalPath(`/${article.slug}`).slice(1), blocks: normalizeArticleBlocks(article.blocks) };
 }
 
 export async function getArticles(): Promise<NormalizedArticle[]> {

@@ -1,3 +1,4 @@
+import { canonicalPath, legacyPath } from "@/lib/url-moves";
 import type {
   SanityDoctorDocument,
   SanityImage,
@@ -64,13 +65,20 @@ function normalizePath(path: string): string {
 
 export async function getSanityPage(path: string): Promise<SanityPage | null> {
   const normalized = normalizePath(path);
-  const page = await sanityFetch<SanityPage>(pageByPathQuery, {
+  let page = await sanityFetch<SanityPage>(pageByPathQuery, {
     params: { path: normalized },
     tags: ["sanity", "sanity:page", `sanity:page:${normalized}`],
   });
 
+  const previous = legacyPath(normalized);
+  if (!page?.sections?.length && previous) {
+    page = await sanityFetch<SanityPage>(pageByPathQuery, {
+      params: { path: previous },
+      tags: ["sanity", "sanity:page", `sanity:page:${previous}`],
+    });
+  }
   if (!page?.sections?.length) return null;
-  return page;
+  return { ...page, path: canonicalPath(page.path) };
 }
 
 export async function getSanityTopLevelPageSlugs(): Promise<string[]> {
@@ -79,22 +87,31 @@ export async function getSanityTopLevelPageSlugs(): Promise<string[]> {
       tags: ["sanity", "sanity:page"],
     })) ?? [];
   return paths
-    .map(normalizePath)
+    .map((path) => canonicalPath(normalizePath(path)))
     .filter((path) => path !== "/" && path.slice(1).includes("/") === false)
     .map((path) => path.slice(1));
 }
 
 export async function getSanityPost(slug: string): Promise<SanityPost | null> {
-  return sanityFetch<SanityPost>(postBySlugQuery, {
+  let post = await sanityFetch<SanityPost>(postBySlugQuery, {
     params: { slug },
     tags: ["sanity", "sanity:post", `sanity:post:${slug}`],
   });
+  const previous = legacyPath(`/${slug}`)?.slice(1);
+  if (!post && previous) {
+    post = await sanityFetch<SanityPost>(postBySlugQuery, {
+      params: { slug: previous },
+      tags: ["sanity", "sanity:post", `sanity:post:${previous}`],
+    });
+  }
+  return post ? { ...post, slug: canonicalPath(`/${post.slug}`).slice(1) } : null;
 }
 
 export async function getSanityPosts(): Promise<SanityPost[] | null> {
-  return sanityFetch<SanityPost[]>(allPostsQuery, {
+  const posts = await sanityFetch<SanityPost[]>(allPostsQuery, {
     tags: ["sanity", "sanity:post"],
   });
+  return posts?.map((post) => ({ ...post, slug: canonicalPath(`/${post.slug}`).slice(1) })) ?? null;
 }
 
 export async function getSanityPostSlugs(): Promise<string[]> {
@@ -102,7 +119,7 @@ export async function getSanityPostSlugs(): Promise<string[]> {
     (await sanityFetch<string[]>(allPostSlugsQuery, {
       tags: ["sanity", "sanity:post"],
     })) ?? []
-  );
+  ).map((slug) => canonicalPath(`/${slug}`).slice(1));
 }
 
 export type SanityTreatmentExtras = {

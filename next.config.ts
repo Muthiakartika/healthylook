@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { URL_MOVES } from "./src/lib/url-moves";
 
 /**
  * The site's own photographs are served from `public/images/`, copied from
@@ -181,6 +182,7 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     const routes = [
+      ...Object.entries(URL_MOVES).map(([source, destination]) => ({ source, destination, statusCode: 301 })),
       { source: "/about", destination: "/our-doctor", permanent: true },
       { source: "/treatments", destination: "/ubud-bali", permanent: true },
       { source: "/treatments/:path*", destination: "/ubud-bali/:path*", permanent: true },

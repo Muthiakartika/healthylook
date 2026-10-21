@@ -146,7 +146,7 @@ export const blogPosts: BlogPost[] = [
     // second copy of the same page. `href` is unchanged: the URL is the live
     // one either way.
     title: "Eye Rejuvenaton Treatment",
-    href: "/eye-rejuvenaton-treatment",
+    href: "/ubud-bali/eye-rejuvenaton-treatment",
     treatmentSlug: "eye-rejuvenation",
   },
   {
@@ -158,8 +158,8 @@ export const blogPosts: BlogPost[] = [
   { title: "Best Facial in Ubud", href: "/ubud-bali/facial", treatmentSlug: "facial" },
   {
     title: "When to Start Botox : A Guide to Timing and Benefits",
-    href: "/when-to-start-botox-bali",
-    articleSlug: "when-to-start-botox-bali",
+    href: "/when-to-start-botox",
+    articleSlug: "when-to-start-botox",
   },
   { title: "Profhilo in Ubud", href: "/ubud-bali/profhilo", treatmentSlug: "profhilo" },
   {
@@ -234,15 +234,12 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-/** The eight posts the live site's own footer promotes, in its order. */
+/** Articles promoted in the footer; treatment pages stay in the treatment menu. */
 export const FOOTER_BLOG_SLUGS = [
-  "/ubud-bali/botox",
-  "/ubud-bali/juvelook",
   "/skin-clinic-bali",
   "/nucleofill-vs-rejuran",
   "/how-many-units-of-botox-for-forehead",
   "/how-long-does-botox-last",
   "/how-long-does-lip-filler-last",
-  "/ubud-bali/botox/korean",
 ];
 

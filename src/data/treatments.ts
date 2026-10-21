@@ -92,13 +92,8 @@ export type PriceGroup = {
 export type Treatment = {
   /** Real path segment under /ubud-bali/ on the live site. */
   slug: string;
-  /**
-   * Full live URL path, for the one treatment whose page is NOT under
-   * /ubud-bali/. Eye Rejuvenation sits at the site root as
-   * `/eye-rejuvenaton-treatment/` — misspelling and all — and that is the
-   * URL the live site's own canonical tag points at, so it is the URL the
-   * rebuild has to keep. Set this and `treatmentHref` uses it verbatim;
-   * leave it off and the treatment resolves to /ubud-bali/<slug> as normal.
+  /** Explicit canonical path when it differs from /ubud-bali/<slug>.
+   * Eye Rejuvenation retains the requested "rejuvenaton" spelling.
    */
   path?: string;
   /**
@@ -984,18 +979,15 @@ export const treatments: Treatment[] = [
   //    among the Skin Treatments — so the clinic already categorised it
   //    this way everywhere except the page's own breadcrumb.
   //
-  //    Only the CATEGORY changes. The URL does not: it stays at the site
-  //    root as /eye-rejuvenaton-treatment (misspelling and all), because
-  //    that is what the live site's canonical tag points at and moving it
-  //    would break every inbound link and ranking the page has. See the
-  //    `path` field's note.
+  //    The original root URL now redirects permanently to the explicit
+  //    /ubud-bali/eye-rejuvenaton-treatment path below.
   //
   //    Eye Rejuvenation was missing from the rebuild entirely at one point,
   //    even though the live site has a full page for it and lists it in the
   //    footer's "Popular Treatments".
   {
     slug: "eye-rejuvenation",
-    path: "/eye-rejuvenaton-treatment",
+    path: "/ubud-bali/eye-rejuvenaton-treatment",
     name: "Eye Rejuvenation",
     h1: "Eye Rejuvenation Treatment in Ubud Bali",
     treatmentTime: "60 Minutes",
@@ -1824,5 +1816,5 @@ export const POPULAR_TREATMENT_LINKS: { label: string; href: string }[] = [
   { label: "Fat Dissolving Injections", href: "/ubud-bali/fat-dissolving-injections" },
   { label: "IPL Hair Removal", href: "/ubud-bali/ipl-hair-removal" },
   { label: "Carboxy Therapy", href: "/ubud-bali/carboxy-therapy" },
-  { label: "Eye Rejuvenation", href: "/eye-rejuvenaton-treatment" },
+  { label: "Eye Rejuvenation", href: "/ubud-bali/eye-rejuvenaton-treatment" },
 ];

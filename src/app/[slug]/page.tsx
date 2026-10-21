@@ -95,7 +95,7 @@ export async function generateMetadata({
       title,
       description: sanityPage.seo?.description,
       alternates: { canonical: sanityPage.path },
-      robots: sanityPage.seo?.noIndex ? { index: false, follow: false } : undefined,
+      robots: sanityPage.seo?.noIndex ? { index: false, follow: false } : { index: true, follow: true },
       openGraph: {
         title,
         description: sanityPage.seo?.description,
@@ -112,7 +112,7 @@ export async function generateMetadata({
       title,
       description,
       alternates: { canonical: `/${sanityPost.slug}` },
-      robots: sanityPost.seo?.noIndex ? { index: false, follow: false } : undefined,
+      robots: sanityPost.seo?.noIndex ? { index: false, follow: false } : { index: true, follow: true },
       openGraph: {
         title,
         description,
