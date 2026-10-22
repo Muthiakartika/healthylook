@@ -29,6 +29,51 @@ const ALIGN_CLASS = {
 const alignClass = (value: unknown) => ALIGN_CLASS[blockAlignment(value)];
 const noop = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
 
+type ImageGrid = { _type: "imageGrid"; _key: string; images: Array<SanityImage & { _key: string }> };
+
+/**
+ * Two or more pictures in a row become one grid. The clinic's WordPress
+ * articles showed a set of before/after photos as a gallery, four across;
+ * one picture per row turned the Botox articles' six into a column five
+ * screens tall. Studio has no gallery block to choose, so pictures placed
+ * one after another are taken to be one.
+ */
+function groupImages(value: PortableTextBlock[]): Array<PortableTextBlock | ImageGrid> {
+  const out: Array<PortableTextBlock | ImageGrid> = [];
+  for (const block of value) {
+    const previous = out[out.length - 1];
+    const image = block as unknown as SanityImage & { _key: string };
+    if (block._type !== "imageWithAlt" || !previous) out.push(block);
+    else if (previous._type === "imageGrid") (previous as ImageGrid).images.push(image);
+    else if (previous._type === "imageWithAlt") {
+      const first = previous as unknown as SanityImage & { _key: string };
+      out[out.length - 1] = { _type: "imageGrid", _key: `${first._key}-grid`, images: [first, image] };
+    } else out.push(block);
+  }
+  return out;
+}
+
+function RichImage({ image, sizes }: { image: SanityImage; sizes: string }) {
+  const src = sanityImageUrl(image);
+  if (!src) return null;
+  return (
+    <figure>
+      {/* Whole by default, the same rule as a treatment section's
+          figure; 4:3 only when "Show the whole image" is turned off. */}
+      <Img
+        src={src}
+        alt={image.alt}
+        aspect="landscape"
+        ratio={image.uncropped === false ? undefined : sanityImageRatio(image)}
+        sizes={sizes}
+      />
+      {image.caption && (
+        <figcaption className="mt-3 font-sans text-caption text-muted">{image.caption}</figcaption>
+      )}
+    </figure>
+  );
+}
+
 const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
   block: {
     normal: ({ children, value }) => <p className={alignClass(value) || undefined}>{children}</p>,
@@ -105,27 +150,20 @@ const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
     },
   },
   types: {
-    imageWithAlt: ({ value }) => {
-      const image = value as SanityImage;
-      const src = sanityImageUrl(image);
-      if (!src) return null;
+    imageWithAlt: ({ value }) => (
+      <RichImage image={value as SanityImage} sizes="(max-width: 768px) 100vw, 760px" />
+    ),
+    // Made by groupImages, never stored. Two across on a phone; on wider
+    // screens three, or two when that leaves no row with a gap (2 and 4).
+    imageGrid: ({ value }) => {
+      const { images } = value as ImageGrid;
+      const columns = images.length === 2 || images.length === 4 ? "" : "sm:grid-cols-3";
       return (
-        <figure>
-          {/* Whole by default, the same rule as a treatment section's
-              figure; 4:3 only when "Show the whole image" is turned off. */}
-          <Img
-            src={src}
-            alt={image.alt}
-            aspect="landscape"
-            ratio={image.uncropped === false ? undefined : sanityImageRatio(image)}
-            sizes="(max-width: 768px) 100vw, 760px"
-          />
-          {image.caption && (
-            <figcaption className="mt-3 font-sans text-caption text-muted">
-              {image.caption}
-            </figcaption>
-          )}
-        </figure>
+        <div className={`grid grid-cols-2 items-start gap-3 ${columns}`}>
+          {images.map((image) => (
+            <RichImage key={image._key} image={image} sizes="(max-width: 640px) 50vw, 384px" />
+          ))}
+        </div>
       );
     },
     // A blog article's table. The same component, and so the same phone
@@ -185,7 +223,7 @@ export default function SanityPortableText({
         tone === "dark" ? "text-white/70" : "text-text-secondary"
       } ${className}`}
     >
-      <PortableText value={value} components={COMPONENTS[tone]} />
+      <PortableText value={groupImages(value)} components={COMPONENTS[tone]} />
     </div>
   );
 }
