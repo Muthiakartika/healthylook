@@ -29,26 +29,58 @@ const ALIGN_CLASS = {
 const alignClass = (value: unknown) => ALIGN_CLASS[blockAlignment(value)];
 const noop = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
 
-type ImageGrid = { _type: "imageGrid"; _key: string; images: Array<SanityImage & { _key: string }> };
+type KeyedImage = SanityImage & { _key: string };
+type ImageGrid = { _type: "imageGrid"; _key: string; images: KeyedImage[] };
+type IconList = {
+  _type: "iconList";
+  _key: string;
+  items: Array<{ icon: KeyedImage; label: PortableTextBlock & { style?: string } }>;
+};
+
+const isImage = (block: PortableTextBlock | undefined) => block?._type === "imageWithAlt";
+const isHeading = (block: PortableTextBlock | undefined) =>
+  block?._type === "block" && /^h\d$/.test((block as { style?: string }).style ?? "");
+const plainText = (block: PortableTextBlock) =>
+  ((block as { children?: Array<{ text?: string }> }).children ?? []).map((c) => c.text ?? "").join("");
 
 /**
- * Two or more pictures in a row become one grid. The clinic's WordPress
- * articles showed a set of before/after photos as a gallery, four across;
- * one picture per row turned the Botox articles' six into a column five
- * screens tall. Studio has no gallery block to choose, so pictures placed
- * one after another are taken to be one.
+ * Turns two layouts the clinic's WordPress articles had, and Studio has no
+ * block for, into something the page can draw:
+ *
+ *  - **Pictures in a row → a grid.** A set of before/after photos was a
+ *    gallery, four across; one picture per row turned the Botox articles'
+ *    six into a column five screens tall.
+ *  - **Picture, heading, picture, heading… → an icon list.** "What can be
+ *    treated" was six small icons, each over a short label. Stored as it
+ *    was built on staging (icon, then its label as a heading), each icon
+ *    otherwise fills the column and each label reads as a section heading
+ *    with nothing under it. Prose never has this shape: a heading is
+ *    followed by its paragraph, so two such pairs can't sit back to back.
  */
-function groupImages(value: PortableTextBlock[]): Array<PortableTextBlock | ImageGrid> {
-  const out: Array<PortableTextBlock | ImageGrid> = [];
-  for (const block of value) {
+function groupBlocks(value: PortableTextBlock[]): Array<PortableTextBlock | ImageGrid | IconList> {
+  const out: Array<PortableTextBlock | ImageGrid | IconList> = [];
+  for (let i = 0; i < value.length; ) {
+    let pairs = 0;
+    while (isImage(value[i + 2 * pairs]) && isHeading(value[i + 2 * pairs + 1])) pairs += 1;
+    if (pairs >= 2) {
+      const items = Array.from({ length: pairs }, (_, n) => ({
+        icon: value[i + 2 * n] as unknown as KeyedImage,
+        label: value[i + 2 * n + 1],
+      }));
+      out.push({ _type: "iconList", _key: `${value[i]._key}-icons`, items });
+      i += 2 * pairs;
+      continue;
+    }
+    const block = value[i];
     const previous = out[out.length - 1];
-    const image = block as unknown as SanityImage & { _key: string };
-    if (block._type !== "imageWithAlt" || !previous) out.push(block);
+    const image = block as unknown as KeyedImage;
+    if (!isImage(block) || !previous) out.push(block);
     else if (previous._type === "imageGrid") (previous as ImageGrid).images.push(image);
     else if (previous._type === "imageWithAlt") {
-      const first = previous as unknown as SanityImage & { _key: string };
+      const first = previous as unknown as KeyedImage;
       out[out.length - 1] = { _type: "imageGrid", _key: `${first._key}-grid`, images: [first, image] };
     } else out.push(block);
+    i += 1;
   }
   return out;
 }
@@ -153,7 +185,7 @@ const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
     imageWithAlt: ({ value }) => (
       <RichImage image={value as SanityImage} sizes="(max-width: 768px) 100vw, 760px" />
     ),
-    // Made by groupImages, never stored. Two across on a phone; on wider
+    // Made by groupBlocks, never stored. Two across on a phone; on wider
     // screens three, or two when that leaves no row with a gap (2 and 4).
     imageGrid: ({ value }) => {
       const { images } = value as ImageGrid;
@@ -164,6 +196,34 @@ const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
             <RichImage key={image._key} image={image} sizes="(max-width: 640px) 50vw, 384px" />
           ))}
         </div>
+      );
+    },
+    // Also made by groupBlocks. Staging's sizes: a 64px icon over a centred
+    // label, three across. The icon is decorative here, since the label
+    // under it says the same thing, so screen readers skip it. The label
+    // keeps its heading level, and pt-0! beats the wrapper's spacing above
+    // headings, which is meant for section headings.
+    iconList: ({ value }) => {
+      const { items } = value as IconList;
+      return (
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-8 py-2 sm:grid-cols-3">
+          {items.map(({ icon, label }) => {
+            const src = sanityImageUrl(icon);
+            const Label = (["h2", "h3", "h4"].includes(label.style ?? "") ? label.style : "h3") as "h3";
+            return (
+              <li key={icon._key} className="flex flex-col items-center text-center">
+                {src && (
+                  <div className="w-16">
+                    <Img src={src} alt="" ratio={sanityImageRatio(icon) ?? 1} rounded="" background="" sizes="64px" />
+                  </div>
+                )}
+                <Label className="mt-4 pt-0! font-sans text-body font-medium leading-heading text-primary-strong">
+                  {plainText(label)}
+                </Label>
+              </li>
+            );
+          })}
+        </ul>
       );
     },
     // A blog article's table. The same component, and so the same phone
@@ -223,7 +283,7 @@ export default function SanityPortableText({
         tone === "dark" ? "text-white/70" : "text-text-secondary"
       } ${className}`}
     >
-      <PortableText value={groupImages(value)} components={COMPONENTS[tone]} />
+      <PortableText value={groupBlocks(value)} components={COMPONENTS[tone]} />
     </div>
   );
 }
