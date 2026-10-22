@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/ubud-bali/prp/",
+    "missingCandidates": [
+      {
+        "text": "Stimulate hair follicles, encourage new hair growth, and thicken the existing hair.",
+        "coverage": 0,
+        "sourceId": "text_block-402-85"
+      }
+    ]
+  },
+  {
+    "path": "/ubud-bali/ipl/",
+    "missingCandidates": [
+      {
+        "text": "At Healthy Look Aesthetic, we use the latest IPL technology to treat your skin concerns. Here is Why… -\tThe standard IPL utilizes the wavelength from 400-1200 nm, however, the wavelength from 950-1200 nm is an infrared light that is absorbed by the water and converted to heat leading to pain and discomfort. Our IPL offers more specific wavelengths (400-950 nm) therefore it is much more painless and safer with higher efficacy compared to the conventional IPL. Our IPL is effective for Fitzpatrick 1-4. -\tOur IPL comes with a contact cooling system at -50 C to minimize the uncomfortable sensations and prevent overheating, hence we are able to administer the IPL treatment without the need for numbing cream & gel.",
+        "coverage": 0,
+        "sourceId": "text_block-231-11"
+      }
+    ]
+  },
+  {
+    "path": "/gift-card/",
+    "missingCandidates": [
+      {
+        "text": "Gift Cards can be redeemed at the clinic at the time of payment. If the purchase exceeds the remaining balance on the card, the difference can be paid using another method. Gift Cards are non-refundable, non-transferable, and cannot be redeemed for cash.",
+        "coverage": 0.184,
+        "sourceId": "text_block-80-879"
+      }
+    ]
+  }
+]
