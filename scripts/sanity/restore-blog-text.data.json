@@ -5858,104 +5858,51 @@
           ]
         },
         {
-          "_type": "block",
-          "_key": "dacf06d39ab919a2",
-          "style": "h3",
-          "children": [
-            {
-              "_type": "span",
-              "_key": "1c4d1c8b156dca7b",
-              "text": "Mesotherapy",
-              "marks": []
-            }
-          ],
-          "markDefs": []
-        },
-        {
-          "_type": "treatmentTable",
           "_key": "ea656408c94f5dcb",
-          "columns": [
-            "Customized blend of vitamins, minerals, and healing substances"
-          ],
-          "labelFirstColumn": true,
-          "rows": [
-            {
-              "_type": "treatmentTableRow",
-              "_key": "8436d91822c8b750",
-              "cells": [
-                "Overall skin rejuvenation"
-              ]
-            },
-            {
-              "_type": "treatmentTableRow",
-              "_key": "b41cce4982608de9",
-              "cells": [
-                "Minimally invasive"
-              ]
-            },
-            {
-              "_type": "treatmentTableRow",
-              "_key": "d8258d92c9ad28be",
-              "cells": [
-                "Natural approach to skincare"
-              ]
-            },
-            {
-              "_type": "treatmentTableRow",
-              "_key": "dd56f753389b98e8",
-              "cells": [
-                "Suitable for various skincare goals"
-              ]
-            }
-          ]
-        },
-        {
-          "_type": "block",
-          "_key": "44fac817cb7e8146",
-          "style": "h3",
-          "children": [
-            {
-              "_type": "span",
-              "_key": "c2dd7704fc23027b",
-              "text": "Other Treatments",
-              "marks": []
-            }
-          ],
-          "markDefs": []
-        },
-        {
           "_type": "treatmentTable",
-          "_key": "e64527c22316e1b0",
           "columns": [
-            "Targeted injections or fillers"
+            "Mesotherapy",
+            "Other Treatments"
           ],
-          "labelFirstColumn": true,
+          "labelFirstColumn": false,
           "rows": [
             {
+              "_key": "d0326fbc1ae9fd73",
               "_type": "treatmentTableRow",
-              "_key": "eb74517f79d237b9",
               "cells": [
+                "Customized blend of vitamins, minerals, and healing substances",
+                "Targeted injections or fillers"
+              ]
+            },
+            {
+              "_key": "1bcdfca4d81872dc",
+              "_type": "treatmentTableRow",
+              "cells": [
+                "Overall skin rejuvenation",
                 "Specific problem area treatment"
               ]
             },
             {
+              "_key": "b7095db6b19575d9",
               "_type": "treatmentTableRow",
-              "_key": "3c4fe93176ef37ea",
               "cells": [
+                "Minimally invasive",
                 "Varying degrees of invasiveness"
               ]
             },
             {
+              "_key": "20c156d5d427d559",
               "_type": "treatmentTableRow",
-              "_key": "887468f20425ad0c",
               "cells": [
+                "Natural approach to skincare",
                 "Alternative non-invasive skincare options"
               ]
             },
             {
+              "_key": "8ae84bf30b637c00",
               "_type": "treatmentTableRow",
-              "_key": "71a93c2fa449e8ff",
               "cells": [
+                "Suitable for various skincare goals",
                 "Focused treatment for specific concerns"
               ]
             }
