@@ -304,6 +304,7 @@ const nextConfig: NextConfig = {
         statusCode: 301,
       },
       { source: "/carboxy-therapy-in-ubud-bali", destination: "/ubud-bali/carboxy-therapy", statusCode: 301 },
+      { source: "/personalize-mesotherapy-ubud-bali", destination: "/considering-mesotherapy-here-s-what-you-need-to-know", statusCode: 301 },
 
       /**
        * Two more, reported after the sheet above had shipped. Both are
