@@ -1,5 +1,5 @@
 import "server-only";
-import { canonicalPath } from "@/lib/url-moves";
+import { canonicalPath, isRedirectedAway } from "@/lib/url-moves";
 import { cache } from "react";
 import { publishedDocuments } from "@/lib/content";
 
@@ -260,7 +260,9 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       articleSlug: article.slug,
     }));
 
-  return [...sanityEntries, ...uncurated, ...curated];
+  // A URL that now 301s elsewhere is no longer a post to list; see
+  // REDIRECTED_ARTICLE_PATHS for why this is applied last, to all three.
+  return [...sanityEntries, ...uncurated, ...curated].filter((post) => !isRedirectedAway(post.href));
 }
 
 /**

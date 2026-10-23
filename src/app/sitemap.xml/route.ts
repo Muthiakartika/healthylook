@@ -1,4 +1,4 @@
-import { canonicalPath, legacyPath } from "@/lib/url-moves";
+import { REDIRECTED_ARTICLE_PATHS, canonicalPath, legacyPath } from "@/lib/url-moves";
 import { SITE_URL } from "@/lib/constants";
 import { LEGACY_LASTMOD } from "@/data/legacySitemap";
 import { getArticles, getDocumentTimestamps, getTreatments } from "@/lib/site-content";
@@ -161,7 +161,7 @@ async function collectEntries(): Promise<SitemapEntry[]> {
    * the static list already contributed, which is why these are collected
    * and applied after everything else rather than filtered in the query.
    */
-  const hidden = new Set<string>();
+  const hidden = new Set<string>(REDIRECTED_ARTICLE_PATHS);
   for (const entry of sanityEntries) {
     if (entry.noIndex) hidden.add(normalizePath(entry.path));
     else add(entry.path, entry.lastModified);
