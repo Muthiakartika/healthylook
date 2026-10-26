@@ -17,7 +17,7 @@ import {
 } from "./ContentSections";
 import type { PageSection } from "@/sanity/types";
 
-async function renderSection(section: PageSection) {
+async function renderSection(section: PageSection, path?: string) {
   switch (section._type) {
     case "heroSection":
       return <SanityHeroSection section={section} />;
@@ -36,7 +36,7 @@ async function renderSection(section: PageSection) {
     case "collectionSection":
       return <DynamicCollectionSection section={section} />;
     case "curatedSection":
-      return <CuratedSection section={section} />;
+      return <CuratedSection section={section} path={path} />;
     case "pricingPromiseSection":
       return <PricingPromiseBlock section={section} />;
     case "categoryNavSection":
@@ -52,12 +52,24 @@ async function renderSection(section: PageSection) {
   }
 }
 
-export default async function PageBuilder({ sections }: { sections: PageSection[] }) {
+/**
+ * `path` is the page being rendered, for the few sections whose form depends
+ * on where they sit (the doctors section is the full biographies on
+ * /our-doctor and the compact cards elsewhere). Callers without one get the
+ * default form.
+ */
+export default async function PageBuilder({
+  sections,
+  path,
+}: {
+  sections: PageSection[];
+  path?: string;
+}) {
   const visible = sections.filter((section) => !section.isHidden);
   const rendered = await Promise.all(
     visible.map(async (section) => ({
       key: section._key,
-      node: await renderSection(section),
+      node: await renderSection(section, path),
     })),
   );
 

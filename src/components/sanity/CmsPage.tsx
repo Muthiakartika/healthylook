@@ -17,7 +17,7 @@ export default async function CmsPage({ path }: { path: string }) {
   return (
     <>
       <PageBreadcrumbJsonLd page={page} />
-      <PageBuilder sections={page.sections} />
+      <PageBuilder sections={page.sections} path={path} />
     </>
   );
 }

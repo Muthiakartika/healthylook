@@ -27,7 +27,14 @@ import type { CuratedSection as CuratedSectionValue } from "@/sanity/types";
  * level of its heading. Called from code instead — treatment and blog pages —
  * the same components receive neither and render their defaults.
  */
-export default async function CuratedSection({ section }: { section: CuratedSectionValue }) {
+export default async function CuratedSection({
+  section,
+  path,
+}: {
+  section: CuratedSectionValue;
+  /** The page this section sits on, when the caller knows it. */
+  path?: string;
+}) {
   const as = headingLevel(section.headingLevel, "h2");
   switch (section.component) {
     case "homeHero":
@@ -81,7 +88,13 @@ export default async function CuratedSection({ section }: { section: CuratedSect
     case "whyUs":
       return <WhyUs copy={curatedCopy("whyUs", section)} as={as} />;
     case "doctors":
-      return <Doctors copy={curatedCopy("doctors", section)} as={as} />;
+      return (
+        <Doctors
+          copy={curatedCopy("doctors", section)}
+          as={as}
+          fullProfiles={path === "/our-doctor"}
+        />
+      );
     case "testimonials":
       return <Testimonials copy={curatedCopy("testimonials", section)} as={as} />;
     case "clinicExperience":

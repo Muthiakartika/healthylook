@@ -34,10 +34,24 @@ import { subheadingLevel, type HeadingLevel } from "@/lib/headings";
  * fields), each field already falling back to its default on its own, so an
  * editor can change just the heading without retyping the rest.
  */
+/**
+ * ── FULL PROFILES, ON /our-doctor ─────────────────────────────────────
+ * `fullProfiles` is the page the compact cards promise ("Read their full
+ * profiles"). Until 2026-08-28 /our-doctor was its own page and rendered
+ * <DoctorProfile> in full; when it became a Sanity page it was given this
+ * section, which is the compact one, and the full biographies stopped
+ * appearing anywhere on the site — the client noticed on 2026-10-26 ("the
+ * bio becomes shortened?") and sent the old site's text as the reference.
+ *
+ * So the same section renders the long form when the page asks for it:
+ * one profile per row, alternating sides, every paragraph, and no button
+ * back to the page it is already on.
+ */
 export default async function Doctors({
   copy = curatedCopy("doctors"),
   as = "h2",
-}: { copy?: SectionCopy<"doctors">; as?: HeadingLevel } = {}) {
+  fullProfiles = false,
+}: { copy?: SectionCopy<"doctors">; as?: HeadingLevel; fullProfiles?: boolean } = {}) {
   const doctors = await getDoctors();
   return (
     <section className="bg-background py-section">
@@ -49,27 +63,43 @@ export default async function Doctors({
           description={copy.intro}
         />
 
-        {/* `md`, not `lg`: two portrait cards side by side are comfortable
-            from tablet width up, and holding them stacked until 1024px
-            would re-create on tablets exactly the length this revision is
-            removing. */}
-        <div className="mt-16 grid gap-14 md:grid-cols-2 md:gap-12 lg:gap-20">
-          {doctors.map((doctor, index) => (
-            <DoctorProfile
-              key={doctor.id}
-              doctor={doctor}
-              index={index}
-              compact
-              headingAs={subheadingLevel(as)}
-            />
-          ))}
-        </div>
+        {fullProfiles ? (
+          <div className="mt-16 flex flex-col gap-24 lg:gap-32">
+            {doctors.map((doctor, index) => (
+              <DoctorProfile
+                key={doctor.id}
+                doctor={doctor}
+                index={index}
+                showCta={false}
+                headingAs={subheadingLevel(as)}
+              />
+            ))}
+          </div>
+        ) : (
+          <>
+            {/* `md`, not `lg`: two portrait cards side by side are comfortable
+                from tablet width up, and holding them stacked until 1024px
+                would re-create on tablets exactly the length this revision is
+                removing. */}
+            <div className="mt-16 grid gap-14 md:grid-cols-2 md:gap-12 lg:gap-20">
+              {doctors.map((doctor, index) => (
+                <DoctorProfile
+                  key={doctor.id}
+                  doctor={doctor}
+                  index={index}
+                  compact
+                  headingAs={subheadingLevel(as)}
+                />
+              ))}
+            </div>
 
-        <Reveal delay={100} className="mt-16 flex justify-center">
-          <Button href={copy.buttonHref} variant="outline" withArrow>
-            {copy.buttonLabel}
-          </Button>
-        </Reveal>
+            <Reveal delay={100} className="mt-16 flex justify-center">
+              <Button href={copy.buttonHref} variant="outline" withArrow>
+                {copy.buttonLabel}
+              </Button>
+            </Reveal>
+          </>
+        )}
       </Container>
     </section>
   );

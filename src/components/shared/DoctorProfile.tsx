@@ -221,20 +221,26 @@ export default async function DoctorProfile({
   // DOM, so reading order stays name-then-bio for screen readers.
   const imageFirst = index % 2 === 0;
 
+  // The bio runs ~1,900 characters against a portrait about 570px tall, so
+  // the text column is two to three times the height of the picture. Centred
+  // (the old `items-center`) the portrait floated halfway down it with a blank
+  // band above; instead it starts level with the eyebrow and, on desktop,
+  // stays in view while the bio is read. `top-28` clears the sticky header.
   return (
-    <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-      <Reveal
-        variant="image"
-        className={imageFirst ? "lg:order-1" : "lg:order-2"}
+    <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div
+        className={`${imageFirst ? "lg:order-1" : "lg:order-2"} lg:sticky lg:top-28`}
       >
-        <Img
-          src={doctor.photo}
-          alt={`${doctor.name}, ${doctor.title} at Healthy Look Aesthetic`}
-          aspect="portrait"
-          position="object-top"
-          sizes="(max-width: 1024px) 100vw, 45vw"
-        />
-      </Reveal>
+        <Reveal variant="image">
+          <Img
+            src={doctor.photo}
+            alt={`${doctor.name}, ${doctor.title} at Healthy Look Aesthetic`}
+            aspect="portrait"
+            position="object-top"
+            sizes="(max-width: 1024px) 100vw, 45vw"
+          />
+        </Reveal>
+      </div>
 
       <div className={imageFirst ? "lg:order-2" : "lg:order-1"}>
         <Reveal delay={80}>
