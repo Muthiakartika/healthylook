@@ -135,6 +135,7 @@ export type Doctor = {
   title?: string;
   photo?: ImageWithAlt;
   bio?: Array<string>;
+  summary?: string;
   registrationNumber?: string;
   registryUrl?: string;
   order?: number;
@@ -1486,6 +1487,7 @@ export type SiteSettingsQueryResult = {
   title?: string;
   photo?: ImageWithAlt;
   bio?: Array<string>;
+  summary?: string;
   registrationNumber?: string;
   registryUrl?: string;
   order?: number;
@@ -1838,7 +1840,7 @@ export type AllPartnersQueryResult = Array<{
   } | null;
 }>;
 // Variable: allDoctorsQuery
-// Query: *[_type == "doctor"] | order(order asc, name asc){    _id,    _type,    name,    shortName,    title,    bio,    registrationNumber,    registryUrl,    order,    photo {  _type,  asset,  alt,  caption,  uncropped,  crop,  hotspot}  }
+// Query: *[_type == "doctor"] | order(order asc, name asc){    _id,    _type,    name,    shortName,    title,    bio,    summary,    registrationNumber,    registryUrl,    order,    photo {  _type,  asset,  alt,  caption,  uncropped,  crop,  hotspot}  }
 export type AllDoctorsQueryResult = Array<{
   _id: string;
   _type: "doctor";
@@ -1846,6 +1848,7 @@ export type AllDoctorsQueryResult = Array<{
   shortName: string | null;
   title: string | null;
   bio: Array<string> | null;
+  summary: string | null;
   registrationNumber: string | null;
   registryUrl: string | null;
   order: number | null;
@@ -1902,7 +1905,7 @@ declare module "@sanity/client" {
     "\n  *[_id == \"siteSettings\"][0]{\n    ...,\n    defaultSeo {\n  title,\n  description,\n  image {\n  _type,\n  asset,\n  alt,\n  caption,\n  uncropped,\n  crop,\n  hotspot\n},\n  noIndex\n}\n  }\n": SiteSettingsQueryResult;
     "\n  *[_id == \"page.before-after\"][0].sections[_type == \"gallerySection\" && isHidden != true]{\n    anchor,\n    title,\n    navLabel,\n    \"treatmentSlug\": treatment->slug.current,\n    images[] {\n  _type,\n  asset,\n  alt,\n  caption,\n  uncropped,\n  crop,\n  hotspot\n}\n  }\n": ResultGalleriesQueryResult;
     "\n  *[_type == \"partner\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    order,\n    logo {\n  _type,\n  asset,\n  alt,\n  caption,\n  uncropped,\n  crop,\n  hotspot\n}\n  }\n": AllPartnersQueryResult;
-    "\n  *[_type == \"doctor\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    shortName,\n    title,\n    bio,\n    registrationNumber,\n    registryUrl,\n    order,\n    photo {\n  _type,\n  asset,\n  alt,\n  caption,\n  uncropped,\n  crop,\n  hotspot\n}\n  }\n": AllDoctorsQueryResult;
+    "\n  *[_type == \"doctor\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    shortName,\n    title,\n    bio,\n    summary,\n    registrationNumber,\n    registryUrl,\n    order,\n    photo {\n  _type,\n  asset,\n  alt,\n  caption,\n  uncropped,\n  crop,\n  hotspot\n}\n  }\n": AllDoctorsQueryResult;
     "\n  *[_type == \"testimonial\"] | order(order asc, name asc){\n    _id,\n    _type,\n    name,\n    quote,\n    source,\n    featured,\n    order,\n    \"treatmentSlugs\": treatments[]->slug.current\n  }\n": AllTestimonialsQueryResult;
     "\n  *[\n    (_type == \"page\" && defined(path) && count(sections) > 0) ||\n    (_type == \"post\" && defined(slug.current)) ||\n    (_type == \"treatment\" && defined(slug.current))\n  ]{\n    \"path\": select(\n      _type == \"post\" => \"/\" + slug.current,\n      _type == \"treatment\" => select(\n        defined(path) && path != \"\" => path,\n        \"/ubud-bali/\" + slug.current\n      ),\n      path\n    ),\n    _updatedAt,\n    \"noIndex\": seo.noIndex == true\n  }\n": SitemapEntriesQueryResult;
   }

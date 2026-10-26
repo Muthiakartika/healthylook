@@ -556,11 +556,18 @@ export async function getDoctors(): Promise<Doctor[]> {
     getSanityDoctors(),
   ]);
   const base = rows ? rows.map((row) => row.data) : sourceDoctors;
-  if (!sanity) return base;
+  // The homepage card's wording is a default in the source file, so a doctor
+  // that arrives from the dashboard or Studio without one still shows it.
+  const defaultSummary = new Map(sourceDoctors.map((doctor) => [doctor.name, doctor.summary]));
+  const withSummary = (doctor: Doctor): Doctor => ({
+    ...doctor,
+    summary: doctor.summary || defaultSummary.get(doctor.name),
+  });
+  if (!sanity) return base.map(withSummary);
   const incoming = new Map(sanity.map((doctor) => [doctor.name, doctor]));
   const merged = base.map((doctor) => incoming.get(doctor.name) ?? doctor);
   const known = new Set(base.map((doctor) => doctor.name));
-  return [...merged, ...sanity.filter((doctor) => !known.has(doctor.name))];
+  return [...merged, ...sanity.filter((doctor) => !known.has(doctor.name))].map(withSummary);
 }
 
 /**

@@ -151,7 +151,7 @@ export default async function DoctorProfile({
             target's hover context — but only the name is the actual link.
             A card-wide anchor would swallow the "Book with…" button inside
             it, which is a separate destination. */}
-        <div className="group flex flex-col">
+        <div className="group flex h-full flex-col">
           <Reveal variant="image">
             <Img
               src={doctor.photo}
@@ -183,9 +183,14 @@ export default async function DoctorProfile({
             </Link>
           </NameHeading>
 
-          {/* One paragraph — the credentials one. */}
-          <p className="mt-5 measure font-sans text-copy leading-body text-text-secondary">
-            {doctor.bio[0]}
+          {/* The short description — the homepage's own wording, not the
+              first paragraph of the biography (see Doctor.summary). */}
+          {/* `flex-1`: the two cards are equal height in their grid, and the
+              descriptions differ in length, so letting this one take the
+              slack puts both registration lines and both buttons on the
+              same row instead of a line apart. */}
+          <p className="mt-5 measure flex-1 font-sans text-copy leading-body text-text-secondary">
+            {doctor.summary ?? doctor.bio[0]}
           </p>
 
           {/* The registry link runs on the homepage too, not only on

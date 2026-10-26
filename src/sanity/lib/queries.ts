@@ -143,6 +143,7 @@ export const allDoctorsQuery = defineQuery(`
     shortName,
     title,
     bio,
+    summary,
     registrationNumber,
     registryUrl,
     order,

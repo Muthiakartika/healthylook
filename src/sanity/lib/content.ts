@@ -456,6 +456,8 @@ export async function getSanityDoctors(): Promise<Doctor[] | null> {
       shortName: document.shortName,
       title: document.title,
       bio: document.bio,
+      // Empty in Studio means "not set", so the website's own wording applies.
+      summary: document.summary?.trim() || undefined,
       photo,
       registration: { number: document.registrationNumber, url: document.registryUrl },
     }];

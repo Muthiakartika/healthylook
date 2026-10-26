@@ -18,6 +18,14 @@ export type Doctor = {
   /** Each entry is one verbatim paragraph from the live site. */
   bio: string[];
   /**
+   * The short description on the homepage card. Left empty, the card shows
+   * the first paragraph of `bio` — which was never the same words the old
+   * homepage used: that card had its own, longer, condensed text (client,
+   * 2026-10-26: "penjelasan untuk bagian ini, samain aja textnya"). Editable
+   * in Studio; the defaults below are staging's, word for word.
+   */
+  summary?: string;
+  /**
    * The doctor's entry in the Indonesian Ministry of Health's practitioner
    * registry (SATUSEHAT SDMK, satusehat.kemkes.go.id).
    *
@@ -89,6 +97,8 @@ export const doctors: Doctor[] = [
       "To stay at the forefront of the field, Dr. Irene actively participates in national and international workshops and courses, including the IMCAS World Congress in Paris, Korean Derma, Anatomy Cadaver workshops, the International FACE Congress, and AMWC, as well as specialized training with leading aesthetic brands such as Juvederm, Restylane, Botox Allergan, Sculptra, and many others.",
       "Outside of her professional life, Dr. Irene is an avid dog lover who enjoys spending her free time with her adorable pet. As a dedicated skincare enthusiast and beauty expert, she loves sharing her knowledge and expertise with others.",
     ],
+    summary:
+      "Dr. Irene is an internationally trained aesthetic doctor with 7+ years of experience in injectable and energy-based treatments. She earned her Bachelor of Medicine degree with cum laude honors from Airlangga University. Driven by her strong passion for aesthetic medicine, she pursued a master's degree in Anti-Aging Medicine, graduating once again with cum laude honors. Known for her honest and evidence-based approach, Dr. Irene provides personalized recommendations tailored to each patient's unique needs, ensuring desirable and natural-looking results.",
     photo: "/images/doctors/dr-irene.webp",
     registration: {
       number: "VY00001341254007",
@@ -105,6 +115,8 @@ export const doctors: Doctor[] = [
       "Since beginning her aesthetic career in 2021, she has developed extensive experience in a wide range of procedures, including injectables, thread lifts, and energy-based device treatments. Dr. Jess is committed to delivering results that are natural, harmonious, and tailored to enhance each patient's unique features.",
       "Beyond her clinical practice, she has a keen interest in psychology, self-development, and holistic wellness. She enjoys exploring topics related to inner growth, mental clarity, and balanced living, and believes that true beauty comes from the harmony between physical appearance and inner well-being.",
     ],
+    summary:
+      "Dr. Jess is a dedicated aesthetic physician with a strong passion for aesthetic medicine. She earned her medical degree from UPN Veteran Jakarta, graduating with outstanding academic achievement. Since beginning her aesthetic career in 2021, she has developed extensive experience in a wide range of procedures, including injectables, thread lifts, and energy-based device treatments. Dr. Jess is committed to delivering results that are natural, harmonious, and tailored to enhance each patient's unique features.",
     photo: "/images/doctors/dr-jessika.jpg",
     registration: {
       number: "IK00001476330475",
