@@ -1,6 +1,6 @@
 /**
- * Adds internal anchor links to the XERF treatment page and the XERF vs HIFU
- * article, as DRAFTS, spaced well apart.
+ * Adds internal anchor links to the XERF treatment page, as a DRAFT, spaced
+ * well apart. The XERF vs HIFU article is not touched.
  *
  * ── WHAT IT DOES ───────────────────────────────────────────────────────
  * Each entry in ANCHORS names a paragraph, a phrase that already sits in it,
@@ -68,7 +68,6 @@ const client = createClient({
 const MIN_GAP_WORDS = 150;
 
 type Anchor = {
-  doc: "post" | "treatment";
   /** Identifies the paragraph: its text must contain this. */
   contains: string;
   /** Already in that paragraph, once, outside any link. */
@@ -77,37 +76,20 @@ type Anchor = {
 };
 
 const ANCHORS: Anchor[] = [
-  // "Downtime and results" — the results gallery for this very device.
-  {
-    doc: "post",
-    contains: "Neither XERF nor HIFU delivers an instant facelift",
-    phrase: "XERF results",
-    href: "/before-after#xerf-treatment",
-  },
-  // FAQ "Can I get an xerf treatment and HIFU together?" — back to the page.
-  {
-    doc: "post",
-    contains: "using HIFU for deeper lifting and XERF for overall firmness",
-    phrase: "XERF for overall firmness",
-    href: "/ubud-bali/xerf",
-  },
   // "What XERF cannot do" — the injectable it does not replace.
   {
-    doc: "treatment",
     contains: "does not replace treatments such as dermal fillers",
     phrase: "dermal fillers",
     href: "/ubud-bali/dermal-filler",
   },
   // "Doctor-Led Treatment" — who the doctor is.
   {
-    doc: "treatment",
     contains: "XERF is performed by our doctor",
     phrase: "our doctor",
     href: "/our-doctor",
   },
 ];
 
-const POST_SLUG = "xerf-vs-hifu";
 const TREATMENT_ID = "treatment.xerf";
 
 type Span = { _key: string; _type: string; text?: string; marks?: string[] };
@@ -126,7 +108,6 @@ type Block = {
 type Doc = {
   _id: string;
   _type: string;
-  body?: Block[];
   sections?: Array<{ _key: string; blocks?: Block[] }>;
   [k: string]: unknown;
 };
@@ -155,19 +136,15 @@ function paragraphsOf(doc: Doc): Paragraph[] {
     }
   };
 
-  if (doc._type === "post") {
-    for (const block of doc.body ?? []) visit(block, `body[_key=="${block._key}"]`);
-  } else {
-    for (const section of doc.sections ?? []) {
-      for (const block of section.blocks ?? []) {
-        const base = `sections[_key=="${section._key}"].blocks[_key=="${block._key}"]`;
-        if (block._type === "treatmentTable") {
-          countTable(block);
-          continue;
-        }
-        if (block.heading) offset += words(block.heading);
-        for (const paragraph of block.body ?? []) visit(paragraph, `${base}.body[_key=="${paragraph._key}"]`);
+  for (const section of doc.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      const base = `sections[_key=="${section._key}"].blocks[_key=="${block._key}"]`;
+      if (block._type === "treatmentTable") {
+        countTable(block);
+        continue;
       }
+      if (block.heading) offset += words(block.heading);
+      for (const paragraph of block.body ?? []) visit(paragraph, `${base}.body[_key=="${paragraph._key}"]`);
     }
   }
   return out;
@@ -338,12 +315,8 @@ async function main() {
     WRITE ? "Writing drafts.\n" : "DRY RUN — nothing is written. Pass --write to apply.\n",
   );
 
-  const post = await load(`*[_type=="post" && slug.current==$slug]`, { slug: POST_SLUG });
-  if (post) await applyTo("Post · xerf-vs-hifu", post, ANCHORS.filter((a) => a.doc === "post"));
-  else console.log("Post · xerf-vs-hifu not found — skipped\n");
-
   const treatment = await load(`*[_id in [$id, "drafts." + $id]]`, { id: TREATMENT_ID });
-  if (treatment) await applyTo("Treatment · xerf", treatment, ANCHORS.filter((a) => a.doc === "treatment"));
+  if (treatment) await applyTo("Treatment · xerf", treatment, ANCHORS);
   else console.log("Treatment · xerf not found — skipped\n");
 
   console.log(
