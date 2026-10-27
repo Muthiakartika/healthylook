@@ -107,7 +107,14 @@ export async function generateMetadata({
   if (sanityPost) {
     const title = sanityPost.seo?.title || sanityPost.title;
     const description = sanityPost.seo?.description || sanityPost.excerpt;
-    const image = sanityImageUrl(sanityPost.seo?.image || sanityPost.coverImage);
+    // Each image is checked for a file before the fallback is tried. Studio
+    // saves `seo.image` as `{ _type }` the moment the SEO group is opened, and
+    // that empty object is truthy, so `seo.image || coverImage` never reached
+    // the cover and the post shipped with no og:image at all.
+    const seoImage = sanityImageUrl(sanityPost.seo?.image);
+    const image = seoImage ?? sanityImageUrl(sanityPost.coverImage);
+    const imageAlt =
+      (seoImage ? sanityPost.seo?.image?.alt : sanityPost.coverImage?.alt) || sanityPost.title;
     return {
       title,
       description,
@@ -117,7 +124,7 @@ export async function generateMetadata({
         title,
         description,
         type: "article",
-        images: image ? [{ url: image, alt: sanityPost.coverImage?.alt || sanityPost.title }] : undefined,
+        images: image ? [{ url: image, alt: imageAlt }] : undefined,
       },
     };
   }

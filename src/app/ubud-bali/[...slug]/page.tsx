@@ -62,7 +62,14 @@ export async function generateMetadata({
     title: { absolute: seo.title },
     description: seo.description,
     alternates: { canonical: path },
-    openGraph: { title: seo.title, description: seo.description },
+    // The treatment's own photo, so a page whose Studio SEO group has no
+    // image still gets a preview picture. resolveTreatmentMetadata keeps
+    // these when the SEO image is empty and swaps them when it is filled.
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: treatment.image ? [{ url: treatment.image, alt: treatment.name }] : undefined,
+    },
   };
   return resolveTreatmentMetadata(treatment.slug, path, fallback);
 }
