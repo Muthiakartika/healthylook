@@ -75,10 +75,26 @@ export async function generateMetadata(): Promise<Metadata> {
   // which is the worst place for it, because that is where you are trying
   // to work.
   //
-  // Serving the same two files from /public and naming them here emits the
-  // same <link> tags, and builds anywhere.
+  // Serving the files from /public and naming them here emits the same
+  // <link> tags, and builds anywhere.
+  //
+  // ── WHY THE SIZES ARE 48 AND 192, NOT 512 ──────────────────────────────
+  // Google Search only shows a favicon whose side is a multiple of 48px
+  // (48, 96, 144, 192 …). This used to declare a single 512×512 JPEG —
+  // 512 is not a multiple of 48 — and Google's favicon service still had
+  // nothing for the domain weeks after the tags went live, while the old
+  // WordPress site's 192×192 copy of the same logo was accepted on the
+  // staging host. /favicon.ico is the address crawlers and other browsers
+  // probe when they find no <link>, and it used to answer 404.
+  //
+  // All three files are resized from the same artwork (public/icon.jpg is
+  // kept as the 512px master). If the logo changes, regenerate them
+  // together; a stale one is how this went unnoticed.
   icons: {
-    icon: { url: "/icon.jpg", type: "image/jpeg", sizes: "512x512" },
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
     apple: { url: "/apple-icon.jpg", type: "image/jpeg", sizes: "180x180" },
   },
   openGraph: {
