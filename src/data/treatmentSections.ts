@@ -99,6 +99,8 @@ export type SectionTable = {
  */
 export type SectionBlock = {
   heading?: string;
+  /** Makes the subheading a link — a path on this site, or a full URL. */
+  headingLink?: string;
   headingLevel?: HeadingLevel;
   /**
    * Rich text — what the CMS writes now. Carries the formatting a plain

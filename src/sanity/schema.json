@@ -4440,6 +4440,13 @@
           },
           "optional": true
         },
+        "headingLink": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "headingLevel": {
           "type": "objectAttribute",
           "value": {

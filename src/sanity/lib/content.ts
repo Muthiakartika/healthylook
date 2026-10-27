@@ -170,6 +170,7 @@ function toProseBlock(
   if (!hasContent) return undefined;
   return {
     heading: block.heading,
+    headingLink: block.headingLink,
     headingLevel: headingLevel(block.headingLevel, "h3"),
     body: block.body,
     paragraphs: block.paragraphs,
@@ -221,6 +222,7 @@ function toTreatmentSections(
           }
         : {
             heading: block.heading,
+            headingLink: block.headingLink,
             headingLevel: headingLevel(block.headingLevel, "h3"),
             body: block.body,
             paragraphs: block.paragraphs,

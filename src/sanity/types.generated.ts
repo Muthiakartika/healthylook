@@ -606,6 +606,7 @@ export type TreatmentSection = {
 export type TreatmentContentBlock = {
   _type: "treatmentContentBlock";
   heading?: string;
+  headingLink?: string;
   headingLevel?: "h2" | "h3" | "h4";
   body?: Array<{
     children?: Array<{

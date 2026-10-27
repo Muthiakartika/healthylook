@@ -10,6 +10,21 @@ export const treatmentContentBlock = defineType({
   type: "object",
   fields: [
     defineField({ name: "heading", title: "Subheading", type: "string" }),
+    defineField({
+      name: "headingLink",
+      title: "Subheading link",
+      type: "string",
+      // A subheading is plain text, so it cannot hold a link the way the Text
+      // below can. This is the one link the whole subheading carries — used on
+      // the "can be combined with" cards, where each title names a treatment.
+      description:
+        "Optional. Makes the subheading a link to another page, e.g. /ubud-bali/dermal-filler. Used by the Stacked and Cards layouts; the three icon layouts ignore it. · ID: Opsional. Menjadikan subheading sebuah link ke halaman lain, misalnya /ubud-bali/dermal-filler. Dipakai oleh layout Stacked dan Cards; tiga layout Icon tidak memakainya.",
+      hidden: ({ parent }) => !(parent as { heading?: string })?.heading,
+      validation: (Rule) =>
+        Rule.regex(/^(\/|https?:\/\/)\S+$/).warning(
+          "Start with / for a page on this site, e.g. /ubud-bali/botox.",
+        ),
+    }),
     headingLevelField({
       initialValue: "h3",
       applies: "The level of this block's subheading.",

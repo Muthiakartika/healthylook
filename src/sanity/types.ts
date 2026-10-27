@@ -301,6 +301,7 @@ export type SanityTreatmentSection = {
     _key: string;
     _type?: string;
     heading?: string;
+    headingLink?: string;
     headingLevel?: string;
     body?: PortableTextBlock[];
     paragraphs?: string[];

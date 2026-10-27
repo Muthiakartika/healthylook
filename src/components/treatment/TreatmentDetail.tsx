@@ -138,7 +138,21 @@ function SectionProseBlock({
     <div className={`${className} ${proseClass}`}>
       {block.heading && (
         <BlockHeadingTag className={`font-sans text-copy-lg font-medium leading-snug ${headingClass}`}>
-          {block.heading}
+          {block.headingLink ? (
+            // Coloured like any other body link and not underlined. On a dark
+            // band the section's `[&_a]:text-gold-soft` recolours it.
+            block.headingLink.startsWith("/") ? (
+              <Link href={block.headingLink} className="text-link transition-colors hover:text-link-hover">
+                {block.heading}
+              </Link>
+            ) : (
+              <a href={block.headingLink} className="text-link transition-colors hover:text-link-hover">
+                {block.heading}
+              </a>
+            )
+          ) : (
+            block.heading
+          )}
         </BlockHeadingTag>
       )}
       {/* Rich text where the CMS holds it, the original plain paragraphs
