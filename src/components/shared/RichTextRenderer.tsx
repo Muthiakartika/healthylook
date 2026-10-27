@@ -37,7 +37,8 @@ function renderMarks(text: string, marks?: TipTapMark[]): ReactNode {
     if (mark.type === "italic") return <em>{acc}</em>;
     if (mark.type === "link") {
       const href = String(mark.attrs?.href ?? "");
-      const cls = "text-primary-strong underline underline-offset-2 hover:text-primary";
+      // Same treatment as the Sanity renderer: colour and weight, no underline.
+      const cls = "font-semibold text-link transition-colors hover:text-link-hover";
       return /^https?:\/\//.test(href) ? (
         <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
           {acc}

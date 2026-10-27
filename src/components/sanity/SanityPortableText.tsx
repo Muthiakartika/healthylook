@@ -158,8 +158,11 @@ const makeComponents = (tone: "light" | "dark"): PortableTextComponents => ({
     alignJustify: noop,
     textLink: ({ children, value }) => {
       const href = typeof value?.href === "string" ? value.href : "#";
+      // No underline, by request: the link is told apart by its colour and a
+      // heavier weight, and darkens on hover. Dark bands recolour it with
+      // `[&_a]:text-gold-soft` on the section, which outranks this class.
       const className =
-        "font-medium text-primary-strong underline decoration-primary/30 underline-offset-4 transition-colors hover:text-primary-hover";
+        "font-semibold text-link transition-colors hover:text-link-hover";
 
       if (href.startsWith("/")) {
         return (

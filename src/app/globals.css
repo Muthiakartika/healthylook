@@ -128,10 +128,18 @@
   --color-gold-soft: #c9b083; /* --color-primary lightened — rules on dark bands */
 
   /* ── Semantic ─────────────────────────────────────────────────────
-     Inline links don't get their own token: a link in body copy is small
-     text, so it takes --color-primary-strong like every other small gold
-     thing on the site. A separate --color-link would only be a second name
-     for the same value, and the two would drift. */
+     Inline links in body copy. They used to take --color-primary-strong and
+     lean on an underline to be seen. With the underline gone the colour has
+     to carry the signal, and -strong (#7e6235) sits too close to the grey
+     body copy to do that. This is the same gold hue pushed warmer and more
+     saturated, so a link reads as gold beside #404040 text rather than as a
+     slightly browner grey.
+       --color-link        5.5:1 on white, 4.9:1 on wash, 4.7:1 on blush-soft
+       --color-link-hover  8.3:1 on white — one clear step darker
+     It is not AA against the full --color-blush band (3.9:1), which
+     -strong did not clear either (4.0:1); links are not set on that band. */
+  --color-link: #935d0d;
+  --color-link-hover: #6f4509;
   --color-success: #4e7b58; /* 4.8:1 on white — contact form success state */
   --color-error: #b54b3c; /* 4.6:1 on white — contact form error state */
 
